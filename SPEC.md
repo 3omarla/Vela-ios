@@ -69,6 +69,7 @@ GrapheneOS and other ROMs with no GMS. License GPLv3. Distribution is F-Droid an
 | Traffic controls (lights, stops, crossings, humps) | Per-region road-features bake, Overpass only where no region exists | No | Yes |
 | Surveillance and speed cameras | Bundled and hosted DeFlock dataset; OSM speed cameras | No | Yes |
 | Fuel prices on gas stations | US: Google's search reply. UK: the government's Fuel Finder, trimmed and hosted on the `fuel-gb` release (5.8) | US: in the search. UK: no | UK: the last file downloaded |
+| Bridge openings (Netherlands) | NDW open data, `planningsfeed_brugopeningen` | No | No |
 | Transit boards and stop icons | Transitous (open GTFS + GTFS-Realtime); a Google-listed stop Transitous does not cover falls back to the stop's Google page | Only as the fallback | Last board seen, cached areas |
 | Transit directions | Google's transit page; Transitous' planner (`/api/v1/plan`) when Google is off or answers nothing | Yes, unless Google is off | No |
 | Street View | Google keyless pano metadata and tiles, rendered in-app | Yes | Viewed panoramas |
@@ -144,6 +145,7 @@ The main classes by package. Parentheses name a class inside the preceding file.
     RouteCorridor         search along a route; ahead() during a drive
     PhotonGeocoder, ShortLinks, PlaceCache, StreetViewCache
     OverpassPois, OverpassEndpoints, OverpassTrafficSignals, OverpassAlprCameras
+    NdwBridgeOpenings     Dutch bridge openings (NDW open data); BridgeAlerts
     OfflinePoiStore, OfflineAddressStore, OfflinePacks, OfflineRank
     transit/Transitous    MOTIS client: stops, boards, trips, plans
     CategoryFilter        content gating
@@ -2262,6 +2264,16 @@ since a cluster's centroid sits in the junction's middle. The corridor fetch is 
   other chime and every prompt stays silent. Off is silent throughout. The car's own toggle sets
   On or Off and leaves Alerts only (`CarVoice`), writing the same two prefs; the phone's state
   follows the prefs through a listener, so the two never disagree.
+- Bridge openings (`BridgeAlert`, on by default): a drive whose line enters the Netherlands
+  (`NdwBridgeOpenings.inNetherlands`) fetches NDW's `planningsfeed_brugopeningen.xml.gz`
+  (about 115 KB, DATEX II v3), keeps the bridges within 30 m of the line and asks again every
+  `BRIDGE_REFRESH_MS` (5 min) while any are on it. `BridgeAlerts.due` gives one alert per bridge
+  within `AHEAD_M` (5 km): "open" for a record with status `implemented` or `beingImplemented`,
+  else "opening planned at" for a planned opening within `MARGIN_MS` (3 min) of the time you reach
+  it, from the route's remaining time per meter. A planned bridge that opens is announced again.
+  `beingTerminated` records are dropped, and an "open" record older than `MAX_OPEN_MS` (60 min)
+  is ignored: the feed keeps some that were never closed. The alert is the card for 6 s, the voice and a car
+  toast. A recorded-trip replay asks nothing.
 
 #### Street callouts
 
