@@ -2253,7 +2253,9 @@ internal fun DepartTimeChooser(
     // Material 3 pickers in a Vela shell — the old android.app Holo dialogs looked nothing
     // like the app (part of the "kinda janky", user 2026-07-11). Confirm is the ONLY emit.
     if (showTimePicker) {
-        val tp = androidx.compose.material3.rememberTimePickerState(initialHour = time.hour, initialMinute = time.minute, is24Hour = false)
+        // The app's own clock setting (Settings > Appearance > Clock), not a fixed 12-hour dial
+        // (issues #357 and #762).
+        val tp = androidx.compose.material3.rememberTimePickerState(initialHour = time.hour, initialMinute = time.minute, is24Hour = app.vela.ui.Clock24.on.value)
         PickerDialog(
             onConfirm = { time = java.time.LocalTime.of(tp.hour, tp.minute); showTimePicker = false; emit() },
             onDismiss = { showTimePicker = false },
