@@ -763,8 +763,9 @@ list is the scrape above.
 - All navigation is blocked once the page has loaded.
 - A downward drag from the top edge is forwarded as raw deltas for pull-to-close. Otherwise the
   WebView scrolls itself.
-- Ad, analytics and beacon requests are always answered with an empty body (`BLOCKED_HOSTS`,
-  `BLOCKED_PATHS`).
+- Ad, analytics and beacon requests are always answered with an empty body (`BlockedHosts`,
+  shared with the hidden pages since issue #751: a tracker blocker on /e/OS counted
+  googlesyndication every minute of use, from the pages the scrapes load).
 
 #### Language
 

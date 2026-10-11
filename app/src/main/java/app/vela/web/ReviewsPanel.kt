@@ -158,26 +158,9 @@ private fun cidOf(featureId: String): String? {
     return runCatching { BigInteger(low, 16).toString() }.getOrNull()
 }
 
-// Hosts/paths that are telemetry, ads, or logging — not needed to render reviews. Fed an empty
-// response so the panel loads less AND phones home less. The maps SPA itself needs google.com,
-// gstatic.com (static assets) and googleusercontent.com (photos) — those pass.
-private val BLOCKED_HOSTS = listOf(
-    "doubleclick.net", "googleadservices.com", "googlesyndication.com",
-    "google-analytics.com", "googletagmanager.com", "adservice.google",
-    "csi.gstatic.com",
-)
-private val BLOCKED_PATHS = listOf("/gen_204", "/log204", "/log?", "/domainreliability/")
-
-private fun blocked(req: WebResourceRequest): Boolean {
-    val url = req.url ?: return false
-    val host = url.host.orEmpty()
-    val path = url.path.orEmpty() + "?" + url.query.orEmpty()
-    if (BLOCKED_HOSTS.any { host == it || host.endsWith(".$it") || host.contains(it) }) return true
-    if (BLOCKED_PATHS.any { path.contains(it) }) return true
-    // play.google.com/log — Chrome/Maps client telemetry uploads.
-    if (host == "play.google.com" && path.startsWith("/log")) return true
-    return false
-}
+// The ad, telemetry and logging hosts the panel refuses are [BlockedHosts], shared with the
+// hidden pages (issue #751).
+private fun blocked(req: WebResourceRequest): Boolean = BlockedHosts.blocked(req)
 
 @SuppressLint("SetJavaScriptEnabled", "ClickableViewAccessibility")
 /** Full review page events for the Diagnostics export (issue #535): the page writes nothing there

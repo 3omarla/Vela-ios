@@ -157,8 +157,13 @@ abstract class HiddenWebView(
             // Google's page telemetry is answered locally when the user blocks it (GoogleTelemetry);
             // with calibration `webProxy` on, GETs go out over Cronet with this WebView's own
             // cookies, without the X-Requested-With header (WebProxy). Null otherwise.
-            override fun shouldInterceptRequest(view: WebView?, request: WebResourceRequest?): android.webkit.WebResourceResponse? =
-                WebProxy.intercept(request)
+            override fun shouldInterceptRequest(view: WebView?, request: WebResourceRequest?): android.webkit.WebResourceResponse? {
+                // Ads and third-party telemetry the page embeds get an empty answer here as in the
+                // reviews panel (issue #751: a tracker blocker counted googlesyndication every
+                // minute); the scrape never reads them.
+                if (request != null && BlockedHosts.blocked(request)) return BlockedHosts.empty()
+                return WebProxy.intercept(request)
+            }
             override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
                 val u = request?.url ?: return false
                 val scheme = u.scheme
