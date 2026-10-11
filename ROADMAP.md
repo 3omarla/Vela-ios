@@ -102,6 +102,24 @@ it names, takes input back, and publishes the nav state. `CarMapRenderer` alread
 a bitmap and `NavSession` publishes what `ManeuverMapper` reads. Whether to hand out frames
 or a URL for a WebView is open. Nav state and input are the same for both.
 
+## In progress
+
+Bigger pieces, each on its own branch and draft pull request against `canary`, tested one at a
+time on a phone before it lands (2026-10-11).
+
+- Android Auto map parity (#749, branch `aa-map`): heading-up free drive on the car map, a
+  drive mode without a route, tilt while navigating, zoom by speed checked, traffic on the car
+  map, the palette matched to the phone's. Tested on the desktop head unit.
+- More map looks (#750, branch `map-styles`): OpenFreeMap's Bright, Positron, Fiord and Dark
+  styles beside Liberty, on the same tiles; Vela's label, house-number and places passes are
+  keyed on Liberty's layer ids and get a mapping per style.
+- Swipe actions on lists and history (#748, branch `lists-swipe`): swipe to edit or delete with
+  haptics, a reorder handle, the lists sheet's contrast in the dark theme, simpler rows.
+- Romanian spoken guidance (#759, branch `romanian-voice`): the spoken phrase table, and the
+  Piper `ro_RO-mihai` voice in the library.
+- Google Takeout list CSVs (#761, branch `takeout-csv`): the per-list CSVs carry a title and a
+  Google link per row and no coordinates, so each row is one lookup; imported as a list each.
+
 ## Next up
 
 Small items, one pull request each.
@@ -239,7 +257,8 @@ Found reading everything since 0.4.1912 and not fixed yet.
 - Ideas from the October interface round, none built: a thumbnail or a review line on result
   cards; the car icon changed from the drive bar; a dotted walking line from a building's
   door to the start of the route; a place photo from the business's own website when Google
-  is off; Material 3 Expressive.
+  is off; Material 3 Expressive; a search bar at the bottom of the screen (#747: the hard part
+  is a layout for the buttons and the bar that still works in landscape and with the sheets).
 - iOS. Not started. `:core` is plain Kotlin and would move to Kotlin Multiplatform. MapLibre
   and sherpa-onnx have iOS builds. The interface would be rewritten.
 - A download of just the route's corridor (#732): map tiles, places and routing data within a
