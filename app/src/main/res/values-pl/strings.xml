@@ -1358,4 +1358,25 @@
     <string name="trip_shortcut_unsupported">Ten ekran główny nie pozwala przypinać skrótów</string>
     <string name="trip_shortcut_themed">Jak ikony z motywem</string>
     <string name="settings_places_source_note">Wyszukanie lub dotknięcie miejsca nadal pobiera z Google godziny, opinie i zdjęcia, niezależnie od wyboru.</string>
+    <string name="settings_directions_same_as_app">Taki jak język aplikacji</string>
+    <string name="settings_directions_language_hint">Wypowiedzi są wyświetlane i odtwarzane głosowo. Wybierz pasujący głos z biblioteki głosów.</string>
+    <string name="settings_keep_north_up">Trzymaj się północy</string>
+    <string name="settings_keep_north_up_hint">Mapa nigdy się nie obraca: obracanie dwoma palcami jest wyłączone, a orientacja pozostaje ustawiona na północ u góry.</string>
+    <string name="settings_start_view">Tam gdzie otwiera się mapa</string>
+    <string name="settings_start_view_here">Gdzie jestem</string>
+    <string name="settings_start_view_place">Miejsce które wybieram</string>
+    <string name="settings_start_view_use_current">Użyj bieżącego widoku mapy</string>
+    <string name="settings_start_view_hint">Tu znajduje się mapa w momencie uruchomienia aplikacji Vela. Link z innej aplikacji nadal otwiera się w swoim własnym widoku.</string>
+    <string name="nav_bar_to_stop">Do %1$s</string>
+    <string name="nav_bar_your_stop">format: pozostały czas całej podróży, a następnie godzina przyjazdu</string>
+    <string name="nav_bar_stop_cd">%1$s i %2$s do %3$s, przyjazd o %4$s. Cała podróż %5$s i %6$s, przyjazd o %7$s.</string>
+    <string name="nav_stops_whole_trip">Cała podróż: %1$s · %2$s · przyjazd %3$s</string>
+    <string name="settings_voice_row_other_language">Wskazówki są podawane w języku %1$s. Aby usłyszeć ten głos, ustaw język wskazówek na %2$s.</string>
+    <string name="settings_directions_language">Język wskazówek</string>
+    <string name="welcome_feature_private_body">Bez konta, bez reklam, bez analityki i bez serwera Vela.</string>
+    <string name="settings_start_view_saved">Vela otworzy się w tym widoku.</string>
+    <string name="nav_bar_trip">Podróż %1$s · %2$s</string>
+    <string name="mapscreen_location_tip_body">Sam GPS często nie jest w stanie ustalić pozycji wewnątrz budynków. W systemie GrapheneOS włącz lokalizację sieciową w sekcji Ustawienia &gt; Lokalizacja &gt; Usługi lokalizacji.</string>
+    <string name="mapscreen_location_tip_settings">Ustawienia lokalizacji</string>
+    <string name="search_saved_tip">Twoje zapisane miejsca znajdują się pod przyciskiem zakładek powyżej. Przypnij jedno aby zachować je w tym miejscu.</string>
 </resources>
