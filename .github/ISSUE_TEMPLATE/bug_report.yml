@@ -17,6 +17,18 @@ body:
     validations:
       required: true
   - type: dropdown
+    id: channel
+    attributes:
+      label: Which build is it?
+      description: Settings, then About, says which. Stable is the numbered release most people run; nightly and canary are the daily builds.
+      options:
+        - Stable
+        - Nightly
+        - Canary
+        - Not sure
+    validations:
+      required: true
+  - type: dropdown
     id: install-source
     attributes:
       label: How did you install Vela?

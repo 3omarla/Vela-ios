@@ -264,6 +264,9 @@ Found reading everything since 0.4.1912 and not fixed yet.
 - A download of just the route's corridor (#732): map tiles, places and routing data within a
   few kilometers of a planned route instead of a whole region. Not started. The region packs
   are baked per region, so a corridor would be cut from them on the phone or baked on request.
+- Live vehicle positions on the map (#757): Transitous serves GTFS-Realtime positions where an
+  agency publishes them, a minority; drawn with an age label where they exist and nothing
+  elsewhere. Not started.
 - A driving mode to start in (#727): the map opened in the drive's layout with no destination,
   big buttons, the speed badge and alerts on. Not started. The pieces exist in the drive
   screen; the work is a mode without a route and a setting to open in it.
