@@ -95,6 +95,7 @@ internal class NavController(
     private var drProgressM = Double.NaN
     private var drSpeed = 0.0
     private var drTotalM = 0.0
+    private var drCapM = Double.MAX_VALUE // along-route meters the reckoning will not pass: short of the next turn
     private var drLastMs = 0L
     /** Last time a guidance-quality fix fed navSession; the view model's location collector writes it,
      *  the tunnel dead-reckon loop reads it to detect a quiet feed. */
@@ -953,6 +954,10 @@ internal class NavController(
                 drSpeed = (s.mySpeed ?: 0f).toDouble()
                 if (drSpeed < MapViewModel.DR_MIN_SPEED) continue
                 drProgressM = s.nav.traveledM
+                // Never through the next turn blindly (issue #745): a feed that stalls at a
+                // junction used to carry the puck down the turn the driver may not take. The
+                // reckoning holds just short of the maneuver until a fix says where the car went.
+                drCapM = s.nav.traveledM + s.nav.distanceToNextManeuver - MapViewModel.DR_TURN_HOLD_M
                 drTotalM = 0.0
                 drLastMs = now
                 continue
@@ -961,7 +966,8 @@ internal class NavController(
             drLastMs = now
             drSpeed *= kotlin.math.exp(-dt / MapViewModel.DR_DECAY_S)
             if (drSpeed < MapViewModel.DR_MIN_SPEED || drTotalM > MapViewModel.DR_MAX_M) continue // hold position, stay honest
-            val step = drSpeed * dt
+            if (drProgressM >= drCapM) continue // at the turn: hold
+            val step = minOf(drSpeed * dt, (drCapM - drProgressM).coerceAtLeast(0.0))
             drProgressM += step
             drTotalM += step
             val pt = pointAlongPolyline(route.polyline, drProgressM) ?: continue

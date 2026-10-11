@@ -10315,6 +10315,7 @@ class MapViewModel @Inject constructor(
         const val DR_DECAY_S = 60.0       // the assumed speed decays with this tau (no evidence we're still moving)
         const val DR_MIN_SPEED = 1.5      // stop synthesizing below this (and never start from a standstill)
         const val DR_MAX_M = 3_000.0      // hard cap on blind travel - longer than any common tunnel, short enough to bound a wrong guess
+        const val DR_TURN_HOLD_M = 15.0   // blind travel holds this short of the next turn: it never takes a turn the driver may not (issue #745)
         const val SPEED_LIMIT_FORGET_M = 300.0 // drive this far past the last KNOWN limit with only
                                                // untagged snaps → clear the badge (don't show a stale limit)
         const val NAV_STOP_MATCH_M = 60.0   // a tapped place this close to a stop IS that stop (issue #604)

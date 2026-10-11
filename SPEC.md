@@ -1680,7 +1680,10 @@ When no fix has fed guidance for `DR_START_MS` (3.5 s) while navigating, on rout
 replaying, `NavController` synthesizes 1 Hz fixes along the route through
 `NavSession.onLocation`. Speed starts at the last shown speed and decays with `DR_DECAY_S`
 (60 s). Synthesis never starts or continues below `DR_MIN_SPEED` (1.5 m/s) and stops after
-`DR_MAX_M` (3 km). The "searching for GPS" chip stays up, the first real fix re-anchors, and
+`DR_MAX_M` (3 km). It never passes the next maneuver: it holds `DR_TURN_HOLD_M` (15 m) short of
+it until a fix says where the car went, so a feed that stalls at a junction no longer carries
+the puck down a turn the driver did not take (issue #745; a reporter's puck ran a turn and some
+forty seconds of road on a stalled feed). The "searching for GPS" chip stays up, the first real fix re-anchors, and
 synthesized fixes are never recorded into a trip.
 
 #### Pause
