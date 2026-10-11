@@ -476,7 +476,12 @@ private const val TRAFFIC_TILES =
 
 /** A tappable search-result pin on the map. [prominence] (0 = unknown/low) drives the ambient dot's
  *  size + keep-distance so anchor stores read bigger and show from farther, Google-style. */
-data class MapMarker(val name: String, val location: LatLng, val category: String? = null, val prominence: Double = 0.0, val rating: Double? = null, val fuelPrice: String? = null, val houseNumber: String? = null, val drawn: Boolean = true)
+data class MapMarker(
+    val name: String, val location: LatLng, val category: String? = null, val prominence: Double = 0.0, val rating: Double? = null,
+    val fuelPrice: String? = null, val houseNumber: String? = null, val drawn: Boolean = true,
+    /** An area result's own framing zoom (`Place.areaZoom`, issue #752); null for a place. */
+    val areaZoom: Double? = null,
+)
 
 /** What the results fit keys on: the markers without their fuel prices, which can land after
  *  the results do (UK prices, SPEC 5.8) and must not frame the cluster again. */
@@ -5469,7 +5474,14 @@ fun VelaMapView(
                     }
                     inside >= minOf(holdViewMinHits, markers.size)
                 }
-                if (!holdView) {
+                val lead = markers.firstOrNull()
+                if (!holdView && lead?.areaZoom != null) {
+                    // A country, a state, a city or a postal code leads the results (issue #752):
+                    // framed at its own zoom. The cluster fit below put a country at street level
+                    // in its middle, with the hotels Google pads the list with.
+                    flightDepth[0]++
+                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(MLLatLng(lead.location.lat, lead.location.lng), lead.areaZoom), 700, flightCb())
+                } else if (!holdView) {
                 // Frame the result CLUSTER, not every last pin: a single stray hit hundreds of
                 // miles away (Google pads sparse local searches with far matches) used to zoom
                 // the camera out to a continental view. Median-center the pins and drop outliers

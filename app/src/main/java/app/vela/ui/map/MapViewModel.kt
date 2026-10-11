@@ -25,6 +25,7 @@ import app.vela.core.data.tiles.MapStyle
 import app.vela.core.location.LocationProvider
 import app.vela.core.model.LatLng
 import app.vela.core.model.Place
+import app.vela.core.model.areaZoom
 import app.vela.core.model.Review
 import app.vela.core.model.Route
 import app.vela.core.model.SavedPlace
@@ -3284,7 +3285,7 @@ class MapViewModel @Inject constructor(
         routeJob?.cancel() // a directions fetch in flight must not resurrect the stale panel
         _state.update {
             it.copy(
-                selected = withListNote(p), center = p.location, centerZoom = null, reviews = emptyList(), suggestions = emptyList(), querySuggestions = emptyList(), localSuggestions = emptyList(),
+                selected = withListNote(p), center = p.location, centerZoom = p.areaZoom(), reviews = emptyList(), suggestions = emptyList(), querySuggestions = emptyList(), localSuggestions = emptyList(),
                 placesHere = othersAt(p, it.results), loadingDetails = false, photosLoading = false,
                 // Picking a NEW place while a route chooser is open closes it: the chooser
                 // belonged to the previous destination and kept covering the fresh place

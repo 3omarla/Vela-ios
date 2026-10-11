@@ -145,6 +145,7 @@ import app.vela.core.model.LatLng
 import app.vela.core.model.distanceTo
 import app.vela.core.model.ManeuverType
 import app.vela.core.model.Place
+import app.vela.core.model.areaZoom
 import app.vela.core.data.RecentPlace
 import app.vela.core.data.RecentQuery
 import app.vela.core.model.SavedPlace
@@ -2929,7 +2930,7 @@ private fun markersOf(state: MapUiState, filteredIds: Set<String>?): List<MapMar
         .let { list -> if (filteredIds == null) list else list.filter { it.id in filteredIds } }
         // A custom map's markers draw as pins in their own icon and color (savedPinData); here they
         // only frame the view and keep the tap index, except the one that is selected.
-        .map { MapMarker(it.name, it.location, it.category, rating = it.rating, fuelPrice = it.fuelPrice, drawn = !it.ownPin() || it.id == state.selected?.id) }
+        .map { MapMarker(it.name, it.location, it.category, rating = it.rating, fuelPrice = it.fuelPrice, drawn = !it.ownPin() || it.id == state.selected?.id, areaZoom = it.areaZoom()) }
 
 /** The nav bar and the step sheet it opens into: flush with the screen's bottom edge in portrait
  *  (the card pads its own content off the system bar), a floating card in the landscape column. */

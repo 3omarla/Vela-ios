@@ -2823,7 +2823,12 @@ when the feature ids match. Two requests at most.
   least `HOLD_VIEW_HITS_NAME` (1, a name: `SearchKind.isName`) or `HOLD_VIEW_HITS_KIND` (3)
   results in the visible strip.
 - Opening a place flies to it at `browseZoom` (15.5, a dial) or the current zoom, whichever is
-  closer; it never zooms out. A link's own zoom (`geo:...?z=`, `/@...,15z`) wins.
+  closer; it never zooms out. A link's own zoom (`geo:...?z=`, `/@...,15z`) wins. An area result
+  frames by its kind, opened or leading a results list (`Place.areaZoom`, carried on
+  `MapMarker.areaZoom` for the results fit; issue #752): the keyless search answers a country, a
+  state, a county, a city or a postal code with no bounds, so an entry with no category and no
+  rating and no address at all is a country or a state (6.5), one whose address is only its
+  region is a city or a county (11.5), and "Postal code" is 13. Anything else is a place.
 - Result markers are red circles; rated food results get a rating bubble. Pins collide by
   result order, and losers draw as small dots.
 - Result cards show the name, a facts line, the open-or-closed line, amenity ticks, up to three
