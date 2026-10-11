@@ -76,7 +76,6 @@
     <string name="settings_region_updates_off">אף פעם באופן אוטומטי</string>
     <string name="settings_region_updates_wifi">בחיבור לרשת אלחוטית (Wi-Fi)</string>
     <string name="settings_region_updates_mobile">בחיבור לרשת אלחוטית ונתונים ניידים</string>
-    <string name="settings_offline_download_viewport_hint"></string>
     <string name="settings_offline_no_areas">עדיין לא נשמרו אזורים.</string>
     <string name="settings_offline_addresses_missing">אזורים ששמרת לפני העדכון הזה אינם כוללים נתוני כתובות. עדכן אותם כדי לחפש ולנתב לכתובות ללא חיבור.</string>
     <string name="settings_offline_addresses_update">עדכן אזורים שמורים</string>
