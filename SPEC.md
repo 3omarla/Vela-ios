@@ -1722,6 +1722,13 @@ raw fix. The per-frame loop (the nav ticker) is in `ui/map/VelaMapView.kt`.
 - Snap tolerance (`puckSnapTolerance`): driving, 22 m plus a speed term of up to 13 m. Walking
   and cycling, 8 m plus 1.2 times the fix accuracy, capped at 16 m. The heading gate is skipped
   below 1 m/s driving and 2.5 m/s on foot or by bike.
+- A fix within reach of the line but heading 55 degrees or more against it is a heading miss:
+  it freezes the reckoning, and the second in a row drops the arrow to the raw fix. One such
+  miss already `PUCK_LEAVE_NOW_M` (12 m) off the line drops it at once (issue #745, a video: the
+  arrow turned with the route for five seconds while the car went straight past the junction at
+  48 km/h): a car rounding a corner on the route stays within a lane of it, a car past the turn
+  is a lane and more off within a second. The reroute itself is the engine's (`OFF_ROUTE_M`,
+  `OFF_ROUTE_HITS`), untouched.
 
 #### Nav camera
 

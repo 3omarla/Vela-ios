@@ -5052,15 +5052,23 @@ fun VelaMapView(
             // drop to the raw fix on the 2nd such miss; a distance miss keeps the 3-miss
             // tolerance a canopy spike needs.
             val missSpeed = maxOf(navPuck.speed, navPuck.speedAtAccept)
-            val headingMiss = myLocation != null && myBearing != null && navPuck.kalman.speed >= (if (navDriveMode) 2.0 else 2.5) &&
+            val nearLine = if (myLocation != null && myBearing != null && navPuck.kalman.speed >= (if (navDriveMode) 2.0 else 2.5)) {
                 snapToRouteWindowed(
                     myLocation, null, routePolyline, routeCum,
                     navPuck.targetM - 25.0, navPuck.targetM + (missSpeed * 8.0).coerceIn(150.0, 600.0),
                     maxM = puckSnapTolerance(navDriveMode, missSpeed, myAccuracyM),
-                ) != null
+                )
+            } else null
+            val headingMiss = nearLine != null
             if (headingMiss) {
                 navPuck.headingMisses += 1
                 navPuck.holdReckon = true
+                // Already a lane and more off the line while heading away (issue #745, a video:
+                // the arrow turned with the route for five seconds while the car went straight
+                // past the junction at 48 km/h): the driver is past the turn, not rounding a
+                // corner the projection has yet to catch up with, where the car stays within a
+                // lane of the line. Drop to the raw fix on this miss, not the second.
+                if (myLocation != null && myLocation.distanceTo(nearLine.first) >= PUCK_LEAVE_NOW_M) navPuck.engaged = false
             } else {
                 navPuck.headingMisses = 0
             }
@@ -9168,6 +9176,11 @@ private fun snapToRouteWindowed(
 private fun puckSnapTolerance(drive: Boolean, speedMps: Double, accuracyM: Float?): Double =
     if (drive) 22.0 + speedMps.coerceIn(0.0, 13.0)
     else (8.0 + 1.2 * (accuracyM?.toDouble() ?: 8.0)).coerceIn(8.0, 16.0)
+
+/** A heading miss this far off the line frees the arrow at once: a car rounding a corner on the
+ *  route stays within a lane of it, a car that drove past the turn is a lane and more off
+ *  within a second (issue #745). */
+private const val PUCK_LEAVE_NOW_M = 12.0
 
 /** Smallest absolute difference between two compass bearings (deg), 0..180. */
 private fun angleDelta(a: Float, b: Float): Float = kotlin.math.abs((a - b + 540f) % 360f - 180f)
