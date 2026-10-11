@@ -74,9 +74,8 @@
     <string name="settings_offline_download_viewport">הורדת אזור</string>
     <string name="settings_region_updates">עדכון אזורים שהורדו</string>
     <string name="settings_region_updates_off">אף פעם באופן אוטומטי</string>
-    <string name="settings_region_updates_wifi">ב-Wi-Fi</string>
-    <string name="settings_region_updates_mobile">ב-Wi-Fi ובנתונים סלולריים</string>
-    <string name="settings_offline_download_viewport_hint">שומר את המפה שאתה מסתכל עליה, עם הכבישים והכתובות שלה, כך שהאזור הזה ממשיך לעבוד ללא קליטה.</string>
+    <string name="settings_region_updates_wifi">בחיבור לרשת אלחוטית (Wi-Fi)</string>
+    <string name="settings_region_updates_mobile">בחיבור לרשת אלחוטית ונתונים ניידים</string>
     <string name="settings_offline_no_areas">עדיין לא נשמרו אזורים.</string>
     <string name="settings_offline_addresses_missing">אזורים ששמרת לפני העדכון הזה אינם כוללים נתוני כתובות. עדכן אותם כדי לחפש ולנתב לכתובות ללא חיבור.</string>
     <string name="settings_offline_addresses_update">עדכן אזורים שמורים</string>
@@ -84,7 +83,7 @@
     <string name="settings_routing_regions">מדינות וארצות</string>
     <string name="settings_routing_regions_hint">כל מה שצריך כדי להתנייד במדינה, מחוז או ארץ שלמה ללא רשת: הכבישים והמקומות שלה, כך שמסלולים וחיפוש עובדים בכל מקום בתוכה. תפוס לאן שאתה נוסע.</string>
     <string name="settings_routing_no_regions">אין עדיין אזורים זמינים.</string>
-    <string name="settings_clear_filter">נקה סינון</string>
+    <string name="settings_clear_filter">ניקוי סינון</string>
     <string name="settings_routing_filter_placeholder">חיפוש</string>
     <string name="settings_routing_no_match">אין אזורים שתואמים ל\"%1$s\".</string>
     <string name="settings_routing_downloading">מוריד… %1$d%%</string>
@@ -112,9 +111,9 @@
     <string name="settings_no_saved_places">עדיין אין מקומות שמורים</string>
     <string name="settings_export">ייצוא</string>
     <string name="settings_import">ייבוא</string>
-    <string name="settings_data_privacy_hint">Vela פונה לנקודות הקצה הציבוריות של Google ישירות מהמכשיר הזה: ללא שרת, ללא חשבון, ללא מפתח API. Google רואה את כתובת ה-IP, השאילתה ואזור המפה שלך, לא מי אתה.</string>
+    <string name="settings_data_privacy_hint">היישום Vela יוצר קשר עם נקודות הקצה הציבוריות של Google ישירות מהמכשיר הזה: בלי שרת, בלי חשבון, בלי מפתח API. ל־Google יש גישה לכתובת ה־IP, לשאילתה ולאזור המפה המוצג, אך לא לזהותך.</string>
     <string name="settings_privacy_button">אילו נתונים Google מקבל</string>
-    <string name="settings_google_free">השתמש ב-Vela בלי Google</string>
+    <string name="settings_google_free">שימוש ב־Vela בלי Google</string>
     <string name="settings_google_free_hint">שום דבר לא נשלח ל-Google. החיפוש משתמש ב-OpenStreetMap ובאזורים שהורדת, המקומות במפה מגיעים מהנתונים של Vela עצמו, והמסלולים מגיעים מהנתב הפתוח ללא תנועה בזמן אמת. אתה מוותר על ביקורות, תמונות, שעות פתיחה, זמני הגעה בזמן אמת, תצוגת רחוב, הוראות תחבורה ציבורית ותקריבי הלוויין; אזורים שהורדו עדיין עובדים במלואם ללא חיבור.</string>
     <string name="settings_diagnostics">אבחון</string>
     <string name="settings_diagnostics_hint">כבוי כברירת מחדל. כשדלוק, Vela שומר יומן מקומי קצר שאפשר לייצא ולמסור למפתח. שום דבר לא מועלה, וכיבוי מוחק את היומן.</string>
@@ -338,7 +337,7 @@
     <string name="mapscreen_permanently_closed">סגור לצמיתות</string>
     <string name="mapscreen_section_saved">שמורים</string>
     <string name="mapscreen_section_recent">אחרונים</string>
-    <string name="mapscreen_clear_recents">נקה אחרונים</string>
+    <string name="mapscreen_clear_recents">ניקוי אחרונים</string>
     <string name="mapscreen_search_empty_hint">חפש מקומות, כתובות וקטגוריות.</string>
     <string name="mapscreen_set_shortcut_address">הגדר כתובת %1$s</string>
     <string name="mapscreen_edit_shortcut">ערוך %1$s</string>
@@ -397,11 +396,11 @@
     <string name="search_fill_cd">הכנס לתיבת החיפוש</string>
     <string name="search_placeholder">חיפוש</string>
     <string name="search_offline">לא מקוון</string>
-    <string name="search_clear_cd">נקה חיפוש</string>
+    <string name="search_clear_cd">ניקוי חיפוש</string>
     <string name="search_settings_cd">הגדרות</string>
     <string name="mapvm_shortcut_set">%1$s נקבע ל-%2$s</string>
     <string name="mapvm_search_needs_recalibration">החיפוש דורש כיול מחדש: %1$s</string>
-    <string name="mapvm_offline_no_data">אתה לא מקוון. הורד אזור בהגדרות ▸ לא מקוון כדי לחפש ללא חיבור.</string>
+    <string name="mapvm_offline_no_data">אין חיבור לרשת. יש להוריד אזור בהגדרות ◂ לא מקוון כדי לחפש בלי חיבור לרשת.</string>
     <string name="mapvm_offline_no_match">אין תוצאות לא מקוונות עבור \"%1$s\" באזור השמור שלך. חיפוש לא מקוון מכסה מקומות של OpenStreetMap שהורדת.</string>
     <string name="mapvm_no_results">אין תוצאות עבור \"%1$s\".</string>
     <!-- format -->
@@ -481,7 +480,7 @@
     <string name="settings_update_auto_hint">בודק ב-GitHub בערך פעם ביום ומציע גרסאות חדשות יותר. כבה אם אתה מעדכן דרך Obtainium.</string>
     <string name="settings_update_check_now">בדוק עדכונים</string>
     <string name="settings_update_checking">בודק…</string>
-    <string name="settings_update_none">אתה בגרסה העדכנית ביותר.</string>
+    <string name="settings_update_none">נעשה שימוש בגרסה העדכנית.</string>
     <string name="settings_place_pages">עמודי מקומות</string>
     <plurals name="place_transit_stops">
         <!-- format -->
@@ -536,9 +535,9 @@
     <string name="map_parked_car">רכב חונה</string>
     <string name="map_parking_save">שמור מיקום חניה</string>
     <string name="map_import_failed">לא ניתן לייבא את הרשימה. בדוק את הקישור ונסה שוב.</string>
-    <string name="place_clear_parking">נקה חניה</string>
+    <string name="place_clear_parking">ניקוי חניה</string>
     <string name="parking_history_title">היסטוריית חניות</string>
-    <string name="parking_history_clear_all">נקה הכל</string>
+    <string name="parking_history_clear_all">ניקוי הכול</string>
     <string name="parking_history_current">נוכחי</string>
     <string name="parking_history_delete">מחק</string>
     <string name="parking_history_restore">שחזר</string>
@@ -594,7 +593,7 @@
     <string name="settings_voice_search_remove">הסר</string>
     <string name="settings_voice_search_downloading">מוריד… %1$d%%</string>
     <string name="settings_voice_search_installing">מתקין…</string>
-    <string name="settings_voice_search_engine_title">כשאתה מקיש על המיקרופון</string>
+    <string name="settings_voice_search_engine_title">בעת הקשה על המיקרופון</string>
     <string name="settings_voice_search_engine_auto">Vela Voice</string>
     <string name="settings_voice_search_engine_default">ברירת המחדל של Android</string>
     <string name="settings_voice_search_engine_system">אפליקציית קול אחרת</string>
@@ -612,7 +611,7 @@
     <string name="loc_approx_allow">אפשר מדויק</string>
     <string name="loc_approx_keep">השאר משוער</string>
     <string name="notif_ask_title">לדלג על התראות?</string>
-    <string name="notif_ask_body">הניווט שומר את הפנייה הבאה בהתראה, כך שההוראות נשארות איתך כשהמסך כבוי או כשאתה עובר בין אפליקציות. בלעדיה, ההוראות מוצגות רק בתוך Vela.</string>
+    <string name="notif_ask_body">הניווט שומר את הפנייה הבאה בתור התראה, כך שהוראות הניווט יישארו איתך גם כאשר המסך כבוי או בעת מעבר בין יישומים. בלי הגדרה זו, הוראות הניווט יוצגו בתוך Vela בלבד.</string>
     <string name="notif_ask_allow">אפשר</string>
     <string name="notif_ask_skip">דלג</string>
     <string name="place_time_past_toast">הזמן הזה עבר. הוגדר לעכשיו.</string>
@@ -626,14 +625,14 @@
     <string name="map_parking_find">מצא את הרכב שלי</string>
     <string name="map_parking_move_here">הזז חניה לכאן</string>
     <string name="map_parking_earlier">מקומות קודמים</string>
-    <string name="map_parking_clear">נקה חניה</string>
+    <string name="map_parking_clear">ניקוי חניה</string>
     <string name="map_parking_moved">מיקום החניה הוזז לכאן</string>
     <string name="map_import_needs_google">לא ניתן לפתוח רשימה משותפת של Google Maps כאשר Vela פועל מבלי להשתמש ב־Google.</string>
     <string name="map_link_needs_google">\"פתח קישורי Google Maps משותפים\" כבוי בהגדרות &gt; פרטיות.</string>
     <string name="map_link_unreadable">לא ניתן לפתוח את הקישור הזה.</string>
     <string name="settings_performance">ביצועים</string>
     <string name="settings_hub_performance_sub">מה נטען מראש, ציור המפה</string>
-    <string name="settings_performance_intro">טעינה מראש הופכת דברים למיידיים כשאתה צריך אותם, ועד אז תופסת זיכרון. ברירות המחדל נקבעות לפי כמות הזיכרון בטלפון הזה.</string>
+    <string name="settings_performance_intro">טעינת דברים מראש מסייעת לחסוך זמן בעת פתיחתם, אך צורכת זיכרון עד אז. הגדרות ברירת המחדל נקבעות לפי כמות הזיכרון שיש בטלפון זה.</string>
     <string name="settings_full_place_load">טען את כל התמונות והביקורות</string>
     <string name="settings_full_place_load_hint">כשכבוי, מקום טוען את התמונות הראשונות ואת עמוד הביקורות הראשון, ו\"תמונות נוספות\" או \"כל הביקורות\" מביאים את השאר. כשדלוק, כל מקום שאתה פותח עובר על כל גלריית התמונות שלו ועד 50 ביקורות, מה שאיטי יותר ושולח ל-Google הרבה יותר בקשות.</string>
     <string name="settings_speech_preload">טען חיפוש קולי בהפעלה</string>
@@ -758,12 +757,12 @@
     <string name="suggestion_contact_badge">איש קשר</string>
     <string name="settings_speed_cams">מצלמות מהירות</string>
     <string name="settings_speed_cam_warn">אזהרות קוליות</string>
-    <string name="settings_speed_cam_warn_hint">אומר \"מצלמת מהירות לפניך\" כשאתה מתקרב לאחת בזמן ניווט, בתזמון שנותן כשתים עשרה שניות התראה. פועל לפי הגדרת ההוראות המדוברות. אזהרה ממצלמות בזמן נהיגה מוגבלת בחלק מהמדינות, ולכן זה כבוי אלא אם תפעיל.</string>
+    <string name="settings_speed_cam_warn_hint">הכרזת „מצלמת ניווט לפניך” כשמתקרבים למצלמת כזו במהלך הניווט, כשתים עשרה שניות מראש. ההכרזה פועלת לפי הגדרות ההוראות הקוליות. ההתרעה על מצלמות במהלך הניווט מוגבלת במדינות מסוימות, ולכן הגדרה זו כבויה כברירת מחדל.</string>
     <string name="nav_speed_camera_ahead">מצלמת מהירות לפניך</string>
     <string name="settings_flock_nav_card">התראה על מצלמת לוחיות רישוי</string>
     <string name="settings_flock_nav_card_hint">הצגת כרטיס ככל שמתקרבים למצלמת זיהוי של לוחיות רישוי במהלך ניווט במסלול. המצלמות שפונות לאורך הכביש שעליו נמצאים אינן נכללות. האפשרות כבויה כברירת מחדל.</string>
     <string name="settings_flock_nav_voice">הכרז כשיש מצלמת לוחיות לפנים</string>
-    <string name="settings_flock_nav_voice_hint">בזמן ניווט, אומר \"מצלמת לוחיות רישוי לפנים\" כשאתה מתקרב לאחת במסלול שלך, כשתים-עשרה שניות לפני שתגיע אליה. פועל לפי הגדרת ההוראות המדוברות. כבוי כברירת מחדל.</string>
+    <string name="settings_flock_nav_voice_hint">הכרזת „מצלמת לוחיות רישוי לפניך” כשמתקרבים למצלמת לוחיות רישוי במהלך הניווט, כשתים עשרה שניות מראש. פועלת לפי הגדרת ההוראות הקוליות. כבויה כברירת מחדל.</string>
     <string name="nav_flock_camera_ahead">מצלמת לוחיות רישוי לפנים</string>
     <string name="nav_flock_cameras_ahead">מצלמות לוחיות רישוי לפנים</string>
     <string name="settings_speed_cams_hint">מציג מצלמות רדאר ומהירות קבועות הממופות ב-OpenStreetMap. מתקנים קבועים בלבד; הכיסוי נגזר מהמפה, והוא החזק ביותר באירופה. כבוי כברירת מחדל.</string>
@@ -791,7 +790,7 @@
     <string name="settings_storage_places">מקומות לא מקוונים</string>
     <string name="settings_storage_voices">קולות &amp; מודלים של דיבור</string>
     <string name="settings_storage_measuring">מודד…</string>
-    <string name="settings_clear_map_cache">נקה מטמון מפה</string>
+    <string name="settings_clear_map_cache">ניקוי מטמון מפה</string>
     <string name="settings_clear_map_cache_hint">משחרר את האריחים שהמפה שמרה במטמון בזמן עיון. אזורים שמורים נשמרים.</string>
     <string name="settings_map_cache_cleared">מטמון המפה נוקה</string>
     <string name="settings_delete_offline_all">מחק את כל הנתונים הלא מקוונים</string>
@@ -855,9 +854,9 @@
     <string name="settings_google_session_launch_hint">המחיר: Google מתייחסת לכל הפעלה כאל מבקר חדש, כך שבדרך כלל תקבל את התצוגה המקוצרת שלה (כחמש ביקורות, שעות עומס חסרות לעתים קרובות). מקומות נטענים מעט לאט יותר וצורכים יותר נתונים, כי התשובות הראשונות של הפעלה חדשה מגיעות מקוצצות ומתבקשות שוב. Android מפעיל מחדש אפליקציות ברקע, כך שזה יכול להיות כמה הפעלות חדשות ביום, והרבה מבקרים חדשים מחיבור אחד עלולים לגרור יותר בדיקות בוטים של Google. Google עדיין רואה את כתובת ה-IP שלך, שממילא מקשרת הפעלות מחיבור אחד לאורך זמן קצר.</string>
     <string name="settings_google_session_now">התחל הפעלה חדשה עכשיו</string>
     <string name="settings_google_session_done">התחילה הפעלת Google חדשה</string>
-    <string name="settings_clear_history">נקה היסטוריה</string>
+    <string name="settings_clear_history">ניקוי ההיסטוריה</string>
     <string name="settings_clear_history_hint">חיפושים אחרונים, מקומות אחרונים, היסטוריית חניות ונסיעות מוקלטות. מקומות שמורים ורשימות נשארים.</string>
-    <string name="settings_clear_history_action">נקה</string>
+    <string name="settings_clear_history_action">ניקוי</string>
     <string name="settings_clear_history_confirm_title">לנקות את כל ההיסטוריה?</string>
     <string name="settings_clear_history_confirm_body">חיפושים אחרונים, מקומות אחרונים, היסטוריית חניות וכל נסיעה מוקלטת יימחקו. אי אפשר לבטל את זה. מקומות שמורים ורשימות לא מושפעים.</string>
     <string name="settings_clear_history_done">ההיסטוריה נוקתה</string>
@@ -1245,8 +1244,8 @@
         <item quantity="other">יש %1$d מצלמות במסלול זה</item>
     </plurals>
     <string name="settings_offline_cached_places">שמור מקומות שצפית בהם לשימוש לא מקוון</string>
-    <string name="settings_offline_cached_places_hint">כל מקום שאתה פותח כשיש חיבור נשמר בטלפון הזה עם מה שנטען עבורו (פרטים, הביקורות והתמונות שראית), כך שהוא נפתח גם ללא קליטה. נשמרים 400 החדשים ביותר, למשך חודש. \"נקה היסטוריה\" ו\"מחק את כל הנתונים הלא מקוונים\" מסירים אותם.</string>
-    <string name="settings_offline_cached_places_clear">נקה מקומות שמורים במטמון</string>
+    <string name="settings_offline_cached_places_hint">כל מקום שפותחים כשיש חיבור נשמר בטלפון הזה עם מה שנטען עבורו (פרטים, הביקורות והתמונות שראית), כך שהוא נפתח גם ללא קליטה. נשמרים 400 החדשים ביותר, למשך חודש. „ניקוי ההיסטוריה” ו„מחיקת כל הנתונים הלא מקוונים” מסירים אותם.</string>
+    <string name="settings_offline_cached_places_clear">ניקוי מקומות שמורים במטמון</string>
     <string name="settings_offline_cached_places_used">%1$s שמורים בטלפון הזה</string>
     <string name="settings_offline_cached_sv_used">תצוגת רחוב: %1$s שמורים בטלפון הזה</string>
     <string name="settings_offline_cached_sv_clear">נקה תצוגת רחוב</string>
@@ -1319,4 +1318,15 @@
     <string name="trip_shortcut_unsupported">מסך הבית הזה לא תומך בהצמדת קיצורי דרך</string>
     <string name="trip_shortcut_themed">כמו סמלים מעוצבים</string>
     <string name="settings_places_source_note">חיפוש או הקשה על מקום עדיין יוצרים קשר עם Google לקבלת מידע על שעות, ביקורות ותמונות לפי דרישה.</string>
+    <string name="settings_start_view_here">מיקומך הנוכחי</string>
+    <string name="settings_start_view_last">מיקומך האחרון</string>
+    <string name="settings_start_view_place">מקום לבחירתך</string>
+    <string name="mapscreen_location_tip_settings">הגדרות מיקום</string>
+    <string name="welcome_continue">המשך</string>
+    <string name="welcome_google_title">להשתמש ב־Google?</string>
+    <string name="welcome_google_customize">נא לבחור באילו מקרים להשתמש ב־Google</string>
+    <string name="welcome_google_intro">אפשר לשנות זאת מאוחר יותר בהגדרות, או לכבות רק חלקים מסוימים.</string>
+    <string name="welcome_google_on_title">שימוש ב־Google</string>
+    <string name="welcome_google_off_title">בלי Google</string>
+    <string name="settings_google_uses">למה Google משמש</string>
 </resources>
