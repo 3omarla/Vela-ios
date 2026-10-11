@@ -2012,8 +2012,11 @@ class GoogleMapsDataSource @Inject constructor(
             val href = Regex("""(/maps/preview/entitylist/getlist\?[^"'\s]+)""")
                 .find(html)?.groupValues?.get(1)
                 ?.replace("&amp;", "&")
+                // The page asks for the first 500 (`!4i500` in the pb); the endpoint answers a
+                // bigger count as asked (971 of 971 at 2000 and at 5000, 2026-10-11, issue #755).
+                ?.replace("%214i500", "%214i$LIST_PAGE_SIZE")?.replace("!4i500", "!4i$LIST_PAGE_SIZE")
                 ?: return@runCatching null
-            EntityListParser.parse(get("https://www.google.com$href", kind = "shared list"))
+            EntityListParser.parse(get("https://www.google.com$href", kind = "shared list", client = largeReplyHttp))
         }.getOrNull()
     }
 
@@ -2171,6 +2174,8 @@ class GoogleMapsDataSource @Inject constructor(
         const val SUGGEST_SPAN_M = 20_000.0
         /** The whole call for a reply of megabytes ([largeReplyHttp]). */
         const val LARGE_REPLY_TIMEOUT_S = 90L
+        /** How many places a shared list is asked for in one reply; the page itself asks for 500. */
+        const val LIST_PAGE_SIZE = 5000
         const val AVOID_ONDEVICE_TIMEOUT_MS = 4_000L
         /** A mid-drive reroute waits this long for Google's traffic once the open router has answered. */
         const val URGENT_GOOGLE_GRACE_MS = 2_500L

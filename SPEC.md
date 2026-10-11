@@ -420,7 +420,10 @@ Not reachable without a key or a login. Each was probed and settled:
 A `maps.app.goo.gl` link fetched logged out redirects to
 `/maps/@/data=!4m3!11m2!2s<listId>!3e3`. That page's HTML embeds a ready-made URL for the
 getlist RPC, with the list id and page session token in it. `GoogleMapsDataSource.importList`
-lifts the URL by regex and unescapes `&amp;`; no pb is built. Response after the guard
+lifts the URL by regex, unescapes `&amp;` and raises the page's own count (`!4i500`) to
+`LIST_PAGE_SIZE` (5000): the endpoint answers as many as asked (a 971-place list came back
+whole at 2000 and at 5000, 2026-10-11, issue #755), and the reply rides the large-reply client.
+No pb is built. Response after the guard
 (`EntityListParser`): `root[0][4]` title, `[5]` description, `[3][0]` author, `[8]` items.
 Each item: `[2]` display name, `[3]` the owner's note, `[1][4]` address, `[1][5][2..3]`
 coordinates, `[1][6]` feature id as a pair of decimal signed int64, whose two's-complement hex,
