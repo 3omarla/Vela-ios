@@ -30,6 +30,7 @@ import app.vela.ui.VelaMenu
 import app.vela.ui.dpadFieldEscape
 import app.vela.ui.dpadHighlight
 import app.vela.ui.icons.Sym
+import app.vela.ui.icons.SymOutlined
 import app.vela.ui.item
 
 /**
@@ -85,7 +86,7 @@ internal fun BulkBar(
         ) { Text(stringResource(R.string.bulk_all)) }
         Box {
             IconButton(onClick = { moving = true }, enabled = picked.isNotEmpty(), modifier = Modifier.size(40.dp).dpadHighlight(CircleShape)) {
-                Icon(Sym.Bookmarks, contentDescription = stringResource(R.string.bulk_move), tint = if (picked.isNotEmpty()) ink else ink.copy(alpha = 0.35f))
+                Icon(SymOutlined.Bookmarks, contentDescription = stringResource(R.string.bulk_move), tint = if (picked.isNotEmpty()) ink else ink.copy(alpha = 0.35f))
             }
             VelaMenu(expanded = moving, onDismissRequest = { moving = false }) {
                 bulk.targets.forEach { (id, name) ->
@@ -97,11 +98,11 @@ internal fun BulkBar(
         // Rename, for exactly one picked place: the bar is where people look for it (issue #736).
         if (bulk.onRename != null) {
             IconButton(onClick = { renaming = true }, enabled = renameOne, modifier = Modifier.size(40.dp).dpadHighlight(CircleShape)) {
-                Icon(Sym.Edit, contentDescription = stringResource(R.string.mapscreen_menu_rename), tint = if (renameOne) ink else ink.copy(alpha = 0.35f))
+                Icon(SymOutlined.Edit, contentDescription = stringResource(R.string.mapscreen_menu_rename), tint = if (renameOne) ink else ink.copy(alpha = 0.35f))
             }
         }
         IconButton(onClick = { removing = true }, enabled = picked.isNotEmpty(), modifier = Modifier.size(40.dp).dpadHighlight(CircleShape)) {
-            Icon(Sym.Delete, contentDescription = stringResource(R.string.bulk_remove), tint = if (picked.isNotEmpty()) MaterialTheme.colorScheme.error else ink.copy(alpha = 0.35f))
+            Icon(SymOutlined.Delete, contentDescription = stringResource(R.string.bulk_remove), tint = if (picked.isNotEmpty()) MaterialTheme.colorScheme.error else ink.copy(alpha = 0.35f))
         }
         IconButton(onClick = { onChange(null) }, modifier = Modifier.size(40.dp).dpadHighlight(CircleShape)) {
             Icon(Sym.Close, contentDescription = stringResource(R.string.bulk_done), tint = ink)

@@ -1,6 +1,7 @@
 package app.vela.ui
 
 import app.vela.ui.icons.Sym
+import app.vela.ui.icons.SymOutlined
 
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -155,17 +156,17 @@ private fun WelcomeIntro(onNext: () -> Unit) {
             )
             Spacer(Modifier.height(40.dp))
             WelcomeFeature(
-                Sym.VisibilityOff,
+                SymOutlined.VisibilityOff,
                 stringResource(R.string.welcome_feature_no_tracking_title),
                 stringResource(R.string.welcome_feature_private_body),
             )
             WelcomeFeature(
-                Sym.Place,
+                SymOutlined.Place,
                 stringResource(R.string.welcome_feature_places_title),
                 stringResource(R.string.welcome_feature_places_body),
             )
             WelcomeFeature(
-                Sym.Favorite,
+                SymOutlined.Favorite,
                 stringResource(R.string.welcome_feature_open_source_title),
                 stringResource(R.string.welcome_feature_open_source_body),
             )
