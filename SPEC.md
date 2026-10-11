@@ -5558,7 +5558,9 @@ carries `<prefix>-arm64.apk`, `-armv7.apk`, `-x86.apk`, `-x86_64.apk` and `<pref
   the job holds the index key.
 - It triggers on `workflow_run` of CI and the promotion: a release created by CI's own token
   fires no event for other workflows.
-- The landing page (`site/`), the map fonts and the docs site ride the same Pages artifact.
+- The landing page and the press page (`site/`), the press kit (zipped by the workflow from
+  `docs/screenshots`, the logo and `site/press-kit/FACTS.md`), the map fonts and the docs site
+  ride the same Pages artifact.
   Never add a second Pages workflow, since `actions/deploy-pages` replaces the whole site. Never
   re-run only a failed deploy job. Dispatch a fresh run.
 - The docs site (`/Vela/docs/`) is the repository's Markdown built with MkDocs Material by
