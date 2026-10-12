@@ -46,6 +46,24 @@ internal object CarFraming {
         return ahead to left
     }
 
+    /** The least depth along the view axis, as a share of the center's, a ground point is drawn at. */
+    const val FRONT_MARGIN = 0.15
+
+    /**
+     * How far behind the camera's target a ground point may be and still be drawn, in ground
+     * pixels at the center's scale. A point g toward the camera is `d - g·sin p` deep along the
+     * view axis ([targetOffset]); at zero it is level with the camera and past that behind it,
+     * where the snapshot's projection answers with the point's mirror image through the screen.
+     * The limit keeps [FRONT_MARGIN] of the center's depth, which at the drive tilt lands about
+     * six screen heights below the center, far off the bottom edge. Flat, every point projects.
+     */
+    fun behindLimitPx(tiltDeg: Double, heightPx: Double): Double {
+        if (tiltDeg <= 0.0 || heightPx <= 0.0) return Double.POSITIVE_INFINITY
+        val s = sin(Math.toRadians(tiltDeg))
+        if (s < 1e-3) return Double.POSITIVE_INFINITY
+        return (1.0 - FRONT_MARGIN) * cameraDistancePx(heightPx) / s
+    }
+
     /** The screen row, below the center, that a ground point [aheadPx] toward the camera lands
      *  on: the forward projection of [targetOffset], for checking it. */
     fun screenDown(aheadPx: Double, tiltDeg: Double, heightPx: Double): Double {
@@ -54,4 +72,37 @@ internal object CarFraming {
         val d = cameraDistancePx(heightPx)
         return d * tan(p - atan((d * sin(p) - aheadPx) / (d * cos(p))))
     }
+}
+
+/**
+ * Which ground points a snapshot taken from a camera at ([lat], [lng]) facing [bearingDeg] can
+ * draw: those no more than [limitM] meters behind its target ([CarFraming.behindLimitPx] times
+ * the meters in a pixel). The route's driven part runs behind a tilted camera, and drawn from
+ * its mirror image it was a gray line swinging about the map (issue 780).
+ */
+internal class FrontClip(private val lat: Double, private val lng: Double, bearingDeg: Double, private val limitM: Double) {
+    private val cosB = cos(Math.toRadians(bearingDeg))
+    private val sinB = sin(Math.toRadians(bearingDeg))
+    private val cosLat = cos(Math.toRadians(lat))
+
+    /** Meters behind the camera's target along its bearing; negative ahead of it. */
+    fun behindM(pLat: Double, pLng: Double): Double {
+        var dLng = pLng - lng
+        if (dLng > 180.0) dLng -= 360.0 else if (dLng < -180.0) dLng += 360.0
+        val north = (pLat - lat) * M_PER_DEG
+        val east = dLng * M_PER_DEG * cosLat
+        return -(north * cosB + east * sinB)
+    }
+
+    fun inFront(pLat: Double, pLng: Double): Boolean = behindM(pLat, pLng) <= limitM
+
+    /** How far along the segment from a to b, 0 to 1, it crosses the limit. For a segment with
+     *  one end in front and one behind. */
+    fun crossing(aLat: Double, aLng: Double, bLat: Double, bLng: Double): Double {
+        val a = behindM(aLat, aLng) - limitM
+        val b = behindM(bLat, bLng) - limitM
+        return if (a == b) 0.0 else (a / (a - b)).coerceIn(0.0, 1.0)
+    }
+
+    private companion object { const val M_PER_DEG = 111_320.0 }
 }

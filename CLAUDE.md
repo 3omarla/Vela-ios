@@ -467,6 +467,8 @@ signed file the app fetches at launch (SPEC 11).
 - A row image that has colors is `Row.IMAGE_TYPE_SMALL`. The host tints `IMAGE_TYPE_ICON`.
 - Only `VelaCarSession` pushes the drive screen.
 - `updateTrip()` goes out at most once a second. The host drops faster ones.
+- `MapSnapshot.pixelForLatLng` answers for a point behind a tilted camera with its mirror image.
+  Anything drawn on the car map goes through `project` or `pathOf`, which leave such points out.
 
 ### Data and bakes
 

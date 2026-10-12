@@ -712,6 +712,9 @@ class CarMapRenderer(
             .bearing(bearingUsed)
             .tilt(tilt)
             .build()
+        // The ground this camera can draw, kept with the snapshot it takes: a tilted camera has
+        // ground behind it, and the overlays must not project a point from there.
+        val clip = FrontClip(target.lat, target.lng, bearingUsed, CarFraming.behindLimitPx(tilt, height.toDouble()) * mpp)
         val startedMs = android.os.SystemClock.elapsedRealtime()
         runCatching {
             snap.setSize(width, height)
@@ -737,7 +740,7 @@ class CarMapRenderer(
                     return@start
                 }
                 lastSnapshot = result
-                draw(result, bearingUsed)
+                draw(result, bearingUsed, clip)
                 if (dirty) { dirty = false; requestRender() }
             }, { rendering = false })
         }.onFailure { rendering = false }
@@ -791,8 +794,13 @@ class CarMapRenderer(
 
     private var lockFailed = false
 
-    /** Draws [snap], rendered with the camera bearing [camUsed], and the overlays on it. */
-    private fun draw(snap: MapSnapshot, camUsed: Double) {
+    // The ground the snapshot being drawn can show ([FrontClip]); set by [draw] for [project].
+    private var frontClip: FrontClip? = null
+
+    /** Draws [snap], rendered with the camera bearing [camUsed], and the overlays on it. [clip]
+     *  is the ground that camera can show. */
+    private fun draw(snap: MapSnapshot, camUsed: Double, clip: FrontClip) {
+        frontClip = clip
         val s = surface ?: return
         if (!s.isValid || width <= 0 || height <= 0) return
         val bmp = runCatching { snap.bitmap }.getOrNull()
@@ -835,8 +843,15 @@ class CarMapRenderer(
         }
     }
 
+    /** [p] on the surface, or null when it is behind the snapshot's camera: tilted, the
+     *  projection answers for such a point with its mirror image (issue 780). */
     private fun project(snap: MapSnapshot, p: LatLng, sx: Float, sy: Float): PointF? {
-        val px = runCatching { snap.pixelForLatLng(MLLatLng(p.lat, p.lng)) }.getOrNull() ?: return null
+        if (frontClip?.inFront(p.lat, p.lng) == false) return null
+        return projectRaw(snap, p.lat, p.lng, sx, sy)
+    }
+
+    private fun projectRaw(snap: MapSnapshot, lat: Double, lng: Double, sx: Float, sy: Float): PointF? {
+        val px = runCatching { snap.pixelForLatLng(MLLatLng(lat, lng)) }.getOrNull() ?: return null
         return PointF(px.x * sx, px.y * sy)
     }
 
@@ -893,11 +908,33 @@ class CarMapRenderer(
         canvas.drawCircle(pt.x, pt.y, 4.5f, pinDot)
     }
 
+    /** The line through [poly]'s [range], cut where it passes behind the snapshot's camera: a
+     *  stretch back there is left out, and the line ends and picks up again at the crossing, so a
+     *  long segment with one end behind still draws its visible part. */
     private fun pathOf(snap: MapSnapshot, poly: List<LatLng>, range: IntRange, sx: Float, sy: Float): Path {
-        val p = Path(); var started = false
+        val p = Path()
+        val clip = frontClip
+        var penDown = false
+        var prev: LatLng? = null
+        var prevIn = false
         for (i in range) {
-            val pt = project(snap, poly[i], sx, sy) ?: continue
-            if (!started) { p.moveTo(pt.x, pt.y); started = true } else p.lineTo(pt.x, pt.y)
+            val cur = poly[i]
+            val curIn = clip?.inFront(cur.lat, cur.lng) != false
+            val before = prev
+            if (clip != null && before != null && prevIn != curIn) {
+                val t = clip.crossing(before.lat, before.lng, cur.lat, cur.lng)
+                projectRaw(snap, before.lat + (cur.lat - before.lat) * t, before.lng + (cur.lng - before.lng) * t, sx, sy)?.let { x ->
+                    if (prevIn && penDown) { p.lineTo(x.x, x.y); penDown = false } else if (curIn) { p.moveTo(x.x, x.y); penDown = true }
+                }
+            }
+            if (curIn) {
+                projectRaw(snap, cur.lat, cur.lng, sx, sy)?.let { pt ->
+                    if (penDown) p.lineTo(pt.x, pt.y) else { p.moveTo(pt.x, pt.y); penDown = true }
+                }
+            } else {
+                penDown = false
+            }
+            prev = cur; prevIn = curIn
         }
         return p
     }

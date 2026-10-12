@@ -5278,6 +5278,15 @@ The map:
   under tilt the solution of MapLibre's perspective (camera distance `0.5 * height / tan(FOV / 2)`,
   `FOV_RAD` 0.6435), where the ground nearer the camera draws larger. Meters per pixel assume 512
   px tiles.
+- The route, its driven part, the destination and the dots along it are drawn on the snapshot
+  with `MapSnapshot.pixelForLatLng`, and only for ground in front of the camera. Tilted, the
+  camera has ground behind it, and the projection answers for a point there with its mirror
+  image through the screen. `FrontClip` (`CarFraming.kt`), built with the camera each snapshot
+  is taken from, keeps the points no more than `CarFraming.behindLimitPx` behind the target:
+  `(1 - FRONT_MARGIN) * cameraDistance / sin(tilt)`, with `FRONT_MARGIN` 0.15, which at the drive
+  tilt lands about six screen heights below the center. `project` drops a point past it, and
+  `pathOf` ends the line at the crossing and picks it up where it comes back. Flat, there is no
+  limit.
 - The arrow is the phone's puck bitmap rotated by its heading minus the bearing the snapshot was
   rendered with.
 - A pan moves the center by the finger's travel in meters (`shiftCenter`). Reading the new center

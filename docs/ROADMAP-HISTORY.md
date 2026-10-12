@@ -11,6 +11,8 @@ says so.
 
 ### October 2026
 
+- The car map draws no part of the route from behind its tilted camera. The driven part showed
+  as a gray line swinging across the map, mirrored through the screen (#780).
 - Two turns within 130 m of each other are said on one line, "Turn right onto Elm Street, then
   turn left onto Oak Avenue", and the second is then said only at its own corner. In 13
   languages; Dutch, Swedish and Japanese still say the two apart.
