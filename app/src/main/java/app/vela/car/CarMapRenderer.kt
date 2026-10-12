@@ -169,6 +169,7 @@ class CarMapRenderer(
         const val ZOOM_EASE = 0.06    // per tick, so a speed change glides over a second or so
         const val TILT_EASE = 0.05    // per tick: the tilt comes in over about two seconds
         const val PUCK_DOWN = 0.72    // the puck sits this far down the VISIBLE area in a heading-up view
+        const val PUCK_AIM_PX = 40.0  // how far ahead of the arrow, in ground pixels, its heading is sampled for its turn on screen
         const val DRIVE_LATCH_MPS = 2.5 // the phone's free-drive latch speed, on the smoothed speed
         const val DRIVE_SPEED_TAU_S = 1.0 // the smoothing behind it
         const val FIX_SPEED_MAX_MPS = 70.0 // a speed made from two fixes past this is a jump, not motion
@@ -699,18 +700,24 @@ class CarMapRenderer(
         val up = headingUp()
         val wantX = vis.exactCenterX()
         val wantY = if (up) vis.top + vis.height() * PUCK_DOWN.toFloat() else vis.exactCenterY()
-        val (aheadPx, leftPx) = CarFraming.targetOffset(
-            (wantY - height / 2f).toDouble(), (wantX - width / 2f).toDouble(), tilt, height.toDouble(),
-        )
+        // SIDEWAYS, THE CENTER OF PERSPECTIVE MOVES, NOT THE TARGET. Tilted, the road straight
+        // ahead runs straight up the screen only through the camera's center of perspective, and
+        // the host's cards push the arrow off the surface's middle: with the target moved across
+        // instead, a straight road through the arrow leaned toward the middle (14 degrees on a
+        // 1280 px unit with the arrow 234 px right of it) under an arrow that stayed upright.
+        // Camera padding puts the center of perspective on the arrow's column, so the target
+        // offset is only the one down the screen.
+        val (aheadPx, _) = CarFraming.targetOffset((wantY - height / 2f).toDouble(), 0.0, tilt, height.toDouble())
         val bearingUsed = camBearing // eased onto the heading, or back to north, by the ticker
         val anchor = if (follow && (nav || driving) && previewRoute == null) (puck ?: here) else here
-        val target = anchor.destinationPoint(aheadPx * mpp, bearingUsed).destinationPoint(leftPx * mpp, bearingUsed - 90.0)
+        val target = anchor.destinationPoint(aheadPx * mpp, bearingUsed)
 
         val cam = CameraPosition.Builder()
             .target(MLLatLng(target.lat, target.lng))
             .zoom(zoom)
             .bearing(bearingUsed)
             .tilt(tilt)
+            .padding((2f * wantX - width).coerceAtLeast(0f).toDouble(), 0.0, (width - 2f * wantX).coerceAtLeast(0f).toDouble(), 0.0)
             .build()
         // The ground this camera can draw, kept with the snapshot it takes: a tilted camera has
         // ground behind it, and the overlays must not project a point from there.
@@ -970,10 +977,17 @@ class CarMapRenderer(
         val bmp = puckBitmap?.takeIf { puckBitmapPx == px } ?: android.graphics.Bitmap.createScaledBitmap(
             app.vela.ui.map.navPuckBitmap(scale = 1f), px, px, true,
         ).also { puckBitmap = it; puckBitmapPx = px }
-        // Turned by the heading against the bearing the snapshot was rendered with: straight up
-        // in a heading-up view, by the course in a north-up one.
+        // Turned to the heading as the map draws it: a point a little ahead of the arrow along
+        // its heading, projected, gives the direction on the screen. Tilted, a turn on the ground
+        // is a wider turn in the picture, so the heading against the camera's bearing (the flat
+        // answer, kept for when the point cannot be projected) under-turned the arrow whenever
+        // the camera was still easing onto a new heading.
+        val aim = here.destinationPoint(PUCK_AIM_PX * metersPerPixel(here.lat), heading).let { projectRaw(snap, it.lat, it.lng, sx, sy) }
+        val turn = if (aim != null && hypot(aim.x - pt.x, aim.y - pt.y) >= 2f) {
+            Math.toDegrees(Math.atan2((aim.x - pt.x).toDouble(), (pt.y - aim.y).toDouble()))
+        } else heading - camUsed
         canvas.save()
-        canvas.rotate((heading - camUsed).toFloat(), pt.x, pt.y)
+        canvas.rotate(turn.toFloat(), pt.x, pt.y)
         canvas.drawBitmap(bmp, pt.x - px / 2f, pt.y - px / 2f, dayBitmapPaint)
         canvas.restore()
     }

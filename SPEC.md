@@ -5279,11 +5279,15 @@ The map:
 - Zoom follows speed whenever the view follows a moving car, drive or not: `CarFraming.navZoom`,
   `ZOOM_NEAR` (17.2) at rest to `ZOOM_FAR` (15.0) at `ZOOM_FAR_KMH` (110) and above, a straight
   line between. Otherwise the zoom is the user's.
-- The camera target is moved so the arrow lands on the wanted pixel: `CarFraming.targetOffset`
-  gives the ground offset in pixels at the center's scale, the flat screen offset at tilt 0, and
-  under tilt the solution of MapLibre's perspective (camera distance `0.5 * height / tan(FOV / 2)`,
-  `FOV_RAD` 0.6435), where the ground nearer the camera draws larger. Meters per pixel assume 512
-  px tiles.
+- The arrow lands on the wanted pixel two ways. Down the screen the camera target is moved:
+  `CarFraming.targetOffset` gives the ground offset in pixels at the center's scale, the flat
+  screen offset at tilt 0, and under tilt the solution of MapLibre's perspective (camera distance
+  `0.5 * height / tan(FOV / 2)`, `FOV_RAD` 0.6435), where the ground nearer the camera draws
+  larger. Meters per pixel assume 512 px tiles. Across the screen the camera's center of
+  perspective is moved instead, with left or right camera padding of twice the arrow column's
+  distance from the surface's middle. A tilted camera draws the road straight ahead straight up
+  only through that center, and with the target moved across, a straight road through an arrow
+  234 px right of the middle of a 1280 px surface leaned 14 degrees toward it.
 - The route, its driven part, the destination and the dots along it are drawn on the snapshot
   with `MapSnapshot.pixelForLatLng`, and only for ground in front of the camera. Tilted, the
   camera has ground behind it, and the projection answers for a point there with its mirror
@@ -5293,8 +5297,10 @@ The map:
   tilt lands about six screen heights below the center. `project` drops a point past it, and
   `pathOf` ends the line at the crossing and picks it up where it comes back. Flat, there is no
   limit.
-- The arrow is the phone's puck bitmap rotated by its heading minus the bearing the snapshot was
-  rendered with.
+- The arrow is the phone's puck bitmap, turned to its heading as the map draws it: a point
+  `PUCK_AIM_PX` (40) ground pixels ahead of it along the heading is projected, and the arrow
+  points at it. The heading minus the snapshot's bearing is the flat answer and the fallback;
+  tilted, a turn on the ground is a wider turn in the picture.
 - A pan moves the center by the finger's travel in meters (`shiftCenter`). Reading the new center
   off the last snapshot's `latLngForPixel` adds the visible-area offset to every scroll event. A
   pinch keeps the point under the fingers in place. A fling decays exponentially (`FLING_TAU_S`

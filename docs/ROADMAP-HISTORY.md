@@ -13,6 +13,8 @@ says so.
 
 - An address set as Home or Work keeps its street on the chip, and one set earlier is mended at
   start. The address result's street is its name, which the label replaces.
+- On the car the road ahead runs straight up from the arrow, and the arrow points along the road
+  as drawn. The view's center of perspective sits on the arrow's column, not the surface's middle.
 - The car map draws no part of the route from behind its tilted camera. The driven part showed
   as a gray line swinging across the map, mirrored through the screen (#780).
 - Two turns within 130 m of each other are said on one line, "Turn right onto Elm Street, then
