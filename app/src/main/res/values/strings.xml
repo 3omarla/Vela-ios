@@ -1007,8 +1007,6 @@
     <string name="mapscreen_section_lists">Your lists</string>
     <string name="mapscreen_new_list">New</string>
     <string name="list_edit">Edit list</string>
-    <string name="list_move_up">Move list up</string>
-    <string name="list_move_down">Move list down</string>
     <string name="list_new_title">New list</string>
     <string name="list_edit_title">Edit list</string>
     <string name="list_name_label">List name</string>
@@ -1016,6 +1014,13 @@
     <string name="list_emoji_label">Type any emoji</string>
     <string name="list_color_label">Color</string>
     <string name="list_delete">Delete</string>
+    <string name="list_delete_title">Delete %1$s?</string> <!-- format -->
+    <plurals name="lists_delete_count">
+        <item quantity="one">Delete this list?</item>
+        <item quantity="other">Delete %d lists?</item>
+    </plurals>
+    <string name="list_reorder">Drag to reorder</string>
+    <string name="recent_remove">Remove from history</string>
     <string name="list_cancel">Cancel</string>
     <string name="list_save">Save</string>
     <string name="place_save_to_list">Save to list</string>

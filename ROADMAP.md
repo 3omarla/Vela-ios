@@ -113,28 +113,22 @@ time on a phone before it lands (2026-10-11).
 - More map looks (#750, branch `map-styles`): OpenFreeMap's Bright, Positron, Fiord and Dark
   styles beside Liberty, on the same tiles; Vela's label, house-number and places passes are
   keyed on Liberty's layer ids and get a mapping per style.
-- Swipe actions on lists and history (#748, branch `lists-swipe`): swipe to edit or delete with
-  haptics, a reorder handle, the lists sheet's contrast in the dark theme, simpler rows.
-- Romanian spoken guidance (#759, branch `romanian-voice`, pull request #766): the spoken phrase
-  table, the Mihai Piper voice in the library, Romanian in the language pickers, the open and
-  closed, review page, transit and voice command words. Built; the phrases were written by the
-  maintainer's assistant and need a native reviewer; the voice was heard on a Pixel 4a demo drive,
-  and a category search with the app in Romanian colored Google's status lines ("Închis",
-  "Deschis nonstop", "Închide curând") from the live forms, which the tables now carry.
-  After it lands: the live settings file pushes the transit word lists and a pushed list replaces
-  the compiled one, so `stație`, `gară` and `autogară` go into `transitCategoryWords` and
-  `benzinărie` and `încărcare` into `transitExcludeWords` in `calibration.json`, signed. The
-  status words need no push; no status table is live.
-- Google Takeout list CSVs (#761, branch `takeout-csv`, pull request #767): a per-list CSV
-  (title and Google link per row, no coordinates) imports as a list of the file's name; a pin
-  row is kept, a listing row is searched by title and matched on its feature id, a miss is
-  counted; a listing's feature id carries an S2 cell, so its search is biased where the place
-  is. Built; checked on a Pixel 4a with a hand-made file and with a five-row list of real
-  Florence links imported from the US: a museum by id, one branch of a chain by id, a pin, and
-  two bad rows counted as misses; importing the same file again refreshed the list in place.
-  Not checked: a real Takeout export, where the titles and link forms may differ from the
-  documented ones; the import carrying on after Settings is left, and its outcome on the status
-  card, not yet checked on a phone.
+- Swipe actions on lists and history (#748, branch `lists-swipe`, pull request #765): swipe a
+  list to edit or delete and a recent row to remove it, with a haptic tick; a drag handle in
+  place of the arrows and the pencil; long press to select several lists; the sheet on a
+  raised tone in the dark theme; Draw and New as icons; Clear recents as a button by the
+  heading. Built; checked on a Pixel 4a by touch and by keypad: Right from a row to its handle
+  and Left back, Down from a row to the next row, Up and Down on the handle moving the list, OK
+  on it opening the editor, a held OK on a row starting selection, the trash asking before it
+  deletes, and focus from New or from below the rows landing on a row. Not checked: a physical
+  keypad (the checks injected keys over adb), and the sheet with one list, where a pencil stands
+  in for the handle. Open: the overflow button on a recent search row cannot be reached by key,
+  since it sits inside the focused row as on every `SuggestionRow`, so a recent row has no key
+  path to Remove from history.
+- Romanian spoken guidance (#759, branch `romanian-voice`): the spoken phrase table, and the
+  Piper `ro_RO-mihai` voice in the library.
+- Google Takeout list CSVs (#761, branch `takeout-csv`): the per-list CSVs carry a title and a
+  Google link per row and no coordinates, so each row is one lookup; imported as a list each.
 
 ## Next up
 
