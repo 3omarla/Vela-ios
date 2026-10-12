@@ -181,6 +181,15 @@ screen silently stops recomposing.
 - Never name a release `v0.5.0` by hand. The updater reads the run number out of the tag.
 - Contributor pull requests are read in full and tested before they land, and are taken by
   cherry-pick with the author kept.
+- A pull request is presented for review in this order: what it does, what was tested and on
+  what, what was not tested, the edge cases and known gaps, then the verdict and where the risk
+  sits. The diff is re-read before presenting.
+- Ready means every check the rigs here can run has been run: the phone, the Desktop Head
+  Unit, the mock location provider, the simulated drive, the unit tests. What is left on the
+  not-tested list is what needs a real car, another country or another person. An untested
+  item that could change the verdict makes the verdict not ready, and the review says what
+  would make it ready. A verdict that moves when the list is questioned was wrong when it was
+  written.
 
 ### The other releases are the download backend
 
@@ -238,6 +247,9 @@ signed file the app fetches at launch (SPEC 11).
 - A new field in `Calibration` also needs reading in `CalibrationStore.parseBundle`. Grep for
   the field name there. Fields have been added and never parsed.
 - A new Google request goes into calibration the day it ships.
+- Every link to the project itself (repository, releases, site, this file) comes from
+  `VelaLinks` (SPEC 11.4), never a literal, so a moved repository or a renamed account is a
+  signed `links` push and a defaults edit, not a hunt through the code.
 - Before pushing a change, run the health probe against it:
   `./gradlew :core:testDebugUnitTest --tests '*GoogleHealthProbeTest' -DvelaLive=true`.
 - Read the live file before saying a dial is off. Compiled defaults and fleet values differ.
