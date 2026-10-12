@@ -315,6 +315,19 @@ Microsoft building merge reaches streaming users and the render-time coverage ga
 (`runOvlGate`) can be deleted, downloaded and streamed maps share one schema, and Vela stops
 depending on OpenFreeMap's donated bandwidth.
 
+### A faster shortest-path search, kept as research
+
+catalinb13 ported the 2025 sorting-barrier single-source shortest-path algorithm (Duan, Mao,
+Mao, Shu and Yin) to Kotlin and ran it over the obf region files as a second engine (#695,
+2026-10). It is kept on the branch `research/sorting-barrier-sssp`, unmerged, with the author's
+measurements in the pull request. Measured here on the Delaware file: a route took 1.0 to 2.8 s
+against 67 to 396 ms from the shipped engine, the cached graph held 404 MB of a 512 MB heap
+against about 12 MB, and the graph it builds skips turn restrictions and access tags and keeps
+rail and ferry lines, so a car was routed along a railway. To become an engine it would need
+the search run under the lock, OsmAnd's routing rules applied when the graph is built, and a
+memory gate on the file size, and it would still be slower. The interesting part is the
+algorithm, and the branch is where to read it.
+
 ### Richer roads
 
 Google's street detail without the 3D. Roads at their real width and street names on every
