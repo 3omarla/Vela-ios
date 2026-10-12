@@ -119,9 +119,7 @@ time on a phone before it lands (2026-10-11).
   the Vela look in the look's light or dark, and the cache survives having no network. The
   car map was seen in the Dark look on the Desktop Head Unit, the same look as the phone, and
   back on the Vela look after. Not checked: the offline fallback and the no-network guard
-  after the fix, seen only for Dark and Fiord online then offline over one region. Once #763
-  lands beside this, `CarStyle.inject` (the car's twin fills in the patched style JSON) must
-  be gated on `look.painted`.
+  after the fix, seen only for Dark and Fiord online then offline over one region. With #763 beside this, `CarStyle.inject` puts the car's twin fills into the patched style only for the Vela look.
 - Swipe actions on lists and history (#748, branch `lists-swipe`, pull request #765): swipe a
   list to edit or delete and a recent row to remove it, with a haptic tick; a drag handle in
   place of the arrows and the pencil; long press to select several lists; the sheet on a
@@ -225,6 +223,14 @@ off the list when it has been.
 - The approach prompt that is not said twice three seconds apart on a short step, and the first
   line of a short step that drops its sign tail so the line at the turn does not cut it. From a
   2026-10-11 trace; unit-tested, not yet heard on a drive.
+- The car map's heading-up, tilted follow with no route, drive mode, the zoom by speed, the
+  traffic raster and the phone's extra fills (#749, pull request #763). Seen on the Desktop Head
+  Unit with a simulated drive and with a mock trace at 100 km/h and no route: heading-up, tilt
+  55, zoom 15.2 to 15.7. Snapshot time at that speed, median and 90th percentile: 37 and 51 ms
+  with the traffic raster off, 40 and 65 ms with it on, five frames over 300 ms in 80 s against
+  two; the raster is not what slows the car map. Not seen: a real car or head unit, and the
+  rebuild of the car style when the patched file appears after a plain load, which needs a
+  first launch with the car already connected.
 - A reroute after a wrong turn on a trip with stops. The simulated drive cannot leave its route.
 - UK fuel prices on a phone in the UK.
 
