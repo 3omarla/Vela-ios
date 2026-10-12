@@ -38,6 +38,7 @@ on:
       - '**.md'
       - 'docs/**'
       - 'scripts/build-docs-site.py'
+      - 'scripts/build-site-privacy.py'
   workflow_dispatch:
 
 permissions:
@@ -191,12 +192,16 @@ jobs:
           fi
 
       - name: Add the website to the site root
-        # The landing page and the press page (site/*.html, site/style.css, site/assets) serve at
+        # The landing page, the press page and the privacy page (site/*.html, site/style.css,
+        # site/assets, and privacy.html built from PRIVACY.md) serve at
         # https://pimpinpumpkin.github.io/Vela/ alongside /repo and /fonts. The press kit is
         # zipped here from files already in the repository, so no archive is committed.
         run: |
           cp site/index.html site/press.html site/style.css fdroid/
           cp -r site/assets fdroid/assets
+          # The privacy page is PRIVACY.md in the site's layout, so the two cannot drift.
+          pip install -r site/requirements-docs.txt
+          python3 scripts/build-site-privacy.py fdroid/privacy.html
           kit=build/vela-press-kit
           mkdir -p "$kit/screenshots" "$kit/logo"
           cp docs/screenshots/*.png "$kit/screenshots/"
@@ -205,6 +210,25 @@ jobs:
           cp docs/not-google-maps.png site/press-kit/FACTS.md "$kit/"
           (cd build && zip -qr ../fdroid/vela-press-kit.zip vela-press-kit)
           ls fdroid
+
+      - name: Publish the website to velamaps.org
+        # The same landing page, press page and press kit, on Cloudflare Pages (project
+        # `velamaps`). GitHub Pages keeps serving them too, and stays the only home of /repo,
+        # /fonts and /docs: site/_redirects sends velamaps.org/docs there. Skipped until the
+        # two secrets exist, so a fork or a fresh clone still deploys its GitHub Pages site.
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            echo "Cloudflare secrets not set; velamaps.org not deployed"
+            exit 0
+          fi
+          out=build/velamaps-site
+          mkdir -p "$out"
+          cp site/index.html site/press.html site/style.css site/_redirects fdroid/privacy.html fdroid/vela-press-kit.zip "$out/"
+          cp -r site/assets "$out/assets"
+          npx --yes wrangler@4.143.0 pages deploy "$out" --project-name velamaps --branch main --commit-dirty=true
 
       - name: Build the docs site
         # Every doc (the book, SPEC, FAQ, features, roadmap, contributor guides) as a searchable
