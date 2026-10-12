@@ -185,6 +185,9 @@ Small items, one pull request each.
 - More places sources for the open bake: chamber-of-commerce member lists and municipal
   business-license registers, one scraper per source. The survey under "Vela's own record of
   what is still open" says how thin those registers are.
+- Duplicate names in the open places bake (#742). Overture carries one unbranded name at
+  several points with the same confidence, so a pin lands on the wrong one. Two fixes at the
+  bake: one row per unbranded name in a region, and a corrections list Vela maintains.
 - The neural voice's phonemizer. espeak, in front of the Piper model, misreads text that is
   not prose: "5:49 PM" came out as "five foot nine". `SpeechText` works around it case by
   case. The fix is a model that normalizes its own input and is fast enough on a Pixel 4a.
