@@ -76,12 +76,14 @@ class SavedPlaceStore @Inject constructor(
 
     /** Give a saved place your own name (issue #434): a parking lot saved as coordinates or a
      *  road name gets called what you call it. The place keeps its id and location. */
-    fun rename(id: String, name: String): Boolean {
+    fun rename(id: String, name: String, address: String? = null): Boolean {
         val trimmed = name.trim()
         if (trimmed.isEmpty()) return false
         val current = saved()
         if (current.none { it.id == id }) return false
-        val updated = current.map { if (it.id == id) it.copy(name = trimmed) else it }
+        // The street moves into the address before the name stops being it (issue 736): [address]
+        // when the caller worked it out from the Place, else from the record itself.
+        val updated = current.map { if (it.id == id) it.copy(name = trimmed, address = address ?: it.addressKeepingStreet()) else it }
         prefs.edit().putString(KEY, json.encodeToString(updated)).apply()
         return true
     }

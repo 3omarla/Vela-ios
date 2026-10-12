@@ -1823,7 +1823,7 @@ class MapViewModel @Inject constructor(
     /** If a shortcut is being assigned, store [sp] in it and return true (handled). */
     private fun consumeAssign(sp: SavedPlace): Boolean {
         val kind = _state.value.assigningShortcut ?: return false
-        shortcutStore.set(kind, sp)
+        shortcutStore.set(kind, sp.copy(address = sp.addressKeepingStreet())) // the chip shows the label, so the street goes in the address (issue 736)
         _state.update {
             it.copy(
                 assigningShortcut = null, selected = null, suggestions = emptyList(), querySuggestions = emptyList(), localSuggestions = emptyList(),
@@ -1864,7 +1864,7 @@ class MapViewModel @Inject constructor(
 
     /** Pin an already-saved place straight to Home/Work (no assign hop needed). */
     fun pinSavedAs(sp: SavedPlace, kind: ShortcutKind) {
-        shortcutStore.set(kind, sp)
+        shortcutStore.set(kind, sp.copy(address = sp.addressKeepingStreet()))
         _state.update {
             it.copy(
                 home = shortcutStore.get(ShortcutKind.HOME), work = shortcutStore.get(ShortcutKind.WORK),
@@ -1884,20 +1884,25 @@ class MapViewModel @Inject constructor(
     fun renamePlace(p: Place, name: String) {
         val trimmed = name.trim()
         if (trimmed.isEmpty()) return
+        // An address saved from a search has its street as the name and only the locality as
+        // the address (the parser takes the name off the front): the rename moves the street into
+        // the address so the row, Copy and Share keep it (issue 736). Anything that is no listing
+        // is an address or a pin here, feature id or not.
+        val kept = SavedPlace.of(p).copy(bare = !p.isListing()).addressKeepingStreet()
         savedStore.saved().firstOrNull { it.id == p.id }?.let { rec ->
             // A pin or an address keeps the new name as its name (bare: opening it never searches
             // the name). A Place built from a list row carries no listing fields, so the record
             // itself has to read as a point before it is marked one; a starred listing renamed
             // from a list row used to become a bare point and lose its lookups (review 2026-10-10).
             if (!p.isListing() && p.featureId == null && rec.isPoint) savedStore.setBare(p.id, true)
-            savedStore.rename(p.id, trimmed)
+            savedStore.rename(p.id, trimmed, kept)
         }
-        val lists = listStore.rename(p.id, trimmed, p.featureId)
+        val lists = listStore.rename(p.id, trimmed, p.featureId, kept)
         _state.update {
             it.copy(
                 saved = savedStore.saved(), lists = lists,
                 results = refreshedOpenList(it, lists) ?: it.results,
-                selected = it.selected?.let { s -> if (s.id == p.id) s.copy(name = trimmed) else s },
+                selected = it.selected?.let { s -> if (s.id == p.id) s.copy(name = trimmed, address = kept) else s },
             )
         }
         // The search page's own rows (a snapshot per keystroke) show the new name at once too.

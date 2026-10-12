@@ -2953,7 +2953,11 @@ when the feature ids match. Two requests at most.
   where the reporter looked for it), for a saved place and for a place in any list: it renames the saved record
   (marked bare only when the Place is no listing, carries no feature id and the record already
   reads as a point, so a starred listing renamed from a list row keeps its lookups)
-  when there is one and the place's entry in every list (`PlaceListStore.rename`). The listing's
+  when there is one and the place's entry in every list (`PlaceListStore.rename`). An address
+  saved from a search carries its street as the name and the locality as the address, so a
+  rename, and setting Home or Work, moves the street into the address first
+  (`SavedPlace.addressKeepingStreet`: a point whose address does not already start with its
+  name); the row, Copy and Share keep the street. The listing's
   name is taken only when it agrees with the saved one.
 - A location link's action is a setting (`LinkAction`, `link_action`): show the place
   (default), open the route chooser, or start navigation. Start also applies to directions

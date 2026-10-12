@@ -287,6 +287,9 @@ off the list when it has been.
 - Bridge openings in the Netherlands (#729, Malse-Makker): seen on a Pixel 4a against the live
   NDW feed on simulated drives, a planned opening's card with the right clock time, an open
   bridge's card and spoken line, and the chime in Alerts only. Not seen: a real drive.
+- The three map buttons on the AMOLED theme (#769), every menu's corner (#771), a recent row's
+  swipe to its menu (#772) and a renamed address keeping its street (#736): seen on a Pixel 4a.
+  Not seen: Home and Work set from a plain address after the change.
 - A reroute after a wrong turn on a trip with stops. The simulated drive cannot leave its route.
 - UK fuel prices on a phone in the UK.
 

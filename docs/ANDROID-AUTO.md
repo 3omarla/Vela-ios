@@ -72,14 +72,21 @@ template app, gets `PlayGearheadService app.vela, app owners empty`, and then lo
 were denied the same way. The check reads Play's own install record, so setting the installer
 fields on the phone does not pass it, and Unknown sources did not cover it on that phone.
 
-What has been seen to work:
+What has been seen to work, from reports on issue #179 (October 2026):
 
-- **A stock Pixel with a Google account signed in to Play**, with Vela installed through King
-  Installer's "Google installer" method (Google's own package installer, which GrapheneOS does
-  not ship). Vela was listed and ran.
-- **An aftermarket head unit** (a motorcycle unit, phone on Android 16) with Vela installed
-  through King Installer and Unknown sources on. Aftermarket units often run their own receiver,
-  which can be more lenient than the one built into cars.
+| Car | Phone | How Vela was installed |
+|---|---|---|
+| Kia Carnival, newest model | Sony Xperia 1 VII | King Installer, Unknown sources on |
+| Toyota Yaris hatchback 2020, by cable | Sony Xperia 1 VII | the same |
+| Toyota Corolla hatchback 2022 | Sony Xperia 1 VII | the same |
+| Skoda Fabia 2017, built-in screen | Samsung Galaxy A16 | King Installer, "Google installer" method, Unknown sources on |
+| Renault Zoe, built-in screen | Samsung Galaxy A53, Android 16 | King Installer, "Shizuku" method, Unknown sources on |
+| A car with an instrument-cluster display, over AAWireless | not stated | Shizuku, Unknown sources on; needs 0.5.2426 or newer, where the cluster screen is handled |
+| A motorcycle aftermarket unit | Sony Xperia 1 VII, Android 16 | King Installer, ADB method, Unknown sources on |
+
+None of these phones runs GrapheneOS. A Mitsubishi Mirage 2023 did not connect to Android Auto
+at all, with any app; that is the car, not Vela. Some head units take Android Auto over a cable
+only.
 
 The Desktop Head Unit (Google's car simulator) does not run the ownership check at all: on a
 stock phone with no Google account, a plain sideloaded Vela was listed and ran, and the log

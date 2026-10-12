@@ -61,7 +61,7 @@ fun VelaMenu(expanded: Boolean, onDismissRequest: () -> Unit, content: @Composab
     if (dpadFirst) {
         if (expanded) {
             Dialog(onDismissRequest = onDismissRequest) {
-                Surface(shape = RoundedCornerShape(16.dp), color = MaterialTheme.colorScheme.surfaceContainerHigh, tonalElevation = 6.dp) {
+                Surface(shape = RoundedCornerShape(20.dp), color = MaterialTheme.colorScheme.surfaceContainerHigh, tonalElevation = 6.dp) {
                     // Cap to 85% of the screen and scroll — a long menu (many items) must not run off
                     // a small screen with the bottom items unreachable. Focus follows into view as
                     // DOWN walks past the fold.
@@ -78,7 +78,14 @@ fun VelaMenu(expanded: Boolean, onDismissRequest: () -> Unit, content: @Composab
             }
         }
     } else {
-        DropdownMenu(expanded = expanded, onDismissRequest = onDismissRequest) {
+        // The cards' corner, not the menu default's, and a small gap from the button it hangs
+        // from (issue #771).
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = onDismissRequest,
+            offset = androidx.compose.ui.unit.DpOffset(0.dp, 6.dp),
+            shape = RoundedCornerShape(20.dp),
+        ) {
             VelaMenuScope(dpad = false).content()
         }
     }

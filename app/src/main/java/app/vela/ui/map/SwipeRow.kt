@@ -60,6 +60,7 @@ fun SwipeActionRow(
     deleteLabel: String,
     onEdit: (() -> Unit)? = null,
     editLabel: String? = null,
+    editIcon: androidx.compose.ui.graphics.vector.ImageVector = SymOutlined.Edit,
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit,
 ) {
@@ -98,7 +99,7 @@ fun SwipeActionRow(
                 contentAlignment = if (deleting) Alignment.CenterEnd else Alignment.CenterStart,
             ) {
                 if (deleting) Icon(SymOutlined.Delete, contentDescription = deleteLabel, tint = MaterialTheme.colorScheme.onErrorContainer)
-                else if (editing) Icon(SymOutlined.Edit, contentDescription = editLabel, tint = MaterialTheme.colorScheme.onPrimaryContainer)
+                else if (editing) Icon(editIcon, contentDescription = editLabel, tint = MaterialTheme.colorScheme.onPrimaryContainer)
             }
         },
         content = { content() },

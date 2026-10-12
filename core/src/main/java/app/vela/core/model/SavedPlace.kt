@@ -29,6 +29,17 @@ data class SavedPlace(
     val isPoint: Boolean get() = bare || id.startsWith("pin:") ||
         (address != null && name.isNotBlank() && address.trim().startsWith(name.trim(), ignoreCase = true))
 
+    /** The address with the street kept when [name] is about to stop being the street: an address
+     *  saved from a search carries its street as the name and only the locality as the address, so
+     *  a rename or a Home label would leave "09126 Chemnitz" (issue 736). A listing, or an address
+     *  that already starts with the name, is returned as it is. */
+    fun addressKeepingStreet(): String? {
+        val street = name.trim()
+        val rest = address?.trim()?.ifBlank { null } ?: return address
+        if (!isPoint || street.isBlank() || rest.startsWith(street, ignoreCase = true)) return address
+        return "$street, $rest"
+    }
+
     /** Starred from a basemap label, under the label's own name, before its listing was known:
      *  marked [bare] like a pin, but a place to look up when it is opened online. One renamed
      *  since no longer matches the label's id and stays a label of the user's own. */

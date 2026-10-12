@@ -2449,7 +2449,8 @@ fun MapScreen(
                     .align(Alignment.BottomEnd)
                     .navigationBarsPadding()
                     .padding(16.dp)
-                    .padding(bottom = chromeLift),
+                    .padding(bottom = chromeLift)
+                    .mapButtonEdge(darkTheme), // last, so the ring hugs the button and not its padding
             ) {
                 LocateGlyph(darkTheme)
             }
@@ -2593,7 +2594,8 @@ fun MapScreen(
                                 -16.dp.roundToPx(),
                                 sheetEdge.top.value - 72.dp.roundToPx(),
                             )
-                        },
+                        }
+                        .mapButtonEdge(darkTheme),
                 ) {
                     LocateGlyph(darkTheme)
                 }
@@ -2643,6 +2645,7 @@ fun MapScreen(
                     Surface(
                         color = mapButtonColor(darkTheme),
                         shape = CircleShape,
+                        border = mapButtonRing(darkTheme),
                         shadowElevation = 3.dp,
                         modifier = Modifier.size(42.dp),
                     ) {
@@ -2992,6 +2995,9 @@ private fun BoxScope.NavCorner(
 @Composable
 private fun mapButtonColor(dark: Boolean) =
     if (app.vela.ui.theme.wallpaperColorsInUse()) MaterialTheme.colorScheme.primaryContainer
+    // True black: the near-black the search bar and chips sit on, with the ring doing the work
+    // of setting the button off (issue #769); the gray read as a different theme.
+    else if (dark && isAppInAmoled()) MaterialTheme.colorScheme.surfaceContainerHigh
     else if (dark) Color(0xFF3C4043) else Color.White // a gray lighter than the dark map: the fill is what sets the button off
 
 /** The glyph on one of those buttons: white on the dark button (a dark gray on the white one in
@@ -3021,7 +3027,12 @@ private fun LocateGlyph(dark: Boolean) {
 @Composable
 private fun mapButtonRing(dark: Boolean): BorderStroke? =
     if (app.vela.ui.theme.wallpaperColorsInUse()) null
-    else BorderStroke(1.dp, if (dark) Color.White.copy(alpha = 0.14f) else Color(0xFFDADCE0))
+    else BorderStroke(1.dp, if (dark) Color.White.copy(alpha = if (isAppInAmoled()) 0.22f else 0.14f) else Color(0xFFDADCE0))
+
+/** The ring as a modifier, for the buttons that are stock FABs rather than a Surface. */
+@Composable
+private fun Modifier.mapButtonEdge(dark: Boolean): Modifier =
+    mapButtonRing(dark)?.let { ring -> this.border(ring, CircleShape) } ?: this
 
 /** How many leading search results the map frames (the list holds the rest). */
 private const val SEARCH_FIT_LEAD = 12
@@ -5118,7 +5129,11 @@ private fun SearchEntryContent(
                         val p = entry.place.toPlace()
                         // A swipe toward the end drops it from history (issue #748); the ⋮ stays
                         // as the key path.
-                        SwipeActionRow(onDelete = { onRemoveRecentPlace(entry.place.id) }, deleteLabel = stringResource(R.string.recent_remove)) {
+                        // Toward the start opens the row's menu, where Add to list is (issue #772).
+                        SwipeActionRow(
+                            onDelete = { onRemoveRecentPlace(entry.place.id) }, deleteLabel = stringResource(R.string.recent_remove),
+                            onEdit = { menuOpen = true }, editLabel = stringResource(R.string.place_save_to_list), editIcon = SymOutlined.BookmarkBorder,
+                        ) {
                             SuggestionRow(
                                 icon = Sym.Place,
                                 tint = MaterialTheme.colorScheme.onSurfaceVariant,
