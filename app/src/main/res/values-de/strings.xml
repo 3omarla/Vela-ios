@@ -1423,4 +1423,9 @@
     </plurals>
     <string name="bulk_done">Auswahl abgeschlossen</string>
     <string name="bulk_moved">%1$d zu %2$s verschoben</string>
+    <string name="search_open_now_phrase">jetzt geöffnet</string>
+    <string name="link_trip_while_navigating">Navigation beenden, um diese Reise zu öffnen</string>
+    <string name="list_sound_ping">Ping</string>
+    <string name="list_sound_bell">Glocke</string>
+    <string name="list_sound_double">Zwei Pieptöne</string>
 </resources>
