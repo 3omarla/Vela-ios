@@ -307,12 +307,14 @@ off the list when it has been.
   Not seen: Home and Work set from a plain address after the change.
 - A reroute after a wrong turn on a trip with stops. The simulated drive cannot leave its route.
 - UK fuel prices on a phone in the UK.
-- The layers panel as picture tiles (#782, `LayersPanel`). Compiled and passed the static keypad
-  audit; not yet opened on a phone. To see: the panel fits under the button on a 4a in portrait
-  and scrolls where it does not, each look's swatch against the map it stands for in light, dark
-  and AMOLED, the first tile focused on a keypad device and the arrows crossing the rows, and
-  the satellite tile returning to the look it covered. The Vela swatch draws the Modern colors
-  whichever map color set is picked.
+- The layers panel as picture tiles (#782, `LayersPanel`). Opened on a 4a in portrait: it fits
+  under the button without scrolling in the dark theme, and the tiles switch the look, satellite
+  and traffic by touch. Not yet seen: the light and AMOLED themes, a keypad walk across the
+  rows, and the panel on a shorter screen, where it would scroll.
+- "Zoom to the next turn" (#781): the zoom that frames the next maneuver under the turn card,
+  unit-tested on the 1080 x 2340 fixture. Not seen on a phone: the ease from a passed turn out
+  to the next, the flattening below z15 on a real road, a reroute with it on, and whether 24 dp
+  under the card is the right margin for the street callout.
 
 ### Open from the October 2026 audit
 
