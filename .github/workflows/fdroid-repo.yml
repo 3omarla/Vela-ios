@@ -38,6 +38,7 @@ on:
       - '**.md'
       - 'docs/**'
       - 'scripts/build-docs-site.py'
+      - 'scripts/build-site-privacy.py'
   workflow_dispatch:
 
 permissions:
@@ -191,12 +192,16 @@ jobs:
           fi
 
       - name: Add the website to the site root
-        # The landing page and the press page (site/*.html, site/style.css, site/assets) serve at
+        # The landing page, the press page and the privacy page (site/*.html, site/style.css,
+        # site/assets, and privacy.html built from PRIVACY.md) serve at
         # https://pimpinpumpkin.github.io/Vela/ alongside /repo and /fonts. The press kit is
         # zipped here from files already in the repository, so no archive is committed.
         run: |
           cp site/index.html site/press.html site/style.css fdroid/
           cp -r site/assets fdroid/assets
+          # The privacy page is PRIVACY.md in the site's layout, so the two cannot drift.
+          pip install -r site/requirements-docs.txt
+          python3 scripts/build-site-privacy.py fdroid/privacy.html
           kit=build/vela-press-kit
           mkdir -p "$kit/screenshots" "$kit/logo"
           cp docs/screenshots/*.png "$kit/screenshots/"
@@ -221,7 +226,7 @@ jobs:
           fi
           out=build/velamaps-site
           mkdir -p "$out"
-          cp site/index.html site/press.html site/style.css site/_redirects fdroid/vela-press-kit.zip "$out/"
+          cp site/index.html site/press.html site/style.css site/_redirects fdroid/privacy.html fdroid/vela-press-kit.zip "$out/"
           cp -r site/assets "$out/assets"
           npx --yes wrangler@4.143.0 pages deploy "$out" --project-name velamaps --branch main --commit-dirty=true
 

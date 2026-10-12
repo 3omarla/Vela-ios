@@ -5560,7 +5560,8 @@ carries `<prefix>-arm64.apk`, `-armv7.apk`, `-x86.apk`, `-x86_64.apk` and `<pref
   fires no event for other workflows.
 - The landing page and the press page (`site/`), the press kit (zipped by the workflow from
   `docs/screenshots`, the logo and `site/press-kit/FACTS.md`), the map fonts and the docs site
-  ride the same Pages artifact. The landing page, the press page and the press kit are also
+  ride the same Pages artifact. The landing page, the press page, the privacy page (`scripts/build-site-privacy.py` renders
+  `PRIVACY.md` into the site's layout at deploy time) and the press kit are also
   published to velamaps.org on Cloudflare Pages by the same workflow; `site/_redirects` sends
   velamaps.org/docs to the GitHub Pages docs.
   Never add a second Pages workflow, since `actions/deploy-pages` replaces the whole site. Never
