@@ -1428,4 +1428,25 @@
     <string name="list_sound_ping">Ping</string>
     <string name="list_sound_bell">Glocke</string>
     <string name="list_sound_double">Zwei Pieptöne</string>
+    <string name="nav_voice_button">Sprachansagen: An, nur Benachrichtigungen oder Aus</string>
+    <string name="camera_badge_plate">Markierung für eine Kennzeichenkamera</string>
+    <string name="camera_badge_speed">Markierung für eine Geschwindigkeitskamera</string>
+    <string name="car_setting_traffic">Verkehr</string>
+    <string name="list_delete_title">Soll %1$s gelöscht werden?</string>
+    <plurals name="lists_delete_count">
+        <item quantity="one">Diese Liste löschen?</item>
+        <item quantity="other">%d Listen löschen?</item>
+    </plurals>
+    <string name="list_reorder">Zum Neuanordnen ziehen</string>
+    <string name="recent_remove">Aus dem Verlauf entfernen</string>
+    <string name="settings_takeout_list_default">Importierte Liste</string>
+    <string name="settings_takeout_progress">Suche nach Ort %1$d von %2$d</string>
+    <plurals name="settings_takeout_imported">
+        <item quantity="one">%1$d wurde in %2$s importiert.</item>
+        <item quantity="other">%1$d Einträge wurden in %2$s importiert.</item>
+    </plurals>
+    <plurals name="settings_takeout_imported_missed">
+        <item quantity="one">%1$d wurde in %2$s importiert. %3$d konnte nicht gefunden werden.</item>
+        <item quantity="other">%1$d Einträge wurden in %2$s importiert. %3$d konnte nicht gefunden werden.</item>
+    </plurals>
 </resources>
