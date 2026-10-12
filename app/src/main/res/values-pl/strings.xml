@@ -55,7 +55,7 @@
     <string name="settings_live_traffic">Warstwa ruchu na żywo</string>
     <string name="settings_live_traffic_hint">Cieniuje drogi według korków podczas przeglądania. Nawigacja i tak koloruje trasę według ruchu.</string>
     <string name="settings_transit_layer">Wyróżnij linie transportu</string>
-    <string name="settings_transit_layer_hint">Rysuje linie kolejowe i metra na mapie.</string>
+    <string name="settings_transit_layer_hint">Rysuje na mapie linie kolejowe i metra – każdą w przypisanym jej kolorze, o ile jest on określony w otwartych danych transportowych.</string>
     <string name="settings_read_all_reviews">Przycisk „Czytaj wszystkie opinie”</string>
     <string name="settings_read_all_reviews_hint">Dodaje przycisk otwierający pełną stronę opinii Google w aplikacji, ze wszystkimi opiniami. Wył. = tylko lista Veli.</string>
     <string name="settings_buildings_3d">Budynki 3D</string>
@@ -1157,7 +1157,7 @@
         <item quantity="other">%1$d fragmentu ma nowszą wersję</item>
     </plurals>
     <string name="settings_confirm_end_nav">Pytaj przed zakończeniem nawigacji</string>
-    <string name="settings_confirm_end_nav_hint">Czerwony X i Wstecz podczas jazdy najpierw pytają, żeby przypadkowe dotknięcie jej nie zakończyło</string>
+    <string name="settings_confirm_end_nav_hint">Podczas jazdy system zawsze najpierw pyta o potwierdzenie. Gdy ta funkcja jest włączona, czerwony symbol X również wymaga potwierdzenia.</string>
     <string name="nav_end_confirm_title">Zakończyć nawigację?</string>
     <string name="nav_end_confirm_body">Trasa i jej przystanki zostaną usunięte.</string>
     <string name="nav_end_confirm_end">Zakończ</string>
@@ -1434,4 +1434,12 @@
     <string name="bulk_move">Przenieś na listę</string>
     <string name="bulk_new_list">Nowa lista…</string>
     <string name="bulk_remove">Usuń</string>
+    <plurals name="bulk_remove_title">
+        <item quantity="one">Usunąć %1$d miejsce?</item>
+        <item quantity="few">Usunąć %1$d miejsc?</item>
+        <item quantity="many">Usunąć %1$d miejsc?</item>
+        <item quantity="other">Usunąć %1$d miejsc?</item>
+    </plurals>
+    <string name="bulk_done">Wybór zakończony</string>
+    <string name="bulk_moved">%1$d przeniesiono do %2$s</string>
 </resources>
