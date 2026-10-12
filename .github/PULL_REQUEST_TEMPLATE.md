@@ -10,3 +10,4 @@
 - [ ] Tested on a release build if this touches the interface, the map or navigation (say which device)
 - [ ] `./gradlew :core:test` passes
 - [ ] Commit subjects read as changelog lines (they become the release notes)
+- [ ] If an AI assistant wrote any of this, the description names the model and version (Claude Opus 5.5, ChatGPT 5) and I tested the result myself

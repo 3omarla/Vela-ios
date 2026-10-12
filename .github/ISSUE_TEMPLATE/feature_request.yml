@@ -19,8 +19,14 @@ body:
           required: true
         - label: I have filled in every required field. I understand the request is closed otherwise.
           required: true
-        - label: If an AI assistant helped write this, it read CONTRIBUTING.md and CLAUDE.md first, and I checked every claim it makes about Vela.
+        - label: If an AI assistant helped write this, it read CONTRIBUTING.md and CLAUDE.md first, I checked every claim it makes about Vela, and I name it below.
           required: true
+  - type: input
+    id: ai_model
+    attributes:
+      label: AI assistant, if any
+      description: The model and version that helped write this, so the reviewer knows what to check.
+      placeholder: Claude Opus 5.5, ChatGPT 5, none
   - type: textarea
     id: what
     attributes:

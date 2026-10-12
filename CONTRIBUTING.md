@@ -99,12 +99,15 @@ AI help is welcome, for code and for reports, as long as a person stands behind 
   why in your own words, briefly, or open a pull request that builds it.
 - **The best use is a pull request.** An assistant that has read the docs can write a focused,
   tested change.
+- **Say which one.** Name the model and version in the report or the pull request, such as
+  Claude Opus 5.5 or ChatGPT 5. It tells the reviewer what to look for, since each one has its
+  own habits, and the templates ask for it.
 
 ## Pull requests
 
 - Small and focused: one change each.
 - Say what changed and why. If it touches the interface or navigation, say which device you
-  checked it on.
+  checked it on. If an AI assistant wrote part of it, say which model and version.
 - Anything merged reaches nightly users within a day and everyone else within about a week.
 
 ## Conduct
