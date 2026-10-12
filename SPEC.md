@@ -2260,7 +2260,8 @@ since a cluster's centroid sits in the junction's middle. The corridor fetch is 
 - Speeding alert (off by default): after 4 s continuously over the limit, re-armed after 8 s
   back under, at most once per 45 s, with the badge's 5 km/h tolerance.
 - The voice has three modes (issue 735), one state shared by Settings > Voice > Spoken
-  directions and the drive's speaker button, which steps On, Alerts only, Off, On
+  directions and the drive's speaker button, which opens the three with the current one filled
+  and steps On, Alerts only, Off, On on a long press
   (`MapViewModel.setVoiceMode`, prefs `spoken_directions` and `spoken_alerts_only`,
   `VoiceGuide.muted` and `alertsOnly`, the holder `VoiceAlertsOnly` for the hold control). In
   Alerts only the speeding, speed camera, plate camera and bridge alerts play `VoiceGuide.alertChime`,
@@ -4909,16 +4910,18 @@ reuses it.
   You setting on and a phone scheme that passed the sanity check. Where the scheme fell back to
   Vela's own, a wallpaper-colored button would come out teal.
 - Pause sits in the bar's right slot when `PauseInBar` is on (pref `nav_pause_in_bar`, default
-  on) and the device is not keypad-first. The right-edge stack then has a plain mute button.
+  on) and the device is not keypad-first. The right-edge stack then has the speaker button
+  (`NavVoiceButton`): the glyph is the voice mode, and a tap slides the three choices out beside
+  it for 6 s, the current one filled.
 - The step-list button takes the slot when `PreferButtons` is on (pref `prefer_buttons`, default
   off) or the device is keypad-first. With both wanted the bar carries both and the figures
   shrink. With neither, the slot is a 54 dp spacer that keeps the figures centered against End.
 - With pause out of the bar, the stack has `NavHoldControls`: one 56 dp button for pause and
-  mute. On a running drive the first tap slides mute out beside it for `OPEN_MS` (6 s) and a
-  second tap pauses. While paused, one tap resumes. A long press steps the voice (on, alerts only,
-  off). The slide-out is the key
-  path to mute. The glyph shows pause or resume, the accent fill a held drive, a crossed speaker
-  a muted one, a bell "Alerts only" (4.9). The speaker button steps On, Alerts only, Off.
+  mute. On a running drive the first tap slides the three voice choices out beside it for
+  `OPEN_MS` (6 s), on, alerts only and off with the current one filled, and a second tap pauses.
+  While paused, one tap resumes. A long press steps the voice (on, alerts only, off). The
+  slide-out is the key path to the voice. The glyph shows pause or resume, the accent fill a held
+  drive, a crossed speaker a muted one, a bell "Alerts only" (4.9).
 - The "Then" tab hangs off the turn card's lower left in the card's color and names the next
   step. The card's lower-left corner is square while the tab shows, and the lower-right too when
   the tab is as wide as the card. Both widths are measured.

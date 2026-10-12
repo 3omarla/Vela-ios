@@ -386,8 +386,6 @@
     <string name="nav_compound_then">その先</string>
     <string name="nav_preview_tap_resume">プレビュー中。タップで再開</string>
     <string name="nav_rerouting">ルートを再検索中…</string>
-    <string name="nav_unmute_voice">音声案内のミュートを解除</string>
-    <string name="nav_mute_voice">音声案内をミュート</string>
     <string name="nav_steps">ルート詳細</string>
     <string name="nav_end">終了</string>
     <string name="nav_arrived">目的地に到着しました</string>

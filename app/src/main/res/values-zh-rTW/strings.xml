@@ -386,8 +386,6 @@
     <string name="nav_compound_then">接著</string>
     <string name="nav_preview_tap_resume">預覽中，點按即可繼續</string>
     <string name="nav_rerouting">重新規劃路線中…</string>
-    <string name="nav_unmute_voice">取消語音導引靜音</string>
-    <string name="nav_mute_voice">將語音導引靜音</string>
     <string name="nav_steps">步驟</string>
     <string name="nav_end">結束</string>
     <string name="nav_arrived">已抵達目的地</string>

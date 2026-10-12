@@ -339,8 +339,6 @@
     <string name="nav_compound_then">sedan</string>
     <string name="nav_preview_tap_resume">Förhandsvisning, tryck för att återuppta</string>
     <string name="nav_rerouting">beräknar ny rutt…</string>
-    <string name="nav_unmute_voice">Slå på röstvägledning</string>
-    <string name="nav_mute_voice">Stäng av röstvägledning</string>
     <string name="nav_steps">Steg</string>
     <string name="nav_end">Avsluta</string>
     <string name="nav_arrived">Du är framme</string>

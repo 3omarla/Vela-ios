@@ -377,8 +377,6 @@
     <string name="nav_compound_then">następnie</string>
     <string name="nav_preview_tap_resume">Podgląd, dotknij, aby wznowić</string>
     <string name="nav_rerouting">przeliczanie trasy…</string>
-    <string name="nav_unmute_voice">Włącz wskazówki głosowe</string>
-    <string name="nav_mute_voice">Wycisz wskazówki głosowe</string>
     <string name="nav_steps">Etapy</string>
     <string name="nav_pause">Wstrzymaj jazdę</string>
     <string name="nav_resume">Wznów jazdę</string>

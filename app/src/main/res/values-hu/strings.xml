@@ -445,8 +445,6 @@
     <string name="nav_compound_then">majd</string>
     <string name="nav_preview_tap_resume">Előnézet, koppints a folytatáshoz</string>
     <string name="nav_rerouting">újratervezés…</string>
-    <string name="nav_unmute_voice">Hangos útvonalvezetés bekapcsolása</string>
-    <string name="nav_mute_voice">Hangos útvonalvezetés némítása</string>
     <string name="nav_steps">Lépések</string>
     <string name="nav_pause">Út szüneteltetése</string>
     <string name="nav_resume">Út folytatása</string>

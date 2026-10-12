@@ -339,8 +339,6 @@
     <string name="nav_compound_then">después</string>
     <string name="nav_preview_tap_resume">Vista previa: toca para reanudar</string>
     <string name="nav_rerouting">recalculando ruta…</string>
-    <string name="nav_unmute_voice">Activar guía por voz</string>
-    <string name="nav_mute_voice">Silenciar guía por voz</string>
     <string name="nav_steps">Pasos</string>
     <string name="nav_end">Finalizar</string>
     <string name="nav_arrived">Has llegado</string>

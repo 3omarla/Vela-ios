@@ -339,8 +339,6 @@
     <string name="nav_compound_then">потім</string>
     <string name="nav_preview_tap_resume">Перегляд, торкніться, щоб продовжити</string>
     <string name="nav_rerouting">перепрокладання…</string>
-    <string name="nav_unmute_voice">Увімкнути голосові підказки</string>
-    <string name="nav_mute_voice">Вимкнути голосові підказки</string>
     <string name="nav_steps">Кроки</string>
     <string name="nav_end">Завершити</string>
     <string name="nav_arrived">Ви прибули</string>

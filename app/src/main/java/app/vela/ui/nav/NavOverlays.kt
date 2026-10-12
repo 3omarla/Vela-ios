@@ -46,6 +46,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -1456,14 +1457,16 @@ fun NavStopOffer(
  *
  * Pause and mute used to sit as a two-target pill in the nav stack, which is 112 dp of a small
  * phone's right edge for two things you touch rarely. Now there is one 56 dp button: on a running
- * drive the FIRST tap slides mute out beside it for [OPEN_MS] and a second tap on the same button
- * pauses (pausing on the first tap made holding the drive the only way to reach mute); while
- * paused, one tap resumes. A LONG PRESS steps the voice (on, alerts only, off), for people who know where it is. The button carries both states - the glyph is
- * pause or resume, the accent fill says the drive is held, and a muted drive wears a small crossed
- * speaker (a bell in "Alerts only") - because one control standing for two states has to show both.
+ * drive the FIRST tap slides the three voice choices out beside it for [OPEN_MS], on, alerts only
+ * and off with the current one filled, and a second tap on the same button pauses (pausing on the
+ * first tap made holding the drive the only way to reach the voice); while paused, one tap resumes.
+ * A LONG PRESS steps the voice through the three, for people who know where it is. The button
+ * carries both states - the glyph is pause or resume, the accent fill says the drive is held, and a
+ * muted drive wears a small crossed speaker (a bell in "Alerts only") - because one control
+ * standing for two states has to show both.
  *
- * Long press is touch-only by nature; the slide-out is the key path to mute, which is what keeps
- * this D-pad legal.
+ * Long press is touch-only by nature; the slide-out is the key path to the voice, which is what
+ * keeps this D-pad legal.
  */
 @OptIn(androidx.compose.foundation.ExperimentalFoundationApi::class)
 @Composable
@@ -1471,7 +1474,7 @@ fun NavHoldControls(
     paused: Boolean,
     muted: Boolean,
     onPause: () -> Unit,
-    onMute: () -> Unit,
+    onVoice: (muted: Boolean, alertsOnly: Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var open by remember { mutableStateOf(false) }
@@ -1483,30 +1486,17 @@ fun NavHoldControls(
             open = false
         }
     }
+    // A pick by keypad removes the focused choice with the slide-out, so focus comes back to the
+    // button instead of jumping to the turn card.
+    val buttonFocus = remember { androidx.compose.ui.focus.FocusRequester() }
     Row(modifier, verticalAlignment = Alignment.CenterVertically) {
-        androidx.compose.animation.AnimatedVisibility(
-            visible = open,
-            enter = androidx.compose.animation.expandHorizontally(expandFrom = Alignment.End) +
-                androidx.compose.animation.fadeIn(),
-            exit = androidx.compose.animation.shrinkHorizontally(shrinkTowards = Alignment.End) +
-                androidx.compose.animation.fadeOut(),
-        ) {
-            Surface(
-                shape = RoundedCornerShape(16.dp),
-                color = MaterialTheme.colorScheme.primaryContainer,
-                contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                shadowElevation = 6.dp,
-                modifier = Modifier.padding(end = 8.dp),
-            ) {
-                // The choice names the NEXT state: on, alerts only, off, on (issue 735).
-                val alertsOnly = app.vela.ui.VoiceAlertsOnly.on.value
-                HoldChoice(
-                    icon = if (!muted) Sym.NotificationsActive else if (alertsOnly) Sym.VolumeOff else Sym.VolumeUp,
-                    label = stringResource(if (!muted) R.string.nav_voice_alerts_only else if (alertsOnly) R.string.nav_mute_voice else R.string.nav_unmute_voice),
-                    filled = false,
-                ) { onMute(); open = false }
-            }
-        }
+        VoiceSlideOut(
+            open = open,
+            muted = muted,
+            color = MaterialTheme.colorScheme.primaryContainer,
+            contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            onVoice = onVoice,
+        ) { open = false; runCatching { buttonFocus.requestFocus() } }
         Surface(
             shape = RoundedCornerShape(16.dp),
             color = if (paused) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.primaryContainer,
@@ -1516,6 +1506,7 @@ fun NavHoldControls(
             Box(
                 Modifier
                     .size(56.dp)
+                    .focusRequester(buttonFocus)
                     .dpadHighlight(RoundedCornerShape(16.dp))
                     .combinedClickable(
                         // The FIRST tap only opens the pop-out (user 2026-09-18). Pausing on that
@@ -1530,7 +1521,9 @@ fun NavHoldControls(
                         },
                         onLongClick = {
                             haptics.performHapticFeedback(androidx.compose.ui.hapticfeedback.HapticFeedbackType.LongPress)
-                            onMute()
+                            // Steps on, alerts only, off, for people who know where it is.
+                            val alertsOnly = app.vela.ui.VoiceAlertsOnly.on.value
+                            if (!muted) onVoice(true, true) else if (alertsOnly) onVoice(true, false) else onVoice(false, false)
                             open = false
                         },
                         onClickLabel = stringResource(
@@ -1571,6 +1564,99 @@ fun NavHoldControls(
     }
 }
 
+/**
+ * The drive's speaker button with Pause in the bar: the glyph is the current voice mode, and a
+ * tap slides the three choices out beside it for [OPEN_MS] (issue 735). It wears what the other
+ * floating buttons wear, and so does its slide-out.
+ */
+@Composable
+fun NavVoiceButton(
+    muted: Boolean,
+    onVoice: (muted: Boolean, alertsOnly: Boolean) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    var open by remember { mutableStateOf(false) }
+    var openedAt by remember { mutableStateOf(0L) }
+    LaunchedEffect(open, openedAt) {
+        if (open) {
+            kotlinx.coroutines.delay(OPEN_MS)
+            open = false
+        }
+    }
+    val themed = app.vela.ui.theme.wallpaperColorsInUse()
+    val alertsOnly = app.vela.ui.VoiceAlertsOnly.on.value
+    // A pick by keypad removes the focused choice with the slide-out, so focus comes back to the
+    // button instead of jumping to the turn card.
+    val buttonFocus = remember { androidx.compose.ui.focus.FocusRequester() }
+    Row(modifier, verticalAlignment = Alignment.CenterVertically) {
+        VoiceSlideOut(
+            open = open,
+            muted = muted,
+            color = if (themed) MaterialTheme.colorScheme.primaryContainer else navBarLook().bg,
+            contentColor = if (themed) MaterialTheme.colorScheme.onPrimaryContainer else navBarLook().ink,
+            onVoice = onVoice,
+        ) { open = false; runCatching { buttonFocus.requestFocus() } }
+        NavFab(
+            onClick = { open = !open; openedAt = System.currentTimeMillis() },
+            modifier = Modifier.focusRequester(buttonFocus).dpadHighlight(CircleShape),
+        ) {
+            Icon(
+                if (!muted) Sym.VolumeUp else if (alertsOnly) Sym.NotificationsActive else Sym.VolumeOff,
+                contentDescription = stringResource(R.string.nav_voice_button),
+            )
+        }
+    }
+}
+
+/** The three voice modes side by side with the current one filled, the way the other apps' sound
+ *  menu reads (issue 735), sliding out from the button to its right. A choice sets its mode
+ *  outright and closes the slide-out. */
+@Composable
+private fun VoiceSlideOut(
+    open: Boolean,
+    muted: Boolean,
+    color: Color,
+    contentColor: Color,
+    onVoice: (muted: Boolean, alertsOnly: Boolean) -> Unit,
+    close: () -> Unit,
+) {
+    androidx.compose.animation.AnimatedVisibility(
+        visible = open,
+        enter = androidx.compose.animation.expandHorizontally(expandFrom = Alignment.End) +
+            androidx.compose.animation.fadeIn(),
+        exit = androidx.compose.animation.shrinkHorizontally(shrinkTowards = Alignment.End) +
+            androidx.compose.animation.fadeOut(),
+    ) {
+        Surface(
+            shape = RoundedCornerShape(16.dp),
+            color = color,
+            contentColor = contentColor,
+            shadowElevation = 6.dp,
+            modifier = Modifier.padding(end = 8.dp),
+        ) {
+            val alertsOnly = app.vela.ui.VoiceAlertsOnly.on.value
+            Row {
+                HoldChoice(
+                    icon = Sym.VolumeUp,
+                    label = stringResource(R.string.settings_voice_mode_on),
+                    filled = !muted,
+                ) { onVoice(false, false); close() }
+                HoldChoice(
+                    icon = Sym.NotificationsActive,
+                    label = stringResource(R.string.settings_voice_mode_alerts),
+                    filled = muted && alertsOnly,
+                ) { onVoice(true, true); close() }
+                HoldChoice(
+                    icon = Sym.VolumeOff,
+                    label = stringResource(R.string.settings_voice_mode_off),
+                    filled = muted && !alertsOnly,
+                ) { onVoice(true, false); close() }
+            }
+        }
+    }
+}
+
+/** One voice choice in the slide-out: the glyph over its name, filled when it is the current mode. */
 @Composable
 private fun HoldChoice(
     icon: androidx.compose.ui.graphics.vector.ImageVector,
@@ -1578,18 +1664,26 @@ private fun HoldChoice(
     filled: Boolean,
     onClick: () -> Unit,
 ) {
-    Box(
+    val tint = if (filled) MaterialTheme.colorScheme.onPrimary else LocalContentColor.current
+    Column(
         Modifier
-            .size(56.dp)
+            .height(56.dp)
+            .widthIn(min = 56.dp)
             .background(if (filled) MaterialTheme.colorScheme.primary else Color.Transparent)
             .dpadHighlight(RoundedCornerShape(16.dp))
-            .clickable(onClick = onClick),
-        contentAlignment = Alignment.Center,
+            .clickable(onClick = onClick)
+            .padding(horizontal = 10.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
     ) {
-        Icon(
-            icon,
-            contentDescription = label,
-            tint = if (filled) MaterialTheme.colorScheme.onPrimary else LocalContentColor.current,
+        Icon(icon, contentDescription = null, tint = tint, modifier = Modifier.size(22.dp))
+        Text(
+            label,
+            style = MaterialTheme.typography.labelSmall,
+            color = tint,
+            maxLines = 1,
+            softWrap = false,
+            modifier = Modifier.padding(top = 2.dp),
         )
     }
 }

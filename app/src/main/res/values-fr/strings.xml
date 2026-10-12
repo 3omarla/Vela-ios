@@ -339,8 +339,6 @@
     <string name="nav_compound_then">puis</string>
     <string name="nav_preview_tap_resume">Aperçu, appuyez pour reprendre</string>
     <string name="nav_rerouting">nouveau calcul…</string>
-    <string name="nav_unmute_voice">Activer le guidage vocal</string>
-    <string name="nav_mute_voice">Couper le guidage vocal</string>
     <string name="nav_steps">Étapes</string>
     <string name="nav_end">Terminer</string>
     <string name="nav_arrived">Vous êtes arrivé</string>

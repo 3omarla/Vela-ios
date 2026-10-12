@@ -366,8 +366,6 @@
     <string name="nav_compound_then">ואז</string>
     <string name="nav_preview_tap_resume">תצוגה מקדימה, הקש לחידוש</string>
     <string name="nav_rerouting">מחשב מסלול מחדש…</string>
-    <string name="nav_unmute_voice">בטל השתקת הנחיה קולית</string>
-    <string name="nav_mute_voice">השתק הנחיה קולית</string>
     <string name="nav_steps">שלבים</string>
     <string name="nav_pause">השהה את הנסיעה</string>
     <string name="nav_resume">חדש את הנסיעה</string>

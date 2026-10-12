@@ -386,8 +386,6 @@
     <string name="nav_compound_then">然后</string>
     <string name="nav_preview_tap_resume">预览中，点按恢复</string>
     <string name="nav_rerouting">正在重新规划路线…</string>
-    <string name="nav_unmute_voice">取消语音导航静音</string>
-    <string name="nav_mute_voice">静音语音导航</string>
     <string name="nav_steps">步骤</string>
     <string name="nav_end">结束</string>
     <string name="nav_arrived">您已到达</string>

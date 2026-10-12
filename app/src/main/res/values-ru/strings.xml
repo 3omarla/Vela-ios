@@ -339,8 +339,6 @@
     <string name="nav_compound_then">затем</string>
     <string name="nav_preview_tap_resume">Предпросмотр, нажмите, чтобы продолжить</string>
     <string name="nav_rerouting">перестроение маршрута…</string>
-    <string name="nav_unmute_voice">Включить голосовые подсказки</string>
-    <string name="nav_mute_voice">Отключить голосовые подсказки</string>
     <string name="nav_steps">Шаги</string>
     <string name="nav_end">Завершить</string>
     <string name="nav_arrived">Вы прибыли</string>

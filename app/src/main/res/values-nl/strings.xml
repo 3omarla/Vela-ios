@@ -373,8 +373,6 @@
     <string name="nav_compound_then">daarna</string>
     <string name="nav_preview_tap_resume">Voorbeeld, tik om te hervatten</string>
     <string name="nav_rerouting">route herberekenen…</string>
-    <string name="nav_unmute_voice">Gesproken begeleiding aanzetten</string>
-    <string name="nav_mute_voice">Gesproken begeleiding dempen</string>
     <string name="nav_steps">Stappen</string>
     <string name="nav_pause">Rit pauzeren</string>
     <string name="nav_resume">Rit hervatten</string>

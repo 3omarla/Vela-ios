@@ -70,8 +70,9 @@ the top of the step list has the trip in full ([chapter 4](04-navigation.md)).
 
 The right edge has 56 dp buttons for the route overview, mute and search along the route, in the
 bar's colors, or the wallpaper palette when it is really in use (`wallpaperColorsInUse()`). With
-Pause out of the bar, mute and pause share one button (`NavHoldControls`): a tap slides mute out
-for 6 seconds, a second tap pauses, and a long press mutes. Search opens a page with a search
+Pause out of the bar, mute and pause share one button (`NavHoldControls`): a tap slides the three
+voice choices out for 6 seconds, a second tap pauses, and a long press steps the voice. Search
+opens a page with a search
 field, category tiles led by fuel and charging, and recent searches.
 
 The compass shows for the whole drive, and a tap switches between heading-up and north-up.

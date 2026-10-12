@@ -373,8 +373,6 @@
     <string name="nav_compound_then">poi</string>
     <string name="nav_preview_tap_resume">Anteprima, tocca per riprendere</string>
     <string name="nav_rerouting">ricalcolo…</string>
-    <string name="nav_unmute_voice">Riattiva guida vocale</string>
-    <string name="nav_mute_voice">Disattiva guida vocale</string>
     <string name="nav_steps">Passaggi</string>
     <string name="nav_pause">Metti in pausa il viaggio</string>
     <string name="nav_resume">Riprendi il viaggio</string>

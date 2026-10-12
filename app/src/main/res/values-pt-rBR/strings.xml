@@ -373,8 +373,6 @@
     <string name="nav_compound_then">depois</string>
     <string name="nav_preview_tap_resume">Pré-visualização, toque para retomar</string>
     <string name="nav_rerouting">recalculando…</string>
-    <string name="nav_unmute_voice">Ativar o som das instruções</string>
-    <string name="nav_mute_voice">Silenciar as instruções</string>
     <string name="nav_steps">Etapas</string>
     <string name="nav_pause">Pausar a viagem</string>
     <string name="nav_resume">Retomar a viagem</string>

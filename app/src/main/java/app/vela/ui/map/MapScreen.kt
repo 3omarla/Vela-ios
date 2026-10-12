@@ -1637,25 +1637,14 @@ fun MapScreen(
                 // pop-out to reach past. Otherwise the two hold controls share one button here
                 // (tap opens, second tap pauses, long press mutes).
                 if (navPauseInBar) {
-                    app.vela.ui.nav.NavFab(
-                        onClick = vm::toggleVoice,
-                        modifier = Modifier.dpadHighlight(CircleShape),
-                    ) {
-                        // The glyph is the state; the description is what a tap does next:
-                        // on, alerts only, off, on (issue 735).
-                        Icon(
-                            if (!state.voiceMuted) Sym.VolumeUp else if (state.voiceAlertsOnly) Sym.NotificationsActive else Sym.VolumeOff,
-                            contentDescription = stringResource(
-                                if (!state.voiceMuted) R.string.nav_voice_alerts_only else if (state.voiceAlertsOnly) R.string.nav_mute_voice else R.string.nav_unmute_voice
-                            ),
-                        )
-                    }
+                    // The glyph is the state; a tap opens the three voice choices (issue 735).
+                    app.vela.ui.nav.NavVoiceButton(muted = state.voiceMuted, onVoice = vm::setVoiceMode)
                 } else {
                     app.vela.ui.nav.NavHoldControls(
                         paused = state.navPaused,
                         muted = state.voiceMuted,
                         onPause = vm::toggleNavPause,
-                        onMute = vm::toggleVoice,
+                        onVoice = vm::setVoiceMode,
                     )
                 }
                 app.vela.ui.nav.NavFab(

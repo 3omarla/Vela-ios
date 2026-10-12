@@ -339,8 +339,6 @@
     <string name="nav_compound_then">dann</string>
     <string name="nav_preview_tap_resume">Vorschau, zum Fortsetzen tippen</string>
     <string name="nav_rerouting">Route wird neu berechnet …</string>
-    <string name="nav_unmute_voice">Sprachführung einschalten</string>
-    <string name="nav_mute_voice">Sprachführung stummschalten</string>
     <string name="nav_steps">Wegbeschreibung</string>
     <string name="nav_end">Beenden</string>
     <string name="nav_arrived">Sie sind angekommen</string>
@@ -1397,7 +1395,6 @@
     </plurals>
     <string name="settings_zoom_key_none">Nicht festgelegt</string>
     <string name="settings_zoom_keys_hint">Zwei Tasten, mit denen man die Karte von jeder beliebigen Stelle aus vergrößern kann, beispielsweise die Tasten 2 und 5 auf dem Ziffernblock. In einem Textfeld dienen sie weiterhin zur Eingabe.</string>
-    <string name="nav_voice_alerts_only">Nur Benachrichtigungen</string>
     <string name="settings_voice_mode_on">An</string>
     <string name="settings_voice_mode_alerts">Nur Benachrichtigungen</string>
     <string name="settings_voice_mode_off">Aus</string>
