@@ -1413,4 +1413,25 @@
     <string name="link_trip_search">Wyszukaj</string>
     <string name="link_trip_skip">Pomiń</string>
     <string name="link_trip_stop_title">Nie znaleziono przystanku</string>
+    <string name="settings_zoom_key_in">Przycisk powiększania</string>
+    <string name="settings_zoom_key_out">Przycisk pomniejszania</string>
+    <string name="settings_zoom_key_none">Nieustawione</string>
+    <string name="settings_zoom_keys_hint">Dwa przyciski służące do powiększania mapy z dowolnego miejsca na niej, na przykład 2 i 5 na klawiaturze numerycznej. W polu tekstowym nadal wprowadzają one znaki.</string>
+    <string name="settings_zoom_key_press">Naciśnij klawisz aby użyć. Klawisze strzałek, OK oraz Wstecz są już zajęte.</string>
+    <string name="settings_project_site_button">Strona internetowa</string>
+    <string name="nav_left_your_route">Skręcono w „%1$s”. Wybrano najszybszą trasę.</string>
+    <string name="list_sound_bell">Dzwonek</string>
+    <string name="list_sound_double">Dwa sygnały dźwiękowe</string>
+    <string name="list_sound_name">Wypowiedz jego imię</string>
+    <string name="bulk_select">Wybierz miejsca</string>
+    <plurals name="bulk_selected">
+        <item quantity="one">Wybrano %1$d</item>
+        <item quantity="few">Wybrano %1$d</item>
+        <item quantity="many">Wybrano %1$d</item>
+        <item quantity="other">Wybrano %1$d</item>
+    </plurals>
+    <string name="bulk_all">Wszystko</string>
+    <string name="bulk_move">Przenieś na listę</string>
+    <string name="bulk_new_list">Nowa lista…</string>
+    <string name="bulk_remove">Usuń</string>
 </resources>
