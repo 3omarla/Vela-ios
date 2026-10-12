@@ -2627,7 +2627,10 @@ fun MapScreen(
                         .statusBarsPadding()
                         // One-line landscape chrome: the chips sit beside the bar, so the
                         // button rises a whole row (matches the compass margin in VelaMapView).
-                        .padding(top = if (landscapeChrome) 74.dp else 128.dp, end = 14.dp),
+                        // 23 dp from the end puts this 42 dp button's center on the same line
+                        // as the locate and parking buttons and the compass (44 dp from the
+                        // edge), which only showed when the four stacked in landscape (#778).
+                        .padding(top = if (landscapeChrome) 74.dp else 128.dp, end = 23.dp),
                 ) {
                     Surface(
                         color = mapButtonColor(darkTheme),

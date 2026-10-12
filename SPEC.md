@@ -4901,7 +4901,10 @@ reuses it.
 - The locate, parking and layers buttons share `mapButtonColor`, `mapButtonInk` and
   `mapButtonRing`: a gray circle (`#3C4043`) with a white glyph and a faint ring in the dark
   themes, white with a gray ring in light, `primaryContainer` and no ring under wallpaper colors.
-  The locate glyph is blue. A saved parking spot tints the glyph, not the button.
+  The locate glyph is blue. A saved parking spot tints the glyph, not the button. Their centers all sit 44 dp from the screen's end
+  (a 56 dp button at 16 dp; the 42 dp layers button at 23 dp, the 48 dp parking button at 20
+  dp, the browse compass at 44 dp less half its image), so the four line up when they stack
+  in landscape.
 - `VelaProgressBar` (`ui/VelaProgress.kt`) is the only progress bar: rounded ends, null progress
   means indeterminate. `VelaProgressBarOf` takes the value as a lambda, so an animating bar is
   read in the draw phase.

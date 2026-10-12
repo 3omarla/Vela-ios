@@ -4823,8 +4823,11 @@ fun VelaMapView(
             }
         }
         val map = mapRef ?: return@AndroidView
-        // Keep the compass clear of the status bar (insets are ready post-layout).
-        map.uiSettings.setCompassMargins(0, compassTopPx, compassRightPx, 0)
+        // Keep the compass clear of the status bar (insets are ready post-layout). Browsing, its
+        // center sits MAP_BUTTON_CENTER_DP from the edge like the other map buttons (#778); the
+        // drive compass is 56 dp at NAV_FAB_EDGE_DP, which is the same line.
+        val browseRight = with(density) { MAP_BUTTON_CENTER_DP.roundToPx() } - (map.uiSettings.compassImage?.intrinsicWidth ?: 0) / 2
+        map.uiSettings.setCompassMargins(0, compassTopPx, if (navMode) compassRightPx else browseRight.coerceAtLeast(0), 0)
         // In a drive the compass wears the nav buttons' dress and size; browsing keeps the map's own.
         if (compassStock[0] == null) compassStock[0] = map.uiSettings.compassImage
         val wantNavCompass = navMode
@@ -9230,6 +9233,9 @@ private fun puckSnapTolerance(drive: Boolean, speedMps: Double, accuracyM: Float
  *  route stays within a lane of it, a car that drove past the turn is a lane and more off
  *  within a second (issue #745). */
 private const val PUCK_LEAVE_NOW_M = 12.0
+
+/** How far the center of every map button sits from the screen's end: a 56 dp button at 16 dp. */
+private val MAP_BUTTON_CENTER_DP = 44.dp
 
 /** Smallest absolute difference between two compass bearings (deg), 0..180. */
 private fun angleDelta(a: Float, b: Float): Float = kotlin.math.abs((a - b + 540f) % 360f - 180f)
