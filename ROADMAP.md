@@ -104,38 +104,13 @@ or a URL for a WebView is open. Nav state and input are the same for both.
 
 ## In progress
 
-Bigger pieces, each on its own branch and draft pull request against `canary`, tested one at a
-time on a phone before it lands (2026-10-11).
+Contributor pull requests under review (2026-10-12), each read in full and built here before it
+lands:
 
-- Android Auto map parity (#749, branch `aa-map`): heading-up free drive on the car map, a
-  drive mode without a route, tilt while navigating, zoom by speed checked, traffic on the car
-  map, the palette matched to the phone's. Tested on the desktop head unit.
-- More map looks (#750, branch `map-styles`, pull request #764): Settings > Appearance > Map
-  look picks OpenFreeMap's Bright, Positron, Fiord or Dark beside the Vela look on Liberty, on
-  the same tiles. The label language and Vela's own layers run on every look; the palettes, road
-  widths, icons and extra fills stay with the Vela look. Built; checked on a Pixel 4a online in
-  each look, and offline over an installed region in Dark and Fiord, where a look with no cached
-  style drew stock Liberty under the look's colors: fixed, the Liberty asset is now painted as
-  the Vela look in the look's light or dark, and the cache survives having no network. The
-  car map was seen in the Dark look on the Desktop Head Unit, the same look as the phone, and
-  back on the Vela look after. Not checked: the offline fallback and the no-network guard
-  after the fix, seen only for Dark and Fiord online then offline over one region. With #763 beside this, `CarStyle.inject` puts the car's twin fills into the patched style only for the Vela look.
-- Swipe actions on lists and history (#748, branch `lists-swipe`, pull request #765): swipe a
-  list to edit or delete and a recent row to remove it, with a haptic tick; a drag handle in
-  place of the arrows and the pencil; long press to select several lists; the sheet on a
-  raised tone in the dark theme; Draw and New as icons; Clear recents as a button by the
-  heading. Built; checked on a Pixel 4a by touch and by keypad: Right from a row to its handle
-  and Left back, Down from a row to the next row, Up and Down on the handle moving the list, OK
-  on it opening the editor, a held OK on a row starting selection, the trash asking before it
-  deletes, and focus from New or from below the rows landing on a row. Not checked: a physical
-  keypad (the checks injected keys over adb), and the sheet with one list, where a pencil stands
-  in for the handle. Open: the overflow button on a recent search row cannot be reached by key,
-  since it sits inside the focused row as on every `SuggestionRow`, so a recent row has no key
-  path to Remove from history.
-- Romanian spoken guidance (#759, branch `romanian-voice`): the spoken phrase table, and the
-  Piper `ro_RO-mihai` voice in the library.
-- Google Takeout list CSVs (#761, branch `takeout-csv`): the per-list CSVs carry a title and a
-  Google link per row and no coordinates, so each row is one lookup; imported as a list each.
+- Timed speed limits from `maxspeed:conditional` (#728): the badge follows "130 @ (19:00-06:00)"
+  by the phone's clock on the streamed tiles. Needs a maxspeed rebake before anything changes.
+- Bridge openings in the Netherlands (#729): NDW's open feed, announced within 5 km of a movable
+  bridge on the route that is open or opens as you reach it.
 
 ## Next up
 
@@ -234,6 +209,18 @@ off the list when it has been.
 - The project's links from one place (`VelaLinks`) with a signed `links` push to move them
   (SPEC 11.4). Unit-tested; no bundle with `links` has been pushed yet, so a move has not been
   rehearsed.
+- The map looks (#764): the offline fallback and the no-network guard were seen once, for Dark
+  and Fiord online then offline over one region.
+- The lists sheet (#765): a physical keypad, and the sheet with one list, where a pencil stands
+  in for the handle. Open: the overflow button on a recent search row cannot be reached by key,
+  since it sits inside the focused row as on every `SuggestionRow`, so a recent row has no key
+  path to Remove from history.
+- Romanian guidance (#766): the phrases need a native speaker. After the merge the transit words
+  need a signed settings push: `stație`, `gară` and `autogară` into `transitCategoryWords`,
+  `benzinărie` and `încărcare` into `transitExcludeWords`, since a pushed list replaces the
+  compiled one. The status words need no push.
+- Takeout lists (#767): a real Takeout export, and the import carrying on after Settings is
+  left with its outcome on the status card.
 - A reroute after a wrong turn on a trip with stops. The simulated drive cannot leave its route.
 - UK fuel prices on a phone in the UK.
 
