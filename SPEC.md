@@ -2259,7 +2259,7 @@ since a cluster's centroid sits in the junction's middle. The corridor fetch is 
   directions and the drive's speaker button, which steps On, Alerts only, Off, On
   (`MapViewModel.setVoiceMode`, prefs `spoken_directions` and `spoken_alerts_only`,
   `VoiceGuide.muted` and `alertsOnly`, the holder `VoiceAlertsOnly` for the hold control). In
-  Alerts only the speeding, speed camera and plate camera alerts play `VoiceGuide.alertChime`,
+  Alerts only the speeding, speed camera, plate camera and bridge alerts play `VoiceGuide.alertChime`,
   two short notes at 1046.5 Hz, instead of their spoken line (`NavController.alert`); every
   other chime and every prompt stays silent. Off is silent throughout. The car's own toggle sets
   On or Off and leaves Alerts only (`CarVoice`), writing the same two prefs; the phone's state
@@ -2272,8 +2272,9 @@ since a cluster's centroid sits in the junction's middle. The corridor fetch is 
   else "opening planned at" for a planned opening within `MARGIN_MS` (3 min) of the time you reach
   it, from the route's remaining time per meter. A planned bridge that opens is announced again.
   `beingTerminated` records are dropped, and an "open" record older than `MAX_OPEN_MS` (60 min)
-  is ignored: the feed keeps some that were never closed. The alert is the card for 6 s, the voice and a car
-  toast. A recorded-trip replay asks nothing.
+  is ignored: the feed keeps some that were never closed. The alert is the card for 6 s, the voice
+  (a chime in Alerts only, like the camera alerts) and a car toast. A recorded-trip replay asks
+  nothing.
 
 #### Street callouts
 

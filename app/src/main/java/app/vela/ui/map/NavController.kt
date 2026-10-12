@@ -1268,7 +1268,7 @@ internal class NavController(
         app.vela.car.CarBridge.toast(msg)
     }
 
-    /** A speeding, camera or Flock alert: spoken, or a chime in "Alerts only", or nothing with the
+    /** A speeding, camera, Flock or bridge alert: spoken, or a chime in "Alerts only", or nothing with the
      *  voice off (issue 735). The chime checks the mode itself. */
     private fun alert(msg: String) {
         if (voice.muted) voice.alertChime() else voice.speak(msg)
@@ -1349,7 +1349,7 @@ internal class NavController(
         }
         android.util.Log.i("VelaBridge", "alert $kind for bridge ${alert.index + 1} of ${routeBridges.size}")
         host.flashStatus(msg, 6000L)
-        voice.speak(msg)
+        alert(msg) // a chime in Alerts only, like the camera alerts
         app.vela.car.CarBridge.toast(msg)
     }
 
