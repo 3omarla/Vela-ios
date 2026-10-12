@@ -104,13 +104,9 @@ or a URL for a WebView is open. Nav state and input are the same for both.
 
 ## In progress
 
-Contributor pull requests under review (2026-10-12), each read in full and built here before it
-lands:
-
-- Timed speed limits from `maxspeed:conditional` (#728): the badge follows "130 @ (19:00-06:00)"
-  by the phone's clock on the streamed tiles. Needs a maxspeed rebake before anything changes.
-- Bridge openings in the Netherlands (#729): NDW's open feed, announced within 5 km of a movable
-  bridge on the route that is open or opens as you reach it.
+Nothing on a branch at the moment (2026-10-12). Contributor pull requests are read in full and
+built here before they land; what each one still needs is under "Built, not yet checked on a
+drive".
 
 ## Next up
 
@@ -224,6 +220,13 @@ off the list when it has been.
   compiled one. The status words need no push.
 - Takeout lists (#767): a real Takeout export, and the import carrying on after Settings is
   left with its outcome on the status card.
+- Timed speed limits from `maxspeed:conditional` (#728, Malse-Makker): the parser is
+  unit-tested on the Dutch tags and the badge still reads the streamed tiles on a simulated
+  drive. Nothing changes on a phone until the maxspeed tiles are rebaked with the tag kept, so
+  the 130 at night has not been seen.
+- Bridge openings in the Netherlands (#729, Malse-Makker): seen on a Pixel 4a against the live
+  NDW feed on simulated drives, a planned opening's card with the right clock time, an open
+  bridge's card and spoken line, and the chime in Alerts only. Not seen: a real drive.
 - A reroute after a wrong turn on a trip with stops. The simulated drive cannot leave its route.
 - UK fuel prices on a phone in the UK.
 
