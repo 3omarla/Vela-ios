@@ -2008,14 +2008,24 @@ class GoogleMapsDataSource @Inject constructor(
         if (app.vela.core.data.NoGoogle.enabled) return@io null
         runCatching {
             session.ensure()
-            val html = get(shareUrl.trim(), kind = "shared list")
-            val href = Regex("""(/maps/preview/entitylist/getlist\?[^"'\s]+)""")
-                .find(html)?.groupValues?.get(1)
-                ?.replace("&amp;", "&")
-                // The page asks for the first 500 (`!4i500` in the pb); the endpoint answers a
-                // bigger count as asked (971 of 971 at 2000 and at 5000, 2026-10-11, issue #755).
-                ?.replace("%214i500", "%214i$LIST_PAGE_SIZE")?.replace("!4i500", "!4i$LIST_PAGE_SIZE")
-                ?: return@runCatching null
+            // The endpoint answers from the list id alone, with no token from the page (971 of
+            // 971, 2026-10-12). The share page used to carry the request as a link; since
+            // 2026-10 the shortener lands on a page that holds only the id, so the request is
+            // built here, and the page is read only for a link whose form carries no id.
+            val id = app.vela.core.data.ShortLinks.listId(shareUrl)
+            val href = if (id != null) {
+                "/maps/preview/entitylist/getlist?authuser=0&hl=en&gl=us&pb=" +
+                    "!1m4!1s${id.enc()}!2e1!3m1!1e1!2e2!3e2!4i$LIST_PAGE_SIZE!28e2!16b1"
+            } else {
+                val html = get(shareUrl.trim(), kind = "shared list")
+                Regex("""(/maps/preview/entitylist/getlist\?[^"'\s]+)""")
+                    .find(html)?.groupValues?.get(1)
+                    ?.replace("&amp;", "&")
+                    // The page asks for the first 500 (`!4i500` in the pb); the endpoint answers a
+                    // bigger count as asked (issue #755).
+                    ?.replace("%214i500", "%214i$LIST_PAGE_SIZE")?.replace("!4i500", "!4i$LIST_PAGE_SIZE")
+                    ?: return@runCatching null
+            }
             EntityListParser.parse(get("https://www.google.com$href", kind = "shared list", client = largeReplyHttp))
         }.getOrNull()
     }

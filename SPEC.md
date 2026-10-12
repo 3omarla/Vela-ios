@@ -268,7 +268,7 @@ No request carries a key or an account. A bundle is rejected unless `searchEndpo
 | Photos | `POST .../batchexecute?rpcids=hspqX` (3.7); the page walk as fallback and for photo categories |
 | Reviews | hidden scrape of the place's `?cid=` page; the `qv9Egd` feed behind `nativeReviewFeed` (3.7) |
 | Place details | the search endpoint with name plus address (`placeDetails`); the details page as last resort |
-| Shared list | `/maps/preview/entitylist/getlist`, URL lifted from the share page (3.5) |
+| Shared list | `/maps/preview/entitylist/getlist`, the request built from the list id in the share link, or lifted from the share page for a link without one (3.5) |
 | My Maps | `GET /maps/d/kml?mid=<id>&forcekml=1` (5.6) |
 | Transit directions | hidden WebView on `/maps/dir/<o>/<d>/data=!4m2!4m1!3e3` (section 8) |
 | Street View metadata | `POST` to `Calibration.STREETVIEW_SEARCH_URL`; by pano id `photometa/v1` (10.7) |
@@ -420,12 +420,16 @@ Not reachable without a key or a login. Each was probed and settled:
 ### 3.5 Shared-list import
 
 A `maps.app.goo.gl` link fetched logged out redirects to
-`/maps/@/data=!4m3!11m2!2s<listId>!3e3`. That page's HTML embeds a ready-made URL for the
-getlist RPC, with the list id and page session token in it. `GoogleMapsDataSource.importList`
-lifts the URL by regex, unescapes `&amp;` and raises the page's own count (`!4i500`) to
-`LIST_PAGE_SIZE` (5000): the endpoint answers as many as asked (a 971-place list came back
-whole at 2000 and at 5000, 2026-10-11, issue #755), and the reply rides the large-reply client.
-No pb is built. Response after the guard
+`/maps/@/data=!4m3!11m2!2s<listId>!3e3`. `ShortLinks.listId` reads the id off that target
+(or off the older `/maps/placelists/list/<id>` page), and `GoogleMapsDataSource.importList`
+builds the getlist request from it: `pb=!1m4!1s<id>!2e1!3m1!1e1!2e2!3e2!4i<LIST_PAGE_SIZE>!28e2!16b1`,
+with no token from the page; the endpoint answers from the id alone (971 of 971 at 5000,
+2026-10-12). The share page used to embed that request as a link with a session token and the
+page's own count (`!4i500`); since 2026-10 it carries only the id, which is why a link's page
+is read only when its form carries no id, and then the embedded link is lifted by regex, its
+`&amp;` unescaped and its count raised to `LIST_PAGE_SIZE` (5000, issue #755). The reply rides
+the large-reply client. The view model hands `importList` the resolved target, not the short
+link. Response after the guard
 (`EntityListParser`): `root[0][4]` title, `[5]` description, `[3][0]` author, `[8]` items.
 Each item: `[2]` display name, `[3]` the owner's note, `[1][4]` address, `[1][5][2..3]`
 coordinates, `[1][6]` feature id as a pair of decimal signed int64, whose two's-complement hex,

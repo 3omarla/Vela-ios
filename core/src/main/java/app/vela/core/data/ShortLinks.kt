@@ -18,8 +18,20 @@ object ShortLinks {
 
     fun isShortener(url: String): Boolean = hostOf(url) in SHORTENER_HOSTS
 
-    /** A shared LIST lands on `/maps/placelists/...`; its places live on Google's servers. */
-    fun isList(url: String): Boolean = "/maps/placelists" in url || "/entitylist/" in url
+    /** A shared LIST; its places live on Google's servers. */
+    fun isList(url: String): Boolean = "/maps/placelists" in url || "/entitylist/" in url || listId(url) != null
+
+    /** The list's id from a share link's target: the older `/maps/placelists/list/<id>` page, or
+     *  the form the shortener answers with since 2026-10, `/maps/@/data=...!11m2!2s<id>!3e3`,
+     *  where the id sits in the data blob and the page carries nothing else. */
+    fun listId(url: String): String? {
+        val u = runCatching { URLDecoder.decode(url, "UTF-8") }.getOrDefault(url)
+        LIST_PATH.find(u)?.let { return it.groupValues[1] }
+        return LIST_DATA.find(u)?.groupValues?.get(1)
+    }
+
+    private val LIST_PATH = Regex("""/maps/placelists/list/([A-Za-z0-9_-]+)""")
+    private val LIST_DATA = Regex("""!11m2!2s([A-Za-z0-9_-]+)!3e""")
 
     /** The next URL to read from a redirect: an EU consent interstitial carries the real target
      *  in its `continue` parameter, which is unwrapped here rather than requested. */

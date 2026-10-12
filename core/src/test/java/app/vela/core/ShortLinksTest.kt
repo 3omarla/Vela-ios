@@ -17,6 +17,13 @@ class ShortLinksTest {
         assertTrue(ShortLinks.isShortener("goo.gl/maps/AbC123"))
         assertFalse(ShortLinks.isShortener("https://www.google.com/maps/place/Davis+Food+Co-op"))
         assertTrue(ShortLinks.isList("https://www.google.com/maps/placelists/list/AbC?g_ep=x"))
+        assertEquals("AbC", ShortLinks.listId("https://www.google.com/maps/placelists/list/AbC?g_ep=x"))
+        // The form the shortener answers with since 2026-10: the id in the data blob.
+        val tts = "https://www.google.com/maps/@/data=!3m1!4b1!4m3!11m2!2sdAMozPGd2lZ3XrtyEI3LpUGNsrgG1Q!3e3?entry=tts&g_ep=x"
+        assertTrue(ShortLinks.isList(tts))
+        assertEquals("dAMozPGd2lZ3XrtyEI3LpUGNsrgG1Q", ShortLinks.listId(tts))
+        assertEquals("dAMozPGd2lZ3XrtyEI3LpUGNsrgG1Q", ShortLinks.listId(tts.replace("!", "%21")))
+        assertNull(ShortLinks.listId("https://www.google.com/maps/place/Davis+Food+Co-op/@38.5,-121.7,17z/data=!4m2!3m1!1s0x1:0x2"))
         assertFalse(ShortLinks.isList("https://www.google.com/maps/place/Davis+Food+Co-op/@38.5,-121.7,17z"))
     }
 

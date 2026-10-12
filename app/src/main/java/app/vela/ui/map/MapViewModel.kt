@@ -2588,7 +2588,9 @@ class MapViewModel @Inject constructor(
                     toast(if (target != null && app.vela.core.data.ShortLinks.isList(target)) R.string.map_import_needs_google else R.string.map_link_unreadable)
                     return@launch
                 }
-                val imported = withContext(Dispatchers.IO) { runCatching { dataSource.importList(q) }.getOrNull() }?.copy(sourceId = "list:${q.trim()}")
+                // The resolved target, so the import can read the list id off it; the saved
+                // list keeps the link as typed.
+                val imported = withContext(Dispatchers.IO) { runCatching { dataSource.importList(target ?: q) }.getOrNull() }?.copy(sourceId = "list:${q.trim()}")
                 if (imported != null && imported.places.isNotEmpty()) {
                     // Show the places as results and OFFER to save (a banner over the results),
                     // rather than silently persisting a list on every peeked link — user choice
