@@ -141,6 +141,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -4083,6 +4084,18 @@ private fun ReviewsTab(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 if (sortable) {
+                    // The search chip leads: on a narrow phone the row's last chip sits off the edge
+                    // until a swipe (issue #788). A rule parts it from the sort choices.
+                    FilterChip(
+                        selected = reviewSearchOpen,
+                        onClick = {
+                            reviewSearchOpen = !reviewSearchOpen
+                            if (!reviewSearchOpen) reviewQuery = "" // a hidden filter must not keep filtering
+                        },
+                        label = { Icon(Sym.Search, contentDescription = stringResource(R.string.place_search_reviews), modifier = Modifier.size(18.dp)) },
+                        shape = CircleShape, modifier = Modifier.dpadHighlight(CircleShape),
+                    )
+                    VerticalDivider(modifier = Modifier.height(24.dp), color = dim.copy(alpha = 0.4f))
                     listOf(
                         0 to R.string.place_sort_relevant,
                         1 to R.string.place_sort_highest,
@@ -4094,15 +4107,6 @@ private fun ReviewsTab(
                             modifier = Modifier.dpadHighlight(CircleShape),
                         )
                     }
-                    FilterChip(
-                        selected = reviewSearchOpen,
-                        onClick = {
-                            reviewSearchOpen = !reviewSearchOpen
-                            if (!reviewSearchOpen) reviewQuery = "" // a hidden filter must not keep filtering
-                        },
-                        label = { Icon(Sym.Search, contentDescription = stringResource(R.string.place_search_reviews), modifier = Modifier.size(18.dp)) },
-                        shape = CircleShape, modifier = Modifier.dpadHighlight(CircleShape),
-                    )
                 }
             }
         }
