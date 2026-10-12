@@ -217,6 +217,12 @@ map fonts, road features, cameras, grid cells, UK fuel prices. Those files exist
 fonts (`/fonts`) and the docs site (`/docs`) together. A second Pages workflow would replace
 all of it. Never rerun only a failed deploy job; start a fresh run.
 
+The same workflow also publishes the landing page, the press page and the press kit to
+velamaps.org (Cloudflare Pages, project `velamaps`). That is the website only. `/repo`, `/fonts`
+and `/docs` live at the GitHub Pages address and must stay there: installed apps fetch their map
+fonts from it and every F-Droid client points at it. Do not set a custom domain on the GitHub
+Pages site, which would turn that address into a redirect.
+
 ### Keys
 
 - App signing: `~/.vela-signing/vela-release.jks`, repo secrets `VELA_KEYSTORE_*`. The
