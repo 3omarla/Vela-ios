@@ -15,7 +15,8 @@ package app.vela.core.config
  * Moving house: push a bundle whose `links` name the new places while the old ones still
  * answer. Every app that fetches it keeps the bundle and applies it at the next launch, so it
  * asks the new places from then on, the settings file included. Then change the defaults here
- * for the next release.
+ * for the next release. If GitHub stops answering first, the copy of the settings file on the
+ * website ([CALIBRATION_MIRROR], published by the site workflow) carries that bundle instead.
  */
 object VelaLinks {
     const val REPO = "repo"
@@ -27,6 +28,7 @@ object VelaLinks {
     const val DONATE = "donate"
     const val PRIVACY = "privacy"
     const val CALIBRATION = "calibration"
+    const val CALIBRATION_MIRROR = "calibrationMirror"
     const val OBF_MANIFEST = "obfManifest"
     const val OVERLAY_MANIFEST = "overlayManifest"
     const val MAXSPEED_MANIFEST = "maxspeedManifest"
@@ -61,6 +63,8 @@ object VelaLinks {
     private val DERIVED: Map<String, Pair<String, String>> = mapOf(
         PRIVACY to (REPO to "/blob/main/PRIVACY.md"),
         CALIBRATION to (RAW to "/calibration.json"),
+        // The same file and signature on the website, off GitHub, for when GitHub does not answer.
+        CALIBRATION_MIRROR to (SITE to "/calibration.json"),
         OBF_MANIFEST to (RELEASES to "/obf-regions/obf-manifest.json"),
         OVERLAY_MANIFEST to (RELEASES to "/building-overlays/building-overlay-manifest.json"),
         MAXSPEED_MANIFEST to (RELEASES to "/maxspeed-overlays/maxspeed-overlay-manifest.json"),
@@ -113,6 +117,7 @@ object VelaLinks {
     fun privacy(): String = get(PRIVACY)
     fun calibration(): String = get(CALIBRATION)
     fun calibrationSig(): String = calibration() + ".sig"
+    fun calibrationMirror(): String = get(CALIBRATION_MIRROR)
     fun obfManifest(): String = get(OBF_MANIFEST)
     fun overlayManifest(): String = get(OVERLAY_MANIFEST)
     fun maxspeedManifest(): String = get(MAXSPEED_MANIFEST)

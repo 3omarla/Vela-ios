@@ -547,9 +547,10 @@ keeping projects that toe a line. It is also one account that can be closed. Wha
 break, measured 2026-10-11, worst first.
 
 - Installed apps. Builds before `VelaLinks` carry `api.github.com` and
-  `raw.githubusercontent.com` as literals. Builds with it fetch the settings file from GitHub
-  first and GitHub second, so no signed `links` push can reach them either. The updater reads
-  GitHub's release JSON; Forgejo's has the same fields, GitLab's does not.
+  `raw.githubusercontent.com` as literals, and no push can reach them. Builds from 2026-10-12
+  on read the settings file from the website's copy when GitHub does not answer, so a signed
+  `links` push there moves them. The updater reads GitHub's release JSON; Forgejo's has the
+  same fields, GitLab's does not.
 - The data releases: 56,470 files, 369 GB, about 18 TB served a month. No git host replaces
   that (GitLab's free storage is 10 GB). An object store with free egress (Cloudflare R2, about
   six dollars a month at this size) does. Every manifest embeds absolute `github.com` asset
@@ -571,10 +572,13 @@ break, measured 2026-10-11, worst first.
 Not touched: the three signing keys (local only), velamaps.org, OpenFreeMap, the Piper voices
 (another account's releases), the donation page.
 
-Insurance, cheapest first, none built:
+Insurance, cheapest first. The first is built (2026-10-12: the site workflow publishes
+`calibration.json` and its signature to velamaps.org, and `CalibrationStore` reads that copy
+after GitHub's); the rest are not:
 
 1. A second settings-file address off GitHub (velamaps.org), published by the same workflow
-   as the site, so a closed account becomes one signed `links` push.
+   as the site, so a closed account becomes one signed `links` push. Built. Not yet seen: an
+   app reading the copy with GitHub blocked.
 2. The F-Droid repository mirrored on R2 behind a velamaps.org address, listed in the index as
    a mirror so clients fail over by themselves, and in the README.
 3. Manifest asset URLs rebased app-side onto the `releases` link, so a storage move is a push,

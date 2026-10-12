@@ -16,6 +16,7 @@ class VelaLinksTest {
         assertEquals("https://github.com/PimpinPumpkin/Vela/releases/download/obf-regions/obf-manifest.json", VelaLinks.obfManifest())
         assertEquals("https://raw.githubusercontent.com/PimpinPumpkin/Vela/main/calibration.json", VelaLinks.calibration())
         assertEquals(VelaLinks.calibration() + ".sig", VelaLinks.calibrationSig())
+        assertEquals("https://velamaps.org/calibration.json", VelaLinks.calibrationMirror())
         assertEquals("https://pimpinpumpkin.github.io/Vela/fonts", VelaLinks.mapFonts())
         assertEquals("https://velamaps.org", VelaLinks.site())
         // The website and the Pages address are separate keys: moving the site leaves the fonts.

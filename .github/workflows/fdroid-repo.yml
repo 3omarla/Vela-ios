@@ -39,6 +39,9 @@ on:
       - 'docs/**'
       - 'scripts/build-docs-site.py'
       - 'scripts/build-site-privacy.py'
+      # The website carries a copy of the signed settings file; a settings push republishes it.
+      - 'calibration.json'
+      - 'calibration.json.sig'
   workflow_dispatch:
 
 permissions:
@@ -216,6 +219,9 @@ jobs:
         # `velamaps`). GitHub Pages keeps serving them too, and stays the only home of /repo,
         # /fonts and /docs: site/_redirects sends velamaps.org/docs there. Skipped until the
         # two secrets exist, so a fork or a fresh clone still deploys its GitHub Pages site.
+        # The signed settings file and its signature ride along: installed apps read this copy
+        # when GitHub does not answer (`VelaLinks.CALIBRATION_MIRROR`), so a closed account can
+        # still hand them a bundle whose links name the new home.
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
@@ -227,6 +233,7 @@ jobs:
           out=build/velamaps-site
           mkdir -p "$out"
           cp site/index.html site/press.html site/style.css site/_redirects fdroid/privacy.html fdroid/vela-press-kit.zip "$out/"
+          cp calibration.json calibration.json.sig "$out/"
           cp -r site/assets "$out/assets"
           npx --yes wrangler@4.143.0 pages deploy "$out" --project-name velamaps --branch main --commit-dirty=true
 

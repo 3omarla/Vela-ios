@@ -25,8 +25,9 @@ Most of this is invisible. It shows in four places:
   autocomplete, directions, the photo gallery, Street View and the place pages. Google serves
   them to any anonymous browser. The data is not open and has no license Vela can point to.
 - `calibration.json` at the root of the Vela repository, with its detached signature
-  `calibration.json.sig`, fetched from GitHub's raw file host at launch. It holds everything
-  about these requests that Google can break.
+  `calibration.json.sig`, fetched from GitHub's raw file host at launch, or from the copy on
+  velamaps.org when GitHub does not answer. It holds everything about these requests that
+  Google can break.
 - The community services (FOSSGIS OSRM and Valhalla, Nominatim, Photon, Overpass, Transitous)
   are covered in [chapter 5](05-routing.md), [chapter 6](06-search.md) and
   [chapter 9](09-transit.md). They and the calibration fetch are sent `VelaConfig.VELA_UA`
@@ -135,8 +136,8 @@ then rejects a blank value, anything outside printable ASCII and anything longer
 `CalibrationStore` starts from the cached bundle if one is on disk and its signature still
 verifies, and otherwise from the compiled `Calibration.DEFAULT`, so the app works with no
 network. Once per process, without blocking anything, it fetches `calibration.json` and its
-signature from the repository's `main` branch and adopts the remote bundle only if all three
-hold:
+signature from the repository's `main` branch, or from the website's copy when GitHub does not
+answer, and adopts the remote bundle only if all three hold:
 
 1. The signature verifies: ECDSA over P-256 with SHA-256, against `PINNED_PUBLIC_KEY`. The
    private key is never in the repository.

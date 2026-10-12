@@ -5385,7 +5385,9 @@ behind the matching holder.
 
 At launch `CalibrationStore` loads its cached bundle, then fetches `calibration.json` and the
 detached `calibration.json.sig` from
-`https://raw.githubusercontent.com/PimpinPumpkin/Vela/main/`. It adopts the remote bundle only if:
+`https://raw.githubusercontent.com/PimpinPumpkin/Vela/main/`, and when that does not answer
+from the copy on the website, `https://velamaps.org/calibration.json` (`VelaLinks`, 11.4). It
+adopts the remote bundle only if:
 
 1. the signature verifies (ECDSA P-256 with SHA-256 against `PINNED_PUBLIC_KEY`);
 2. every endpoint host is `google.com` or `www.google.com`;
@@ -5454,10 +5456,13 @@ links under known names are accepted; anything else rejects the bundle. A build'
 (`-PobfManifestUrl=` for a local server) wins over the default and loses to a pushed one.
 
 The settings file is asked for where the last bundle said it lives, then where the build was
-compiled to look. Moving the project: push a bundle whose `links` name the new places while
-the old ones still answer; each app keeps that bundle and applies it at the next launch, so it
-asks the new places from then on, the settings file included; then change the defaults in
-`VelaLinks` for the next release. The browser identity for the project's own requests
+compiled to look, then at the website's copy (`calibrationMirror`, pushed then compiled; the
+site workflow publishes `calibration.json` and its signature to velamaps.org on every change
+to them). Moving the project: push a bundle whose `links` name the new places while the old
+ones still answer; each app keeps that bundle and applies it at the next launch, so it asks
+the new places from then on, the settings file included; then change the defaults in
+`VelaLinks` for the next release. If GitHub stops answering before that push, the website's
+copy is where the bundle goes. The browser identity for the project's own requests
 (`VelaConfig.VELA_UA`) carries the repository link and follows it.
 
 ## 12. Degoogled constraints

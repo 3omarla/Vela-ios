@@ -258,6 +258,9 @@ signed file the app fetches at launch (SPEC 11).
 - Every link to the project itself (repository, releases, site, this file) comes from
   `VelaLinks` (SPEC 11.4), never a literal, so a moved repository or a renamed account is a
   signed `links` push and a defaults edit, not a hunt through the code.
+- The website carries a copy of the file and its signature (`fdroid-repo.yml` publishes them
+  with the site), and the app reads that copy when GitHub does not answer. Keep both files in
+  the same commit; the site deploys on a push to either.
 - Before pushing a change, run the health probe against it:
   `./gradlew :core:testDebugUnitTest --tests '*GoogleHealthProbeTest' -DvelaLive=true`.
 - Read the live file before saying a dial is off. Compiled defaults and fleet values differ.

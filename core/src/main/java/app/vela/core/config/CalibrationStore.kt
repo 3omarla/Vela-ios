@@ -60,10 +60,13 @@ class CalibrationStore @Inject constructor(
             runCatching {
                 // The file is asked for where the last bundle said it lives (a moved repository
                 // announces its new place through the old one first); when that does not answer,
-                // where this build was compiled to look.
+                // where this build was compiled to look; and when GitHub itself does not answer,
+                // the copy on the website, which is what makes a closed account one signed push.
                 val pushed = VelaLinks.calibration()
                 val compiledUrl = VelaLinks.default(VelaLinks.CALIBRATION)
-                val at = listOf(pushed, compiledUrl).distinct()
+                val mirror = VelaLinks.calibrationMirror()
+                val compiledMirror = VelaLinks.default(VelaLinks.CALIBRATION_MIRROR)
+                val at = listOf(pushed, compiledUrl, mirror, compiledMirror).distinct()
                 var body: String? = null
                 var sig: String? = null
                 for (url in at) {
