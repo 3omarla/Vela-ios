@@ -110,9 +110,18 @@ time on a phone before it lands (2026-10-11).
 - Android Auto map parity (#749, branch `aa-map`): heading-up free drive on the car map, a
   drive mode without a route, tilt while navigating, zoom by speed checked, traffic on the car
   map, the palette matched to the phone's. Tested on the desktop head unit.
-- More map looks (#750, branch `map-styles`): OpenFreeMap's Bright, Positron, Fiord and Dark
-  styles beside Liberty, on the same tiles; Vela's label, house-number and places passes are
-  keyed on Liberty's layer ids and get a mapping per style.
+- More map looks (#750, branch `map-styles`, pull request #764): Settings > Appearance > Map
+  look picks OpenFreeMap's Bright, Positron, Fiord or Dark beside the Vela look on Liberty, on
+  the same tiles. The label language and Vela's own layers run on every look; the palettes, road
+  widths, icons and extra fills stay with the Vela look. Built; checked on a Pixel 4a online in
+  each look, and offline over an installed region in Dark and Fiord, where a look with no cached
+  style drew stock Liberty under the look's colors: fixed, the Liberty asset is now painted as
+  the Vela look in the look's light or dark, and the cache survives having no network. The
+  car map was seen in the Dark look on the Desktop Head Unit, the same look as the phone, and
+  back on the Vela look after. Not checked: the offline fallback and the no-network guard
+  after the fix, seen only for Dark and Fiord online then offline over one region. Once #763
+  lands beside this, `CarStyle.inject` (the car's twin fills in the patched style JSON) must
+  be gated on `look.painted`.
 - Swipe actions on lists and history (#748, branch `lists-swipe`, pull request #765): swipe a
   list to edit or delete and a recent row to remove it, with a haptic tick; a drag handle in
   place of the arrows and the pencil; long press to select several lists; the sheet on a
