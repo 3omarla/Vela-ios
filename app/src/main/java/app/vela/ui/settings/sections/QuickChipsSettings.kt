@@ -23,7 +23,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -34,6 +33,7 @@ import app.vela.ui.QuickChipsPref
 import app.vela.ui.VelaSwitch
 import app.vela.ui.dpadClickable // D-pad-only operation (docs/dpad.md)
 import app.vela.ui.dpadHighlight
+import app.vela.ui.dpadRowSibling
 import app.vela.ui.icons.Sym
 import app.vela.ui.map.ReorderHandle
 import app.vela.ui.settings.GroupDivider
@@ -128,8 +128,11 @@ private fun ChipRow(
     onHeight: (Float) -> Unit,
 ) {
     // Focus arriving from another row lands on the switch, never the handle, where Up and Down
-    // would move the chip instead of walking the rows (the lists sheet's rule).
-    val switchFocus = remember { FocusRequester() }
+    // would move the chip instead of walking the rows (the lists sheet's rule). The page's column
+    // swallows a bare Left and Right, so the two are wired as row siblings: Right from the
+    // switch reaches the handle, Left returns.
+    val pair = remember { List(2) { FocusRequester() } }
+    val switchFocus = pair[0]
     Row(
         Modifier
             .fillMaxWidth()
@@ -152,7 +155,7 @@ private fun ChipRow(
             color = if (shown) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.weight(1f).padding(end = 12.dp),
         )
-        VelaSwitch(checked = shown, onCheckedChange = onShown, modifier = switchModifier.focusRequester(switchFocus))
+        VelaSwitch(checked = shown, onCheckedChange = onShown, modifier = switchModifier.dpadRowSibling(pair, 0))
         Spacer(Modifier.width(4.dp))
         // Drag moves the row; focused, Up and Down move it and OK flips the switch.
         ReorderHandle(
@@ -160,6 +163,7 @@ private fun ChipRow(
             onActivate = { onShown(!shown) },
             rowHeightPx = rowHeightPx,
             contentDescription = stringResource(R.string.list_reorder),
+            modifier = Modifier.dpadRowSibling(pair, 1),
         )
     }
 }
