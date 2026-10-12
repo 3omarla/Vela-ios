@@ -788,7 +788,7 @@
     <string name="suggestion_contact_badge">Kontakt</string>
     <string name="settings_speed_cams">Fotoradary</string>
     <string name="settings_speed_cam_warn">Ostrzegaj głosowo</string>
-    <string name="settings_speed_cam_warn_hint">Mówi „Fotoradar przed tobą”, gdy podczas nawigacji zbliżasz się do jednego z nich, z około dwunastosekundowym wyprzedzeniem. Podlega ustawieniu wskazówek głosowych. Ostrzeganie o fotoradarach podczas jazdy jest w niektórych krajach zabronione, dlatego jest wyłączone, dopóki tego nie włączysz.</string>
+    <string name="settings_speed_cam_warn_hint">Mówi „Fotoradar przed tobą” gdy podczas nawigacji zbliżasz się do jednego z nich z około dwunastosekundowym wyprzedzeniem. Podlega ustawieniu wskazówek głosowych. Ostrzeganie o fotoradarach podczas jazdy jest w niektórych krajach zabronione dlatego jest wyłączone dopóki tego nie włączysz.</string>
     <string name="nav_speed_camera_ahead">Fotoradar przed tobą</string>
     <string name="settings_flock_nav_card">Ostrzeżenie o kamerach tablic rejestracyjnych</string>
     <string name="settings_flock_nav_card_hint">Podczas nawigacji pokazuje kartę, gdy zbliżasz się do kamery odczytującej tablice rejestracyjne na twojej trasie. Kamery skierowane na drogę poprzeczną są pomijane. Domyślnie wyłączone.</string>
@@ -1164,7 +1164,7 @@
     <string name="nav_end_confirm_keep">Jedź dalej</string>
     <string name="settings_parking_button">Przycisk parkowania</string>
     <string name="settings_parking_button_hint">Przycisk P na mapie, który zapisuje miejsce parkowania. Wyłączone: widać go tylko, gdy miejsce jest zapisane.</string>
-    <string name="map_layers_places">Miejsca: %1$s</string>
+    <string name="map_layers_places">Umieść ikony: %1$s</string>
     <string name="settings_two_finger_tilt">Pochylanie dwoma palcami</string>
     <string name="settings_two_finger_tilt_hint">Przeciągnij dwoma palcami w górę lub w dół, aby pochylić mapę do widoku 3D. Wyłączone: uszczypnięcie zawsze tylko zmienia powiększenie.</string>
     <string name="settings_speed_display">Pokazuj prędkość i ograniczenie prędkości</string>
