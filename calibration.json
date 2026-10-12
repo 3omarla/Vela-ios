@@ -1,6 +1,6 @@
 {
   "_comment": "Vela scraper calibration — remotely updatable. The app fetches this file from the repo at launch and adopts it when 'version' is HIGHER than the version compiled into the installed build (Calibration.DEFAULT). To ship a fix without an app update: edit the drifted field(s) below, BUMP 'version', and commit to main. Endpoint hosts must stay on google.com (the app rejects anything else). Field-index paths the parsers read are still compiled in (a later phase).",
-  "version": 25,
+  "version": 26,
   "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36",
   "secChUa": "\"Google Chrome\";v=\"155\", \"Chromium\";v=\"155\", \"Not(A:Brand\";v=\"24\"",
   "chromeFullVersion": "155.0.8059.12",
@@ -214,7 +214,11 @@
     "станція",
     "megálló",
     "állomás",
-    "pályaudvar"
+    "pályaudvar",
+    "stație",
+    "statie",
+    "gară",
+    "autogară"
   ],
   "transitExcludeWords": [
     "gas",
@@ -258,7 +262,11 @@
     "\\btv\\b",
     "pompiers",
     "bomberos",
-    "feuerwehr"
+    "feuerwehr",
+    "benzinărie",
+    "benzinarie",
+    "încărcare",
+    "incarcare"
   ],
   "_tuning_comment": "Fleet-tunable numeric dials, read via Calibration.tune(key, compiledDefault). A missing key = the compiled default; a non-number is skipped. browseZoom trio = the browse fly-to zooms (standard / plain recenter / recenter with a sheet up); overlayCoverFrac = OSM coverage above which the Microsoft building overlay hides; ambientFanoutPermits = parallel scrape parses (restart-applied); ambientCapMin/Max = the zoom-tiered on-screen POI cap.",
   "tuning": {
