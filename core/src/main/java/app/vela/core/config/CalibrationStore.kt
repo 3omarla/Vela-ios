@@ -70,13 +70,17 @@ class CalibrationStore @Inject constructor(
                 var body: String? = null
                 var sig: String? = null
                 for (url in at) {
-                    body = fetch(url) ?: continue
-                    sig = fetch("$url.sig") ?: continue
+                    // A host that does not resolve, refuses or times out moves on to the next
+                    // address, as a non-2xx reply does; and so does a copy that answers with the
+                    // wrong bytes (a site's catch-all page, a stale mirror). Reject anything we
+                    // didn't sign: this is what makes pushing CODE safe.
+                    val b = fetchQuiet(url) ?: continue
+                    val s = fetchQuiet("$url.sig") ?: continue
+                    if (!verifySignature(b.toByteArray(Charsets.UTF_8), s)) continue
+                    body = b; sig = s
                     break
                 }
                 if (body == null || sig == null) return@runCatching
-                // Reject anything we didn't sign — this is what makes pushing CODE safe.
-                if (!verifySignature(body.toByteArray(Charsets.UTF_8), sig)) return@runCatching
                 val remote = parseBundle(body) ?: return@runCatching
                 if (remote.version > active.version && isAllowed(remote)) {
                     runCatching {
@@ -90,6 +94,8 @@ class CalibrationStore @Inject constructor(
             }
         }
     }
+
+    private fun fetchQuiet(url: String): String? = runCatching { fetch(url) }.getOrNull()
 
     private fun fetch(url: String): String? {
         // Vela's own repo — the honest, contactable identifier, not the scrape's browser UA.

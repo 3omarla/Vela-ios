@@ -2438,10 +2438,9 @@ fun MapScreen(
                     .align(Alignment.BottomEnd)
                     .navigationBarsPadding()
                     .padding(16.dp)
-                    .padding(bottom = chromeLift)
-                    .mapButtonEdge(darkTheme), // last, so the ring hugs the button and not its padding
+                    .padding(bottom = chromeLift),
             ) {
-                LocateGlyph(darkTheme)
+                LocateGlyph(darkTheme) // draws the ring itself
             }
             // The parking button, its menu and its history sheet (ParkingControl, below).
             ParkingControl(state, vm, darkTheme, chromeLift)
@@ -2583,8 +2582,7 @@ fun MapScreen(
                                 -16.dp.roundToPx(),
                                 sheetEdge.top.value - 72.dp.roundToPx(),
                             )
-                        }
-                        .mapButtonEdge(darkTheme),
+                        },
                 ) {
                     LocateGlyph(darkTheme)
                 }
@@ -3017,11 +3015,6 @@ private fun LocateGlyph(dark: Boolean) {
 private fun mapButtonRing(dark: Boolean): BorderStroke? =
     if (app.vela.ui.theme.wallpaperColorsInUse()) null
     else BorderStroke(1.dp, if (dark) Color.White.copy(alpha = if (isAppInAmoled()) 0.22f else 0.14f) else Color(0xFFDADCE0))
-
-/** The ring as a modifier, for the buttons that are stock FABs rather than a Surface. */
-@Composable
-private fun Modifier.mapButtonEdge(dark: Boolean): Modifier =
-    mapButtonRing(dark)?.let { ring -> this.border(ring, CircleShape) } ?: this
 
 /** How many leading search results the map frames (the list holds the rest). */
 private const val SEARCH_FIT_LEAD = 12
@@ -5107,6 +5100,8 @@ private fun SearchEntryContent(
                 }
             }
             merged.forEach { entry ->
+              // Keyed, or a row removed by its swipe hands its slid-out state to the next one.
+              androidx.compose.runtime.key(entry) {
                 when (entry) {
                     is RecentPlace -> {
                         // Long-press OR the ⋮ opens the same manage menu as the typing view (issue
@@ -5175,6 +5170,7 @@ private fun SearchEntryContent(
                     }
                 }
                 Divider()
+              }
             }
         }
         if (saved.isEmpty() && recents.isEmpty() && recentPlaces.isEmpty()) {

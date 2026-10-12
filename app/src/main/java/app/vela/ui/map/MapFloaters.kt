@@ -71,7 +71,9 @@ private fun BoxScope.StreetViewThumb(state: MapUiState, vm: MapViewModel, sheetT
     }
     // No picture (no signal, or Google refused it): no box either. The Street View button on the
     // card is still the way in.
-    var failed by remember(url) { mutableStateOf(false) }
+    // Per place, not per picture: two neighbors can share a pano, and the first one's refusal
+    // must not hide the second's box.
+    var failed by remember(place.id) { mutableStateOf(false) }
     if (failed) return
     val shape = RoundedCornerShape(12.dp)
     val panel = sidePanelWidth()

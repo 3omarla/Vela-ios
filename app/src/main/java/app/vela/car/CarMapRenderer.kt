@@ -752,9 +752,14 @@ class CarMapRenderer(
 
     private fun patchedStyleReady(): Boolean = app.vela.ui.map.MapFonts.effective(app.vela.ui.MapLook.style.value.uri).startsWith("file://")
 
+    // Once per session: a patched file that is listed but cannot be read would otherwise rebuild
+    // the snapshotter from inside its own surface callback without end.
+    private var reloadedForPatched = false
+
     /** Rebuilds the snapshotter on the patched style when it has appeared since the plain one loaded. */
     private fun reloadIfPatched(): Boolean {
-        if (!loadedPlain || !patchedStyleReady() || surface == null) return false
+        if (!loadedPlain || reloadedForPatched || !patchedStyleReady() || surface == null) return false
+        reloadedForPatched = true
         runCatching { snapshotter?.cancel() }
         snapshotter = null
         snapWidth = 0; snapHeight = 0

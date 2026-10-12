@@ -5068,7 +5068,9 @@ fun VelaMapView(
                 // past the junction at 48 km/h): the driver is past the turn, not rounding a
                 // corner the projection has yet to catch up with, where the car stays within a
                 // lane of the line. Drop to the raw fix on this miss, not the second.
-                if (myLocation != null && myLocation.distanceTo(nearLine.first) >= PUCK_LEAVE_NOW_M) navPuck.engaged = false
+                // At least the fix's own accuracy: under city noise a corner's lagging projection
+                // puts an on-route fix a lane off for a tick, and the arrow would jump to it.
+                if (myLocation != null && myLocation.distanceTo(nearLine.first) >= maxOf(PUCK_LEAVE_NOW_M, (myAccuracyM ?: 0f).toDouble())) navPuck.engaged = false
             } else {
                 navPuck.headingMisses = 0
             }
@@ -7128,7 +7130,7 @@ private val PLACE_LABEL_LAYERS = listOf(
 private val LINE_PLACED_LABEL_LAYERS = setOf("water_name_line_label", "waterway_line_label", "water_name")
 
 /** The road name layers, under Liberty's ids and under Fiord's and Dark's. */
-private val ROAD_LABEL_LAYERS = listOf("highway-name-path", "highway-name-minor", "highway-name-major", "highway_name_other")
+private val ROAD_LABEL_LAYERS = listOf("highway-name-path", "highway-name-minor", "highway-name-major", "highway_name_other", "highway_name_motorway")
 
 /** What an OpenFreeMap look other than Liberty gets: the label language (names on the map, the
  *  romanized road names) and the colors of Vela's own layers per theme. No palette, road widths,

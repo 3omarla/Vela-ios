@@ -22,6 +22,9 @@ class VelaApp : Application(), coil.ImageLoaderFactory {
     @Inject lateinit var diag: DiagLog
     @Inject lateinit var http: okhttp3.OkHttpClient
     @Inject lateinit var locationProvider: app.vela.core.location.LocationProvider
+    // Built here, before anything below asks for a link: the store applies the cached bundle's
+    // pushed links as it is made, and the fonts and camera fetches at start read them.
+    @Inject lateinit var calibrationStore: app.vela.core.config.CalibrationStore
 
     /** Coil with a HARD memory-cache cap. The default budget is ~25% of the app's heap CLASS,
      *  and largeHeap makes that class huge - on a 512 MB large heap Coil happily retains up to

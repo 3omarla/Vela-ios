@@ -74,11 +74,11 @@ object TakeoutCsv {
             ?: cid?.let { it.toString(16).lowercase() }
         val pin = PIN.find(raw)
         val at = AT.find(raw)
-        val search = Regex("""/search/([^/@?]+)""").find(raw)?.groupValues?.get(1)?.let { decode(it) }
+        val search = SEARCH.find(raw)?.groupValues?.get(1)?.let { decode(it) }
         val searchCoord = search?.let { COORD.matchEntire(it.trim()) }
         val lat = pin?.groupValues?.get(1)?.toDoubleOrNull() ?: searchCoord?.groupValues?.get(1)?.toDoubleOrNull() ?: at?.groupValues?.get(1)?.toDoubleOrNull()
         val lng = pin?.groupValues?.get(2)?.toDoubleOrNull() ?: searchCoord?.groupValues?.get(2)?.toDoubleOrNull() ?: at?.groupValues?.get(2)?.toDoubleOrNull()
-        val name = Regex("""/place/([^/@?]+)""").find(raw)?.groupValues?.get(1)?.let { decode(it.replace('+', ' ')) }
+        val name = PLACE.find(raw)?.groupValues?.get(1)?.let { decode(it.replace('+', ' ')) }
             ?: search?.takeIf { searchCoord == null }
             ?: queryParam(raw, "q")?.let { decode(it.replace('+', ' ')) }
         val okLat = lat?.takeIf { it in -90.0..90.0 }
@@ -115,6 +115,8 @@ object TakeoutCsv {
     private val PIN = Regex("""!3d(-?\d{1,3}\.\d+)!4d(-?\d{1,3}\.\d+)""")
     private val AT = Regex("""@(-?\d{1,3}\.\d+),(-?\d{1,3}\.\d+)""")
     private val COORD = Regex("""(-?\d{1,3}\.\d+),\s*(-?\d{1,3}\.\d+)""")
+    private val SEARCH = Regex("""/search/([^/@?]+)""")
+    private val PLACE = Regex("""/place/([^/@?]+)""")
 
     private fun String.toBigIntegerOrNull(): BigInteger? = runCatching { BigInteger(this) }.getOrNull()
 

@@ -81,9 +81,13 @@ class SavedPlaceStore @Inject constructor(
         if (trimmed.isEmpty()) return false
         val current = saved()
         if (current.none { it.id == id }) return false
-        // The street moves into the address before the name stops being it (issue 736): [address]
-        // when the caller worked it out from the Place, else from the record itself.
-        val updated = current.map { if (it.id == id) it.copy(name = trimmed, address = address ?: it.addressKeepingStreet()) else it }
+        // The street moves into the address before the name stops being it (issue 736), once:
+        // [address] when the caller worked it out from the record, else from the record itself.
+        val updated = current.map {
+            if (it.id != id) it
+            else if (address != null) it.copy(name = trimmed, address = address, streetKept = it.streetKept || it.isPoint)
+            else it.renamed(trimmed)
+        }
         prefs.edit().putString(KEY, json.encodeToString(updated)).apply()
         return true
     }

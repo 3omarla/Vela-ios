@@ -21,6 +21,9 @@ data class SavedPlace(
      *  again shows exactly this name and address and never searches the name, which would open
      *  whatever business near that address the name happens to resemble. Defaulted, so older payloads decode. */
     val bare: Boolean = false,
+    /** The street has already been moved into [address] by a rename or a label, so a later
+     *  rename does not put the name in front of it again. */
+    val streetKept: Boolean = false,
 ) {
     val location: LatLng get() = LatLng(lat, lng)
 
@@ -36,9 +39,14 @@ data class SavedPlace(
     fun addressKeepingStreet(): String? {
         val street = name.trim()
         val rest = address?.trim()?.ifBlank { null } ?: return address
-        if (!isPoint || street.isBlank() || rest.startsWith(street, ignoreCase = true)) return address
+        if (!isPoint || streetKept || street.isBlank() || rest.startsWith(street, ignoreCase = true)) return address
         return "$street, $rest"
     }
+
+    /** This record after a rename to [newName]: the street kept in the address once, then marked
+     *  kept so the next rename leaves the address alone. */
+    fun renamed(newName: String): SavedPlace =
+        copy(name = newName, address = addressKeepingStreet(), streetKept = streetKept || isPoint)
 
     /** Starred from a basemap label, under the label's own name, before its listing was known:
      *  marked [bare] like a pin, but a place to look up when it is opened online. One renamed

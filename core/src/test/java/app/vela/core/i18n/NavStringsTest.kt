@@ -228,4 +228,10 @@ class NavStringsTest {
         assertTrue(uk.spokenDistance(3000.0, imperial = false).contains("кілометри"))
         assertTrue(uk.spokenDistance(5000.0, imperial = false).contains("кілометрів"))
     }
+
+    @Test fun `the lights lead-in joins the turn in the language's own words`() {
+        assertEquals("Pass the traffic light, then turn left", EnNavStrings.lightThen(EnNavStrings.passLights(1), "Turn left"))
+        assertEquals("Treceți de semafor, apoi virați la stânga", RoNavStrings.lightThen(RoNavStrings.passLights(1), "Virați la stânga"))
+        assertEquals("Menj el a közlekedési lámpa mellett, majd fordulj balra", HuNavStrings.lightThen(HuNavStrings.passLights(1), "Fordulj balra"))
+    }
 }

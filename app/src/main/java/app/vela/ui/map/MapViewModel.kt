@@ -1823,7 +1823,7 @@ class MapViewModel @Inject constructor(
     /** If a shortcut is being assigned, store [sp] in it and return true (handled). */
     private fun consumeAssign(sp: SavedPlace): Boolean {
         val kind = _state.value.assigningShortcut ?: return false
-        shortcutStore.set(kind, sp.copy(address = sp.addressKeepingStreet())) // the chip shows the label, so the street goes in the address (issue 736)
+        shortcutStore.set(kind, sp.copy(address = sp.addressKeepingStreet(), streetKept = sp.streetKept || sp.isPoint)) // the chip shows the label, so the street goes in the address (issue 736)
         _state.update {
             it.copy(
                 assigningShortcut = null, selected = null, suggestions = emptyList(), querySuggestions = emptyList(), localSuggestions = emptyList(),
@@ -1864,7 +1864,7 @@ class MapViewModel @Inject constructor(
 
     /** Pin an already-saved place straight to Home/Work (no assign hop needed). */
     fun pinSavedAs(sp: SavedPlace, kind: ShortcutKind) {
-        shortcutStore.set(kind, sp.copy(address = sp.addressKeepingStreet()))
+        shortcutStore.set(kind, sp.copy(address = sp.addressKeepingStreet(), streetKept = sp.streetKept || sp.isPoint))
         _state.update {
             it.copy(
                 home = shortcutStore.get(ShortcutKind.HOME), work = shortcutStore.get(ShortcutKind.WORK),
@@ -1886,15 +1886,27 @@ class MapViewModel @Inject constructor(
         if (trimmed.isEmpty()) return
         // An address saved from a search has its street as the name and only the locality as
         // the address (the parser takes the name off the front): the rename moves the street into
-        // the address so the row, Copy and Share keep it (issue 736). Anything that is no listing
-        // is an address or a pin here, feature id or not.
-        val kept = SavedPlace.of(p).copy(bare = !p.isListing()).addressKeepingStreet()
-        savedStore.saved().firstOrNull { it.id == p.id }?.let { rec ->
+        // the address so the row, Copy and Share keep it (issue 736), once. Whether the place is
+        // such a point is read off the stored record, never off [p]: a Place built from a list or
+        // a recents row carries no listing fields, and reading it as a point put a listing's
+        // name in front of its address at every rename.
+        val rec = savedStore.saved().firstOrNull { it.id == p.id }
+        val entry = if (rec == null) listStore.lists().asSequence().flatMap { it.places.asSequence() }.firstOrNull { it.matches(p.id, p.featureId) } else null
+        val kept: String? = when {
+            rec != null -> rec.addressKeepingStreet()
+            entry != null -> {
+                // A list-only entry has no point mark: a street with a house number as the name,
+                // not yet in the address, is the address saved from a search.
+                val street = entry.name.trim()
+                val rest = entry.address?.trim()?.ifBlank { null }
+                if (rest != null && street.any { it.isDigit() } && !rest.contains(street, ignoreCase = true)) "$street, $rest" else entry.address
+            }
+            else -> p.address
+        }
+        rec?.let {
             // A pin or an address keeps the new name as its name (bare: opening it never searches
-            // the name). A Place built from a list row carries no listing fields, so the record
-            // itself has to read as a point before it is marked one; a starred listing renamed
-            // from a list row used to become a bare point and lose its lookups (review 2026-10-10).
-            if (!p.isListing() && p.featureId == null && rec.isPoint) savedStore.setBare(p.id, true)
+            // the name); a starred listing keeps its lookups.
+            if (it.isPoint) savedStore.setBare(p.id, true)
             savedStore.rename(p.id, trimmed, kept)
         }
         val lists = listStore.rename(p.id, trimmed, p.featureId, kept)
@@ -1902,7 +1914,7 @@ class MapViewModel @Inject constructor(
             it.copy(
                 saved = savedStore.saved(), lists = lists,
                 results = refreshedOpenList(it, lists) ?: it.results,
-                selected = it.selected?.let { s -> if (s.id == p.id) s.copy(name = trimmed, address = kept) else s },
+                selected = it.selected?.let { s -> if (s.id == p.id) s.copy(name = trimmed, address = kept ?: s.address) else s },
             )
         }
         // The search page's own rows (a snapshot per keystroke) show the new name at once too.
@@ -7429,7 +7441,8 @@ class MapViewModel @Inject constructor(
      */
     private suspend fun importTakeoutCsv(text: String, name: String): app.vela.core.data.ImportResult {
         val rows = app.vela.core.data.TakeoutCsv.parse(text)
-        if (rows.isEmpty()) return app.vela.core.data.ImportResult.WrongFormat("Google Takeout list")
+        // A Takeout list with no rows is one, and it makes no list.
+        if (rows.isEmpty()) return app.vela.core.data.ImportResult.ListAdded(name, 0, 0, 0)
         val job = synchronized(takeoutLock) {
             takeoutImport?.takeIf { it.isActive }?.let { return app.vela.core.data.ImportResult.Busy }
             viewModelScope.async(Dispatchers.IO) { importTakeoutRows(rows, name) }.also { takeoutImport = it }
@@ -7447,7 +7460,7 @@ class MapViewModel @Inject constructor(
         var needGoogle = 0
         var lookups = 0
         rows.forEachIndexed { i, row ->
-            if (i % 5 == 0) flashStatus(appContext.getString(R.string.settings_takeout_progress, i + 1, rows.size), 60_000L)
+            if (i % 5 == 0) withContext(Dispatchers.Main) { flashStatus(appContext.getString(R.string.settings_takeout_progress, i + 1, rows.size), 60_000L) }
             val link = app.vela.core.data.TakeoutCsv.readLink(row.url)
             val title = row.title.ifBlank { link?.name ?: "" }
             val note = listOfNotNull(row.note, row.comment).joinToString("\n").ifBlank { null }
@@ -7488,21 +7501,22 @@ class MapViewModel @Inject constructor(
             _state.update { it.copy(lists = lists) }
         }
         val result = app.vela.core.data.ImportResult.ListAdded(name, places.size, missed, needGoogle)
-        flashStatus(takeoutOutcome(result), 6_000L)
+        withContext(Dispatchers.Main) { flashStatus(takeoutOutcome(result), 6_000L) }
         return result
     }
 
     /** What a finished Takeout import says, on the status card and in the toast. */
     fun takeoutOutcome(r: app.vela.core.data.ImportResult.ListAdded): String {
+        val res = appContext.resources
         if (r.added == 0 && r.missed == 0 && r.needGoogle > 0) {
-            return appContext.getString(R.string.settings_takeout_need_google_none, r.needGoogle, r.name)
+            return res.getQuantityString(R.plurals.settings_takeout_need_google_none, r.needGoogle, r.needGoogle, r.name)
         }
         val made = when {
             r.added == 0 -> appContext.getString(R.string.settings_takeout_imported_none, r.name)
-            r.missed == 0 -> appContext.getString(R.string.settings_takeout_imported, r.added, r.name)
-            else -> appContext.getString(R.string.settings_takeout_imported_missed, r.added, r.name, r.missed)
+            r.missed == 0 -> res.getQuantityString(R.plurals.settings_takeout_imported, r.added, r.added, r.name)
+            else -> res.getQuantityString(R.plurals.settings_takeout_imported_missed, r.added, r.added, r.name, r.missed)
         }
-        return if (r.needGoogle > 0) made + " " + appContext.getString(R.string.settings_takeout_need_google, r.needGoogle) else made
+        return if (r.needGoogle > 0) made + " " + res.getQuantityString(R.plurals.settings_takeout_need_google, r.needGoogle, r.needGoogle) else made
     }
 
     /**

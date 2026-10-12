@@ -1365,7 +1365,7 @@
     <string name="settings_start_view_use_current">Użyj bieżącego widoku mapy</string>
     <string name="settings_start_view_hint">Tu znajduje się mapa w momencie uruchomienia aplikacji Vela. Link z innej aplikacji nadal otwiera się w swoim własnym widoku.</string>
     <string name="nav_bar_to_stop">Do %1$s</string>
-    <string name="nav_bar_your_stop">format: pozostały czas całej podróży, a następnie godzina przyjazdu</string>
+    <string name="nav_bar_your_stop">twój przystanek</string>
     <string name="nav_bar_stop_cd">%1$s i %2$s do %3$s, przyjazd o %4$s. Cała podróż %5$s i %6$s, przyjazd o %7$s.</string>
     <string name="nav_stops_whole_trip">Cała podróż: %1$s · %2$s · przyjazd %3$s</string>
     <string name="settings_voice_row_other_language">Wskazówki są podawane w języku %1$s. Aby usłyszeć ten głos, ustaw język wskazówek na %2$s.</string>

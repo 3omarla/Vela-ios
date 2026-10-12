@@ -138,14 +138,16 @@ object BridgeAlerts {
             val ahead = b.atM - traveledM
             if (ahead < 0 || ahead > AHEAD_M) continue
             val etaMs = nowMs + if (remainingM > 0) (remainingS * 1000 * ahead / remainingM).toLong() else 0L
-            if (b.openings.any { it.openNow && nowMs - it.startMs <= MAX_OPEN_MS } && key(i, true) !in announced) return Alert.OpenNow(i)
+            if (b.openings.any { it.openNow && nowMs - it.startMs <= MAX_OPEN_MS } && key(b, true) !in announced) return Alert.OpenNow(i)
             val hit = b.openings.firstOrNull { o ->
                 !o.openNow && o.startMs <= etaMs + MARGIN_MS && (o.endMs ?: o.startMs) >= etaMs - MARGIN_MS
             }
-            if (hit != null && key(i, false) !in announced && key(i, true) !in announced) return Alert.Planned(i, hit.startMs)
+            if (hit != null && key(b, false) !in announced && key(b, true) !in announced) return Alert.Planned(i, hit.startMs)
         }
         return null
     }
 
-    fun key(index: Int, openNow: Boolean): String = "$index:${if (openNow) "open" else "planned"}"
+    /** The bridge's place on the line names it, not its index: the list is rebuilt from the feed
+     *  every refresh and holds only bridges with an opening, so indexes shift as openings end. */
+    fun key(b: OnRoute, openNow: Boolean): String = "${Math.round(b.atM)}:${if (openNow) "open" else "planned"}"
 }

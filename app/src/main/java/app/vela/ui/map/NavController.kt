@@ -1288,8 +1288,9 @@ internal class NavController(
     }
 
     /** Ask NDW for the bridge openings when the route enters the Netherlands, keep the bridges
-     *  within 30 m of the line, and ask again every [BRIDGE_REFRESH_MS] while any are on it: the
-     *  feed says which bridges are open now. A route with none on it asks once. */
+     *  within 30 m of the line, and ask again every [BRIDGE_REFRESH_MS] for the whole drive: the
+     *  feed says which bridges are open now, and it lists only bridges with an opening, so a
+     *  route with none at the first ask may have one planned later. */
     private fun refreshRouteBridges(route: app.vela.core.model.Route) {
         if (!app.vela.ui.BridgeAlert.on.value) { clearRouteBridges(); return }
         val poly = route.polyline
@@ -1318,7 +1319,6 @@ internal class NavController(
                     if (routeBridgeKey != key) return@launch
                     routeBridges = onRoute
                     diag.record("bridge", "${onRoute.size} bridge(s) on route", "ndw")
-                    if (onRoute.isEmpty()) return@launch
                 }
                 kotlinx.coroutines.delay(BRIDGE_REFRESH_MS)
             }
@@ -1335,11 +1335,11 @@ internal class NavController(
         ) ?: return
         val (msg, kind) = when (alert) {
             is app.vela.core.data.BridgeAlerts.Alert.OpenNow -> {
-                bridgeAlerted = bridgeAlerted + app.vela.core.data.BridgeAlerts.key(alert.index, true)
+                bridgeAlerted = bridgeAlerted + app.vela.core.data.BridgeAlerts.key(routeBridges[alert.index], true)
                 appContext.getString(R.string.nav_bridge_open_ahead) to "open"
             }
             is app.vela.core.data.BridgeAlerts.Alert.Planned -> {
-                bridgeAlerted = bridgeAlerted + app.vela.core.data.BridgeAlerts.key(alert.index, false)
+                bridgeAlerted = bridgeAlerted + app.vela.core.data.BridgeAlerts.key(routeBridges[alert.index], false)
                 // The planned start itself, also when it has just passed: clamped to now, an
                 // opening that began two minutes ago read as one that had not begun. Formatted
                 // from the timestamp, not now plus seconds, which dropped a minute.

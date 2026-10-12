@@ -34,6 +34,10 @@ interface NavStrings {
      *  (English-first); only added when it makes sense (1–2 signals right before a surface-street turn). */
     fun passLights(count: Int): String = ""
 
+    /** The lights lead-in joined to the turn: "Pass the traffic light, then turn left". A language
+     *  with a [passLights] phrase joins it in its own words. */
+    fun lightThen(lead: String, instruction: String): String = "$lead, then " + instruction.replaceFirstChar { it.lowercaseChar() }
+
     /** The SPOKEN form of a sign instruction: the secondary sign destinations after a colon are
      *  dropped ("Take the ramp toward I 5 North: Vancouver British Columbia" -> "... toward I 5
      *  North"). The full sign stays on the banner; speaking it all took so long the next prompt
@@ -2103,6 +2107,7 @@ object HuNavStrings : NavStrings {
 
     override fun passLights(count: Int): String =
         if (count <= 1) "Menj el a közlekedési lámpa mellett" else "Menj el $count közlekedési lámpa mellett"
+    override fun lightThen(lead: String, instruction: String): String = "$lead, majd " + instruction.replaceFirstChar { it.lowercaseChar() }
 
     private fun modWord(mod: String?): String = when ((mod ?: "").trim().lowercase()) {
         "left" -> "balra"
@@ -2264,6 +2269,7 @@ object RoNavStrings : NavStrings {
     override val locale: Locale = Locale("ro", "RO")
 
     override fun passLights(count: Int): String = if (count <= 1) "Treceți de semafor" else "Treceți de $count semafoare"
+    override fun lightThen(lead: String, instruction: String): String = "$lead, apoi " + instruction.replaceFirstChar { it.lowercaseChar() }
 
     private fun modWord(mod: String?): String = when ((mod ?: "").trim().lowercase()) {
         "left" -> "la stânga"

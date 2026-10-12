@@ -37,7 +37,10 @@ object NavEngine {
     private const val SPEECH_CPS = 13.0
     private const val SPEECH_LEAD_S = 0.6
     /** The pace the two estimates above assume at a crawl, so a standstill divides by something. */
-    private const val MIN_PACE_MPS = 5.0
+    /** The slowest pace the prompt timing reckons with: a slow walk. A higher floor (5 m/s once)
+     *  read a walker's 150 m band as 8 s away and merged it, so walkers and cyclists lost the
+     *  near prompt and its haptic. */
+    private const val MIN_PACE_MPS = 1.5
     private const val ARRIVE_PROX_M = 40.0    // crow-flies arrival fallback (dest snapped to the road; lots/driveways)
     private const val END_PARK_ALONG_M = 60.0 // stopped this close to the end along the route, with turns still unsaid, is arrived
     private const val DEST_ZONE_M = 150.0     // no rerouting this close to the destination (arrival territory)
@@ -904,7 +907,7 @@ object NavEngine {
         if (m.lightsBeforeM.isEmpty()) return text
         val ahead = m.lightsBeforeM.count { it <= dtn - LIGHT_AHEAD_MIN_M }
         val lead = if (ahead in 1..2) nav().passLights(ahead) else ""
-        return if (lead.isBlank()) text else "$lead, then " + text.replaceFirstChar { it.lowercaseChar() }
+        return if (lead.isBlank()) text else nav().lightThen(lead, text)
     }
     /** A light counts as ahead when the car has at least this far to go to it. */
     private const val LIGHT_AHEAD_MIN_M = 20.0

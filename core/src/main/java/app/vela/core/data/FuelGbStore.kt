@@ -78,7 +78,7 @@ class FuelGbStore(
         if (file.exists() && data != null && now - lastCheck in 0 until CHECK_EVERY_MS) return changed
         if (now - failedAtMs in 0 until RETRY_AFTER_MS) return changed
 
-        val remoteText = get(baseUrl + MANIFEST_FILE)?.toString(Charsets.UTF_8)
+        val remoteText = get(baseUrl.trimEnd('/') + "/" + MANIFEST_FILE)?.toString(Charsets.UTF_8)
         val remote = remoteText?.let { runCatching { Json.parseToJsonElement(it).jsonObject }.getOrNull() }
         if (remote == null) { failedAtMs = now; return changed }
         val localManifest = File(d, MANIFEST_FILE)
@@ -89,7 +89,7 @@ class FuelGbStore(
             return changed
         }
         val name = remote.str("file")?.takeIf { it.matches(FILE_NAME) } ?: DATA_FILE
-        val bytes = get(baseUrl + name)
+        val bytes = get(baseUrl.trimEnd('/') + "/" + name)
         if (bytes == null || bytes.size < 2 || bytes[0] != 0x1f.toByte() || bytes[1] != 0x8b.toByte() ||
             (remoteSha != null && sha256(bytes) != remoteSha)
         ) { failedAtMs = now; return changed }

@@ -185,6 +185,20 @@ Small items, one pull request each.
 - More places sources for the open bake: chamber-of-commerce member lists and municipal
   business-license registers, one scraper per source. The survey under "Vela's own record of
   what is still open" says how thin those registers are.
+- A Takeout CSV import runs as a plain coroutine: no Cancel, no foreground service, and the
+  list is written only at the end, so a 2,000-row file is a quarter hour the process must
+  survive. Run it through `downloadLaunch` with a Cancel on the status card.
+- Home or Work set from a search result keeps the locality-only address on the chip; only a
+  saved point gets the street moved in.
+- The blind-travel hold short of a turn (#745) holds the arrow, but the engine still advances
+  the step and says the turn line from the held point once the reckoned speed is over 6 m/s.
+- A stop whose pin finds no mark on the line pro-rates its countdown over two legs.
+- The car map does not follow a map look change while connected; the look loaded with the
+  surface stays until the next size change. Offline with a look that was never cached, the
+  car gets no style at all, where the phone falls back to the bundled one. A session that
+  started offline never picks up the patched style until the process restarts.
+- The first-line shortening measures speech in characters, so a Japanese, Chinese or Hebrew
+  line is read as short and keeps its sign tail.
 - Duplicate names in the open places bake (#742). Overture carries one unbranded name at
   several points with the same confidence, so a pin lands on the wrong one. Two fixes at the
   bake: one row per unbranded name in a region, and a corrections list Vela maintains.

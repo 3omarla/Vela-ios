@@ -18,4 +18,13 @@ class SavedPlaceStreetTest {
         assertEquals(null, sp("Elm Street 5", null, bare = true).addressKeepingStreet())
         assertEquals(" ", sp("Elm Street 5", " ", bare = true).addressKeepingStreet())
     }
+
+    @Test fun `a rename moves the street once and a second rename leaves the address alone`() {
+        val once = sp("Elm Street 5", "95616 Davis", bare = true).renamed("Peter")
+        assertEquals("Peter", once.name)
+        assertEquals("Elm Street 5, 95616 Davis", once.address)
+        assertEquals(true, once.streetKept)
+        val twice = once.renamed("Groceries")
+        assertEquals("Elm Street 5, 95616 Davis", twice.address)
+    }
 }

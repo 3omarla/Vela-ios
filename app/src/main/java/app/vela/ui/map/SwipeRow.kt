@@ -123,6 +123,8 @@ fun ReorderHandle(
     val view = LocalView.current
     val move = rememberUpdatedState(onMove)
     val activate = rememberUpdatedState(onActivate)
+    // Read, not keyed: a row of another height composing mid-drag would restart the gesture.
+    val rowHeight = rememberUpdatedState(rowHeightPx)
     var carried by remember { mutableFloatStateOf(0f) }
     Box(
         modifier
@@ -138,7 +140,7 @@ fun ReorderHandle(
             }
             .clickable(onClick = { activate.value() })
             // Vertical drags only, so a swipe that starts on the handle still swipes the row.
-            .pointerInput(rowHeightPx) {
+            .pointerInput(Unit) {
                 detectVerticalDragGestures(
                     onDragStart = { carried = 0f; tickHaptic(view) },
                     onDragEnd = { carried = 0f },
@@ -146,7 +148,7 @@ fun ReorderHandle(
                 ) { change, dy ->
                     change.consume()
                     carried += dy
-                    val step = rowHeightPx.coerceAtLeast(1f)
+                    val step = rowHeight.value.coerceAtLeast(1f)
                     while (carried > step) { carried -= step; move.value(1); tickHaptic(view) }
                     while (carried < -step) { carried += step; move.value(-1); tickHaptic(view) }
                 }

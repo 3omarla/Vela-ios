@@ -9,6 +9,9 @@ package app.vela.core.model
  * a country.
  */
 fun Place.areaZoom(): Double? {
+    // Only a search result can be an area. A saved place, a list entry or a dropped pin is
+    // built with no category and no rating too, and one with no address read as a country.
+    if (OWN_ID_PREFIXES.any { id.startsWith(it) }) return null
     if (rating != null || reviewCount != null) return null
     if (category.equals("Postal code", ignoreCase = true)) return POSTAL_ZOOM
     if (!category.isNullOrBlank()) return null
@@ -19,6 +22,9 @@ fun Place.areaZoom(): Double? {
         else -> null
     }
 }
+
+/** The ids Vela makes itself: pins, addresses, imports, list and saved entries, contacts. */
+private val OWN_ID_PREFIXES = listOf("pin:", "addr:", "geo:", "imp:", "import:", "list:", "saved:", "contact:")
 
 const val COUNTRY_ZOOM = 6.5
 const val CITY_ZOOM = 11.5

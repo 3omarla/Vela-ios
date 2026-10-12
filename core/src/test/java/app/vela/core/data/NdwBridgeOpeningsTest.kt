@@ -111,12 +111,21 @@ class NdwBridgeOpeningsTest {
 
     @Test fun onceEachAndOpenAfterPlanned() {
         val bridges = listOf(BridgeAlerts.OnRoute(4_000.0, listOf(planned(300))))
-        val said = setOf(BridgeAlerts.key(0, false))
+        val said = setOf(BridgeAlerts.key(bridges[0], false))
         assertNull(BridgeAlerts.due(bridges, 0.0, remM, remS, now, said))
         // The planned opening began: it is announced again, as open.
         val opened = listOf(BridgeAlerts.OnRoute(4_000.0, listOf(openNow)))
         assertEquals(BridgeAlerts.Alert.OpenNow(0), BridgeAlerts.due(opened, 0.0, remM, remS, now, said))
-        assertNull(BridgeAlerts.due(opened, 0.0, remM, remS, now, said + BridgeAlerts.key(0, true)))
+        assertNull(BridgeAlerts.due(opened, 0.0, remM, remS, now, said + BridgeAlerts.key(opened[0], true)))
+    }
+
+    @Test fun announcedKeysSurviveARefreshThatDropsABridge() {
+        // Two bridges announced; the nearer one's opening ends and leaves the feed, so the list
+        // is rebuilt with the far one first. Its key is its place on the line, so it stays said.
+        val near = BridgeAlerts.OnRoute(1_000.0, listOf(planned(60)))
+        val far = BridgeAlerts.OnRoute(3_000.0, listOf(openNow))
+        val said = setOf(BridgeAlerts.key(near, false), BridgeAlerts.key(far, true))
+        assertNull(BridgeAlerts.due(listOf(far), 0.0, remM, remS, now, said))
     }
 
     @Test fun nearestDueBridgeFirst() {

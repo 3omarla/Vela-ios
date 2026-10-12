@@ -91,10 +91,12 @@ object VelaLinks {
 
     val keys: Set<String> get() = DEFAULTS.keys + DERIVED.keys
 
-    /** The link for [key]: pushed, else the build's own, else derived from its base, else the default. */
+    /** The link for [key]: pushed, else the build's own, else derived from its base, else the
+     *  default. A pushed or compiled value loses its trailing slash, since every derived path
+     *  starts with one. */
     fun get(key: String): String =
-        overrides[key]?.takeIf { it.isNotBlank() }
-            ?: compiled[key]?.takeIf { it.isNotBlank() }
+        overrides[key]?.trim()?.trimEnd('/')?.takeIf { it.isNotBlank() }
+            ?: compiled[key]?.trim()?.trimEnd('/')?.takeIf { it.isNotBlank() }
             ?: DERIVED[key]?.let { (base, path) -> get(base) + path }
             ?: DEFAULTS[key]
             ?: throw IllegalArgumentException("no link named $key")
@@ -103,9 +105,10 @@ object VelaLinks {
     fun default(key: String): String =
         DERIVED[key]?.let { (base, path) -> default(base) + path } ?: DEFAULTS[key] ?: throw IllegalArgumentException("no link named $key")
 
-    /** A bundle may set only https links, and only names this build knows. */
+    /** A bundle may set only https links, only names this build knows, and only printable ASCII:
+     *  the repository link goes into a User-Agent header, which OkHttp rejects otherwise. */
     fun acceptable(links: Map<String, String>): Boolean =
-        links.all { (k, v) -> k in keys && v.startsWith("https://") && v.none { it.isWhitespace() } }
+        links.all { (k, v) -> k in keys && v.startsWith("https://") && v.all { it.code in 0x21..0x7E } }
 
     fun repo(): String = get(REPO)
     fun api(path: String): String = get(API) + path

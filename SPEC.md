@@ -2272,7 +2272,9 @@ since a cluster's centroid sits in the junction's middle. The corridor fetch is 
 - Bridge openings (`BridgeAlert`, on by default): a drive whose line enters the Netherlands
   (`NdwBridgeOpenings.inNetherlands`) fetches NDW's `planningsfeed_brugopeningen.xml.gz`
   (about 115 KB, DATEX II v3), keeps the bridges within 30 m of the line and asks again every
-  `BRIDGE_REFRESH_MS` (5 min) while any are on it. `BridgeAlerts.due` gives one alert per bridge
+  `BRIDGE_REFRESH_MS` (5 min) for the whole drive, since the feed lists only bridges with an
+  opening and one can be planned after the first ask. An alert is keyed by the bridge's meters
+  along the line, not its place in the list. `BridgeAlerts.due` gives one alert per bridge
   within `AHEAD_M` (5 km): "open" for a record with status `implemented` or `beingImplemented`,
   else "opening planned at" for a planned opening within `MARGIN_MS` (3 min) of the time you reach
   it, from the route's remaining time per meter. A planned bridge that opens is announced again.
@@ -2958,7 +2960,9 @@ when the feature ids match. Two requests at most.
   saved from a search carries its street as the name and the locality as the address, so a
   rename, and setting Home or Work, moves the street into the address first
   (`SavedPlace.addressKeepingStreet`: a point whose address does not already start with its
-  name); the row, Copy and Share keep the street. The listing's
+  name), once: the record is then marked `streetKept`, so a second rename leaves the address
+  alone. Whether the place is a point is read off the stored record, never off the Place a row
+  hands in, which carries no listing fields. The row, Copy and Share keep the street. The listing's
   name is taken only when it agrees with the saved one.
 - A location link's action is a setting (`LinkAction`, `link_action`): show the place
   (default), open the route chooser, or start navigation. Start also applies to directions
@@ -5386,8 +5390,9 @@ behind the matching holder.
 At launch `CalibrationStore` loads its cached bundle, then fetches `calibration.json` and the
 detached `calibration.json.sig` from
 `https://raw.githubusercontent.com/PimpinPumpkin/Vela/main/`, and when that does not answer
-from the copy on the website, `https://velamaps.org/calibration.json` (`VelaLinks`, 11.4). It
-adopts the remote bundle only if:
+(no reply, a transport error, or a copy whose signature does not verify) from the copy on the
+website, `https://velamaps.org/calibration.json` (`VelaLinks`, 11.4). It adopts the remote
+bundle only if:
 
 1. the signature verifies (ECDSA P-256 with SHA-256 against `PINNED_PUBLIC_KEY`);
 2. every endpoint host is `google.com` or `www.google.com`;

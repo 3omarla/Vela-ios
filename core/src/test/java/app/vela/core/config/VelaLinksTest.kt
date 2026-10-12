@@ -36,6 +36,15 @@ class VelaLinksTest {
         assertEquals("https://example.org/privacy", VelaLinks.privacy())
     }
 
+    @Test fun `a pushed link loses its trailing slash and must be printable ascii`() {
+        VelaLinks.overrides = mapOf(VelaLinks.RAW to "https://example.org/vela/")
+        assertEquals("https://example.org/vela/calibration.json", VelaLinks.calibration())
+        assertEquals(true, VelaLinks.acceptable(mapOf(VelaLinks.REPO to "https://example.org/Vela")))
+        assertEquals(false, VelaLinks.acceptable(mapOf(VelaLinks.REPO to "https://véla.example")))
+        assertEquals(false, VelaLinks.acceptable(mapOf(VelaLinks.REPO to "https://example.org/a b")))
+        assertEquals(false, VelaLinks.acceptable(mapOf("nope" to "https://example.org")))
+    }
+
     @Test fun `a build's own link beats the default and loses to a pushed one`() {
         VelaLinks.compiled = mapOf(VelaLinks.OBF_MANIFEST to "http://127.0.0.1:8099/obf-manifest.json", VelaLinks.CELLS_MANIFEST to "")
         assertEquals("http://127.0.0.1:8099/obf-manifest.json", VelaLinks.obfManifest())
