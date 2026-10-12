@@ -30,7 +30,7 @@ by one developer.
 | Languages | 15 |
 | Where to get it | GitHub releases, Obtainium, or Vela's own F-Droid repository. Not on Google Play. |
 | Source | https://github.com/PimpinPumpkin/Vela |
-| Website | https://pimpinpumpkin.github.io/Vela/ |
+| Website | https://velamaps.org/ |
 
 ## Accurate ways to describe it
 

@@ -16,7 +16,7 @@ Live traffic, real place data and turn-by-turn navigation, with no Google accoun
 
 [Install](#install) · [What you get](#what-you-get) · [Docs](https://pimpinpumpkin.github.io/Vela/docs/) · [FAQ](docs/FAQ.md) · [The book](docs/book/README.md) · [Privacy](#privacy) · [How it works](SPEC.md) · [Build](docs/BUILDING.md) · [Discussions](https://github.com/PimpinPumpkin/Vela/discussions) · [Translate](https://hosted.weblate.org/engage/vela-maps/)
 
-[<img src="https://img.shields.io/badge/VISIT%20THE%20WEBSITE-149387?style=for-the-badge" alt="Visit the website">](https://pimpinpumpkin.github.io/Vela/)
+[<img src="https://img.shields.io/badge/VISIT%20THE%20WEBSITE-149387?style=for-the-badge" alt="Visit the website">](https://velamaps.org/)
 
 </div>
 
@@ -124,8 +124,7 @@ releases. It is not a checksum of a particular APK, and it is not the same as
 the F-Droid repo fingerprint in [FDROID.md](FDROID.md), which signs the repo
 index rather than the app.
 
-There is a one-page tour at
-**[pimpinpumpkin.github.io/Vela](https://pimpinpumpkin.github.io/Vela/)**, and the docs in this
+The website is **[velamaps.org](https://velamaps.org/)**, and the docs in this
 repository are published as a searchable site at
 **[pimpinpumpkin.github.io/Vela/docs](https://pimpinpumpkin.github.io/Vela/docs/)**.
 
