@@ -313,6 +313,9 @@ off the list when it has been.
   Not seen: Home and Work set from a plain address after the change.
 - A reroute after a wrong turn on a trip with stops. The simulated drive cannot leave its route.
 - UK fuel prices on a phone in the UK.
+- Saved pins at every zoom (#791): seen on a 4a at zoom 7, where a pin 100 km from the fix
+  drew at near full size. Not seen: the smaller pins below zoom 7 and a pile collapsing to the
+  pins that fit, which needs saved places in more than one city.
 - The layers panel as picture tiles (#782, `LayersPanel`). Opened on a 4a in portrait: it fits
   under the button without scrolling in the dark theme, and the tiles switch the look, satellite
   and traffic by touch. Not yet seen: the light and AMOLED themes, a keypad walk across the

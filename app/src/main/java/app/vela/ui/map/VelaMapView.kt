@@ -265,6 +265,18 @@ private const val SAVED_LAYER = "vela-saved"
 private const val SAVED_INDEX_PROP = "savedIdx"
 private const val SAVED_ICON_PROP = "savedIcon"
 private const val SAVED_PIN_SCALE = 1.35f
+/** Saved pins draw at every zoom (issue #791): the full pin from this zoom, under half of it by
+ *  the far zoom, so a far-out map still says where you have places. */
+private const val SAVED_PIN_FULL_ZOOM = 8f
+private const val SAVED_PIN_FAR_ZOOM = 3f
+private const val SAVED_PIN_FAR_SCALE = 0.45f
+
+/** The saved pin's size by zoom, [sc] the UI scale. */
+private fun savedPinSize(sc: Float): Expression = Expression.interpolate(
+    Expression.linear(), Expression.zoom(),
+    Expression.stop(SAVED_PIN_FAR_ZOOM, SAVED_PIN_SCALE * SAVED_PIN_FAR_SCALE * sc),
+    Expression.stop(SAVED_PIN_FULL_ZOOM, SAVED_PIN_SCALE * sc),
+)
 // Street View pose: the open pano's position + live view direction (a rotating cone, pegman-style),
 // shown while the half-screen pano viewer is up so the map underneath says where you're looking.
 private const val SV_SRC = "vela-sv-src"
@@ -2616,7 +2628,7 @@ fun VelaMapView(
             // 1.35x: measured on the Davis fixture at browse zoom, a typical POI icon's disc is 65 px
             // on screen and a prominent one 77; the list pin was 48 at 1x and 60 at 1.25x, so it read
             // smaller than every icon beside it (issue #618). 1.35x puts its ringed disc at 65.
-            st.getLayer(SAVED_LAYER)?.setProperties(PropertyFactory.iconSize(SAVED_PIN_SCALE * sc))
+            st.getLayer(SAVED_LAYER)?.setProperties(PropertyFactory.iconSize(savedPinSize(sc)))
             st.getLayer(FLOCK_LAYER)?.setProperties(
                 PropertyFactory.iconSize(
                     Expression.interpolate(
@@ -6051,16 +6063,19 @@ private fun ensureLayers(style: Style, painted: Boolean) {
     }
     // Saved places while browsing (issue #171): every list place + quick-save draws its list's
     // icon on the map so a saved spot sticks out with no search needed. Sparse, deliberate
-    // objects — they always render (allowOverlap), like the parking pin.
+    // objects: from SAVED_PIN_FULL_ZOOM they always render (allowOverlap), like the parking pin.
+    // Farther out the pins shrink and a pile collapses to the ones that fit (issue #791).
     if (style.getSource(SAVED_SRC) == null) {
         style.addSource(GeoJsonSource(SAVED_SRC, GeoJsonOptions().withMaxZoom(12)))
         style.addLayer(
             SymbolLayer(SAVED_LAYER, SAVED_SRC).withProperties(
                 PropertyFactory.iconImage(Expression.get(SAVED_ICON_PROP)),
-                PropertyFactory.iconSize(SAVED_PIN_SCALE),
-                PropertyFactory.iconAllowOverlap(true),
+                PropertyFactory.iconSize(savedPinSize(1f)),
+                PropertyFactory.iconAllowOverlap(
+                    Expression.step(Expression.zoom(), Expression.literal(false), Expression.stop(SAVED_PIN_FULL_ZOOM, Expression.literal(true))),
+                ),
                 PropertyFactory.iconIgnorePlacement(false), // claims its spot, see the parking pin
-            ).apply { minZoom = 8f },
+            ),
         )
     }
     // Street View pose: a view-direction cone at the open pano, rotating with the viewer's compass
