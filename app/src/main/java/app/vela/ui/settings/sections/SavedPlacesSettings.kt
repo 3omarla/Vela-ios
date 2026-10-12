@@ -55,7 +55,7 @@ internal fun SavedPlacesSettingsScreen(vm: MapViewModel, onBack: () -> Unit, onC
         Spacer(Modifier.height(4.dp))
         PageIntro(stringResource(R.string.settings_saved_places_hint))
         val importLauncher = androidx.activity.compose.rememberLauncherForActivityResult(
-            ActivityResultContracts.OpenDocument(),
+            OpenDocumentInDownload,
         ) { uri ->
             // Off the main thread: a large GPX or KML is read and regex-parsed in full.
             if (uri != null) scope.launch {
@@ -88,7 +88,7 @@ internal fun SavedPlacesSettingsScreen(vm: MapViewModel, onBack: () -> Unit, onC
         // Lists export / import (issue #1) - same JSON-file flow as saved places.
         Spacer(Modifier.height(8.dp))
         val listImportLauncher = androidx.activity.compose.rememberLauncherForActivityResult(
-            ActivityResultContracts.OpenDocument(),
+            OpenDocumentInDownload,
         ) { uri ->
             if (uri != null) scope.launch {
                 val res = withContext(Dispatchers.IO) { vm.importListsFromUri(uri) }
@@ -139,6 +139,22 @@ private val IMPORT_MIME = arrayOf(
     // .json often enough that filtering strictly makes the file look absent (issue #279).
     "*/*",
 )
+
+/**
+ * The system picker opened in the phone's own storage at Download, not in its Downloads root.
+ * The Downloads root lists the media index, and a file that an unzipper or a file manager has
+ * just written sits there as pending, or not at all, until the index catches up: a Takeout
+ * folder read as "No items" where the phone's storage root showed the same CSV (issue 761).
+ * The storage root reads the file system. A picker that cannot honor the start place opens
+ * where it always did.
+ */
+private object OpenDocumentInDownload : ActivityResultContracts.OpenDocument() {
+    override fun createIntent(context: android.content.Context, input: Array<String>): android.content.Intent =
+        super.createIntent(context, input).putExtra(
+            android.provider.DocumentsContract.EXTRA_INITIAL_URI,
+            android.provider.DocumentsContract.buildDocumentUri("com.android.externalstorage.documents", "primary:Download"),
+        )
+}
 
 /**
  * Open the file picker, and SAY SO when there isn't one (issue #287).

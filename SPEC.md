@@ -3162,6 +3162,11 @@ the shared 12 s timeout cuts it off.
   "Find my car" opens the spot as a sheet whose facts line gives the distance from you and how
   long ago it was saved (`ParkingActions.parkedAt`). On a key-first device the arrival card opens
   with focus on Done, and each of its buttons draws the focus ring.
+- The picker both Import buttons open starts in the phone's own storage at Download
+  (`DocumentsContract.EXTRA_INITIAL_URI` on the external storage provider's `primary:Download`),
+  not in the picker's Downloads view: that view lists the media index, where a file an unzipper
+  or a file manager has just written is pending or absent, and a Takeout folder read "No items".
+  A picker that cannot start there opens where it last was.
 - Imports accept GPX, KML and GeoJSON including Google Takeout (`core/data/PlaceImport`). GPX
   is latitude first; KML and GeoJSON are longitude first. A KML placemark with several
   coordinate tuples is skipped. Only name, coordinate and a given address are taken. Ids derive
