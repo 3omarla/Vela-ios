@@ -48,7 +48,7 @@ fun tickHaptic(view: View) {
 }
 
 /**
- * A row that swipes: toward the end to delete, toward the start to edit when [onEdit] is given
+ * A row that swipes: toward the start to delete, toward the end to edit when [onEdit] is given
  * (issue #748). The row ticks as the swipe crosses the point where it will act and again when
  * it acts, then settles back; the caller removes the row from its list (or asks first). Every
  * swipe here has a key path on the row itself: the handle or the overflow button beside it.
@@ -88,7 +88,9 @@ fun SwipeActionRow(
         backgroundContent = {
             val dir = state.dismissDirection
             val deleting = dir == SwipeToDismissBoxValue.EndToStart
-            val editing = dir == SwipeToDismissBoxValue.StartToEnd
+            // Only with an edit to run: a row without one cannot be dragged that way, yet the box
+            // reports the direction for a moment as it settles, and flashed the pencil (issue 772).
+            val editing = onEdit != null && dir == SwipeToDismissBoxValue.StartToEnd
             val bg = when {
                 deleting -> MaterialTheme.colorScheme.errorContainer
                 editing -> MaterialTheme.colorScheme.primaryContainer

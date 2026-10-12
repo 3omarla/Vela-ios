@@ -5111,9 +5111,9 @@ private fun SearchEntryContent(
                         // menu on a plain tap too, so removal works even where long-press doesn't.)
                         var menuOpen by remember(entry.place.id) { mutableStateOf(false) }
                         val p = entry.place.toPlace()
-                        // A swipe toward the end drops it from history (issue #748); the ⋮ stays
+                        // A swipe toward the start drops it from history (issue #748); the ⋮ stays
                         // as the key path.
-                        // Toward the start opens the row's menu, where Add to list is (issue #772).
+                        // Toward the end opens the row's menu, where Add to list is (issue #772).
                         SwipeActionRow(
                             onDelete = { onRemoveRecentPlace(entry.place.id) }, deleteLabel = stringResource(R.string.recent_remove),
                             onEdit = { menuOpen = true }, editLabel = stringResource(R.string.place_save_to_list), editIcon = SymOutlined.BookmarkBorder,
@@ -6162,7 +6162,7 @@ private fun ListsSheet(
                     itemsIndexed(lists, key = { _, l -> l.id }) { index, list ->
                         val pickedNowLists = pickedLists
                         val pickedList = pickedNowLists?.contains(list.id)
-                        // Swipe toward the end to delete, toward the start to edit (issue #748); a
+                        // Swipe toward the start to delete, toward the end to edit (issue #748); a
                         // long press or a held OK starts selecting. The handle at the end reorders
                         // by drag, and on a keypad Up and Down on it move the list and OK opens the
                         // editor.
