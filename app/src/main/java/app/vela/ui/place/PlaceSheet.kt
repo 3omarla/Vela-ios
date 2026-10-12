@@ -329,6 +329,10 @@ fun PlaceSheet(
     // multi-listing chain, which hid the "Edit note"/"Saved" affordances (see ListPlace.matches).
     val containingLists = lists.filter { l -> l.places.any { it.matches(place.id, place.featureId) } }
     val inAnyList = containingLists.isNotEmpty()
+    // The star and the Save pill are filled for a place in any list, not only a quick-saved one
+    // (issue #792). The star's menu is declared here so the pill can reach the chooser beside it.
+    val marked = isSaved || inAnyList
+    var saveMenu by remember { mutableStateOf(false) }
     // The listing's details fade in when a tap resolves, instead of popping in all at once.
     // While the tap is looked up, whatever the map's own data already knows shows at once (the
     // open-data category, address, phone, website and hours; user 2026-09-22) and Google's
@@ -867,12 +871,11 @@ fun PlaceSheet(
                 // The STAR is the whole save/pin menu now (quick save, lists, note, home/work) —
                 // four circled buttons crowded the header, and the overflow's items were all
                 // save-family anyway (user 2026-07-10). D-pad-first via VelaMenu (docs/dpad.md).
-                var saveMenu by remember { mutableStateOf(false) }
                 Box {
                     HeaderCircleButton(
-                        icon = if (isSaved) Sym.Bookmark else Sym.BookmarkBorder,
-                        contentDescription = if (isSaved) stringResource(R.string.place_saved) else stringResource(R.string.place_save),
-                        tint = if (isSaved) MaterialTheme.colorScheme.primary else dim,
+                        icon = if (marked) Sym.Bookmark else Sym.BookmarkBorder,
+                        contentDescription = if (marked) stringResource(R.string.place_saved) else stringResource(R.string.place_save),
+                        tint = if (marked) MaterialTheme.colorScheme.primary else dim,
                         bg = dim,
                     ) { saveMenu = true }
                     VelaMenu(expanded = saveMenu, onDismissRequest = { saveMenu = false }) {
@@ -1114,7 +1117,14 @@ fun PlaceSheet(
                 }
                 // Save sits in the action row Google-style (outlined pill), alongside the save/read
                 // affordances in the header menu.
-                ActionPill(if (isSaved) Icons.Default.Bookmark else Icons.Default.BookmarkBorder, stringResource(if (isSaved) R.string.place_saved else R.string.place_save), onClick = onToggleSave)
+                // Filled for a place in any list too. On one, the pill opens the list chooser, where
+                // the ticks are: a quick-save toggle would change nothing the pill shows (issue #792).
+                val savePillClick: () -> Unit = if (inAnyList) ({ showListChooser = true }) else onToggleSave
+                ActionPill(
+                    if (marked) Icons.Default.Bookmark else Icons.Default.BookmarkBorder,
+                    stringResource(if (marked) R.string.place_saved else R.string.place_save),
+                    onClick = savePillClick,
+                )
                 if (!app.vela.ui.HideExternalLinks.on.value) {
                     place.website?.let { site ->
                         ActionPill(Sym.Language, stringResource(R.string.place_website)) {

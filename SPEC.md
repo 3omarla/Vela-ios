@@ -3222,6 +3222,9 @@ the shared 12 s timeout cuts it off.
   `ListPlace.icon ?: PlaceList.icon` and `SavedPlace.icon ?: "bookmark"` in the list's color.
   "Choose icon" calls `MapViewModel.setPlaceIcon`, which writes every list copy and the
   quick-save.
+- The sheet's star and its Save pill are filled when the place is quick-saved or in any list
+  (`ListPlace.matches`). On a place in a list the pill opens the list chooser, where the ticks
+  are; otherwise it toggles the quick-save. The star opens its menu either way.
 - Recents are timestamped under new preference keys. The legacy keys are read once and left in
   place for a downgraded build.
 - Several places at once: a long press on a card of an open list, or on a Saved places row in
