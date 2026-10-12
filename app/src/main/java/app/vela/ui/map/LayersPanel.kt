@@ -107,7 +107,7 @@ internal fun BoxScope.LayersCorner(vm: MapViewModel, landscapeChrome: Boolean, d
         // VelaMenu, not a bare DropdownMenu (docs/dpad.md): a Popup cannot be pre-focused, so a
         // key-first device gets the chooser dialog, and the first tile takes focus on open.
         VelaMenu(expanded = open, onDismissRequest = { open = false }) {
-            LayersPanel(vm)
+            LayersPanel(vm, onClose = { open = false })
         }
     }
 }
@@ -129,7 +129,7 @@ private class Tile(
 )
 
 @Composable
-private fun LayersPanel(vm: MapViewModel) {
+private fun LayersPanel(vm: MapViewModel, onClose: () -> Unit) {
     val ctx = LocalContext.current
     val firstTile = rememberDpadAutoFocus()
     val satellite = SatelliteLayer.on.value
@@ -196,6 +196,27 @@ private fun LayersPanel(vm: MapViewModel) {
         )
         Spacer(Modifier.height(4.dp))
         SwitchRow(stringResource(R.string.settings_google_free), GoogleFree.on.value) { GoogleFree.set(ctx, it) }
+        // Driving mode (issue #727): the map alone in the drive's layout, from the map's own
+        // panel. Its bar's X comes back to this button.
+        ActionRow(stringResource(R.string.driving_mode), Sym.DirectionsCar) { onClose(); vm.enterDrivingMode() }
+    }
+}
+
+/** A row that does one thing and closes the panel: the glyph, the label, nothing else. */
+@Composable
+private fun ActionRow(text: String, icon: ImageVector, onClick: () -> Unit) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+            .dpadHighlight(RoundedCornerShape(8.dp))
+            .clip(RoundedCornerShape(8.dp))
+            .dpadClickable(onClick = onClick)
+            .padding(horizontal = 4.dp, vertical = 8.dp),
+    ) {
+        Icon(icon, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(22.dp))
+        Spacer(Modifier.width(12.dp))
+        Text(text, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurface)
     }
 }
 
