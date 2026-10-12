@@ -11,6 +11,8 @@ says so.
 
 ### October 2026
 
+- An address set as Home or Work keeps its street on the chip, and one set earlier is mended at
+  start. The address result's street is its name, which the label replaces.
 - The car map draws no part of the route from behind its tilted camera. The driven part showed
   as a gray line swinging across the map, mirrored through the screen (#780).
 - Two turns within 130 m of each other are said on one line, "Turn right onto Elm Street, then

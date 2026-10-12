@@ -48,6 +48,19 @@ data class SavedPlace(
     fun renamed(newName: String): SavedPlace =
         copy(name = newName, address = addressKeepingStreet(), streetKept = streetKept || isPoint)
 
+    /** A Home or Work label kept before the street was moved into the address (issue 736), mended:
+     *  a name that reads as a street line (letters and a house number) which the address lacks
+     *  goes in front of it, once. Null when there is nothing to mend. A stored label says nothing
+     *  of whether it was a listing, so this goes by the name alone; on a business with a number
+     *  in its name it puts the name before the address, which a label's line can carry. */
+    fun labelMended(): SavedPlace? {
+        if (streetKept) return null
+        val street = name.trim()
+        val rest = address?.trim()?.ifBlank { null } ?: return null
+        if (street.none { it.isDigit() } || street.none { it.isLetter() } || rest.contains(street, ignoreCase = true)) return null
+        return copy(address = "$street, $rest", streetKept = true)
+    }
+
     /** Starred from a basemap label, under the label's own name, before its listing was known:
      *  marked [bare] like a pin, but a place to look up when it is opened online. One renamed
      *  since no longer matches the label's id and stays a label of the user's own. */

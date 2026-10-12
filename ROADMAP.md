@@ -188,8 +188,6 @@ Small items, one pull request each.
 - A Takeout CSV import runs as a plain coroutine: no Cancel, no foreground service, and the
   list is written only at the end, so a 2,000-row file is a quarter hour the process must
   survive. Run it through `downloadLaunch` with a Cancel on the status card.
-- Home or Work set from a search result keeps the locality-only address on the chip; only a
-  saved point gets the street moved in.
 - The blind-travel hold short of a turn (#745) holds the arrow, but the engine still advances
   the step and says the turn line from the held point once the reckoned speed is over 6 m/s.
 - A stop whose pin finds no mark on the line pro-rates its countdown over two legs.

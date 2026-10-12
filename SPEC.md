@@ -2962,7 +2962,11 @@ when the feature ids match. Two requests at most.
   (`SavedPlace.addressKeepingStreet`: a point whose address does not already start with its
   name), once: the record is then marked `streetKept`, so a second rename leaves the address
   alone. Whether the place is a point is read off the stored record, never off the Place a row
-  hands in, which carries no listing fields. The row, Copy and Share keep the street. The listing's
+  hands in, which carries no listing fields. An address picked from a search as Home or Work is
+  kept as a point (`MapViewModel.isAddressPick`: a result with no category, rating or reviews),
+  so its street moves in too. A Home or Work kept before that, with a street line for a name
+  (letters and a house number) that its address lacks, is mended once at start
+  (`SavedPlace.labelMended`). The row, Copy and Share keep the street. The listing's
   name is taken only when it agrees with the saved one.
 - A location link's action is a setting (`LinkAction`, `link_action`): show the place
   (default), open the route chooser, or start navigation. Start also applies to directions

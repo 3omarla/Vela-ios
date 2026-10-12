@@ -786,6 +786,9 @@ class MapViewModel @Inject constructor(
         voicePrefs.registerOnSharedPreferenceChangeListener(voicePrefListener)
         val installedVoices = VelaPiper.installedVoiceIds(appContext)
         val activeVoice = VelaPiper.effectiveVoiceId(appContext)
+        // A Home or Work set before the street was moved into the address shows only the
+        // locality on its chip (issue 736): mended once, here, so nobody has to set it again.
+        ShortcutKind.values().forEach { kind -> shortcutStore.get(kind)?.labelMended()?.let { shortcutStore.set(kind, it) } }
         _state.update {
             it.copy(
                 installedVoiceIds = installedVoices.toSet(),
@@ -1819,6 +1822,16 @@ class MapViewModel @Inject constructor(
         _state.update { it.copy(assigningShortcut = kind, selected = null) }
 
     fun cancelAssign() = _state.update { it.copy(assigningShortcut = null) }
+
+    /** Whether [p], picked as Home or Work, is an address rather than a listing. A search result
+     *  says so itself (no category, rating or reviews). A row from a list never carries those, so
+     *  for one of them it goes by the entry: a house number in a name its address lacks. */
+    private fun isAddressPick(p: Place): Boolean {
+        if (p.isListing()) return false
+        val entry = listStore.lists().asSequence().flatMap { it.places.asSequence() }.firstOrNull { it.matches(p.id, p.featureId) } ?: return true
+        val street = entry.name.trim()
+        return street.any { it.isDigit() } && entry.address?.contains(street, ignoreCase = true) != true
+    }
 
     /** If a shortcut is being assigned, store [sp] in it and return true (handled). */
     private fun consumeAssign(sp: SavedPlace): Boolean {
@@ -3270,7 +3283,9 @@ class MapViewModel @Inject constructor(
             shapeForRow(p)?.let { openShape(it, p.location); _state.update { s -> s.copy(center = p.location) } }
             return
         }
-        if (consumeAssign(SavedPlace.of(p))) return
+        // An address picked as Home or Work is a point, like one starred from its sheet: its
+        // street is its name, and the label's line needs it in the address (issue 736).
+        if (_state.value.assigningShortcut != null && consumeAssign(SavedPlace.of(p).copy(bare = isAddressPick(p)))) return
         // NAVIGATING: a pick from the in-nav search-along-route list becomes a stop on the
         // LIVE drive - the normal selection path below would null activeRoute/open sheets
         // that nav's bottom slot doesn't render. Google's in-nav pick does the same. ONLY
