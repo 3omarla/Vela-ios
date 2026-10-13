@@ -4631,7 +4631,12 @@ fun VelaMapView(
                         if (now - since >= 1000) {
                             // Zoom range and bearing change in the second: a dip that lines up with a
                             // whole-level zoom crossing or a turn reads straight off the log.
-                            android.util.Log.d("VelaFps", "${frames * 1000L / (now - since)} fps (${frames} frames) z=%.2f-%.2f brg %.0f>%.0f idle=%d worst=%dms slow33=%d slow50=%d".format(zLo, zHi, b0, b1, idleEvents[0], worst, over33, over50))
+                            // With "Zoom to the next turn" on, where the next maneuver sits on screen against
+                            // the turn card's bottom edge (window px), to check the framing on a drive.
+                            val turn = NavTurnTarget.point?.let { t ->
+                                mapRef?.let { m -> " turnY=%.0f card=%d tilt=%.0f".format(m.projection.toScreenLocation(org.maplibre.android.geometry.LatLng(t.lat, t.lng)).y, NavChromeEdges.bannerBottomPx, m.cameraPosition.tilt) }
+                            } ?: ""
+                            android.util.Log.d("VelaFps", "${frames * 1000L / (now - since)} fps (${frames} frames) z=%.2f-%.2f brg %.0f>%.0f idle=%d worst=%dms slow33=%d slow50=%d".format(zLo, zHi, b0, b1, idleEvents[0], worst, over33, over50) + turn)
                             worst = 0; over33 = 0; over50 = 0
                             idleEvents[0] = 0
                             frames = 0
