@@ -332,7 +332,7 @@ fun PlaceSheet(
     // The star and the Save pill are filled for a place in any list, not only a quick-saved one
     // (issue #792). The star's menu is declared here so the pill can reach the chooser beside it.
     val marked = isSaved || inAnyList
-    var saveMenu by remember { mutableStateOf(false) }
+    var saveMenu by remember(sheetKey) { mutableStateOf(false) }
     // The listing's details fade in when a tap resolves, instead of popping in all at once.
     // While the tap is looked up, whatever the map's own data already knows shows at once (the
     // open-data category, address, phone, website and hours; user 2026-09-22) and Google's
