@@ -1845,8 +1845,9 @@ Zoom to the next turn (`ZoomToTurn`, Settings > Navigation, off by default; issu
 - Measured on the 4a over a 13 mile simulated drive with the `VelaFps` framing fields: the
   projection model and MapLibre's own projection agree within 1 dp at every tilt and zoom;
   framed for 55 degrees while the camera held 52.6, the turn sat 27 dp above the aimed row,
-  at the card's edge, for the whole tilted stretch; flat, it sat on the row. On the freeway the
-  floor bound for nine minutes with the next maneuver off the top of the screen.
+  at the card's edge, for the whole tilted stretch; flat, it sat on the row. Framed with the
+  held tilt, it sits on the row within 2 dp, tilted or flat. On the freeway the floor bound for
+  nine minutes with the next maneuver off the top of the screen.
 - The point is `NavTurnTarget`, written by `NavController` as the step changes: the step's
   maneuver, past any CONTINUE or STRAIGHT step the voice is silent for (no genuine lane fork,
   `continueHasGenuineFork`, the engine's own test); a straight step with a fork the voice

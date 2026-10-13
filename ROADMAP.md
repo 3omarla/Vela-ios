@@ -325,10 +325,10 @@ off the list when it has been.
   unit-tested on the 1080 x 2340 fixture. Seen on a 4a in simulated drives: zoom 16 to 17.9
   through town, out to 12 and flat once the next maneuver was 8.9 miles off on I 80, back in
   from 12.4 to 17.2 over the four minutes before an exit, and the turn 27 dp above its row
-  while the camera held 52.6 degrees against a framing for 55 (fixed, SPEC 4.7 Framing). Not
-  seen: the framing with the camera's own tilt on a drive, a real road, a reroute with it on,
-  the floor dial below 12, and whether 24 dp under the card is the right margin for the street
-  callout.
+  while the camera held 52.6 degrees against a framing for 55 (fixed, SPEC 4.7 Framing), and
+  after the fix the turn on its row, 24 dp under the card within 2 dp, through the tilted
+  stretch. Not seen: a real road, a reroute with it on, the floor dial below 12, and whether
+  24 dp under the card is the right margin for the street callout.
 
 ### Open from the October 2026 audit
 
