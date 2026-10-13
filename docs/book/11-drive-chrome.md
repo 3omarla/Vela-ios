@@ -233,11 +233,12 @@ nothing changes. With a large display size or large text:
 "Zoom to the next turn" (Settings > Navigation, off by default) is for long stretches between
 turns. Heading-up, the camera zooms out until the next turn sits 24 dp under the turn card, or
 under the top of the map when nothing covers it, and the speed zoom takes over once the turn is
-near enough for it. It never goes below z12: there the map still draws motorways through minor
-roads and the route, and a turn farther than that sits off the top until it is nearer. Street
-names, lights and stop signs do not draw that far out. Below z15 the camera lies flatter, the
-way it does for a pinch, and the zoom allows for that. The map stays heading-up; the camera is
-not turned toward the turn. On a 1080 x 2340 px, 420 dpi phone the speed zoom at 30 m/s frames
+near enough for it. It never goes below z12 unless the `turnZoomMin` dial says so: there the map
+still draws motorways through minor roads and the route, and a turn farther than that sits off
+the top until it is nearer. Street names, lights and stop signs do not draw that far out. Below
+z15 the camera lies flatter, the way it does for a pinch, and the zoom allows for that, as it
+allows for the pitch MapLibre holds the camera under (52.6 degrees on a Pixel 4a, less on a
+denser screen). The map stays heading-up; the camera is not turned toward the turn. On a 1080 x 2340 px, 420 dpi phone the speed zoom at 30 m/s frames
 a turn 1.26 km ahead, a turn 3 km ahead frames at about z13 with the camera at 13 degrees, and
 z12 frames one 5.9 km ahead, flat. The numbers are in SPEC 4.7, Framing.
 

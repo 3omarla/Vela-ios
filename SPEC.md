@@ -1752,9 +1752,14 @@ raw fix. The per-frame loop (the nav ticker) is in `ui/map/VelaMapView.kt`.
   framing's pull-back (below). A pinch sets an override that a pan or Re-center clears. With
   "Zoom to the next turn" on (Settings > Navigation, off by default) the zoom is the lesser of
   that and the zoom that frames the next maneuver (Framing, below).
-- Tilt is 55 degrees heading-up (0 north-up, or the angle a two-finger tilt set), capped by
+- Tilt wants 55 degrees heading-up (0 north-up, or the angle a two-finger tilt set), capped by
   `navTiltCap` at a zoom the user pinched to: the whole tilt from `NAV_TILT_FULL_ZOOM` (15) in,
-  flat from `NAV_TILT_FLAT_ZOOM` (12.5) out, linear between. The cap is applied during the
+  flat from `NAV_TILT_FLAT_ZOOM` (12.5) out, linear between. MapLibre holds the pitch under a
+  ceiling that follows the top padding (`TransformState::getMaxPitchForEdgeInsets`): with the
+  arrow's pad of 0.45 the drive camera sits at 52.6 degrees on a 1080 x 2340 px, 2.75x screen
+  (two simulated drives, 400 seconds each), and about 48.5 at 546 dpi. The ticker records that
+  ceiling the first time the eased tilt sits 0.3 degrees above the camera (`navTiltCeiling`,
+  cleared when the drive ends), and the turn framing below uses it. The cap is applied during the
   pinch itself (`onScale`), where the follow ticker stands aside, and by the ticker after it.
   A view tilted 55 degrees at city-wide zoom reaches the horizon and loads the tiles for all
   of it. Pixel 4a, San Francisco, eight zoom sweeps between z16.7 and z10.6 in a drive:
@@ -1832,9 +1837,16 @@ Zoom to the next turn (`ZoomToTurn`, Settings > Navigation, off by default; issu
 - Heading-up, the zoom is the lesser of the speed's (its pull-back and `ZOOM_FLOOR` included)
   and the zoom at which the next maneuver's point lands `TURN_MARGIN_DP` (24 dp) under the top
   chrome's edge: the turn card's bottom as the framer adopted it, the top of the map in
-  landscape, in picture-in-picture and with no card. Never below `ZOOM_TURN_MIN` (12). The zoom
-  eases like the speed zoom (0.5 s), so a passed turn eases out to the next one and a near one
-  eases in to the speed's. North-up, and under a pinch, the zoom is what it was.
+  landscape, in picture-in-picture and with no card. The tilt it frames for is the one the
+  camera holds (`navTiltCeiling` above, else the wanted 55). Never below the floor: the
+  `turnZoomMin` dial, `ZOOM_TURN_MIN` (12) without one. The zoom eases like the speed zoom
+  (0.5 s), so a passed turn eases out to the next one and a near one eases in to the speed's.
+  North-up, and under a pinch, the zoom is what it was.
+- Measured on the 4a over a 13 mile simulated drive with the `VelaFps` framing fields: the
+  projection model and MapLibre's own projection agree within 1 dp at every tilt and zoom;
+  framed for 55 degrees while the camera held 52.6, the turn sat 27 dp above the aimed row,
+  at the card's edge, for the whole tilted stretch; flat, it sat on the row. On the freeway the
+  floor bound for nine minutes with the next maneuver off the top of the screen.
 - The point is `NavTurnTarget`, written by `NavController` as the step changes: the step's
   maneuver, past any CONTINUE or STRAIGHT step the voice is silent for (no genuine lane fork,
   `continueHasGenuineFork`, the engine's own test); a straight step with a fork the voice
@@ -3881,6 +3893,7 @@ deep layer shows.
 | --- | --- | --- | --- |
 | `roadWidthScale` | 1.0, clamped 0 to 3 | adb, then calibration | road, route and alternate meters. 0 leaves the base curves |
 | `roadEdge` | on | adb, then calibration | road edges |
+| `turnZoomMin` | 12 | adb, then calibration | the floor of Zoom to the next turn (`NavFraming.turnFloor`) |
 | `routeOutline` | on | adb, then calibration, at style load | route outlines |
 | `roadNameSpacing` | 140 | adb | name spacing up to z16 |
 | `roadNameSpacingClose` | 300 | adb | name spacing at z18 |

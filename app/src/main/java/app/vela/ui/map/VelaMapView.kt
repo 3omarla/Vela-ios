@@ -1053,6 +1053,7 @@ fun VelaMapView(
     val navNorthUpOn = navNorthUp || northLock
     val navNorthUpHolder = rememberUpdatedState(navNorthUpOn)
     val navTiltEase = remember { doubleArrayOf(55.0) } // eased so the compass toggle glides, not snaps
+    val navTiltCeiling = remember { doubleArrayOf(Double.NaN) } // the pitch MapLibre holds the drive camera under, once seen (SPEC 4.7, Tilt)
     // The drive's first camera move is a CUT to the car, flat, and the tilt then eases in over
     // NAV_START_TILT_TAU_S (SPEC 4.7a). navStartCutMs = when it happened, 0 = not yet.
     val navStartCutMs = remember { longArrayOf(0L) }
@@ -3096,6 +3097,7 @@ fun VelaMapView(
             navPuck.kalman.reset() // nav ended — don't carry a stale speed into the next trip
             navUserTilt[0] = Double.NaN // shove-set tilt is a per-drive override
             navTiltEase[0] = 55.0 // next drive starts at the default pitch, not wherever this one ended
+            navTiltCeiling[0] = Double.NaN // the next drive's padding may differ
             navStartCutMs[0] = 0L
             navStartTilting[0] = false
             // Camera padding is STICKY MapLibre state: the nav view's puck-low offset (top padding,
@@ -3364,13 +3366,19 @@ fun VelaMapView(
                         else -> 55.0
                     }
                     val speedZoom = NavFraming.zoom(18.5 - (navZoomSpeed[0] / 30f) * (18.5 - 15.8), navPuck.framer.zoomOffset) // even closer default (user 2026-07-15, was 18.0-15.5); speed still zooms out
+                    // MapLibre holds the pitch under a ceiling set by the top padding (SPEC 4.7, Tilt):
+                    // the camera then sits below the eased target. The turn framing takes the tilt
+                    // the camera really holds, or it zooms in for ground the rows never reach.
+                    val liveTilt = cam.cameraPosition.tilt
+                    if (navTiltEase[0] - liveTilt > 0.3) navTiltCeiling[0] = liveTilt
+                    val tiltForTurn = if (navTiltCeiling[0].isNaN()) tiltWanted else minOf(tiltWanted, navTiltCeiling[0])
                     // ZOOM TO THE NEXT TURN (issue #781, SPEC 4.7 Framing): heading-up, the zoom
                     // pulls out until the next maneuver sits under the turn card, never closer than
-                    // the speed's and never below ZOOM_TURN_MIN. The same ease as the speed zoom.
+                    // the speed's and never below the floor (turnZoomMin). The same ease as the speed zoom.
                     val tgtZoom = when {
                         !navUserZoom[0].isNaN() -> navUserZoom[0]
                         app.vela.ui.ZoomToTurn.on.value && !navNorthUpHolder.value ->
-                            NavFraming.withTurn(speedZoom, navPuck.framer.turnZoom(context, cam.height.toInt(), pt, tiltWanted))
+                            NavFraming.withTurn(speedZoom, navPuck.framer.turnZoom(context, cam.height.toInt(), pt, tiltForTurn), NavFraming.turnFloor())
                         else -> speedZoom
                     }
                     if (camState[0].isNaN()) { // (re)seed from the live camera for a smooth hand-off
@@ -5412,7 +5420,7 @@ fun VelaMapView(
                         val zoom = when {
                             !navUserZoom[0].isNaN() -> navUserZoom[0]
                             app.vela.ui.ZoomToTurn.on.value && !navNorthUpOn ->
-                                NavFraming.withTurn(speedZoom, navPuck.framer.turnZoom(context, map.height.toInt(), loc, 55.0))
+                                NavFraming.withTurn(speedZoom, navPuck.framer.turnZoom(context, map.height.toInt(), loc, if (navTiltCeiling[0].isNaN()) 55.0 else minOf(55.0, navTiltCeiling[0])), NavFraming.turnFloor())
                             else -> speedZoom
                         }
                         val preTilt = NavFraming.tiltAt(zoom, 55.0) // flatter when that zoom is far out

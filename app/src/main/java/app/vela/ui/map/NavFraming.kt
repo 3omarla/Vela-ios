@@ -224,10 +224,15 @@ internal object NavFraming {
     }
 
     /** The drive zoom with "Zoom to the next turn" on: never closer than the speed's [speedZoom]
-     *  (its pull-back and floor included), never below [ZOOM_TURN_MIN]. No turn to frame (NaN)
-     *  leaves the speed's. */
-    fun withTurn(speedZoom: Double, turnZoom: Double): Double =
-        if (turnZoom.isNaN()) speedZoom else min(speedZoom, max(turnZoom, ZOOM_TURN_MIN))
+     *  (its pull-back and floor included), never below [floor] ([ZOOM_TURN_MIN], or the
+     *  `turnZoomMin` dial). No turn to frame (NaN) leaves the speed's. */
+    fun withTurn(speedZoom: Double, turnZoom: Double, floor: Double = ZOOM_TURN_MIN): Double =
+        if (turnZoom.isNaN()) speedZoom else min(speedZoom, max(turnZoom, floor))
+
+    /** The floor in use: the `turnZoomMin` dial (`debug.vela.tune.turnZoomMin` on a test phone,
+     *  else calibration's), [ZOOM_TURN_MIN] without one. */
+    fun turnFloor(): Double =
+        app.vela.ui.AppTune.local("turnZoomMin") ?: app.vela.core.config.CalibrationStore.latest.tune("turnZoomMin", ZOOM_TURN_MIN)
 }
 
 /**

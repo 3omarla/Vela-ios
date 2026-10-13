@@ -323,10 +323,12 @@ off the list when it has been.
   would scroll.
 - "Zoom to the next turn" (#781): the zoom that frames the next maneuver under the turn card,
   unit-tested on the 1080 x 2340 fixture. Seen on a 4a in simulated drives: zoom 16 to 17.9
-  through town, out to 12 and flat once the next maneuver was 8.9 miles off on I 80, and back
-  in from 12.4 to 17.2 over the four minutes before an exit. Not seen: the flattening on a real
-  road, a reroute with it on, and whether 24 dp under the card is the right margin for the
-  street callout.
+  through town, out to 12 and flat once the next maneuver was 8.9 miles off on I 80, back in
+  from 12.4 to 17.2 over the four minutes before an exit, and the turn 27 dp above its row
+  while the camera held 52.6 degrees against a framing for 55 (fixed, SPEC 4.7 Framing). Not
+  seen: the framing with the camera's own tilt on a drive, a real road, a reroute with it on,
+  the floor dial below 12, and whether 24 dp under the card is the right margin for the street
+  callout.
 
 ### Open from the October 2026 audit
 
@@ -393,6 +395,10 @@ Found reading everything since 0.4.1912 and not fixed yet.
   ones. Not started. The order and hidden set are keyed by the chip's query, so a custom chip
   would fit the same store; the open questions are the icon and what the offline store expands
   for a word it does not know.
+- Zoom to the next turn, the driver's asks (#781): the camera kept tilted however far the turn
+  is, the turn held near the screen's middle by turning the camera up to 45 degrees off the
+  heading, and the same on the car screen. Not started; the flattening below z15 is there for
+  the frame rate (SPEC 4.7, Tilt), and the car has its own framing.
 - Camera alerts in driving mode (#727): the speed camera and plate camera alerts are projected
   onto a route (`refreshRouteSpeedCams`, `refreshRouteFlock`), so the mode without a route has
   none. Not started. The work is a look-ahead from the fix stream: the cameras within a cone

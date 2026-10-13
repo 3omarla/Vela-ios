@@ -88,6 +88,7 @@ class ZoomToTurnTest {
         assertEquals(speed, NavFraming.withTurn(speed, Double.NaN), 1e-9)
         assertEquals(15.1, NavFraming.withTurn(speed, 15.1), 1e-9)
         assertEquals(NavFraming.ZOOM_TURN_MIN, NavFraming.withTurn(speed, 10.2), 1e-9)
+        assertEquals(11.0, NavFraming.withTurn(speed, 10.2, floor = 11.0), 1e-9) // the dial lowers the floor
         // On the fixture the floor frames a turn about 5.9 km ahead; a farther one sits off the top.
         assertEquals(5863.0, metersToEdge(NavFraming.ZOOM_TURN_MIN, NavFraming.tiltAt(NavFraming.ZOOM_TURN_MIN, 55.0)), 1.0)
     }
