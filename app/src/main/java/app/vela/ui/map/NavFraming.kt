@@ -233,9 +233,10 @@ internal object NavFraming {
 /**
  * The point of the next maneuver the drive camera zooms out to (NavFraming, "Zoom to the next
  * turn"), written by `NavController` as the step changes and read per frame by the drive ticker.
- * Null while no drive is on or the route has no maneuver ahead. A continue or straight step asks
- * nothing of the driver (NavEngine says nothing for it), so the point is the first step past
- * those; the arrival counts as a turn.
+ * Null while no drive is on or the route has no maneuver ahead. A continue or straight step the
+ * voice is silent for (no genuine lane fork, `continueHasGenuineFork`, NavEngine's own rule) asks
+ * nothing of the driver, so the point is the first step past those; a straight step with a fork
+ * the voice announces is a target, and the arrival counts as a turn.
  */
 internal object NavTurnTarget {
     @JvmField var point: app.vela.core.model.LatLng? = null
@@ -248,11 +249,15 @@ internal object NavTurnTarget {
         step = stepIndex
         point = route?.let { r ->
             var i = stepIndex
-            while (i < r.maneuvers.size && (r.maneuvers[i].type == app.vela.core.model.ManeuverType.CONTINUE ||
-                r.maneuvers[i].type == app.vela.core.model.ManeuverType.STRAIGHT)) i++
+            while (i < r.maneuvers.size && quiet(r.maneuvers[i])) i++
             r.maneuvers.getOrNull(i)?.location
         }
     }
+
+    /** A continue or straight step the voice says nothing for: the same test as NavEngine's. */
+    private fun quiet(m: app.vela.core.model.Maneuver): Boolean =
+        (m.type == app.vela.core.model.ManeuverType.CONTINUE || m.type == app.vela.core.model.ManeuverType.STRAIGHT) &&
+            !app.vela.core.model.continueHasGenuineFork(m.lanes)
 }
 
 /**

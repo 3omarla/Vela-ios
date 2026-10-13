@@ -1,5 +1,6 @@
 package app.vela.ui.map
 
+import app.vela.core.model.Lane
 import app.vela.core.model.LatLng
 import app.vela.core.model.Maneuver
 import app.vela.core.model.ManeuverType
@@ -113,5 +114,32 @@ class ZoomToTurnTest {
         assertNull(NavTurnTarget.point)
         NavTurnTarget.update(null, 0)
         assertNull(NavTurnTarget.point)
+    }
+
+    @Test fun `a straight step with a lane fork the voice announces is a target`() {
+        val a = LatLng(38.54, -121.74)
+        val b = LatLng(38.55, -121.74)
+        val c = LatLng(38.56, -121.74)
+        val end = LatLng(38.57, -121.74)
+        // An off lane pointing straight beside the lanes to use: the engine speaks this one.
+        val fork = listOf(Lane(listOf("straight"), valid = false), Lane(listOf("slight right"), valid = true))
+        val steps = listOf(
+            Maneuver(ManeuverType.DEPART, "", a, 1000.0, 60.0),
+            Maneuver(ManeuverType.CONTINUE, "", b, 1000.0, 60.0),
+            Maneuver(ManeuverType.STRAIGHT, "", c, 1000.0, 60.0, lanes = fork),
+            Maneuver(ManeuverType.TURN_LEFT, "", end, 1000.0, 60.0),
+        )
+        val route = Route(
+            polyline = listOf(a, b, c, end),
+            legs = listOf(RouteLeg(3000.0, 180.0, null, steps)),
+            distanceMeters = 3000.0, durationSeconds = 180.0, durationInTrafficSeconds = null,
+        )
+        NavTurnTarget.update(route, 1)
+        assertEquals(c, NavTurnTarget.point)
+        NavTurnTarget.update(route, 2)
+        assertEquals(c, NavTurnTarget.point)
+        NavTurnTarget.update(route, 3)
+        assertEquals(end, NavTurnTarget.point)
+        NavTurnTarget.update(null, 0)
     }
 }

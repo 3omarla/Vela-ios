@@ -1836,8 +1836,10 @@ Zoom to the next turn (`ZoomToTurn`, Settings > Navigation, off by default; issu
   eases like the speed zoom (0.5 s), so a passed turn eases out to the next one and a near one
   eases in to the speed's. North-up, and under a pinch, the zoom is what it was.
 - The point is `NavTurnTarget`, written by `NavController` as the step changes: the step's
-  maneuver, past any CONTINUE or STRAIGHT step, which asks nothing of the driver; the arrival
-  counts. No drive, or no maneuver left, leaves the speed's zoom.
+  maneuver, past any CONTINUE or STRAIGHT step the voice is silent for (no genuine lane fork,
+  `continueHasGenuineFork`, the engine's own test); a straight step with a fork the voice
+  announces is a target, and the arrival counts. No drive, or no maneuver left, leaves the
+  speed's zoom.
 - `NavFraming.turnZoom`: the straight-line meters from the drawn arrow to the point, taken as
   straight ahead, against the ground the rows between the arrow and the edge cover. Flat, a row
   is a ground dp. Tilted `p`, a row `u` dp above the arrow reaches `d cos p tan(p + atan(u / d))
