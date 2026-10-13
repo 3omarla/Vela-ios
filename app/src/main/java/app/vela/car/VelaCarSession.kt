@@ -154,7 +154,15 @@ class VelaCarSession(private val deps: CarDeps) : Session(), DefaultLifecycleObs
     private fun parseNavQuery(intent: Intent): String? {
         if (intent.action != CarContext.ACTION_NAVIGATE) return null
         if (parseNavDest(intent) != null) return null
-        val ssp = intent.data?.schemeSpecificPart ?: return null
-        return ssp.substringAfter("q=", "").substringBefore('&').replace('+', ' ').trim().takeIf { it.isNotEmpty() }
+        return navQueryOf(intent.data?.schemeSpecificPart ?: return null)
     }
+}
+
+/** The free-text `q=` of a `geo:` URI's scheme-specific part (`0,0?q=Pizza+place&z=10`), decoded
+ *  after the split (some senders percent-encode it); null when there is none. A coordinate `q=`
+ *  never reaches this: `parseNavDest` takes it first. */
+internal fun navQueryOf(schemeSpecificPart: String): String? {
+    val raw = schemeSpecificPart.substringAfter("q=", "").substringBefore('&').replace('+', ' ')
+    val query = runCatching { java.net.URLDecoder.decode(raw, "UTF-8") }.getOrDefault(raw)
+    return query.trim().takeIf { it.isNotEmpty() }
 }
