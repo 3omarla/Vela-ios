@@ -49,15 +49,17 @@ data class SavedPlace(
         copy(name = newName, address = addressKeepingStreet(), streetKept = streetKept || isPoint)
 
     /** A Home or Work label kept before the street was moved into the address (issue 736), mended:
-     *  a name that reads as a street line (letters and a house number) which the address lacks
-     *  goes in front of it, once. Null when there is nothing to mend. A stored label says nothing
-     *  of whether it was a listing, so this goes by the name alone; on a business with a number
-     *  in its name it puts the name before the address, which a label's line can carry. */
+     *  a name that reads as a street line, with a house number first ("1451 W Covell Blvd") or
+     *  last ("Elm Street 5"), which the address lacks goes in front of it, once. Null when there
+     *  is nothing to mend. A stored label says nothing of whether it was a listing, so this goes
+     *  by the name alone; a business whose name ends in a number ("Studio 54") gets its name
+     *  before the address, which a label's line can carry, and one with a number inside its name
+     *  ("7-Eleven") is left alone. */
     fun labelMended(): SavedPlace? {
         if (streetKept) return null
         val street = name.trim()
         val rest = address?.trim()?.ifBlank { null } ?: return null
-        if (street.none { it.isDigit() } || street.none { it.isLetter() } || rest.contains(street, ignoreCase = true)) return null
+        if (!isStreetLine(street) || rest.contains(street, ignoreCase = true)) return null
         return copy(address = "$street, $rest", streetKept = true)
     }
 
@@ -80,6 +82,12 @@ data class SavedPlace(
     fun toPlace(): Place = Place(id = id, name = name, location = location, address = address)
 
     companion object {
+        private val NUMBER_FIRST = Regex("""^\d+[A-Za-z]?(-\d+)?\s+\p{L}""")
+        private val NUMBER_LAST = Regex("""^\p{L}.*\s\d+[A-Za-z]?$""")
+
+        /** A house number at the start or the end of [s], with letters on the other side. */
+        fun isStreetLine(s: String): Boolean = NUMBER_FIRST.containsMatchIn(s) || NUMBER_LAST.containsMatchIn(s)
+
         fun of(p: Place) = SavedPlace(p.id, p.name, p.location.lat, p.location.lng, p.address)
     }
 }

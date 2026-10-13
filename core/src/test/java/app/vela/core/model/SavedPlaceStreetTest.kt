@@ -39,6 +39,9 @@ class SavedPlaceStreetTest {
         // The street is already there, the name is no street line, or there is no address.
         assertEquals(null, sp("Elm Street 5", "Elm Street 5, 95616 Davis").labelMended())
         assertEquals(null, sp("Davis Food Co-op", "620 G St, Davis, CA 95616").labelMended())
+        // A number inside a name is not a house number; one at the end is taken as one.
+        assertEquals(null, sp("7-Eleven", "Davis, CA 95616").labelMended())
+        assertEquals("12A Main St, Davis, CA 95616", sp("12A Main St", "Davis, CA 95616").labelMended()!!.address)
         assertEquals(null, sp("38.5449, -121.7405", "Davis, CA 95616").labelMended())
         assertEquals(null, sp("Elm Street 5", null).labelMended())
     }

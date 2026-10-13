@@ -3061,8 +3061,9 @@ when the feature ids match. Two requests at most.
   hands in, which carries no listing fields. An address picked from a search as Home or Work is
   kept as a point (`MapViewModel.isAddressPick`: a result with no category, rating or reviews),
   so its street moves in too. A Home or Work kept before that, with a street line for a name
-  (letters and a house number) that its address lacks, is mended once at start
-  (`SavedPlace.labelMended`). The row, Copy and Share keep the street. The listing's
+  (a house number first or last, `SavedPlace.isStreetLine`; "7-Eleven" is not one) that its
+  address lacks, is mended once at start (`SavedPlace.labelMended`). The row, Copy and Share
+  keep the street. The listing's
   name is taken only when it agrees with the saved one.
 - A location link's action is a setting (`LinkAction`, `link_action`): show the place
   (default), open the route chooser, or start navigation. Start also applies to directions
