@@ -1206,7 +1206,7 @@
     <string name="map_layers_transit">Transit lines</string>
     <string name="map_layers_terrain">Terrain</string>
     <string name="settings_layers_button">Show layers button</string>
-    <string name="settings_layers_button_hint">The button on the map that flips satellite, traffic, transit and terrain.</string>
+    <string name="settings_layers_button_hint">The button on the map that picks the map look, flips satellite, traffic, transit, terrain, 3D buildings and place icons, and opens driving mode.</string>
     <plurals name="topcard_more_stops">
         <item quantity="one">+%d more stop</item>
         <item quantity="other">+%d more stops</item>
