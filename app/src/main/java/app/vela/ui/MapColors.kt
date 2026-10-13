@@ -5,9 +5,10 @@ import androidx.compose.runtime.mutableStateOf
 
 /**
  * Process-wide map color-set pick (same reactive-holder shape as AppTheme/UiScale).
- * Two sets ship compiled: "modern" (the palette pixel-sampled from the Google app,
- * the default) and "classic" (the pre-sample look the project archived in
- * SPEC section 6.2 - white roads, soft-yellow motorways, true greens). The user's
+ * Three sets ship compiled: "modern" (the palette pixel-sampled from the Google app,
+ * the default), "classic" (the pre-sample look the project archived in
+ * SPEC section 6.2 - white roads, soft-yellow motorways, true greens) and "contrast"
+ * (a night palette with warm streets on slate land; by day it draws as modern). The user's
  * pick persists in `map_palette`; with NO pick, the signed calibration bundle's
  * `defaultMapPalette` decides (pushed by MapViewModel at init), so the fleet default
  * can change remotely without an app release - a user's own pick always wins.
@@ -15,6 +16,7 @@ import androidx.compose.runtime.mutableStateOf
 object MapColors {
     const val MODERN = "modern"
     const val CLASSIC = "classic"
+    const val CONTRAST = "contrast"
 
     /** The user's explicit pick, or "" when they never chose. */
     val picked = mutableStateOf("")
@@ -37,4 +39,5 @@ object MapColors {
     fun current(): String = picked.value.ifBlank { remoteDefault.value }
 
     fun classic(): Boolean = current() == CLASSIC
+    fun contrast(): Boolean = current() == CONTRAST
 }

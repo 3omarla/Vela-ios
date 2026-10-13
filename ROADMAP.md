@@ -289,6 +289,10 @@ off the list when it has been.
   panel and from the setting, the voice choices, the X, the credit above the bar, a simulated
   drive started from it and ended back in it) and on a tablet emulator in both orientations. Not seen: the speeding
   alert, location off, the screen turning off, a real tablet, or Android Auto connected.
+- Contrast map colors (`CONTRAST_DARK`): seen on a 4a at zoom 12.6 and 15.5 on the Davis
+  fixture, online, in the dark theme. Not seen: the car screen, a drive with the route line and
+  traffic over the tan streets, the satellite layer, the AMOLED theme (which ignores it), the
+  offline basemap, or terrain shading.
 - The map looks (#764): the offline fallback and the no-network guard were seen once, for Dark
   and Fiord online then offline over one region (Dark is now named Black).
 - The lists sheet (#765): a physical keypad, and the sheet with one list, where a pencil stands
@@ -408,6 +412,8 @@ Found reading everything since 0.4.1912 and not fixed yet.
 - A bigger Whisper for voice search (#798): tiny is the one multilingual engine and is weak in
   German; Whisper base or small, int8, as an opt-in download for the languages tiny handles
   badly. Not started.
+- Contrast by day: the Contrast map colors draw as Modern in light mode. A light palette with
+  the same intent (warm streets, roads a few steps from the land) is not drawn. Not started.
 - Camera alerts in driving mode (#727): the speed camera and plate camera alerts are projected
   onto a route (`refreshRouteSpeedCams`, `refreshRouteFlock`), so the mode without a route has
   none. Not started. The work is a look-ahead from the fix stream: the cameras within a cone

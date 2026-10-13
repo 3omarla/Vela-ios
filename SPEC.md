@@ -3557,12 +3557,15 @@ shares (`widenStreets`, the road edges, label colors, the hide list, borders).
 | --- | --- |
 | AMOLED | `applyAmoled`, which runs `applyDark` and then overrides colors |
 | Dark, Classic | `applyClassicDark` |
-| Dark, Modern | `applyDark` |
+| Dark, Modern | `applyDark` with `MODERN_DARK` |
+| Dark, Contrast | `applyDark` with `CONTRAST_DARK` |
 | Light, Classic | `applyClassicLight` |
-| Light, Modern | `applyLight` |
+| Light, Modern or Contrast | `applyLight` |
 
-- `MapColors` picks Modern or Classic: pref `map_palette`, and with no pick calibration's
-  `defaultMapPalette` (`modern`). AMOLED ignores the pick.
+- `MapColors` picks Modern, Classic or Contrast: pref `map_palette`, and with no pick
+  calibration's `defaultMapPalette` (`modern`). AMOLED ignores the pick. The two Modern-shaped
+  night palettes are `DarkPalette` values (`MODERN_DARK`, `CONTRAST_DARK`) that `applyDark`
+  paints; Contrast by day draws as Modern.
 - The map's light or dark is its own setting: `AppTheme.mapMode` (`MapThemeMode` FOLLOW / LIGHT /
   DARK, pref `theme_map_mode`, Settings > Appearance > Map). `isMapDark()` resolves the nav
   day/night override first, then the map mode, then the app theme. `isMapAmoled()` is true only
@@ -3574,43 +3577,45 @@ shares (`widenStreets`, the road edges, label colors, the hide list, borders).
 - `styleKey` carries the style URI, the dark and AMOLED flags, the palette, satellite, the puck
   style, the house-number level and the offline basemap archive. A change in any of them reloads
   the style.
-- Every layer is colored in all five functions. An unstyled runtime `LineLayer` renders black, and
+- Every layer is colored in every palette. An unstyled runtime `LineLayer` renders black, and
   a Liberty layer no dark function names keeps its light colors at night.
 - `applyAmoled` sets colors only. Zoom gates and extrusion geometry come from `applyDark`.
 - The functions take a `StyleLayers`, so the Android Auto snapshotter (`SnapshotterHost`) gets the
   phone's theme (`StyleHost`).
 
 Modern is sampled from the Google app. Classic is the earlier look: white roads and yellow
-motorways by day, neutral slate by night. In the table "land" is that palette's land color and
+motorways by day, neutral slate by night. Contrast is a night palette for a glance from a mount:
+slate land, slate-blue buildings a few steps lighter, warm tan streets, a light motorway and
+white labels, set against a street-map night style on the Davis fixture at z12.5 and z15.5. In the table "land" is that palette's land color and
 "at 0.9" is a fill opacity.
 
-| Element | Modern light | Modern dark | AMOLED | Classic light | Classic dark |
-| --- | --- | --- | --- | --- | --- |
-| Land (`background`) | `#f8f7f7` | `#162640` | `#000000` | `#f2f1ee` | `#2b2f36` |
-| Water (`water`, `waterway_river`) | `#90daee` | `#000d2a` | `#04080C` | `#90daee` | `#2f4a63` |
-| Park (`park`) | `#d3f8e1` | `#0d3847` | `#050E0A` | `#cfeccd` | `#2c4a34` |
-| Grass (`landcover_grass`) | `#d3f8e1` | `#0d3847` at 0.9 | `#050E0A` | `#d3f8e2` | `#2c4a34` at 0.9 |
-| Wood (`landcover_wood`) | `#d3f8e1` | `#0d3847` at 0.95 | `#050E0A` | `#c9f2da` | `#274330` at 0.95 |
-| Wetland (`vela-wetland`) | `#d3f8e1` | `#0d3847` at 0.9 | `#000000` | `#cdeff0` | `#26403c` at 0.9 |
-| Pitches (`vela-pitch`, `landuse_pitch`, `landuse_track`) | `#a9eac2` | `#0d4956` | `#050E0A` | `#d3f8e2` | `#2c4a34` |
-| Plaza and parking (`vela-plaza`) | `#dbe0e8` | `#2a3546` | `#0A0C0F` | `#ededed` | `#31363f` |
-| Commercial and retail (`vela-commercial`) | `#fdf9ef` | `#1c2638` | `#000000` | land | `#31363f` at 0.5 |
-| Campuses (`landuse_school`) | `#f0eded` | other landuse | other landuse | land | other landuse |
-| Other landuse (remaining `landuse*`, `landcover*` fills) | land | `#2a3546` at 0.5 | `#000000` | land | `#31363f` at 0.5 |
-| Buildings (`building`, `building-3d`) | `#e8e9ed` | `#1c3b69` | `#0A0C0F` | `#dde1e7` | `#383d45` |
-| Building outline | `#d6d9e6` | `#2e3d6d` | `#14171A` | `#c4c9d1` | `#464c56` |
-| Overlay footprints (`vela-ovl-*`), fill / outline | `#e2e3e9` / `#c4c9d1` | `#1c3b69` / `#2e3d6d` | dark value of the picked palette | `#dde1e7` / `#c4c9d1` | `#383d45` / `#464c56` |
-| Minor, secondary, tertiary and link roads | `#aab9c9` | `#3d5a77` | `#1A1D22` | `#ffffff` | `#565b64` |
-| Trunk and primary | `#aab9c9` | `#476789` | `#22262C` | `#ffffff` | `#6a707b` |
-| Motorway and its links | `#8aa4c0` | `#476789` | `#22262C` | `#f9d27a` | `#9c7f4f` |
-| Service and track | `#9bacbc` | `#2a4056` | `#111418` | `#ffffff` | `#565b64` |
-| Casings | land, then road edges | land, then road edges | `#000000` | motorway `#f0b85a`, trunk and primary `#dadde2`, secondary and tertiary `#e4e6ea`, others land | land |
-| Trails (`vela-trails`) | `#7fcdb0` | `#167055` | `#1A3A28` | `#7fcdb0` | `#167055` |
-| Bike paths (`vela-bikeroutes`) | `#007b8b` | `#1f8f9c` | `#0D2D36` | `#007b8b` | `#1f8f9c` |
-| Airport area (`aeroway_fill`) | Liberty's | `#1c2638` | `#0A0C0F` | Liberty's | `#31363f` |
-| Runways and taxiways (`aeroway_runway`, `aeroway_taxiway`) | Liberty's | `#2a4056` | `#1A1D22` | Liberty's | `#565b64` |
-| Label text / halo, every symbol layer | Liberty's | `#c3cad6` / `#1a2230` | `#D0D4DC` / `#000000` | Liberty's | `#cdd0d6` / `#1e2228` |
-| Hillshade exaggeration, then shadow / highlight / accent | 0.32, `#6b7280` / `#ffffff` / `#9aa0a6` | 0.45, `#0a1018` / `#3a4a68` / `#0a1018` | 0.3, `#000000` / `#1A2030` / `#000000` | as Modern light | 0.4, `#0b0d10` / `#4a4d55` / `#0b0d10` |
+| Element | Modern light | Modern dark | AMOLED | Classic light | Classic dark | Contrast dark |
+| --- | --- | --- | --- | --- | --- | --- |
+| Land (`background`) | `#f8f7f7` | `#162640` | `#000000` | `#f2f1ee` | `#2b2f36` | `#293a4c` |
+| Water (`water`, `waterway_river`) | `#90daee` | `#000d2a` | `#04080C` | `#90daee` | `#2f4a63` | `#1d2a3a` |
+| Park (`park`) | `#d3f8e1` | `#0d3847` | `#050E0A` | `#cfeccd` | `#2c4a34` | `#22413f` |
+| Grass (`landcover_grass`) | `#d3f8e1` | `#0d3847` at 0.9 | `#050E0A` | `#d3f8e2` | `#2c4a34` at 0.9 | `#22413f` at 0.9 |
+| Wood (`landcover_wood`) | `#d3f8e1` | `#0d3847` at 0.95 | `#050E0A` | `#c9f2da` | `#274330` at 0.95 | `#22413f` at 0.95 |
+| Wetland (`vela-wetland`) | `#d3f8e1` | `#0d3847` at 0.9 | `#000000` | `#cdeff0` | `#26403c` at 0.9 | `#22413f` at 0.9 |
+| Pitches (`vela-pitch`, `landuse_pitch`, `landuse_track`) | `#a9eac2` | `#0d4956` | `#050E0A` | `#d3f8e2` | `#2c4a34` | `#255250` |
+| Plaza and parking (`vela-plaza`) | `#dbe0e8` | `#2a3546` | `#0A0C0F` | `#ededed` | `#31363f` | `#3a4d62` |
+| Commercial and retail (`vela-commercial`) | `#fdf9ef` | `#1c2638` | `#000000` | land | `#31363f` at 0.5 | `#2f4256` |
+| Campuses (`landuse_school`) | `#f0eded` | other landuse | other landuse | land | other landuse | other landuse |
+| Other landuse (remaining `landuse*`, `landcover*` fills) | land | `#2a3546` at 0.5 | `#000000` | land | `#31363f` at 0.5 | `#34465a` at 0.5 |
+| Buildings (`building`, `building-3d`) | `#e8e9ed` | `#1c3b69` | `#0A0C0F` | `#dde1e7` | `#383d45` | `#445976` |
+| Building outline | `#d6d9e6` | `#2e3d6d` | `#14171A` | `#c4c9d1` | `#464c56` | `#5a7094` |
+| Overlay footprints (`vela-ovl-*`), fill / outline | `#e2e3e9` / `#c4c9d1` | `#1c3b69` / `#2e3d6d` | dark value of the picked palette | `#dde1e7` / `#c4c9d1` | `#383d45` / `#464c56` | `#445976` / `#5a7094` |
+| Minor, secondary, tertiary and link roads | `#aab9c9` | `#3d5a77` | `#1A1D22` | `#ffffff` | `#565b64` | `#7e7a60` |
+| Trunk and primary | `#aab9c9` | `#476789` | `#22262C` | `#ffffff` | `#6a707b` | `#a39d7c` |
+| Motorway and its links | `#8aa4c0` | `#476789` | `#22262C` | `#f9d27a` | `#9c7f4f` | `#9db1cb` |
+| Service and track | `#9bacbc` | `#2a4056` | `#111418` | `#ffffff` | `#565b64` | `#5e5f55` |
+| Casings | land, then road edges | land, then road edges | `#000000` | motorway `#f0b85a`, trunk and primary `#dadde2`, secondary and tertiary `#e4e6ea`, others land | land | land |
+| Trails (`vela-trails`) | `#7fcdb0` | `#167055` | `#1A3A28` | `#7fcdb0` | `#167055` | `#4a9a70` |
+| Bike paths (`vela-bikeroutes`) | `#007b8b` | `#1f8f9c` | `#0D2D36` | `#007b8b` | `#1f8f9c` | `#35a7b8` |
+| Airport area (`aeroway_fill`) | Liberty's | `#1c2638` | `#0A0C0F` | Liberty's | `#31363f` | `#2f4256` |
+| Runways and taxiways (`aeroway_runway`, `aeroway_taxiway`) | Liberty's | `#2a4056` | `#1A1D22` | Liberty's | `#565b64` | `#5e5f55` |
+| Label text / halo, every symbol layer | Liberty's | `#c3cad6` / `#1a2230` | `#D0D4DC` / `#000000` | Liberty's | `#cdd0d6` / `#1e2228` | `#eef1f5` / `#293a4c` |
+| Hillshade exaggeration, then shadow / highlight / accent | 0.32, `#6b7280` / `#ffffff` / `#9aa0a6` | 0.45, `#0a1018` / `#3a4a68` / `#0a1018` | 0.3, `#000000` / `#1A2030` / `#000000` | as Modern light | 0.4, `#0b0d10` / `#4a4d55` / `#0b0d10` | 0.4, `#141c27` / `#5a7094` / `#141c27` |
 
 - Road names (`highway-name-path`, `highway-name-minor`, `highway-name-major`) use the
   `Noto Sans Bold` stack and a 1.9 halo in every palette, white in the light ones, so a name stays

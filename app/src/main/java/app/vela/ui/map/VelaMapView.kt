@@ -1806,15 +1806,18 @@ fun VelaMapView(
         // user 2026-07-12). MapColors.current() feeds the styleKey, so a palette switch reloads the
         // style and re-runs this effect; reading classic() here picks up the new palette.
         val classic = app.vela.ui.MapColors.classic()
+        val contrast = app.vela.ui.MapColors.contrast()
         val fill = when {
             classic && darkTheme -> "#383d45" // == applyClassicDark building
             classic -> "#dde1e7"              // == applyClassicLight building
-            darkTheme -> "#1c3b69"            // == applyDark building
+            contrast && darkTheme -> CONTRAST_DARK.building
+            darkTheme -> MODERN_DARK.building
             else -> "#e2e3e9"                 // == applyLight building
         }
         val line = when {
             classic && darkTheme -> "#464c56"
-            darkTheme -> "#2e3d6d"
+            contrast && darkTheme -> CONTRAST_DARK.buildingLine
+            darkTheme -> MODERN_DARK.buildingLine
             else -> "#c4c9d1" // classic-light + modern-light share this outline
         }
         val below = runCatching { style.getLayer("building")?.id }.getOrNull() // beneath OSM buildings so they win wherever OSM has them
@@ -5660,7 +5663,7 @@ fun VelaMapView(
             val classic = app.vela.ui.MapColors.classic()
             val land = when {
                 amoled || satelliteOn -> 0xFF000000
-                darkTheme -> if (classic) 0xFF2B2F36 else 0xFF162640
+                darkTheme -> if (classic) 0xFF2B2F36 else if (app.vela.ui.MapColors.contrast()) 0xFF293A4C else 0xFF162640
                 else -> if (classic) 0xFFF2F1EE else 0xFFF8F7F7
             }
             if (a > 0f) drawRect(androidx.compose.ui.graphics.Color(land), alpha = a)
@@ -8590,15 +8593,17 @@ internal fun applyMapTheme(style: StyleLayers, dark: Boolean, amoled: Boolean = 
     // Two compiled color sets, picked in Settings -> Appearance (MapColors): "modern" is the
     // Google-app pixel-sampled palette, "classic" the archived pre-sample look (SPEC 6.2md).
     val classic = app.vela.ui.MapColors.classic()
+    val contrast = app.vela.ui.MapColors.contrast()
     when {
         amoled -> applyAmoled(style)
         dark && classic -> applyClassicDark(style)
+        dark && contrast -> applyDark(style, CONTRAST_DARK)
         dark -> applyDark(style)
         classic -> applyClassicLight(style)
-        else -> applyLight(style)
+        else -> applyLight(style) // Contrast by day draws as Modern
     }
     widenStreets(style)
-    if (!classic && !amoled) applyRoadEdges(style, dark)
+    if (!classic && !contrast && !amoled) applyRoadEdges(style, dark)
     // Country and city names in the reader's language (issue #598). Here rather than in the four
     // palette functions: the text does not change with the colors, and a language change recreates
     // the activity, which reloads the style and runs this again.
@@ -8843,76 +8848,107 @@ internal fun applyLight(style: StyleLayers) {
 }
 
 /** Google-Maps-dark-ish palette applied over the OpenMapTiles layers. */
-internal fun applyDark(style: StyleLayers) {
-    // Every dark value below is PIXEL-SAMPLED from Google Maps (the app) on the attached
-    // Pixel 9, 2026-07-11: land #162640, water #000d2a, vegetation #0d3847, buildings
-    // #1c3b69 (alt shade #2e3d6d), minor roads #3d5a77, arterials/motorway #476789.
-    style.getLayer("background")?.setProperties(PropertyFactory.backgroundColor("#162640"))
-    style.getLayer("water")?.setProperties(PropertyFactory.fillColor("#000d2a"))
-    style.getLayer("waterway_river")?.setProperties(PropertyFactory.lineColor("#000d2a"))
-    style.getLayer("park")?.setProperties(PropertyFactory.fillColor("#0d3847"), PropertyFactory.fillOpacity(1f)) // Google-app dark vegetation: a TEAL green (matched to the user's Google dark screenshot 2026-07-11), clearly lighter than the land
-    style.getLayer("landcover_grass")?.setProperties(PropertyFactory.fillColor("#0d3847"), PropertyFactory.fillOpacity(0.9f))
-    style.getLayer("landcover_wood")?.setProperties(PropertyFactory.fillColor("#0d3847"), PropertyFactory.fillOpacity(0.95f))
+/** The colors one night palette needs; [applyDark] paints Liberty with them. */
+internal class DarkPalette(
+    val land: String, val water: String, val green: String, val pitch: String,
+    val minor: String, val service: String, val major: String, val motorway: String,
+    val building: String, val buildingLine: String,
+    val other: String, val commercial: String, val plaza: String,
+    val label: String, val halo: String, val trails: String, val bike: String,
+    val hillShadow: String, val hillHighlight: String, val hillExaggeration: Float,
+)
+
+/** Modern dark: every value pixel-sampled from the Google app on a Pixel 9, 2026-07-11 (land
+ *  #162640, water #000d2a, vegetation #0d3847, buildings #1c3b69 with a #2e3d6d edge, minor roads
+ *  #3d5a77, service roads a darker #2a4056, arterials and motorways #476789). */
+internal val MODERN_DARK = DarkPalette(
+    land = "#162640", water = "#000d2a", green = "#0d3847", pitch = "#0d4956",
+    minor = "#3d5a77", service = "#2a4056", major = "#476789", motorway = "#476789",
+    building = "#1c3b69", buildingLine = "#2e3d6d",
+    other = "#2a3546", commercial = "#1c2638", plaza = "#2a3546",
+    label = "#c3cad6", halo = "#1a2230", trails = "#167055", bike = "#1f8f9c",
+    hillShadow = "#0a1018", hillHighlight = "#3a4a68", hillExaggeration = 0.45f,
+)
+
+/** Contrast dark (Map colors > Contrast): cool slate land, slate-blue buildings a few steps
+ *  lighter, warm tan streets, a light motorway and white labels, so the road network reads at a
+ *  glance from a mount. Set against a street-map night style on the Davis fixture at z12.5 and
+ *  z15.5 (land #293a4c, buildings #445976, labels near white), with Vela's own greens and water. */
+internal val CONTRAST_DARK = DarkPalette(
+    land = "#293a4c", water = "#1d2a3a", green = "#22413f", pitch = "#255250",
+    minor = "#7e7a60", service = "#5e5f55", major = "#a39d7c", motorway = "#9db1cb",
+    building = "#445976", buildingLine = "#5a7094",
+    other = "#34465a", commercial = "#2f4256", plaza = "#3a4d62",
+    label = "#eef1f5", halo = "#293a4c", trails = "#4a9a70", bike = "#35a7b8",
+    hillShadow = "#141c27", hillHighlight = "#5a7094", hillExaggeration = 0.4f,
+)
+
+internal fun applyDark(style: StyleLayers, p: DarkPalette = MODERN_DARK) {
+    style.getLayer("background")?.setProperties(PropertyFactory.backgroundColor(p.land))
+    style.getLayer("water")?.setProperties(PropertyFactory.fillColor(p.water))
+    style.getLayer("waterway_river")?.setProperties(PropertyFactory.lineColor(p.water))
+    // Vegetation clearly lighter than the land (the Google app's dark is a teal green).
+    style.getLayer("park")?.setProperties(PropertyFactory.fillColor(p.green), PropertyFactory.fillOpacity(1f))
+    style.getLayer("landcover_grass")?.setProperties(PropertyFactory.fillColor(p.green), PropertyFactory.fillOpacity(0.9f))
+    style.getLayer("landcover_wood")?.setProperties(PropertyFactory.fillColor(p.green), PropertyFactory.fillOpacity(0.95f))
     listOf("road_minor", "road_secondary_tertiary", "road_link",
         "bridge_street", "bridge_secondary_tertiary", "bridge_link").forEach {
-        style.getLayer(it)?.setProperties(PropertyFactory.lineColor("#3d5a77"))
+        style.getLayer(it)?.setProperties(PropertyFactory.lineColor(p.minor))
     }
-    // Alleys/driveways/service roads are a DARKER tier than residential streets in the
-    // Google app (sampled #2a4056 beside #3d5a77 streets, P9 side-by-side 2026-07-11).
+    // Alleys, driveways and service roads are a darker tier than residential streets.
     listOf("road_service_track", "bridge_service_track").forEach {
-        style.getLayer(it)?.setProperties(PropertyFactory.lineColor("#2a4056"))
+        style.getLayer(it)?.setProperties(PropertyFactory.lineColor(p.service))
     }
     listOf("road_trunk_primary", "bridge_trunk_primary").forEach {
-        style.getLayer(it)?.setProperties(PropertyFactory.lineColor("#476789"))
+        style.getLayer(it)?.setProperties(PropertyFactory.lineColor(p.major))
     }
     listOf("road_motorway", "road_motorway_link", "bridge_motorway", "bridge_motorway_link").forEach {
-        style.getLayer(it)?.setProperties(PropertyFactory.lineColor("#476789"))
+        style.getLayer(it)?.setProperties(PropertyFactory.lineColor(p.motorway))
     }
     // Casings blend into the night land so roads are clean (no hard outline), like
-    // Google dark — the lighter road fills still read against the dark land.
+    // Google dark; the lighter road fills still read against the dark land.
     listOf("road_motorway_casing", "road_motorway_link_casing", "road_trunk_primary_casing",
         "road_secondary_tertiary_casing", "road_minor_casing", "road_link_casing", "road_service_track_casing",
         "bridge_motorway_casing", "bridge_trunk_primary_casing", "bridge_secondary_tertiary_casing",
         "bridge_street_casing", "bridge_link_casing").forEach {
-        style.getLayer(it)?.setProperties(PropertyFactory.lineColor("#162640"))
+        style.getLayer(it)?.setProperties(PropertyFactory.lineColor(p.land))
     }
-    // Buildings a touch lighter than the #242f3e land + a lit edge, so they read in
-    // dark mode instead of melting into the ground (same reasoning as the light path).
+    // Buildings a touch lighter than the land plus a lit edge, so they read in dark mode
+    // instead of melting into the ground (same reasoning as the light path).
     style.getLayer("building")?.setProperties(
-        PropertyFactory.fillColor("#1c3b69"),
-        PropertyFactory.fillOutlineColor("#2e3d6d"),
+        PropertyFactory.fillColor(p.building),
+        PropertyFactory.fillOutlineColor(p.buildingLine),
     )
     style.getLayer("building")?.setMinZoom(16f) // Google-like: footprints only when zoomed in close (~250ft scale)
-    style.getLayer("building")?.setMaxZoom(24f) // re-open the maxzoom:14 clamp (see light path — was collapsing the flat fill to empty)
+    style.getLayer("building")?.setMaxZoom(24f) // re-open the maxzoom:14 clamp (see light path, which was collapsing the flat fill to empty)
     style.getLayer("building-3d")?.setProperties(
-        PropertyFactory.fillExtrusionColor("#1c3b69"),
+        PropertyFactory.fillExtrusionColor(p.building),
         PropertyFactory.fillExtrusionOpacity(1f),
     )
     applyBuilding3dGeometry(style)
     // Greens we keep as-is; every OTHER landuse/landcover fill (commercial, school,
-    // retail, industrial, sand, …) must go dark too, or it stays a jarring cream
+    // retail, industrial, sand, ...) must go dark too, or it stays a jarring cream
     // patch in dark mode.
     // pitch/track keep their OWN color (the sports-field accent set beside the vela-pitch
-    // twin below) - the neutralize loop covered them and hid the tint (found at a park with
-    // ball courts, 2026-07-11).
+    // twin below): the neutralize loop covered them and hid the tint.
     val greens = setOf("park", "landcover_grass", "landcover_wood", "landuse_pitch", "landuse_track")
     style.layers.forEach { layer ->
         when {
             layer is SymbolLayer -> layer.setProperties(
-                PropertyFactory.textColor("#c3cad6"),
-                PropertyFactory.textHaloColor("#1a2230"),
+                PropertyFactory.textColor(p.label),
+                PropertyFactory.textHaloColor(p.halo),
                 // Road names get a WIDER halo than the 1.1 blanket: the dotted walk line and
-                // the route line run right under them, and at 1.1 the text drowned in the dots
-                // (user 2026-07-09). The halo is the "underlay tint" - Google does the same.
+                // the route line run right under them, and at 1.1 the text drowned in the dots.
+                // The halo is the "underlay tint"; Google does the same.
                 PropertyFactory.textHaloWidth(if (layer.id.startsWith("highway-name")) 1.9f else 1.1f),
             )
             layer is FillLayer && layer.id !in greens &&
                 (layer.id.startsWith("landuse") || layer.id.startsWith("landcover")) ->
-                layer.setProperties(PropertyFactory.fillColor("#2a3546"), PropertyFactory.fillOpacity(0.5f))
+                layer.setProperties(PropertyFactory.fillColor(p.other), PropertyFactory.fillOpacity(0.5f))
         }
     }
-    // Street names in BOLD (Google boldens them; user 2026-07-11) - a dedicated pass AFTER the
-    // blanket loop so only the road-name layers get the Bold stack, not every label.
+    // Street names in BOLD (Google boldens them): a dedicated pass AFTER the blanket loop so
+    // only the road-name layers get the Bold stack, not every label.
     listOf("highway-name-path", "highway-name-minor", "highway-name-major").forEach {
         style.getLayer(it)?.setProperties(
             PropertyFactory.textField(roadLabelTextField()), // romanize for a Latin-script UI (issue #184)
@@ -8920,28 +8956,28 @@ internal fun applyDark(style: StyleLayers) {
         )
     }
     // Drop the wetland fern-hatch + pedestrian-plaza patterns (flat, like Google dark).
-    style.getLayer("vela-wetland")?.setProperties(PropertyFactory.fillColor("#0d3847"), PropertyFactory.fillOpacity(0.9f))
-    style.getLayer("vela-plaza")?.setProperties(PropertyFactory.fillColor("#2a3546"))
-    style.getLayer("vela-commercial")?.setProperties(PropertyFactory.fillColor("#1c2638"), PropertyFactory.fillOpacity(1f)) // = other-landuse dark, twin exists for light
-    style.getLayer("vela-pitch")?.setProperties(PropertyFactory.fillColor("#0d4956"), PropertyFactory.fillOpacity(1f)) // sports fields, sampled
+    style.getLayer("vela-wetland")?.setProperties(PropertyFactory.fillColor(p.green), PropertyFactory.fillOpacity(0.9f))
+    style.getLayer("vela-plaza")?.setProperties(PropertyFactory.fillColor(p.plaza))
+    style.getLayer("vela-commercial")?.setProperties(PropertyFactory.fillColor(p.commercial), PropertyFactory.fillOpacity(1f)) // twin exists for light
+    style.getLayer("vela-pitch")?.setProperties(PropertyFactory.fillColor(p.pitch), PropertyFactory.fillOpacity(1f)) // sports fields
     listOf("landuse_pitch", "landuse_track").forEach { // Liberty's own pitch layers sit ABOVE the twin and covered it
-        style.getLayer(it)?.setProperties(PropertyFactory.fillColor("#0d4956"), PropertyFactory.fillOpacity(1f))
+        style.getLayer(it)?.setProperties(PropertyFactory.fillColor(p.pitch), PropertyFactory.fillOpacity(1f))
     }
-    style.getLayer("vela-trails")?.setProperties(PropertyFactory.lineColor("#167055")) // park foot trails, sampled
-    style.getLayer("vela-bikeroutes")?.setProperties(PropertyFactory.lineColor("#1f8f9c")) // bike teal, lightened for the dark land
+    style.getLayer("vela-trails")?.setProperties(PropertyFactory.lineColor(p.trails)) // park foot trails
+    style.getLayer("vela-bikeroutes")?.setProperties(PropertyFactory.lineColor(p.bike)) // bike teal, lightened for the dark land
     // Airports: Liberty's aeroway layers carry light-map colors (a pale area, near-white runways)
     // and no pass reached them, so every airport drew as a light block on the dark map.
-    style.getLayer("aeroway_fill")?.setProperties(PropertyFactory.fillColor("#1c2638"), PropertyFactory.fillOpacity(1f))
+    style.getLayer("aeroway_fill")?.setProperties(PropertyFactory.fillColor(p.commercial), PropertyFactory.fillOpacity(1f))
     listOf("aeroway_runway", "aeroway_taxiway").forEach {
-        style.getLayer(it)?.setProperties(PropertyFactory.lineColor("#2a4056"))
+        style.getLayer(it)?.setProperties(PropertyFactory.lineColor(p.service))
     }
-    // Terrain relief for the night palette: deep shadows + a cool blue-gray
-    // highlight so ridges catch a little moonlight (a touch stronger than light).
+    // Terrain relief for the night palette: deep shadows and a cool highlight so ridges catch
+    // a little moonlight (a touch stronger than light).
     style.getLayer(HILLSHADE_LAYER)?.setProperties(
-        PropertyFactory.hillshadeExaggeration(0.45f),
-        PropertyFactory.hillshadeShadowColor(arrayOf("#0a1018")),
-        PropertyFactory.hillshadeHighlightColor(arrayOf("#3a4a68")),
-        PropertyFactory.hillshadeAccentColor("#0a1018"),
+        PropertyFactory.hillshadeExaggeration(p.hillExaggeration),
+        PropertyFactory.hillshadeShadowColor(arrayOf(p.hillShadow)),
+        PropertyFactory.hillshadeHighlightColor(arrayOf(p.hillHighlight)),
+        PropertyFactory.hillshadeAccentColor(p.hillShadow),
     )
 }
 
