@@ -175,8 +175,10 @@ class MainActivity : ComponentActivity() {
             app.vela.ui.TripShortcut.ACTION -> app.vela.ui.TripShortcut.read(intent)?.let { (points, mode) -> vm.openTripShortcut(points, mode) }
             Intent.ACTION_VIEW -> {
                 val data = intent.data?.toString() ?: return
-                // A My Maps custom map link imports like a shared list (issue #669).
-                if (MapLinkParser.myMapId(data) != null) vm.openSharedText(data)
+                // A My Maps custom map link imports like a shared list (issue #669), and a short
+                // share link is resolved first (issue #796): parsed as it is, a shortener's URL
+                // names nothing.
+                if (MapLinkParser.myMapId(data) != null || app.vela.core.data.ShortLinks.isShortener(data)) vm.openSharedText(data)
                 else MapLinkParser.parse(data)?.let { vm.openDeepLink(it) }
             }
             // Share TO Vela: a Google Maps share link imports without the copy-paste dance, a

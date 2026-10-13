@@ -101,4 +101,16 @@ class MapLinkParserTest {
         // integers without a decimal point stay a search
         assertNull(MapLinkParser.parseBareCoordinate("5, 7"))
     }
+
+    @Test fun `a place link with only a feature id keeps the id and says where its cell is`() {
+        val l = MapLinkParser.parse("https://www.google.com/maps/place/Davis+Food+Co-op/data=!4m2!3m1!1s0x8085299a7b6c6f0b:0x9ab2c3d4e5f60718!18m1!1e1?utm_source=mstt_1")!!
+        assertEquals("Davis Food Co-op", l.query)
+        assertEquals("0x8085299a7b6c6f0b:0x9ab2c3d4e5f60718", l.featureId)
+        assertNull(l.lat)
+        val cell = MapLinkParser.featureCell(l.featureId)!!
+        assertEquals(38.55, cell.lat, 0.05)
+        assertEquals(-121.73, cell.lng, 0.05)
+        assertNull(MapLinkParser.featureCell(null))
+        assertNull(MapLinkParser.parse("https://www.google.com/maps/place/Davis+Ace+Hardware/@38.5449,-121.7405,17z")!!.featureId)
+    }
 }

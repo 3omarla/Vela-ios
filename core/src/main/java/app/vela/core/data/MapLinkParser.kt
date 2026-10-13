@@ -18,6 +18,9 @@ data class MapLink(
     val stops: List<MapLink> = emptyList(),
     /** A point the route passes through without stopping; it has a coordinate and no name. */
     val via: Boolean = false,
+    /** A place link's `!1s0x<cell>:0x<id>`, what a short share link's target carries instead of a
+     *  coordinate. Its first half is an S2 cell near the place ([MapLinkParser.featureCell]). */
+    val featureId: String? = null,
 ) {
     val hasTarget: Boolean get() = !query.isNullOrBlank() || (lat != null && lng != null)
 
@@ -275,11 +278,22 @@ object MapLinkParser {
         val search = Regex("""/search/([^/@?]+)""").find(raw)?.groupValues?.get(1)
         val q = queryParam(raw, "q") ?: queryParam(raw, "query")
         val query = (place ?: search ?: q)?.let { decode(it.replace('+', ' ')) }?.takeIf { it.isNotBlank() }
+        val featureId = FEATURE_ID.find(raw)?.groupValues?.get(1)
         // A query that's really coordinates → treat as a point.
         query?.trim()?.let { COORD.matchEntire(it) }?.let {
             return MapLink(lat = it.groupValues[1].toDoubleOrNull(), lng = it.groupValues[2].toDoubleOrNull(), zoom = zoom)
         }
-        return MapLink(query = query, lat = lat, lng = lng, zoom = zoom)
+        return MapLink(query = query, lat = lat, lng = lng, zoom = zoom, featureId = featureId)
+    }
+
+    private val FEATURE_ID = Regex("""!1s(0x[0-9a-fA-F]+:0x[0-9a-fA-F]+)""")
+
+    /** Roughly where a place with [featureId] is, from the id's first half, an S2 cell: within a
+     *  hundred meters for a leaf cell. Null without an id. */
+    fun featureCell(featureId: String?): app.vela.core.model.LatLng? {
+        val hex = featureId?.substringBefore(':')?.removePrefix("0x")?.takeIf { it.isNotEmpty() } ?: return null
+        val id = runCatching { java.lang.Long.parseUnsignedLong(hex, 16) }.getOrNull() ?: return null
+        return app.vela.core.util.S2Cell.center(id)
     }
 
     private fun queryParam(raw: String, key: String): String? {

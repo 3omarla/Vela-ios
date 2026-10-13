@@ -115,7 +115,13 @@ written by `:app` into a plain flag there: `CategoryFilter.enabled`, `LowRamMode
 - A short Google Maps link (`maps.app.goo.gl`) is resolved by a cookieless request to Google's
   shortener that reads the redirect and stops (`ShortLinks.resolve`), only while "Open shared
   Google Maps links" (`GoogleFree.resolveLinks`, pref `google_free_resolve_links`, default on)
-  is on. Off, it is refused with a toast. The target is parsed on the phone and searched
+  is on. Off, it is refused with a toast. A short link opened from another app takes the same
+  path (`MainActivity.handleIntent` hands it to `openSharedText`). The shortener's usual target
+  is a place link with no coordinate, only the place's feature id (`MapLink.featureId`): the
+  name is searched near the id's S2 cell (`MapLinkParser.featureCell`), the map moves there,
+  and the hit whose id matches opens (`pickLinkHit`). A `maps.google.com/?cid=<id>` link
+  carries only the id's second half and no name, and Google answers it with a page, not a
+  redirect; it is not opened (ROADMAP). The target is parsed on the phone and searched
   through the open sources.
 - A shared list is refused (`importList` returns null): its places exist only on Google's
   servers.

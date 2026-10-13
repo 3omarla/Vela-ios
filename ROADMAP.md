@@ -399,6 +399,9 @@ Found reading everything since 0.4.1912 and not fixed yet.
   is, the turn held near the screen's middle by turning the camera up to 45 degrees off the
   heading, and the same on the car screen. Not started; the flattening below z15 is there for
   the frame rate (SPEC 4.7, Tilt), and the car has its own framing.
+- `?cid=` links (#796): `maps.google.com/?cid=<id>` names nothing and Google answers it with a
+  page, not a redirect, so opening one needs the hidden page load the reviews panel already
+  does, reading the place off the page's final URL. Not started; short share links open.
 - Camera alerts in driving mode (#727): the speed camera and plate camera alerts are projected
   onto a route (`refreshRouteSpeedCams`, `refreshRouteFlock`), so the mode without a route has
   none. Not started. The work is a look-ahead from the fix stream: the cameras within a cone

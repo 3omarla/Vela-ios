@@ -3020,13 +3020,18 @@ class MapViewModel @Inject constructor(
             openDirectionsLink(link)
             return
         }
-        val near = link.lat?.let { la -> link.lng?.let { ln -> LatLng(la, ln) } }
+        // A place link with no coordinate carries its feature id, whose first half is an S2 cell
+        // near the place (issue #796): the search is biased there, not to the phone, so a link to
+        // another city finds its place, and the hit whose id matches is the one that opens.
+        val cell = if (link.lat == null || link.lng == null) MapLinkParser.featureCell(link.featureId) else null
+        val near = link.lat?.let { la -> link.lng?.let { ln -> LatLng(la, ln) } } ?: cell
         val q = link.query
         when {
             !q.isNullOrBlank() -> {
                 _state.update { it.copy(query = q, center = near ?: it.center, centerZoom = link.zoom) }
                 runSearch(q, near ?: _state.value.myLocation ?: _state.value.center)
-                if (near != null) anchorLinkSearch(q, near)
+                val key = app.vela.core.data.TakeoutCsv.featureKey(link.featureId)
+                if (key != null) pickLinkHit(q, key) else if (near != null) anchorLinkSearch(q, near)
             }
             near != null -> {
                 onMapLongPress(near)
@@ -3038,6 +3043,21 @@ class MapViewModel @Inject constructor(
                 // drop that once followed this line threw every link's z= away.
                 _state.update { it.copy(center = near, centerZoom = link.zoom) }
             }
+        }
+    }
+
+    /** A place link carries the place's feature id: once the search by its name lands, the hit whose
+     *  id matches opens, so a chain's other branches are passed over. Nothing matching leaves the
+     *  results as they are. */
+    private fun pickLinkHit(label: String, key: String) {
+        val job = searchJob ?: return
+        viewModelScope.launch {
+            job.join()
+            val s = _state.value
+            if (s.query != label || s.navigating || s.directionsOpen) return@launch
+            val hit = app.vela.core.data.TakeoutCsv.byKey(s.results, key) ?: return@launch
+            android.util.Log.i("VelaLink", "place link: opened the hit by feature id among ${s.results.size}")
+            if (s.selected?.id != hit.id) selectPlace(hit)
         }
     }
 
