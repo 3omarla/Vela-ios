@@ -1841,7 +1841,8 @@ leaves visible. At the default display and font size the frame is unchanged.
 Zoom to the next turn (`ZoomToTurn`, Settings > Navigation, off by default; issue #781):
 
 - Heading-up, the zoom is the lesser of the speed's (its pull-back and `ZOOM_FLOOR` included)
-  and the zoom at which the next maneuver's point lands `TURN_MARGIN_DP` (24 dp) under the top
+  and the zoom at which the next maneuver's point lands `TURN_MARGIN_DP` (72 dp: room for the
+  turn callout, a bubble about 40 dp tall anchored up to 30 m past the corner) under the top
   chrome's edge: the turn card's bottom as the framer adopted it, the top of the map in
   landscape, in picture-in-picture and with no card. The tilt it frames for is the one the
   camera holds (`navTiltCeiling` above, else the wanted 55). Never below the floor: the
@@ -1877,11 +1878,11 @@ Zoom to the next turn (`ZoomToTurn`, Settings > Navigation, off by default; issu
   side is in view already; the camera is not turned toward it.
 - The pre-engage camera (the car not yet on the line, a reroute) takes the same zoom, so a
   reroute does not zoom in and back out.
-- On the fixture with the card at 230 dp and latitude 38.5: 392 dp above the arrow reach 1,177
-  ground dp at 55 degrees. The speed zoom at 30 m/s (z15.8) frames a turn 1,263 m ahead and
-  takes over inside that; z17 frames 550 m. A turn 1 km ahead frames at z16.1, 2 km at z15.1,
-  3 km at z13.1 with the camera at 13.5 degrees, 5 km at z12.2 flat, and the floor frames
-  5,863 m (`ZoomToTurnTest`).
+- On the fixture with the card at 230 dp and latitude 38.5: 344 dp above the arrow reach 949
+  ground dp at 55 degrees. The speed zoom at 30 m/s (z15.8) frames a turn 1,019 m ahead and
+  takes over inside that; z17 frames 443 m. A turn 1 km ahead frames at z15.8, 2 km at z13.7
+  with the camera at 27 degrees, 3 km at z12.8 at 7.5 degrees, 5 km at z12.0 flat, and the
+  floor frames 5,146 m (`ZoomToTurnTest`).
 
 #### The puck overlay
 

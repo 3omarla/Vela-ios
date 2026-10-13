@@ -239,8 +239,8 @@ the top until it is nearer. Street names, lights and stop signs do not draw that
 z15 the camera lies flatter, the way it does for a pinch, and the zoom allows for that, as it
 allows for the pitch MapLibre holds the camera under (52.6 degrees on a Pixel 4a, less on a
 denser screen). The map stays heading-up; the camera is not turned toward the turn. On a 1080 x 2340 px, 420 dpi phone the speed zoom at 30 m/s frames
-a turn 1.26 km ahead, a turn 3 km ahead frames at about z13 with the camera at 13 degrees, and
-z12 frames one 5.9 km ahead, flat. The numbers are in SPEC 4.7, Framing.
+a turn 1.02 km ahead, a turn 3 km ahead frames at about z12.8 with the camera at 8 degrees, and
+z12 frames one 5.1 km ahead, flat. The numbers are in SPEC 4.7, Framing.
 
 Start cuts to the car: the camera jumps to the nav zoom, flat, and tilts in with
 `NAV_START_TILT_TAU_S = 3` s. A flight down from the route overview loads a set of tiles at every

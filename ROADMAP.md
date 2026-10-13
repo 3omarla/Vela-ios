@@ -327,8 +327,8 @@ off the list when it has been.
   from 12.4 to 17.2 over the four minutes before an exit, and the turn 27 dp above its row
   while the camera held 52.6 degrees against a framing for 55 (fixed, SPEC 4.7 Framing), and
   after the fix the turn on its row, 24 dp under the card within 2 dp, through the tilted
-  stretch. Not seen: a real road, a reroute with it on, the floor dial below 12, and whether
-  24 dp under the card is the right margin for the street callout.
+  stretch. A driver's screenshot showed the callout half under the card at 24 dp; the margin
+  is 72 dp. Not seen: a real road with it, a reroute with it on, and the floor dial below 12.
 
 ### Open from the October 2026 audit
 
@@ -402,6 +402,12 @@ Found reading everything since 0.4.1912 and not fixed yet.
 - `?cid=` links (#796): `maps.google.com/?cid=<id>` names nothing and Google answers it with a
   page, not a redirect, so opening one needs the hidden page load the reviews panel already
   does, reading the place off the page's final URL. Not started; short share links open.
+- The car's layers follow the phone's switches while connected (#749): the car builds its map
+  once per connection, so a Traffic layer switched on afterward shows only after a reconnect.
+  Not started.
+- A bigger Whisper for voice search (#798): tiny is the one multilingual engine and is weak in
+  German; Whisper base or small, int8, as an opt-in download for the languages tiny handles
+  badly. Not started.
 - Camera alerts in driving mode (#727): the speed camera and plate camera alerts are projected
   onto a route (`refreshRouteSpeedCams`, `refreshRouteFlock`), so the mode without a route has
   none. Not started. The work is a look-ahead from the fix stream: the cameras within a cone

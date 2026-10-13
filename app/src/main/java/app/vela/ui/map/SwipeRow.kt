@@ -8,6 +8,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -62,6 +63,9 @@ fun SwipeActionRow(
     editLabel: String? = null,
     editIcon: androidx.compose.ui.graphics.vector.ImageVector = SymOutlined.Edit,
     modifier: Modifier = Modifier,
+    /** The surface the row sits on. The row is painted in it, so the action behind shows only
+     *  where the row has moved away, not through the row's icon and name (issue 772). */
+    background: Color = MaterialTheme.colorScheme.surface,
     content: @Composable () -> Unit,
 ) {
     val view = LocalView.current
@@ -104,7 +108,7 @@ fun SwipeActionRow(
                 else if (editing) Icon(editIcon, contentDescription = editLabel, tint = MaterialTheme.colorScheme.onPrimaryContainer)
             }
         },
-        content = { content() },
+        content = { Box(Modifier.fillMaxWidth().background(background)) { content() } },
     )
 }
 

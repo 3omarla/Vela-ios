@@ -6123,6 +6123,7 @@ private fun ListsSheet(
                             deleteLabel = stringResource(R.string.list_delete),
                             onEdit = { editing = list },
                             editLabel = stringResource(R.string.list_edit),
+                            background = MaterialTheme.colorScheme.surfaceContainerHigh,
                         ) {
                             // The handle is the row's focus sibling, not its child: focus search
                             // never enters a focused node's own children. Focus arriving from

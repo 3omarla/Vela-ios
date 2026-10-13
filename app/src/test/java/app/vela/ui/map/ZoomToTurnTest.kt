@@ -33,8 +33,8 @@ class ZoomToTurnTest {
             assertEquals("tilt $tilt up $up", up, NavFraming.screenUp(g, tilt, heightDp), 1e-6)
             assertTrue("tilt $tilt up $up", g >= up - 1e-9)
         }
-        // At the drive tilt the 392 dp above the arrow reach about three times as much ground.
-        assertEquals(1177.0, NavFraming.groundAhead(upDp, 55.0, heightDp), 1.0)
+        // At the drive tilt the 344 dp above the arrow reach almost three times as much ground.
+        assertEquals(949.0, NavFraming.groundAhead(upDp, 55.0, heightDp), 1.0)
     }
 
     @Test fun `meters per dp follow the 512 px world`() {
@@ -47,10 +47,10 @@ class ZoomToTurnTest {
             val z = NavFraming.turnZoom(m, upDp, heightDp, 55.0, lat)
             assertEquals("$m m", m, metersToEdge(z, 55.0), 0.01)
         }
-        // On the fixture a turn 1 km ahead frames at about z16.1, and the speed zoom at 30 m/s
-        // (z15.8) frames one about 1.26 km ahead.
-        assertEquals(16.14, NavFraming.turnZoom(1000.0, upDp, heightDp, 55.0, lat), 0.01)
-        assertEquals(1263.0, metersToEdge(15.8, 55.0), 1.0)
+        // On the fixture a turn 1 km ahead frames at about z15.8, and the speed zoom at 30 m/s
+        // (z15.8) frames one about 1.02 km ahead.
+        assertEquals(15.83, NavFraming.turnZoom(1000.0, upDp, heightDp, 55.0, lat), 0.01)
+        assertEquals(1019.0, metersToEdge(15.8, 55.0), 1.0)
         // Farther is farther out.
         assertTrue(NavFraming.turnZoom(3000.0, upDp, heightDp, 55.0, lat) < NavFraming.turnZoom(2000.0, upDp, heightDp, 55.0, lat))
     }
@@ -64,18 +64,20 @@ class ZoomToTurnTest {
 
     @Test fun `below z15 the camera flattens and the zoom allows for it`() {
         // Within the full tilt the two agree.
-        val near = NavFraming.turnZoomFlattening(2000.0, upDp, heightDp, 55.0, lat)
-        assertEquals(NavFraming.turnZoom(2000.0, upDp, heightDp, 55.0, lat), near, 1e-9)
+        val near = NavFraming.turnZoomFlattening(1000.0, upDp, heightDp, 55.0, lat)
+        assertEquals(NavFraming.turnZoom(1000.0, upDp, heightDp, 55.0, lat), near, 1e-9)
         assertTrue(near > NAV_TILT_FULL_ZOOM)
-        // 3 km: about z13.1 with the camera at 13.5 degrees, and the turn still at the edge there.
+        // 2 km already lies flatter: about z13.7 at 27 degrees.
+        assertEquals(13.74, NavFraming.turnZoomFlattening(2000.0, upDp, heightDp, 55.0, lat), 0.01)
+        // 3 km: about z12.8 with the camera at 7.5 degrees, and the turn still at the edge there.
         val far = NavFraming.turnZoomFlattening(3000.0, upDp, heightDp, 55.0, lat)
-        assertEquals(13.11, far, 0.01)
-        assertEquals(13.5, NavFraming.tiltAt(far, 55.0), 0.1)
+        assertEquals(12.84, far, 0.01)
+        assertEquals(7.5, NavFraming.tiltAt(far, 55.0), 0.1)
         assertEquals(3000.0, metersToEdge(far, NavFraming.tiltAt(far, 55.0)), 1.0)
         assertTrue(far < NavFraming.turnZoom(3000.0, upDp, heightDp, 55.0, lat))
-        // 5 km: flat, about z12.2.
+        // 5 km: flat, about z12.0.
         val flat = NavFraming.turnZoomFlattening(5000.0, upDp, heightDp, 55.0, lat)
-        assertEquals(12.23, flat, 0.01)
+        assertEquals(12.04, flat, 0.01)
         assertEquals(0.0, NavFraming.tiltAt(flat, 55.0), 1e-9)
         assertEquals(5000.0, metersToEdge(flat, 0.0), 1.0)
         // A shove-set tilt is honored as the wanted one.
@@ -89,8 +91,8 @@ class ZoomToTurnTest {
         assertEquals(15.1, NavFraming.withTurn(speed, 15.1), 1e-9)
         assertEquals(NavFraming.ZOOM_TURN_MIN, NavFraming.withTurn(speed, 10.2), 1e-9)
         assertEquals(11.0, NavFraming.withTurn(speed, 10.2, floor = 11.0), 1e-9) // the dial lowers the floor
-        // On the fixture the floor frames a turn about 5.9 km ahead; a farther one sits off the top.
-        assertEquals(5863.0, metersToEdge(NavFraming.ZOOM_TURN_MIN, NavFraming.tiltAt(NavFraming.ZOOM_TURN_MIN, 55.0)), 1.0)
+        // On the fixture the floor frames a turn about 5.1 km ahead; a farther one sits off the top.
+        assertEquals(5146.0, metersToEdge(NavFraming.ZOOM_TURN_MIN, NavFraming.tiltAt(NavFraming.ZOOM_TURN_MIN, 55.0)), 1.0)
     }
 
     @Test fun `the target is the next step that asks something of the driver`() {

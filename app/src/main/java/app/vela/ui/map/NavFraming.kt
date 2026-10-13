@@ -71,9 +71,10 @@ internal object NavFraming {
      *  the top until it is near enough. */
     const val ZOOM_TURN_MIN = 12.0
 
-    /** The next turn is framed this far under the top chrome's edge: room for the blue street
-     *  callout drawn past the corner. */
-    const val TURN_MARGIN_DP = 24.0
+    /** The next turn is framed this far under the top chrome's edge: room for the turn callout,
+     *  a bubble about 40 dp tall anchored up to 30 m past the corner, which 24 dp did not hold
+     *  (it sat half under the card on a drive, #781). */
+    const val TURN_MARGIN_DP = 72.0
 
     /** MapLibre's world at z0 is 512 px wide; the equator in meters. Zoom, latitude and meters
      *  per dp relate through these two. */
