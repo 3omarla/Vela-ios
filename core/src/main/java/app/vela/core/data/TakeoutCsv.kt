@@ -6,7 +6,10 @@ import java.net.URLDecoder
 
 /**
  * Google Takeout's "Saved" folder: one CSV per list (`Title,Note,URL,Comment`; older exports say
- * `Tags`) and no coordinates (issue #761). A row's link is one of three shapes:
+ * `Tags`, and the header is in the account's language: `Titre,Note,URL,Tags,Commentaire`) and
+ * no coordinates (issue #761). Only the `URL` column keeps its name, so the columns are found by
+ * position around it: the title is the first column that is not the link, the note the one after
+ * the title, the comment the last. A row's link is one of three shapes:
  *
  *  - `google.com/maps/place/<Name>/data=...!1s0x<cell>:0x<id>` for a listing, carrying the
  *    feature id and nothing else;
@@ -36,21 +39,33 @@ object TakeoutCsv {
     /** Sanity bound for one file. */
     const val MAX_ROWS = 2_000
 
-    /** A Takeout list: a header with a Title and a URL column. */
+    /** A Takeout list: a header with a URL column and at least one other, in any language. */
     fun isTakeoutCsv(text: String): Boolean {
         val header = firstRecord(text) ?: return false
         val cols = header.map { it.trim().lowercase() }
-        return "title" in cols && "url" in cols
+        return "url" in cols && cols.size >= 2
+    }
+
+    /** Where each field sits in a header, by name where the name is English and by position
+     *  otherwise. Null without a URL column. */
+    internal fun columns(header: List<String>): IntArray? {
+        val cols = header.map { it.trim().lowercase() }
+        val url = cols.indexOf("url")
+        if (url < 0 || cols.size < 2) return null
+        val title = cols.indexOf("title").takeIf { it >= 0 } ?: cols.indices.first { it != url }
+        val note = cols.indexOf("note").takeIf { it >= 0 }
+            ?: (title + 1).takeIf { it < cols.size && it != url } ?: -1
+        // The comment is the last column; an older four-column export's last is "Tags".
+        val comment = cols.indexOf("comment").takeIf { it >= 0 }
+            ?: (cols.size - 1).takeIf { it != url && it != title && it != note } ?: -1
+        return intArrayOf(title, url, note, comment)
     }
 
     fun parse(text: String): List<Row> {
         val records = records(text)
         if (records.isEmpty()) return emptyList()
-        val cols = records[0].map { it.trim().lowercase() }
-        val title = cols.indexOf("title"); val url = cols.indexOf("url")
-        if (title < 0 || url < 0) return emptyList()
-        val note = cols.indexOf("note")
-        val comment = cols.indexOf("comment").takeIf { it >= 0 } ?: cols.indexOf("tags")
+        val at = columns(records[0]) ?: return emptyList()
+        val title = at[0]; val url = at[1]; val note = at[2]; val comment = at[3]
         return records.drop(1).asSequence()
             .filter { r -> r.any { it.isNotBlank() } }
             .map { r ->

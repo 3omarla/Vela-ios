@@ -3280,8 +3280,11 @@ the shared 12 s timeout cuts it off.
   `ImportResult` distinguishes added, nothing-new, wrong-format and unreadable. Never wrap the
   launcher in a bare `runCatching`: with no documents provider the button then does nothing.
 - Google Takeout's Saved folder holds one CSV per list (`Title,Note,URL,Comment`, older
-  exports `Tags`) with no coordinates (`core/data/TakeoutCsv`). Either Import button takes one
-  (`isTakeoutCsv`: a header with Title and URL) and `MapViewModel.importTakeoutCsv` makes a list
+  exports `Tags`, and the header in the account's language, `Titre,Note,URL,Tags,Commentaire`)
+  with no coordinates (`core/data/TakeoutCsv`). Either Import button takes one (`isTakeoutCsv`:
+  a header with a URL column, the one name every language keeps; `columns` finds the rest by
+  name where it is English and by position otherwise: the title first, the note after it, the
+  comment last) and `MapViewModel.importTakeoutCsv` makes a list
   named after the file, through `importTarget` with source `takeout:<name>`, so the same file
   again refreshes the list. A row's link is read on the phone: a `/maps/search/<lat>,<lng>` pin
   is kept as it is; a `/maps/place/<Name>/data=...!1s0x<cell>:0x<id>` listing carries only its

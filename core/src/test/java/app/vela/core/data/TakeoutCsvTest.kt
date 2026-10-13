@@ -28,6 +28,23 @@ class TakeoutCsvTest {
         assertEquals("a \"quoted\" word", rows[2].comment)
     }
 
+    @Test fun `a header in the account's language is read by position around the URL column`() {
+        val french = "Titre,Note,URL,Tags,Commentaire\n" +
+            "Davis Ace Hardware,,https://www.google.com/maps/place/Davis+Ace+Hardware/data=!4m2!3m1!1s0x80852900aaaaaaaa:0x1234abcd,,a note at the end\n" +
+            "Pinned,,\"https://www.google.com/maps/search/38.5449,-121.7405\",,\n" // the export quotes a link with a comma
+        assertTrue(TakeoutCsv.isTakeoutCsv(french))
+        val rows = TakeoutCsv.parse(french)
+        assertEquals(2, rows.size)
+        assertEquals("Davis Ace Hardware", rows[0].title)
+        assertEquals("a note at the end", rows[0].comment)
+        assertEquals(null, rows[0].note)
+        assertTrue(rows[1].url.contains("/search/38.5449,-121.7405"))
+        // A sheet of coordinates is not a Takeout list, whatever its first column says.
+        assertFalse(TakeoutCsv.isTakeoutCsv("name,lat,lng\nA,1,2\n"))
+        assertEquals(listOf(0, 2, 1, 4), TakeoutCsv.columns(listOf("Titre", "Note", "URL", "Tags", "Commentaire"))!!.toList())
+        assertEquals(listOf(0, 2, 1, 3), TakeoutCsv.columns(listOf("Title", "Note", "URL", "Comment"))!!.toList())
+    }
+
     @Test fun `a listing link carries the feature id and no point`() {
         val l = TakeoutCsv.readLink(TakeoutCsv.parse(file)[0].url)!!
         assertEquals("Davis Food Co-op", l.name)
