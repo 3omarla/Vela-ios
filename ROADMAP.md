@@ -287,7 +287,7 @@ off the list when it has been.
   speed box from the first fix, the search bar alone, the speeding alert from the fixes, and
   "Where the map opens" > "Driving mode". Seen on a 4a in portrait (the way in from the layers
   panel and from the setting, the voice choices, the X, the credit above the bar, a simulated
-  drive started from it) and on a tablet emulator in both orientations. Not seen: the speeding
+  drive started from it and ended back in it) and on a tablet emulator in both orientations. Not seen: the speeding
   alert, location off, the screen turning off, a real tablet, or Android Auto connected.
 - The map looks (#764): the offline fallback and the no-network guard were seen once, for Dark
   and Fiord online then offline over one region.
