@@ -2154,7 +2154,11 @@ theme ticker waits in the background.
 #### Measuring
 
 - Frame rate: `debug.vela.fps` and `scripts/map-fps.sh` (section 13). A `VelaFps` line carries
-  the second's zoom range and bearing change, so a dip at a turn reads off the log.
+  the second's zoom range and bearing change, so a dip at a turn reads off the log. With "Zoom to
+  the next turn" on it also carries the next maneuver's screen row (`turnY`), the row the framing
+  model predicts for the same camera (`pred`), the live card edge (`card`) and the one the framer
+  adopted (`top`), the tilt, the ground distance and the arrow's pad, window px, so a miss on a
+  drive can be laid at the model or at its inputs.
 - Layer bisect: `debug.vela.hide`, re-applied every 250 ms while set, so layers nav adds at
   Start are hidden too.
 - Thread CPU first: `adb shell top -H -b -n 2 -d 5 -p <pid> -o TID,%CPU,CMD -s 2`. Coroutine

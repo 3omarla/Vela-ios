@@ -4633,8 +4633,22 @@ fun VelaMapView(
                             // whole-level zoom crossing or a turn reads straight off the log.
                             // With "Zoom to the next turn" on, where the next maneuver sits on screen against
                             // the turn card's bottom edge (window px), to check the framing on a drive.
+                            // Beside it the row the framing model predicts for the same camera (pred), the
+                            // edge the framer adopted (top), the arrow's pad and the ground distance, so a
+                            // miss can be laid at the model or at its inputs.
                             val turn = NavTurnTarget.point?.let { t ->
-                                mapRef?.let { m -> " turnY=%.0f card=%d tilt=%.0f".format(m.projection.toScreenLocation(org.maplibre.android.geometry.LatLng(t.lat, t.lng)).y, NavChromeEdges.bannerBottomPx, m.cameraPosition.tilt) }
+                                mapRef?.let { m ->
+                                    val cp = m.cameraPosition
+                                    val dens = context.resources.displayMetrics.density.toDouble()
+                                    val from = navPuck.drawn
+                                    val dist = from?.distanceTo(t) ?: Double.NaN
+                                    val arrowY = m.height * (1 + navPuck.framer.pad) / 2
+                                    val pred = if (from == null) Double.NaN else arrowY - NavFraming.screenUp(dist / NavFraming.metersPerDp(cp.zoom, from.lat), cp.tilt, m.height / dens) * dens
+                                    " turnY=%.0f pred=%.0f card=%d top=%.0f tilt=%.1f dist=%.0f pad=%.3f".format(
+                                        m.projection.toScreenLocation(org.maplibre.android.geometry.LatLng(t.lat, t.lng)).y, pred,
+                                        NavChromeEdges.bannerBottomPx, navPuck.framer.chromeTopPx, cp.tilt, dist, navPuck.framer.pad,
+                                    )
+                                }
                             } ?: ""
                             android.util.Log.d("VelaFps", "${frames * 1000L / (now - since)} fps (${frames} frames) z=%.2f-%.2f brg %.0f>%.0f idle=%d worst=%dms slow33=%d slow50=%d".format(zLo, zHi, b0, b1, idleEvents[0], worst, over33, over50) + turn)
                             worst = 0; over33 = 0; over50 = 0
