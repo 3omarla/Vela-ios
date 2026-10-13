@@ -990,7 +990,8 @@ fun VelaMapView(
     // ~390 dp tall, so four 56 dp buttons reach the status bar and sat right on it (user
     // 2026-09-19). Step the compass in by the column's width so the two cannot meet, whatever the
     // stack currently holds.
-    val compassRightPx = with(density) { (if (navMode && navFabTopPx.intValue > 0) NAV_FAB_EDGE_DP else if (navMode && landscapeNow) 8.dp + NAV_FAB_COLUMN_DP else 8.dp).roundToPx() }
+    // The drive compass under the drive's column: a 48 dp view whose center is on the buttons' line.
+    val compassRightPx = with(density) { (if (navMode && navFabTopPx.intValue > 0) MAP_BUTTON_CENTER_DP - 24.dp else if (navMode && landscapeNow) 8.dp + NAV_FAB_COLUMN_DP else 8.dp).roundToPx() }
     val leftInsetHolder = rememberUpdatedState(cameraLeftInsetPx)
     val compassStock = remember { arrayOfNulls<android.graphics.drawable.Drawable>(1) }
     val compassIsNav = remember { booleanArrayOf(false) }
@@ -4845,13 +4846,14 @@ fun VelaMapView(
             }
         }
         val map = mapRef ?: return@AndroidView
-        // Keep the compass clear of the status bar (insets are ready post-layout). Browsing, its
-        // center sits MAP_BUTTON_CENTER_DP from the edge like the other map buttons (#778); the
-        // drive compass is 56 dp at NAV_FAB_EDGE_DP, which is the same line.
-        val browseRight = with(density) { MAP_BUTTON_CENTER_DP.roundToPx() } - (map.uiSettings.compassImage?.intrinsicWidth ?: 0) / 2
-        map.uiSettings.setCompassMargins(0, compassTopPx, if (navMode) compassRightPx else browseRight.coerceAtLeast(0), 0)
-        // In a drive the compass wears the nav buttons' dress and size; browsing keeps the map's own.
+        // Keep the compass clear of the status bar (insets are ready post-layout). Its center sits
+        // MAP_BUTTON_CENTER_DP from the edge like the other map buttons (#778), in a drive too:
+        // the compass view is 48 dp whatever image it shows (the 56 dp drive image is scaled into
+        // it), so both margins are measured from the stock image, never from the drive's.
         if (compassStock[0] == null) compassStock[0] = map.uiSettings.compassImage
+        val browseRight = with(density) { MAP_BUTTON_CENTER_DP.roundToPx() } - (compassStock[0]?.intrinsicWidth ?: 0) / 2
+        map.uiSettings.setCompassMargins(0, compassTopPx, if (navMode) compassRightPx else browseRight.coerceAtLeast(0), 0)
+        // In a drive the compass wears the nav buttons' dress; browsing keeps the map's own.
         val wantNavCompass = navMode
         if (compassIsNav[0] != wantNavCompass) {
             compassIsNav[0] = wantNavCompass

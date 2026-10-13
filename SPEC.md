@@ -5007,8 +5007,9 @@ reuses it.
   themes, white with a gray ring in light, `primaryContainer` and no ring under wallpaper colors.
   The locate glyph is blue. A saved parking spot tints the glyph, not the button. Their centers all sit 44 dp from the screen's end
   (a 56 dp button at 16 dp; the 42 dp layers button at 23 dp, the 48 dp parking button at 20
-  dp, the browse compass at 44 dp less half its image), so the four line up when they stack
-  in landscape.
+  dp, the compass at 44 dp less half the stock image), so the four line up when they stack
+  in landscape. The compass view is 48 dp whatever image it shows, so the drive compass, whose
+  56 dp image is scaled into it, sits at 20 dp under the drive's column, on the same line.
 - The layers button (`LayersCorner`, `ui/map/LayersPanel.kt`) opens a `VelaMenu` of picture
   tiles, four to a row, with a label under each. Three groups: Map type has the five looks
   (`MapStyle`, the same pick as Settings > Appearance > Map look) and Satellite; Map details has
