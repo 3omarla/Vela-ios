@@ -443,7 +443,8 @@ in-nav search puts Gas and EV charging first (`forDrive`).
 Settings > Search > Quick search buttons changes which show and in what order, everywhere at
 once: a switch per chip and a handle to drag it up or down, with Reset to default. The choice is
 stored by the chip's English query (`QuickChipsPref`), so it survives a language change and an
-update that adds a chip, which lands at the end. On the map the row ends with a More chip that
+update that adds a chip, which lands at the end of a saved order and in its own place when only
+the switches were changed. On the map the row ends with a More chip that
 lists every chip, the switched-off ones included, and a pick runs that search. A chip switched
 off still works when its words are typed. Custom chips of the user's own are not built
 (ROADMAP.md).

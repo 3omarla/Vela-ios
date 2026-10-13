@@ -2950,8 +2950,9 @@ when the feature ids match. Two requests at most.
   chip is keyed by its English query, never its position; the fuel chip's key is `Gas station`
   whatever region word its query uses. The order rule is `QuickChipOrder.arrange`: the saved
   keys first, in their order, then every other chip in its default place; a saved key with no
-  chip is skipped, and a chip that returns (Bars after "Hide adult categories" goes off) takes
-  the end. `homeNameHits` tests a typed query against the catalog, so a chip switched off is
+  chip is skipped. With a saved order, a chip that returns (Bars after "Hide adult categories"
+  goes off) or arrives with an update takes the end; with no saved order (only switches
+  changed) it sits in its default place. `homeNameHits` tests a typed query against the catalog, so a chip switched off is
   still a category when typed.
 - The camera frames the first `SEARCH_FIT_LEAD` (12) results; an open list or custom map is
   framed whole. Pins are median-centered, and outliers past 4 times the median spread (minimum

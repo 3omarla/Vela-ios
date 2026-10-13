@@ -285,10 +285,10 @@ off the list when it has been.
   rehearsed.
 - Driving mode on the phone (#727): the drive's bar with an X, the locate and voice buttons, the
   speed box from the first fix, the search bar alone, the speeding alert from the fixes, and
-  "Where the map opens" > "Driving mode". Seen on a 4a in portrait: the way in from the layers
-  panel and from the setting, the voice choices, the X, and the credit above the bar. Not seen:
-  a drive started from the mode and ending back in it, the speeding alert, landscape, a tablet,
-  location off, the screen turning off, or Android Auto connected.
+  "Where the map opens" > "Driving mode". Seen on a 4a in portrait (the way in from the layers
+  panel and from the setting, the voice choices, the X, the credit above the bar, a simulated
+  drive started from it) and on a tablet emulator in both orientations. Not seen: the speeding
+  alert, location off, the screen turning off, a real tablet, or Android Auto connected.
 - The map looks (#764): the offline fallback and the no-network guard were seen once, for Dark
   and Fiord online then offline over one region.
 - The lists sheet (#765): a physical keypad, and the sheet with one list, where a pencil stands
@@ -316,15 +316,17 @@ off the list when it has been.
 - Saved pins at every zoom (#791): seen on a 4a at zoom 7, where a pin 100 km from the fix
   drew at near full size. Not seen: the smaller pins below zoom 7 and a pile collapsing to the
   pins that fit, which needs saved places in more than one city.
-- The layers panel as picture tiles (#782, `LayersPanel`). Opened on a 4a in portrait: it fits
-  under the button without scrolling in the dark theme, and the tiles switch the look, satellite
-  and traffic by touch. Not yet seen: the light and AMOLED themes, a keypad walk across the
-  rows, and the panel on a shorter screen, where it would scroll.
+- The layers panel as picture tiles (#782, `LayersPanel`). Opened on a 4a in portrait (dark
+  theme) and on a tablet emulator in landscape (light theme): it fits under the button without
+  scrolling, and the tiles switch the look, satellite and traffic by touch. Not yet seen: the
+  AMOLED theme, a keypad walk across the rows, and the panel on a shorter screen, where it
+  would scroll.
 - "Zoom to the next turn" (#781): the zoom that frames the next maneuver under the turn card,
-  unit-tested on the 1080 x 2340 fixture. Seen on a 4a in a simulated drive: zoom 16 to 17.9
-  through town, then out to 12 and flat once the next maneuver was 8.9 miles off on I 80. Not
-  seen: the zoom back in as a turn nears, the flattening on a real road, a reroute with it on,
-  and whether 24 dp under the card is the right margin for the street callout.
+  unit-tested on the 1080 x 2340 fixture. Seen on a 4a in simulated drives: zoom 16 to 17.9
+  through town, out to 12 and flat once the next maneuver was 8.9 miles off on I 80, and back
+  in from 12.4 to 17.2 over the four minutes before an exit. Not seen: the flattening on a real
+  road, a reroute with it on, and whether 24 dp under the card is the right margin for the
+  street callout.
 
 ### Open from the October 2026 audit
 
