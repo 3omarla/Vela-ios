@@ -210,7 +210,6 @@
     <string name="place_call">Zadzwoń</string>
     <string name="place_website">Strona</string>
     <string name="place_hours_not_listed">Godziny nie podane</string>
-    <string name="place_source_overture"></string>
     <string name="place_source_atp">AllThePlaces (%1$s)</string>
     <string name="place_source_osm">OpenStreetMap</string>
     <string name="place_origin_checking">Źródło: %1$s · sprawdzanie w Google</string>
@@ -851,7 +850,6 @@
     <string name="settings_places_source_google_hint">Ikony pochodzą z Google. Każde przesunięcie wysyła do Google twoją pozycję na mapie, a offline nic się nie rysuje.</string>
     <string name="settings_places_source_both_hint">Ikony Veli, a gdy przestaniesz przesuwać mapę także to co dodatkowo ma Google.</string>
     <string name="settings_places_source_more">Dowiedz się więcej</string>
-    <string name="settings_places_source_more_credit"></string>
     <string name="settings_places_lookup">Sprawdzaj dotknięte miejsca w Google</string>
     <string name="settings_places_lookup_hint">Dotknięcie miejsca pobiera jego godziny, opinie i zdjęcia z Google, a Vela zapamiętuje dopasowanie, więc kolejne dotknięcie jest natychmiastowe. Wył. = dotknięte miejsce pokazuje tylko to, co mają dane Veli (nazwa, typ, adres, telefon, strona), a nic o dotknięciu nie trafia do Google. Wyszukiwanie i trasy nadal korzystają z Google.</string>
     <string name="settings_places_source_more_title">Skąd pochodzą dane miejsc Veli</string>
