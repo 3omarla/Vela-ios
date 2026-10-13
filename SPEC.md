@@ -3470,20 +3470,21 @@ current snapshot. Vela's zoom reads about one level lower than Google's for the 
 (512-pixel tiles). Compare against Google by visible area, never by zoom number.
 
 Settings > Appearance > Map look (`MapLook.style`, pref `map_look`, default `liberty`) picks the
-style (`MapStyle`): Liberty is the Vela look, and Bright, Positron, Fiord and Dark load as
-OpenFreeMap serves them. All five share the `openmaptiles` source, the glyph server and the
+style (`MapStyle`): Liberty is the Vela look, and Bright, Positron, Fiord and Black load as
+OpenFreeMap serves them (Black is OpenFreeMap's Dark style, named so in the app so it is not
+taken for the dark theme). All five share the `openmaptiles` source, the glyph server and the
 sprite, so the offline basemap, the font patch and `basemapSrc` work on each. `MapStyle.painted`
 is true for Liberty only: the palettes, `widenStreets`, the road edges, `PoiIcons.applyToLiberty`,
 the twin fills of `ensureLayers` and the Map colors setting belong to it. Another look gets
 `applyLookTheme`: the label language on `PLACE_LABEL_LAYERS` and `ROAD_LABEL_LAYERS` (Liberty's
-ids, which Bright and Positron share, plus Fiord's and Dark's `place_*`, `water_name` and
+ids, which Bright and Positron share, plus Fiord's and Black's `place_*`, `water_name` and
 `highway_name_other`), and the per-theme colors of Vela's own layers (`applyVelaLayerColors`).
 Vela's own layers (places, route, markers, house numbers, shields, transit, traffic, satellite)
 are added on every look; a twin's missing anchor leaves that twin out. `isMapDark()` is
-`MapStyle.darkLook` on an unpainted look (Fiord and Dark are dark whatever the theme, Bright and
+`MapStyle.darkLook` on an unpainted look (Fiord and Black are dark whatever the theme, Bright and
 Positron light) and `isMapAmoled()` is false. The car map follows the look. The place icon tiers
 (`poi_r1`, `poi_r7`, `poi_r20`) exist on Bright, so its vegetation and fuel-only filters apply;
-Positron, Fiord and Dark draw no basemap places.
+Positron, Fiord and Black draw no basemap places.
 
 Map labels draw in Google Sans Flex layered over Roboto and Noto, composited per glyph by
 `scripts/build-map-fonts.sh`: Flex where it has the glyph (Latin, extended Latin, Vietnamese),

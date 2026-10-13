@@ -17,7 +17,7 @@ What Vela Maps does today, one line per feature. How each one works is in [SPEC.
 - "Keep north up" stops the map turning: no two-finger rotation, and the map stays north-up while
   you drive, with or without a route, on the phone and in Android Auto.
 - A layers button opens a panel of picture tiles: the map type (the Vela, Bright, Positron, Fiord
-  and Dark looks, or satellite), the map details (traffic, transit lines, terrain, 3D buildings)
+  and Black looks, or satellite), the map details (traffic, transit lines, terrain, 3D buildings)
   and where the place icons come from, the chosen ones ringed, with the Google-free switch under
   them. "Show layers button" hides it. The live traffic overlay shows while browsing; during a
   drive the route line carries the traffic and the overlay is hidden.
@@ -286,8 +286,8 @@ What Vela Maps does today, one line per feature. How each one works is in [SPEC.
 - Themes are follow the system, Light, Dark, "AMOLED black" and "Day and night". "Day and night
   while navigating" applies it to drives only.
 - "Map" sets the map light or dark apart from the app. "Map look" picks the basemap style: the
-  Vela look on OpenFreeMap Liberty, or OpenFreeMap's Bright, Positron, Fiord or Dark as served,
-  on the same tiles. "Map colors" is Modern or Classic, for the Vela look.
+  Vela look on OpenFreeMap Liberty, or OpenFreeMap's Bright, Positron, Fiord or Black (its Dark
+  style) as served, on the same tiles. "Map colors" is Modern or Classic, for the Vela look.
 - "Material You colors" tints buttons and accents from your wallpaper. With "AMOLED black" the
   backgrounds stay black.
 - "Font" is Google Sans Flex, the system font or your own font file. "Interface size" scales the

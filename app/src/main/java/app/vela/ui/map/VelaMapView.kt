@@ -7157,7 +7157,7 @@ private val PLACE_LABEL_LAYERS = listOf(
     "poi_r1", "poi_r7", "poi_r20", "poi_transit",
     // Seas, oceans, lakes and rivers (issue #619): Liberty labels them name:latin like places.
     "water_name_point_label", "water_name_line_label", "waterway_line_label",
-    // The same layers under the ids OpenFreeMap's Fiord and Dark looks use (Bright and
+    // The same layers under the ids OpenFreeMap's Fiord and Dark (Black in the app) looks use (Bright and
     // Positron share Liberty's).
     "place_continent", "place_country_major", "place_country_minor", "place_country_other", "place_state",
     "place_city_large", "place_city", "place_town", "place_village", "place_suburb", "place_other", "water_name",

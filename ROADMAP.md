@@ -290,7 +290,7 @@ off the list when it has been.
   drive started from it and ended back in it) and on a tablet emulator in both orientations. Not seen: the speeding
   alert, location off, the screen turning off, a real tablet, or Android Auto connected.
 - The map looks (#764): the offline fallback and the no-network guard were seen once, for Dark
-  and Fiord online then offline over one region.
+  and Fiord online then offline over one region (Dark is now named Black).
 - The lists sheet (#765): a physical keypad, and the sheet with one list, where a pencil stands
   in for the handle. Open: the overflow button on a recent search row cannot be reached by key,
   since it sits inside the focused row as on every `SuggestionRow`, so a recent row has no key
