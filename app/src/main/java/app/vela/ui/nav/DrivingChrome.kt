@@ -81,8 +81,29 @@ internal object DrivingBar {
 
 @Composable
 internal fun BoxScope.DrivingChrome(state: MapUiState, vm: MapViewModel) {
-    if (!SearchGates.drivingChromeLive.value) return
+    if (!app.vela.ui.DrivingMode.on.value) return
     val context = LocalContext.current
+    // The screen stays on for the whole mode, a sheet or a search up or not, under the same
+    // setting as a drive (Settings > Navigation, "Keep screen on while navigating"). The setting
+    // is read on every pass, since Settings draws over the map and this never leaves
+    // composition; the clock below recomposes it once a minute. Keyed on the drive too: a drive
+    // adds the same flag and clears it when it ends, and this puts it back.
+    val keepAwake = context.getSharedPreferences("vela_settings", android.content.Context.MODE_PRIVATE).getBoolean("keep_screen_on_nav", true)
+    val window = remember(context) {
+        var c: android.content.Context? = context
+        while (c is ContextWrapper && c !is Activity) c = c.baseContext
+        (c as? Activity)?.window
+    }
+    DisposableEffect(keepAwake, window, state.navigating) {
+        if (keepAwake) window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        onDispose { if (keepAwake) window?.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON) }
+    }
+    // The time of day, so a mounted screen with no status bar still has a clock. Ticks at the
+    // top of each minute.
+    var clockTick by remember { mutableIntStateOf(0) }
+    LaunchedEffect(Unit) { while (true) { kotlinx.coroutines.delay(60_000 - System.currentTimeMillis() % 60_000 + 20); clockTick++ } }
+
+    if (!SearchGates.drivingChromeLive.value) return
     val cfg = LocalConfiguration.current
     val landscape = cfg.screenWidthDp > cfg.screenHeightDp
     val look = navBarLook()
@@ -90,21 +111,6 @@ internal fun BoxScope.DrivingChrome(state: MapUiState, vm: MapViewModel) {
     val dark = isAppInDarkTheme()
     val density = LocalDensity.current
     val rootView = LocalView.current
-
-    // The screen stays on as it does in a drive, under the same setting (Settings > Navigation,
-    // "Keep screen on while navigating"). The drive's own flag takes over when a drive starts.
-    val keepAwake = remember {
-        context.getSharedPreferences("vela_settings", android.content.Context.MODE_PRIVATE).getBoolean("keep_screen_on_nav", true)
-    }
-    val window = remember(context) {
-        var c: android.content.Context? = context
-        while (c is ContextWrapper && c !is Activity) c = c.baseContext
-        (c as? Activity)?.window
-    }
-    DisposableEffect(keepAwake, window) {
-        if (keepAwake) window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        onDispose { if (keepAwake) window?.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON) }
-    }
     DisposableEffect(Unit) {
         onDispose { DrivingBar.heightPx.intValue = 0; DrivingBar.rightPx.intValue = 0 }
     }
@@ -125,10 +131,6 @@ internal fun BoxScope.DrivingChrome(state: MapUiState, vm: MapViewModel) {
         }
     }
 
-    // The time of day, so a mounted screen with no status bar still has a clock. Half a minute
-    // is as often as the minute can change.
-    var clockTick by remember { mutableIntStateOf(0) }
-    LaunchedEffect(Unit) { while (true) { kotlinx.coroutines.delay(30_000); clockTick++ } }
     val clock = remember(clockTick, Clock24.on.value) { formatClock(System.currentTimeMillis()) }
 
     // The bar: the drive's card, flush on the bottom edge in portrait, in the left column in

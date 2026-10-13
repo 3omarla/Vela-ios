@@ -1961,7 +1961,8 @@ unit without Android Auto. `DrivingMode.on` (`ui/DrivingMode.kt`) is memory only
 - `SearchGates.drivingChrome` says when the chrome draws: the mode on, nothing owning the
   screen (no drive, search page, place, results, directions, steps, pick, replay, arrival,
   Street View, area pick, drawing or resume prompt). `fabChromeOk` is false while it draws, so
-  the locate and parking buttons, the scale bar and the browse credit yield. The gate is
+  the locate and parking buttons, the scale bar and the browse credit yield, and the zoom
+  buttons hide as they do in a drive. The gate is
   published as `SearchGates.drivingChromeLive` for `DrivingChrome` and `NavCorner`, which get no
   parameter from `MapScreen`.
 - The browse follow flag is `FollowMe.on` (a holder, formerly a `MapScreen` local), so the mode's
@@ -1969,7 +1970,9 @@ unit without Android Auto. `DrivingMode.on` (`ui/DrivingMode.kt`) is memory only
 - A place or a route picked from search runs as usual: the chrome hides behind the sheet, the
   route picker and the drive, and the mode is still on when they close, so a drive that ends
   returns to it. The X is the only way out; Back behaves as on the bare map.
-- The screen stays on under "Keep screen on while navigating", as in a drive.
+- The screen stays on under "Keep screen on while navigating" for the whole mode, a sheet or a
+  search up or not, and while a drive in it is paused; the setting is read on every pass of the
+  chrome, which the clock recomposes once a minute.
 - "Day and night while navigating" counts the mode as navigating (`isAppInDarkTheme`,
   `isMapDark`).
 - Alerts: the speeding alert runs from each guidance-quality fix (`NavController.drivingModeFix`,
@@ -1979,7 +1982,8 @@ unit without Android Auto. `DrivingMode.on` (`ui/DrivingMode.kt`) is memory only
 - Settings > Map > "Where the map opens" > "Driving mode" (`StartView.DRIVE`): `startFor`
   decides the camera as "Where I am" does and sets `Start.drive`, which `openStartView` turns
   into the mode before the map is composed. A launch from a link keeps its place in every mode.
-  The layers panel's "Driving mode" row (`enterDrivingMode`) is the way in from the map; with
+  The layers panel's "Driving mode" row (`enterDrivingMode`) is the way in from the map, and
+  closes an open place, whose sheet would hide the chrome; with
   the layers button hidden, the setting is the way in.
 - Android Auto is untouched: the car's own drive screen (10.1) is the same idea on the car.
 

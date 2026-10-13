@@ -8035,6 +8035,7 @@ class MapViewModel @Inject constructor(
     /** Driving mode from the map's layers menu (issue #727): the mode on, the map following the
      *  fix again, as a locate tap leaves it. The free-drive follow turns heading-up once you move. */
     fun enterDrivingMode() {
+        if (_state.value.selected != null) clearSelection() // a minimized sheet would hide the mode's chrome
         app.vela.ui.DrivingMode.on.value = true
         app.vela.ui.FollowMe.on.value = true
         if (_state.value.myLocation != null) recenter()

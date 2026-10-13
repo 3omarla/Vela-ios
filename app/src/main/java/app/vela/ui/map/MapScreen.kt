@@ -2352,7 +2352,7 @@ fun MapScreen(
         // Touch phones get the same pair behind Settings > Navigation > "Prefer buttons over
         // swipes" (issue #393): one pill in the bottom-right stack, above the parking button,
         // in the parking button's own dress so the corner reads as one set of controls.
-        val zoomButtonsVisible = (dpadMode || app.vela.ui.PreferButtons.on.value) && !searchOpen && !state.navigating &&
+        val zoomButtonsVisible = (dpadMode || app.vela.ui.PreferButtons.on.value) && !searchOpen && !state.navigating && !app.vela.ui.DrivingMode.on.value &&
             state.selected == null && state.drawing == null && !state.directionsOpen && !state.showSteps &&
             state.activeRoute == null && state.routes.isEmpty() &&
             (state.results.isEmpty() || state.resultsCollapsed)
@@ -4682,8 +4682,9 @@ private fun SearchEntryHost(state: MapUiState, vm: MapViewModel, focusManager: a
 
 @Composable
 private fun CategoryChips(onPick: (String) -> Unit, modifier: Modifier = Modifier) {
-    // Driving mode keeps the search bar alone at the top (issue #727).
-    if (app.vela.ui.DrivingMode.on.value) return
+    // Driving mode keeps the search bar alone at the top (issue #727). The row's place stays
+    // taken, so the landscape bar keeps its half width and the compass its corner.
+    if (app.vela.ui.DrivingMode.on.value) { Spacer(modifier); return }
     // (localized label, STABLE English search query, icon) — the query is the logic key sent to Google
     // search (works in any locale), the label is what the user sees, so the chips localize without
     // changing what's searched. The list is in the user's order, less the chips switched off

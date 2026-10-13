@@ -332,7 +332,7 @@ opens" > "Driving mode" starts Vela in it ([chapter 13](13-settings.md)).
 - The right-edge column has a locate button and the voice button with its three choices. The
   speed box sits above the bar from the first fix, standing still too, and the map credit sits
   between them. The search bar stays at the top with nothing under it; the category chips, the
-  layers button, the parking button and the scale bar are gone.
+  layers button, the parking button, the zoom buttons and the scale bar are gone.
 - Landscape puts the bar in the left column, with the speed box beside it, and the buttons at
   the bottom edge, as a drive does.
 - A search runs as usual. A place, its route picker and the drive cover the mode's chrome, and
