@@ -518,7 +518,7 @@
     <string name="map_list_saved">„%1$s“ in deinen Listen gespeichert</string>
     <string name="settings_update_nightly">Nightly-Builds einschließen</string>
     <string name="settings_update_nightly_hint">Auf den neuesten Nightly (Vorabversion) aktualisieren statt nur auf stabile Versionen. Nightlies sind aktueller, aber weniger getestet.</string>
-    <string name="settings_lists_export_hint">Sichere deine Listen in einer Datei oder stelle sie auf einem anderen Gerät wieder her.</string>
+    <string name="settings_lists_export_hint">Sichern Sie Ihre Listen in einer Datei oder stellen Sie sie auf einem anderen Gerät wieder her. Beim Importieren kann auch eine Liste aus dem Ordner „Gespeichert“ von Google Takeout übernommen werden (eine CSV-Datei pro Liste); dabei wird jeder Ort in der Liste nachgeschlagen, daher ist eine Internetverbindung erforderlich.</string>
     <string name="settings_lists_imported">%1$d Liste(n) importiert</string>
     <string name="settings_places_imported">%1$d Ort(e) importiert</string>
     <!-- format -->
@@ -1308,7 +1308,7 @@
     <string name="settings_map_names_local_english">Lokal und Englisch</string>
     <string name="settings_map_names_hint">Umschriebene Namen entstehen maschinell, wo OpenStreetMap keinen englischen Namen hat, und lesen sich auf Hebräisch und in einigen anderen Schriften schlecht. App-Sprache und Stimme ändern sich nicht.</string>
     <string name="settings_project">Projekt</string>
-    <string name="settings_project_hint">Quellcode, Fehlermeldungen und Diskussionen sind auf GitHub.</string>
+    <string name="settings_project_hint">Die Website enthält eine Übersicht und eine Presseseite. Quellcode, Fehlerberichte und Diskussionen finden Sie auf GitHub.</string>
     <string name="settings_project_github_button">Vela auf GitHub</string>
     <string name="mapvm_rechecking_connection">Verbindung wird geprüft…</string>
     <string name="mapvm_back_online">Wieder online</string>
@@ -1353,7 +1353,7 @@
     <string name="search_saved_tip">Deine gespeicherten Orte findest du unter der Lesezeichen-Schaltfläche oben. Füge einen hinzu, um ihn hier zu speichern.</string>
     <string name="welcome_feature_private_body">Kein Konto, keine Werbung, keine Analysen und kein Vela-Server.</string>
     <string name="welcome_continue">Weiter</string>
-    <string name="welcome_cameras_intro">Flock und andere Kennzeichenlesegeräte werden auf der Karte angezeigt. Vela kann außerdem:</string>
+    <string name="welcome_cameras_intro">Dieses Symbol kennzeichnet einen Flock- oder einen anderen Kennzeichenleser auf der Karte. Vela kann außerdem:</string>
     <string name="welcome_cameras_avoid">Um sie herumführen</string>
     <string name="welcome_cameras_warn">Warne mich, wenn ich mich nähere</string>
     <string name="welcome_google_customize">Wählen Sie aus, wofür Google verwendet wird</string>
@@ -1398,7 +1398,7 @@
     <string name="settings_voice_mode_on">An</string>
     <string name="settings_voice_mode_alerts">Nur Benachrichtigungen</string>
     <string name="settings_voice_mode_off">Aus</string>
-    <string name="settings_voice_mode_hint">Die Warnmeldungen beschränken sich auf Geschwindigkeitsüberschreitungen und Kameravarnungen in Form eines kurzen Signaltons; es wird nichts weiter angesagt. Über die Lautsprechertaste lassen sich während der Fahrt dieselben drei Meldungen durchschalten.</string>
+    <string name="settings_voice_mode_hint">Die Funktion „Warnmeldungen“ gibt lediglich bei Geschwindigkeitsüberschreitungen und vor Kameras einen kurzen Signalton aus und sagt sonst nichts. Die Lautsprechertaste während der Fahrt öffnet dieselben drei Funktionen.</string>
     <string name="settings_zoom_key_in">Zoom-Taste plus</string>
     <string name="settings_zoom_key_out">Zoom-Taste minus</string>
     <string name="settings_zoom_key_press">Drücken Sie die gewünschte Taste. Die Pfeiltasten, „OK“ und „Zurück“ sind bereits belegt.</string>
@@ -1449,4 +1449,27 @@
         <item quantity="one">%1$d wurde in %2$s importiert. %3$d konnte nicht gefunden werden.</item>
         <item quantity="other">%1$d Einträge wurden in %2$s importiert. %3$d konnte nicht gefunden werden.</item>
     </plurals>
+    <plurals name="settings_takeout_need_google">
+        <item quantity="one">%1$d Ort muss bei Google nachgeschlagen werden.</item>
+        <item quantity="other">%1$d Orte müssen bei Google nachgeschlagen werden.</item>
+    </plurals>
+    <plurals name="settings_takeout_need_google_none">
+        <item quantity="one">%1$d muss bei Google nachgeschlagen werden, daher wurde %2$s nicht erstellt.</item>
+        <item quantity="other">%1$d Orte müssen bei Google nachgeschlagen werden, daher wurde %2$s nicht erstellt.</item>
+    </plurals>
+    <string name="settings_takeout_busy">Eine Liste wird gerade importiert. Bitte warten Sie, bis der Vorgang abgeschlossen ist.</string>
+    <string name="settings_map_look">Kartenansicht</string>
+    <string name="settings_map_look_liberty">Vela</string>
+    <string name="settings_map_look_bright">Bright (Hell)</string>
+    <string name="settings_map_look_fiord">Fiord</string>
+    <string name="settings_map_look_positron">Positron</string>
+    <string name="settings_map_look_dark">Dunkel</string>
+    <string name="settings_map_look_hint">„Vela“ ist der „Liberty“-Stil von OpenFreeMap mit Vela-eigenen Farben, Symbolen und Straßenbreiten. Die anderen sind die OpenFreeMap-Stile „Bright“, „Positron“, „Fiord“ und „Dark“ in ihrer Standardausführung; „Fiord“ und „Dark“ sind unabhängig vom Thema immer dunkel.</string>
+    <string name="settings_road_alerts_group">Verkehrsmeldungen</string>
+    <string name="settings_bridge_openings">Brücken-Öffnungs-Zeiten</string>
+    <string name="settings_bridge_openings_hint">In den Niederlanden wird angezeigt, wann eine bewegliche Brücke auf Ihrer Route geöffnet ist oder geöffnet werden soll, sobald Sie diese erreichen. Geplante und aktuelle Öffnungszeiten stammen aus den Open-Road-Daten der NDW und werden erst abgefragt, wenn Ihre Route in die Niederlande führt.</string>
+    <string name="nav_bridge_open_ahead">Die vor ihnen liegende Brücke ist geöffnet</string>
+    <string name="nav_bridge_opening_ahead">Brücke in Sicht: Eröffnung in %1$s geplant</string>
+    <string name="settings_project_site_button">Website</string>
+    <string name="settings_takeout_imported_none">Es konnte kein Eintrag in der Liste gefunden werden, daher wurde %1$s nicht erstellt.</string>
 </resources>
