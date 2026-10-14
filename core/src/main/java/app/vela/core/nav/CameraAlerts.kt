@@ -68,6 +68,18 @@ object CameraAlerts {
      * already behind you is never announced, even if it was missed: a warning about something you
      * have passed is worse than silence.
      */
+    /**
+     * [due] for a list that is rebuilt every scan rather than once per route (driving mode's look
+     * ahead with no route, issue 727): [ahead] pairs each camera's key with its meters ahead at
+     * the scan, [sinceM] is what was driven since, and [announced] holds keys, so a camera stays
+     * announced however the list is rebuilt. Returns the key to announce, or null.
+     */
+    fun dueKeyed(ahead: List<Pair<String, Double>>, sinceM: Double, speedMps: Double, announced: Set<String>): String? {
+        if (ahead.isEmpty()) return null
+        val spoken = ahead.indices.filter { ahead[it].first in announced }.toSet()
+        return due(ahead.map { it.second }, sinceM, speedMps, spoken)?.let { ahead[it].first }
+    }
+
     fun due(
         cameraMeters: List<Double>,
         traveledM: Double,

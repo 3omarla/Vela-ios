@@ -29,8 +29,9 @@ What Vela Maps does today, one line per feature. How each one works is in [SPEC.
 - A blue dot with a heading cone, or a wide circle when the fix is approximate.
 - Driving with no route, the map turns heading-up and shows your speed and the limit.
 - Driving mode: the map alone in the drive's layout with no route, with the speed badge, the
-  voice button, a locate button and the search bar, for a mounted phone or tablet. From the map's
-  layers panel, or "Where the map opens" so Vela starts in it.
+  voice button, a locate button and the search bar, for a mounted phone or tablet, and the
+  speeding, speed camera and plate camera alerts running on the road ahead. From the map's layers
+  panel, or "Where the map opens" so Vela starts in it.
 - Names in the app language where the data has them, or romanized. "Names on the map" can show
   the local script instead where there is no English name, local names only, or local and
   English together.

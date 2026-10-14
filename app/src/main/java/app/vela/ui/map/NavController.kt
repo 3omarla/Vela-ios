@@ -1241,15 +1241,104 @@ internal class NavController(
     }
 
     /** A GPS fix in driving mode with no drive running (issue #727): the speeding alert runs from
-     *  the fix stream, as it runs per nav tick during a drive. The speed camera and plate camera
-     *  alerts are projected onto a route and have nothing to run from here. */
-    fun drivingModeFix() {
+     *  the fix stream, as it runs per nav tick during a drive, and the camera alerts run against
+     *  a look ahead along the course ([scanAhead]), since there is no route to project onto. */
+    fun drivingModeFix(here: app.vela.core.model.LatLng, bearingDeg: Double?) {
         if (navSession.state.value.navigating) return
         maybeWarnSpeeding()
+        val wantCams = app.vela.ui.SpeedCams.on.value && app.vela.ui.SpeedCamWarn.on.value
+        val wantFlock = app.vela.ui.FlockNavAlert.any
+        if (!wantCams && !wantFlock) return
+        val speed = (_state.value.mySpeed ?: 0f).toDouble()
+        if (bearingDeg == null || speed < app.vela.core.nav.CameraAlerts.MOVING_FLOOR_MPS) return
+        val now = android.os.SystemClock.elapsedRealtime()
+        val from = driveScanFrom
+        if (driveScanJob?.isActive != true && (from == null || now - driveScanAtMs >= DRIVE_SCAN_MS || from.distanceTo(here) >= DRIVE_SCAN_M)) {
+            scanAhead(here, bearingDeg, wantCams, wantFlock)
+        }
+        if (from == null) return
+        val since = from.distanceTo(here)
+        if (wantCams) app.vela.core.nav.CameraAlerts.dueKeyed(driveCams, since, speed, driveAnnouncedCams)?.let { key ->
+            driveAnnouncedCams = driveAnnouncedCams + key
+            android.util.Log.i("VelaSpeedCam", "driving mode: camera ahead")
+            val msg = appContext.getString(R.string.nav_speed_camera_ahead)
+            host.flashStatus(msg, 6000L)
+            alert(msg)
+            app.vela.car.CarBridge.toast(msg)
+        }
+        if (wantFlock) app.vela.core.nav.CameraAlerts.dueKeyed(driveFlock, since, speed, driveAnnouncedFlock)?.let { key ->
+            driveAnnouncedFlock = driveAnnouncedFlock + key
+            val msg = appContext.getString(
+                if ((driveFlockCount[key] ?: 1) > 1) R.string.nav_flock_cameras_ahead else R.string.nav_flock_camera_ahead,
+            )
+            if (app.vela.ui.FlockNavAlert.card.value) host.flashStatus(msg, 6000L)
+            if (app.vela.ui.FlockNavAlert.voice.value) alert(msg)
+            app.vela.car.CarBridge.toast(msg)
+        }
     }
 
-    /** Driving mode was left: the next drive or mode starts with a fresh hold. */
-    fun drivingModeLeft() = speeding.reset()
+    // Driving mode's look ahead (issue #727): the cameras along a straight line ahead of the car,
+    // rescanned every DRIVE_SCAN_MS or DRIVE_SCAN_M, as (key, meters ahead at the scan). Announced
+    // by key, since the lists are rebuilt each scan. Speed cameras come from the baked road
+    // features only (a corridor fetch per scan would be a request storm); plate cameras from the
+    // bundled set. A camera past a bend ahead is outside the line's corridor and not seen.
+    private var driveScanAtMs = 0L
+    private var driveScanFrom: app.vela.core.model.LatLng? = null
+    private var driveScanJob: kotlinx.coroutines.Job? = null
+    private var driveCams: List<Pair<String, Double>> = emptyList()
+    private var driveFlock: List<Pair<String, Double>> = emptyList()
+    private var driveFlockCount: Map<String, Int> = emptyMap()
+    private var driveAnnouncedCams: Set<String> = emptySet()
+    private var driveAnnouncedFlock: Set<String> = emptySet()
+
+    private fun scanAhead(here: app.vela.core.model.LatLng, bearingDeg: Double, wantCams: Boolean, wantFlock: Boolean) {
+        driveScanJob = scope.launch {
+            val line = listOf(here, aheadOf(here, bearingDeg, DRIVE_AHEAD_M))
+            val cum = app.vela.core.nav.RouteProjection.cumulative(line)
+            fun key(p: app.vela.core.model.LatLng) = String.format(java.util.Locale.US, "%.5f,%.5f", p.lat, p.lng)
+            val cams = if (!wantCams) emptyList() else when (host.roadFeaturesCoverRoute(line)) {
+                MapViewModel.RoadCover.LOADED -> withContext(Dispatchers.Default) {
+                    app.vela.data.RoadFeatures.camerasAlong(line, DRIVE_CORRIDOR_M)
+                        .mapNotNull { c -> app.vela.core.nav.RouteProjection.alongMeters(line, cum, c.loc, DRIVE_CORRIDOR_M)?.let { key(c.loc) to it } }
+                        .sortedBy { it.second }
+                }
+                else -> emptyList()
+            }
+            val flock = if (!wantFlock || !app.vela.data.FlockCameras.isLoaded) emptyList() else withContext(Dispatchers.Default) {
+                app.vela.data.FlockCameras.along(line, DRIVE_CORRIDOR_M)
+                    .mapNotNull { c -> app.vela.core.nav.RouteProjection.alongMeters(line, cum, c.loc, DRIVE_CORRIDOR_M)?.let { key(c.loc) to it } }
+                    .sortedBy { it.second }
+            }
+            // Plate cameras within 40 m of each other along the line are one announcement, keyed
+            // by the first, as on a route.
+            val groups = ArrayList<Pair<String, Double>>(); val counts = HashMap<String, Int>()
+            for ((k, m) in flock) {
+                val last = groups.lastOrNull()
+                if (last != null && m - last.second <= 40.0 && (counts[last.first] ?: 1) > 0) counts[last.first] = (counts[last.first] ?: 1) + 1
+                else { groups.add(k to m); counts[k] = 1 }
+            }
+            driveCams = cams; driveFlock = groups; driveFlockCount = counts
+            driveScanFrom = here; driveScanAtMs = android.os.SystemClock.elapsedRealtime()
+            if (cams.isNotEmpty() || groups.isNotEmpty()) android.util.Log.i("VelaSpeedCam", "driving mode: ${cams.size} camera(s), ${groups.size} plate group(s) within ${DRIVE_AHEAD_M.toInt()} m ahead")
+        }
+    }
+
+    /** The point [meters] along [bearingDeg] from [from], flat-earth, good to a few meters at this range. */
+    private fun aheadOf(from: app.vela.core.model.LatLng, bearingDeg: Double, meters: Double): app.vela.core.model.LatLng {
+        val b = Math.toRadians(bearingDeg)
+        val dLat = meters * Math.cos(b) / 111_320.0
+        val dLng = meters * Math.sin(b) / (111_320.0 * Math.cos(Math.toRadians(from.lat)))
+        return app.vela.core.model.LatLng(from.lat + dLat, from.lng + dLng)
+    }
+
+    /** Driving mode was left: the next drive or mode starts with a fresh hold and no scan. */
+    fun drivingModeLeft() {
+        speeding.reset()
+        driveScanJob?.cancel(); driveScanJob = null
+        driveScanFrom = null; driveScanAtMs = 0L
+        driveCams = emptyList(); driveFlock = emptyList(); driveFlockCount = emptyMap()
+        driveAnnouncedCams = emptySet(); driveAnnouncedFlock = emptySet()
+    }
 
     /** Say so when you have been over the posted limit for a few seconds (issue #404, opt-in).
      *  The limit is the one the speed badge shows: the offline graph's maxspeed, else the online
@@ -1467,3 +1556,10 @@ internal fun controlsOnRoute(poly: List<app.vela.core.model.LatLng>, all: List<a
 
 /** How often the bridge feed is asked again while a bridge is on the route. */
 private const val BRIDGE_REFRESH_MS = 5 * 60_000L
+
+/** Driving mode's look ahead (issue #727): how far the line reaches, how wide its corridor is, and
+ *  how often it is rescanned, by time or by distance driven. */
+private const val DRIVE_AHEAD_M = 1200.0
+private const val DRIVE_CORRIDOR_M = 60.0
+private const val DRIVE_SCAN_MS = 4000L
+private const val DRIVE_SCAN_M = 150.0

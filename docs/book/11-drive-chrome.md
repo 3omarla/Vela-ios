@@ -340,8 +340,10 @@ opens" > "Driving mode" starts Vela in it ([chapter 13](13-settings.md)).
   the mode is still on when they close, so a drive that ends returns to it.
 - The screen stays on under "Keep screen on while navigating", and "Day and night while
   navigating" counts the mode as a drive.
-- The speeding alert runs from the fixes. The speed camera and plate camera alerts need a route
-  and do not run here.
+- The speeding alert runs from the fixes. The speed camera and plate camera alerts, which a
+  drive reads off its route, read a straight line about a kilometer ahead of the car instead,
+  rescanned every few seconds, so a camera on the road you are on is announced with the same
+  lead as in a drive. One past a bend is not seen until the bend is behind you.
 
 `DrivingChrome` (`ui/nav/DrivingChrome.kt`) is composed from `MapFloaters`; `SearchGates`
 decides when it draws and puts the browse buttons away while it does.

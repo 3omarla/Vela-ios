@@ -70,4 +70,19 @@ class CameraAlertsTest {
         assertTrue(CameraAlerts.group(emptyList()).isEmpty())
         assertEquals(listOf(CameraAlerts.Group(500.0, 1)), CameraAlerts.group(listOf(500.0)))
     }
+
+    @Test fun `a keyed list rebuilt each scan announces a camera once`() {
+        // At 20 m/s the lead is 240 m: the first is inside it, the second not yet.
+        val scan1 = listOf("a" to 200.0, "b" to 700.0)
+        assertEquals("a", CameraAlerts.dueKeyed(scan1, 0.0, 20.0, emptySet()))
+        // The next scan sees the same camera nearer under the same key: already announced.
+        val scan2 = listOf("a" to 50.0, "b" to 550.0)
+        assertEquals(null, CameraAlerts.dueKeyed(scan2, 0.0, 20.0, setOf("a")))
+        // Driven on since the scan, the second comes into the lead window.
+        assertEquals("b", CameraAlerts.dueKeyed(scan2, 350.0, 20.0, setOf("a")))
+        // A camera behind, or a crawl, says nothing.
+        assertEquals(null, CameraAlerts.dueKeyed(listOf("c" to -20.0), 0.0, 20.0, emptySet()))
+        assertEquals(null, CameraAlerts.dueKeyed(scan1, 0.0, 1.0, emptySet()))
+        assertEquals(null, CameraAlerts.dueKeyed(emptyList(), 0.0, 20.0, emptySet()))
+    }
 }

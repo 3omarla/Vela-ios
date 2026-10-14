@@ -289,6 +289,11 @@ off the list when it has been.
   panel and from the setting, the voice choices, the X, the credit above the bar, a simulated
   drive started from it and ended back in it) and on a tablet emulator in both orientations. Not seen: the speeding
   alert, location off, the screen turning off, a real tablet, or Android Auto connected.
+- Camera alerts in driving mode (#727): the look ahead along the fix's course. Seen on a 4a
+  fed mock fixes at 34 mph toward a plate camera facing the road: the scan found it every 4 s,
+  and the Heads up card and the spoken line came about 150 m before it, once. Not seen: a
+  speed camera (needs a baked region on the phone), a camera past a bend, the car screen, or
+  a real drive.
 - Contrast map colors (`CONTRAST_DARK`): seen on a 4a at zoom 12.6 and 15.5 on the Davis
   fixture, online, in the dark theme. Not seen: the car screen, a drive with the route line and
   traffic over the tan streets, the satellite layer, the AMOLED theme (which ignores it), the
@@ -417,11 +422,6 @@ Found reading everything since 0.4.1912 and not fixed yet.
 - An e-ink look (#789): a map look in black lines on white with no shading beside the five
   under Map look, and a high-contrast app theme without grays. The nearest today is Positron
   with the light theme. Not started; needs someone with an e-ink phone to look at it.
-- Camera alerts in driving mode (#727): the speed camera and plate camera alerts are projected
-  onto a route (`refreshRouteSpeedCams`, `refreshRouteFlock`), so the mode without a route has
-  none. Not started. The work is a look-ahead from the fix stream: the cameras within a cone
-  ahead of the course, from the baked road features and the bundled plate cameras, with
-  `CameraAlerts.due` timing and an announced set keyed by camera, not by index.
 
 ## Big bets
 

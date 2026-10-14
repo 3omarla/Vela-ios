@@ -1102,8 +1102,8 @@ class MapViewModel @Inject constructor(
                     nav.lastNavFedMs = nowMs
                     nav.recordDriveFix(here)
                     updateSpeedLimit(here) // posted-limit badge for the road under the puck (off-thread)
-                    // Driving mode with no route: the speeding alert runs from the fixes (issue #727).
-                    if (app.vela.ui.DrivingMode.on.value && !_state.value.navigating) nav.drivingModeFix()
+                    // Driving mode with no route: the speeding and camera alerts run from the fixes (issue #727).
+                    if (app.vela.ui.DrivingMode.on.value && !_state.value.navigating) nav.drivingModeFix(here, fixBearing?.toDouble())
                     if (_state.value.navStarved) _state.update { it.copy(navStarved = false) }
                 } else if (_state.value.navigating && nowMs - nav.lastNavFedMs > NAV_STARVED_MS && !_state.value.navStarved) {
                     _state.update { it.copy(navStarved = true) }

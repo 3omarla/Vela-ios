@@ -1997,8 +1997,15 @@ unit without Android Auto. `DrivingMode.on` (`ui/DrivingMode.kt`) is memory only
   `isMapDark`).
 - Alerts: the speeding alert runs from each guidance-quality fix (`NavController.drivingModeFix`,
   after `updateSpeedLimit`), with `SpeedingAlerts` reset when the mode is left. The speed camera
-  and plate camera alerts are projected onto a route (`refreshRouteSpeedCams`,
-  `refreshRouteFlock`) and do not run in the mode.
+  and plate camera alerts, which a drive projects onto its route, run here against a look ahead:
+  a straight line `DRIVE_AHEAD_M` (1,200 m) along the fix's course, rescanned every
+  `DRIVE_SCAN_MS` (4 s) or `DRIVE_SCAN_M` (150 m) driven (`scanAhead`), with the cameras within
+  `DRIVE_CORRIDOR_M` (60 m) of it as (key, meters ahead). Speed cameras come from the baked road
+  features only (no corridor fetch per scan); plate cameras from the bundled set, grouped within
+  40 m as on a route. `CameraAlerts.dueKeyed` applies the drive's timing with the meters driven
+  since the scan and a set of announced keys, so a camera is announced once however the list is
+  rebuilt. A camera past a bend ahead sits outside the corridor and is not seen; the same
+  settings gate the alerts as in a drive. Leaving the mode clears the scan and the announced sets.
 - Settings > Map > "Where the map opens" > "Driving mode" (`StartView.DRIVE`): `startFor`
   decides the camera as "Where I am" does and sets `Start.drive`, which `openStartView` turns
   into the mode before the map is composed. A launch from a link keeps its place in every mode.
