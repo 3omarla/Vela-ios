@@ -349,6 +349,9 @@ off the list when it has been.
   mic opened on it. Unit-tested: the first download offered is tiny for English and base
   for any other app language. Not seen: a spoken search through base or small, how German
   comes out, or the offer itself on a phone in another language.
+- The lead-in before spoken lines (#802): 300 ms of silence at the start of every line, on Vela
+  Voice (`PiperSynth.LEAD_IN_MS`) and on the phone's engine (`playSilentUtterance`, whose
+  Not seen: a Bluetooth head unit, where the clipping was reported, or the phone's own engine.
 
 ### Open from the October 2026 audit
 

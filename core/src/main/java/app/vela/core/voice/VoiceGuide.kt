@@ -273,11 +273,14 @@ class VoiceGuide @Inject constructor(
     private fun attachTtsListener() {
         tts?.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
             override fun onStart(utteranceId: String?) {}
-            override fun onDone(utteranceId: String?) = releaseFocus()
+            // The lead-in silence before a line (issue #802) has no focus of its own: its
+            // callbacks are skipped, so focus follows the words.
+            override fun onDone(utteranceId: String?) { if (!isLead(utteranceId)) releaseFocus() }
             // QUEUE_FLUSH fires onStop (not onDone) for the flushed utterance — without this
             // override every interrupt stranded a refcount and focus never released.
-            override fun onStop(utteranceId: String?, interrupted: Boolean) = releaseFocus()
+            override fun onStop(utteranceId: String?, interrupted: Boolean) { if (!isLead(utteranceId)) releaseFocus() }
             @Deprecated("deprecated") override fun onError(utteranceId: String?) {
+                if (isLead(utteranceId)) return
                 working = false // the engine accepted text but couldn't synthesize it
                 releaseFocus()
             }
@@ -503,7 +506,11 @@ class VoiceGuide @Inject constructor(
         val params = android.os.Bundle().apply {
             putFloat(TextToSpeech.Engine.KEY_PARAM_VOLUME, volume.coerceAtMost(1.0f))
         }
-        val result = engine.speak(forSpeech(SpokenScript.forVoice(text, t, roadNameLatin)), mode, params, "vela-${text.hashCode()}")
+        // A lead-in of silence before the words (issue #802): an output waking from standby, a
+        // Bluetooth head unit above all, dropped the first syllables. The neural voice does the
+        // same in its player (PiperSynth.LEAD_IN_MS).
+        engine.playSilentUtterance(LEAD_IN_MS, mode, "$LEAD_ID${text.hashCode()}")
+        val result = engine.speak(forSpeech(SpokenScript.forVoice(text, t, roadNameLatin)), TextToSpeech.QUEUE_ADD, params, "vela-${text.hashCode()}")
         if (result == TextToSpeech.ERROR) {
             // The utterance was never enqueued, so NONE of the onDone/onStop/onError callbacks that
             // release focus will ever fire for it — roll back the acquire here or music stays ducked
@@ -591,6 +598,10 @@ class VoiceGuide @Inject constructor(
         const val FOCUS_HOLD_MS = 1500L
         // Lead between a FRESH focus grant and the first sample, so a pausing player has stopped.
         const val FOCUS_LEAD_MS = 350L
+        /** Silence queued before a line on the phone's engine, see [speakViaSystemNow]. */
+        const val LEAD_IN_MS = 300L
+        const val LEAD_ID = "vela-lead-"
+        private fun isLead(utteranceId: String?) = utteranceId?.startsWith(LEAD_ID) == true
     }
 }
 // (Road-abbreviation → spoken-form expansion moved to EnNavStrings.expandForSpeech in core/i18n, so it's
