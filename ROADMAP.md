@@ -351,10 +351,15 @@ off the list when it has been.
   comes out, or the offer itself on a phone in another language.
 - The lead-in before spoken lines (#802): 300 ms of silence at the start of every line, on Vela
   Voice (`PiperSynth.LEAD_IN_MS`) and on the phone's engine (`playSilentUtterance`, whose
+  utterance the focus listener skips). Seen on a 4a: a simulated drive's prompts through the speaker, whole, four lines in a row with their timings in the log.
   Not seen: a Bluetooth head unit, where the clipping was reported, or the phone's own engine.
-
 - The turn card's Then line wraps to a second line (#799). Not seen on a drive here, which needs
   a compound turn onto a long street name; the change is the line count.
+- Update all for downloaded regions (#801): seen on a 4a with four regions pending. The button
+  showed the count, the regions updated in turn under one card, and a place pack whose delta did
+  not fit fell back to the whole file as a row's own Update does. Not seen: Cancel mid-run, or
+  a drive started during the run.
+
 ### Open from the October 2026 audit
 
 Found reading everything since 0.4.1912 and not fixed yet.

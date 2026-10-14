@@ -10180,7 +10180,46 @@ class MapViewModel @Inject constructor(
         if (_state.value.poiPackDownloadingId != null || _state.value.routingDownloadingId != null || _state.value.regionUpdatingId != null) return
         regionCancel.set(false)
         _state.update { it.copy(regionUpdatingId = region.id, regionDownloadName = region.name, regionFilePct = 0) }
-        downloadLaunch(region.name) {
+        downloadLaunch(region.name) { updateRegionNow(region) }
+    }
+
+    /** Every installed region with a newer bake of its pack, places, map or routing file: the
+     *  rows' own Update test, for [updateAllRegions] (issue #801). */
+    fun regionsWithUpdates(s: MapUiState = _state.value): List<app.vela.offline.RoutingRegion> =
+        s.routingRegions.filter { r ->
+            r.id in s.routingInstalledIds && (s.regionUpdates.containsKey(r.id) ||
+                packFor(r)?.let { p -> p.id in s.poiPackInstalledIds && p.rev > (s.poiPackInstalledRevs[p.id] ?: 0) } == true)
+        }
+
+    @Volatile private var updatingAll = false
+
+    /** The rows' Update for every region that has one, in turn under one download card (issue
+     *  #801). Cancel stops after the region in hand. */
+    fun updateAllRegions() {
+        if (_state.value.poiPackDownloadingId != null || _state.value.routingDownloadingId != null || _state.value.regionUpdatingId != null) return
+        val regions = regionsWithUpdates()
+        if (regions.isEmpty()) return
+        regionCancel.set(false)
+        updatingAll = true
+        _state.update { it.copy(regionUpdatingId = regions.first().id, regionDownloadName = regions.first().name, regionFilePct = 0) }
+        downloadLaunch(appContext.getString(R.string.settings_region_updates)) {
+            try {
+                for (region in regions) {
+                    if (regionCancel.get()) break
+                    _state.update { it.copy(regionUpdatingId = region.id, regionDownloadName = region.name, regionFilePct = 0) }
+                    updateRegionNow(region)
+                }
+            } finally {
+                updatingAll = false
+                _state.update { it.copy(regionDownloadName = null, regionFileStep = null, regionUpdatingId = null, updateStage = 0) }
+                refreshRegionUpdates()
+            }
+        }
+    }
+
+    /** One region's update, the body of [updateRegion]: the pack, then the places, the map and
+     *  the routing file, each only when newer, with the row's state along the way. */
+    private suspend fun updateRegionNow(region: app.vela.offline.RoutingRegion) {
           try {
             val kinds = _state.value.regionUpdates[region.id].orEmpty()
             val packRegion = packFor(region) // its own pack or its parent's
@@ -10214,10 +10253,10 @@ class MapViewModel @Inject constructor(
                 _state.update { it.copy(routingDownloadingId = null, routingInstalledIds = obfStore.installedIds()) }
             }
           } finally {
-            _state.update { it.copy(regionDownloadName = null, regionFileStep = null, regionUpdatingId = null, updateStage = 0) }
+            // In an Update all the next region's id follows at once; the run's own end clears it.
+            _state.update { it.copy(regionDownloadName = null, regionFileStep = null, regionUpdatingId = if (updatingAll) it.regionUpdatingId else null, updateStage = 0) }
             refreshRegionUpdates()
           }
-        }
     }
 
     /** [region]'s place pack from the cached catalog: its own, or its parent's (RegionPacks). */

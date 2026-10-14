@@ -4308,7 +4308,10 @@ price file when the manifest's `fileSha256` differs from the stored manifest's (
 newer rev than the installed one), `places` and `map` (a newer archive whose box center lies
 inside the region, or one the region should have and lacks). The row's Update button
 (`updateRegion`) refreshes the pack when its rev is newer, then the places and basemap
-archives, then the routing file. Routing files have no patches and download whole.
+archives, then the routing file. Routing files have no patches and download whole. "Update
+all" under Update downloaded regions (`updateAllRegions`, shown with the count when any row
+has one, issue #801) runs the same for every such region in turn, under one download card;
+Cancel stops after the region in hand.
 
 #### Place pack deltas
 
@@ -4794,13 +4797,13 @@ download self-heals. The selection is `voice_model`, the speaker per voice `voic
 - When the next phrase is not ready the player writes `STARVE_MS` (60) of silence: an underrun
   makes AudioFlinger drop the track, which aborts the process. Audio is written in about 200 ms
   pieces with a generation check between them, which bounds an interrupt.
-- Pauses are spliced silence, 0.16 s at a comma and 0.32 s at a period, tuned at the default
-  0.8x and multiplied by 0.8 / speed (`gapFrames`). The runtime's own silence scale is a no-op.
-- Every fragment gets terminal punctuation before synthesis, or the last consonant is swallowed.
 - Every line starts with `LEAD_IN_MS` (300) of silence. The track is paused between prompts so
   the output can stand by, and a sink waking from standby (a Bluetooth head unit above all)
   dropped the first syllables when the words were written the instant the stream started
   (issue #802).
+- Pauses are spliced silence, 0.16 s at a comma and 0.32 s at a period, tuned at the default
+  0.8x and multiplied by 0.8 / speed (`gapFrames`). The runtime's own silence scale is a no-op.
+- Every fragment gets terminal punctuation before synthesis, or the last consonant is swallowed.
 - A Piper voice speaks one language. When `NeuralSynth.voiceLanguage` differs from the text's,
   `VoiceGuide` asks `NeuralSynth.voiceFor(lang)`, which loads an installed voice of that language
   (`VelaPiper.languageOverride`, never persisted, cleared when guidance returns to the

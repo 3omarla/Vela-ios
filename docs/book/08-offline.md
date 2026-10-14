@@ -272,7 +272,9 @@ default), or On Wi-Fi and mobile data, where "Wi-Fi" means a network the system 
 unmetered. On an automatic setting `maybeAutoPatch` runs a minute after start, every 3 hours
 and when a working network appears, at most once in 20 hours. It applies every published
 patch that fits an installed archive or place pack and pulls newer grid cells. It never
-downloads a region whole and it skips a drive in progress.
+downloads a region whole and it skips a drive in progress. Under the same heading, "Update
+all" with the count does every region that has an update, one after another, the same as
+each row's own Update button.
 
 The places and basemap catalogs are cached for an hour (`MANIFEST_TTL_MS`), so a process that
 lives for days still sees a new revision. The routing catalog is also written to disk on

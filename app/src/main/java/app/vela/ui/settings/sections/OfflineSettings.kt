@@ -119,6 +119,15 @@ internal fun OfflineSettingsScreen(vm: MapViewModel, onBack: () -> Unit, onClose
                 onClick = { app.vela.ui.RegionUpdates.set(context, m) },
             )
         }
+        // Every region with an update in one go, the rows' Update in turn (issue #801).
+        val pending = vm.regionsWithUpdates(state)
+        if (pending.isNotEmpty()) {
+            FilledTonalButton(
+                onClick = { vm.updateAllRegions() },
+                enabled = state.routingDownloadingId == null && state.poiPackDownloadingId == null && state.regionUpdatingId == null,
+                modifier = Modifier.padding(start = 20.dp, top = 8.dp).dpadHighlight(androidx.compose.foundation.shape.CircleShape),
+            ) { Text(stringResource(R.string.settings_update_all_regions, pending.size)) }
+        }
         app.vela.ui.RegionUpdates.lastResult.value?.let { Hint(it) }
         }
         // Viewed places kept on the phone for offline opens (details, reviews, photos).
