@@ -16,9 +16,11 @@ private const val VAD_FILE = "silero_vad.onnx"
  * the `asr-models` GitHub release (like the `tts-runtime`/`routing-graphs` infra releases - the
  * assets live nowhere else), extracted to `filesDir/asr/<id>/`.
  *
- * Three engines, because they trade off differently and the user picks:
- *  - [WHISPER_TINY] - the multilingual default. 99-language Whisper tiny (int8); covers every
- *    language Vela's UI supports (incl. Hebrew, Russian, Spanish…). The safe all-rounder.
+ * Five engines, because they trade off differently and the user picks:
+ *  - [WHISPER_TINY] - the English default. 99-language Whisper tiny (int8); covers every language
+ *    Vela's UI supports on paper, but outside English it is too weak to use.
+ *  - [WHISPER_BASE] - the default for every other language: the same 99 languages, usable in them,
+ *    91 MB. [WHISPER_SMALL] is the same again, better and 222 MB, for whoever wants it.
  *  - [SENSE_VOICE] - FunAudioLLM SenseVoice. More accurate + faster than Whisper tiny, but only for
  *    English, Chinese, Cantonese, Japanese, Korean. Great if you speak one of those.
  *  - [MOONSHINE] - Useful Sensors Moonshine tiny. Lowest latency, but ENGLISH ONLY.
@@ -48,6 +50,22 @@ enum class AsrEngine(
         url = "$ASR_BASE/vela-asr-whisper-tiny.tar.gz",
         files = listOf("tiny-encoder.int8.onnx", "tiny-decoder.int8.onnx", "tiny-tokens.txt", VAD_FILE),
     ),
+    WHISPER_BASE(
+        id = "whisper-base",
+        displayName = "Whisper base",
+        modelType = "whisper",
+        sizeMb = 91,
+        url = "$ASR_BASE/vela-asr-whisper-base.tar.gz",
+        files = listOf("base-encoder.int8.onnx", "base-decoder.int8.onnx", "base-tokens.txt", VAD_FILE),
+    ),
+    WHISPER_SMALL(
+        id = "whisper-small",
+        displayName = "Whisper small",
+        modelType = "whisper",
+        sizeMb = 222,
+        url = "$ASR_BASE/vela-asr-whisper-small.tar.gz",
+        files = listOf("small-encoder.int8.onnx", "small-decoder.int8.onnx", "small-tokens.txt", VAD_FILE),
+    ),
     SENSE_VOICE(
         id = "sensevoice",
         displayName = "SenseVoice",
@@ -69,6 +87,9 @@ enum class AsrEngine(
     ),
     ;
 
+    /** The Whisper model files' prefix (`tiny-encoder.int8.onnx`), null for another model. */
+    val whisperPrefix: String? get() = if (modelType == "whisper") id.removePrefix("whisper-") else null
+
     /** `filesDir/asr/<id>/` - the extracted archive's single top-level folder. */
     fun dir(context: Context): File = File(context.filesDir, "asr/$id")
 
@@ -83,7 +104,7 @@ enum class AsrEngine(
      *  Whisper covers everything; SenseVoice only en/zh/ja/ko/yue; Moonshine only English. Used to
      *  fall back off a picked engine that can't do the current language. */
     fun supportsLanguage(lang: String): Boolean = when (this) {
-        WHISPER_TINY -> true
+        WHISPER_TINY, WHISPER_BASE, WHISPER_SMALL -> true
         SENSE_VOICE -> lang in SENSE_VOICE_LANGS
         MOONSHINE -> lang == "en"
     }
@@ -96,8 +117,14 @@ enum class AsrEngine(
         private const val PREFS = "vela_settings"
         private const val PREF_ENGINE = "asr_engine"
 
-        /** The multilingual default - never regresses a language when nothing is picked. */
-        val DEFAULT = WHISPER_TINY
+        /** The engine offered when nothing is installed: [defaultFor] the app language. Read
+         *  through `Locale.getDefault()`, which is the app language once `AppLocale.wrap` has run. */
+        val DEFAULT: AsrEngine get() = defaultFor(java.util.Locale.getDefault().language)
+
+        /** Whisper tiny for English, where it is good and smallest; Whisper base for any other
+         *  language, where tiny is too weak to use (issue 798). Never SenseVoice or Moonshine: those
+         *  are opt-in for the languages they cover. */
+        fun defaultFor(lang: String): AsrEngine = if (lang == "en") WHISPER_TINY else WHISPER_BASE
 
         fun byId(id: String?): AsrEngine? = entries.firstOrNull { it.id == id }
 

@@ -41,8 +41,9 @@ are separate systems, so support differs by language.
   Japanese, Hebrew or Estonian, so those use the phone's own text-to-speech in that language.
   If the phone has none, navigation stays silent and a hint points at the voice settings.
 - **Dictation** runs on the phone. The default model is multilingual Whisper, set to the app
-  language. Settings > Search offers SenseVoice (English, Chinese, Japanese, Korean,
-  Cantonese) and Moonshine (English only) as alternatives.
+  language: tiny for English, base for any other language, with small as a bigger option.
+  Settings > Search offers SenseVoice (English, Chinese, Japanese, Korean, Cantonese) and
+  Moonshine (English only) as alternatives.
 
 The language setting is in Settings > Appearance. "Follow system language" is on by default.
 

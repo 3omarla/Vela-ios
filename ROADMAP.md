@@ -344,6 +344,11 @@ off the list when it has been.
 - "Zoom out as far as" (#781): seen on a 4a, the three choices under the switch, Town picked
   by default, Region picked and kept. Not seen: a drive with Region or Far picked, where the
   map may go out to zoom 10 or 8.
+- Whisper base and small for voice search (#798): seen on a 4a, both in the picker under
+  Search with their sizes, base downloaded and unpacked in half a minute, made active, and the
+  mic opened on it. Unit-tested: the first download offered is tiny for English and base
+  for any other app language. Not seen: a spoken search through base or small, how German
+  comes out, or the offer itself on a phone in another language.
 
 ### Open from the October 2026 audit
 
@@ -420,9 +425,6 @@ Found reading everything since 0.4.1912 and not fixed yet.
 - The car's layers follow the phone's switches while connected (#749): the car builds its map
   once per connection, so a Traffic layer switched on afterward shows only after a reconnect.
   Not started.
-- A bigger Whisper for voice search (#798): tiny is the one multilingual engine and is weak in
-  German; Whisper base or small, int8, as an opt-in download for the languages tiny handles
-  badly. Not started.
 - Contrast by day: the Contrast map colors draw as Modern in light mode. A light palette with
   the same intent (warm streets, roads a few steps from the land) is not drawn. Not started.
 - An e-ink look (#789): a map look in black lines on white with no shading beside the five

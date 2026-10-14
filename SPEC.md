@@ -4885,7 +4885,9 @@ A road name can be in a different script than the guidance language.
 Two tiers, both keyless.
 
 - Tier 1, in process: `AsrRecognizer` over the same sherpa-onnx runtime, with three downloadable
-  engines (`AsrEngine`): Whisper tiny int8 multilingual (58 MB, the default), SenseVoice (154 MB;
+  engines (`AsrEngine`): Whisper tiny int8 multilingual (58 MB, the default for English), Whisper
+  base and small (91 and 222 MB, the same 99 languages, base the default for any other app
+  language, `AsrEngine.defaultFor`, since tiny is too weak outside English), SenseVoice (154 MB;
   en, zh, ja, ko, yue) and Moonshine (101 MB, English). Each archive carries its own Silero VAD.
   Recognizers cache on `"<engineId>|<lang>"`. Whisper is pinned to the app language: auto-detect
   transcribes noisy far-field audio into the wrong script. Recording takes

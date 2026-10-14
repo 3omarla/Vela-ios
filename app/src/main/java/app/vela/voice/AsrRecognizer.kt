@@ -191,7 +191,7 @@ class AsrRecognizer @Inject constructor(
     private fun pinnedLang(engine: AsrEngine): String {
         val l = appLang()
         return when (engine) {
-            AsrEngine.WHISPER_TINY -> l.takeIf { it in app.vela.ui.AppLocale.SUPPORTED } ?: ""
+            AsrEngine.WHISPER_TINY, AsrEngine.WHISPER_BASE, AsrEngine.WHISPER_SMALL -> l.takeIf { it in app.vela.ui.AppLocale.SUPPORTED } ?: ""
             AsrEngine.SENSE_VOICE -> l.takeIf { it in AsrEngine.SENSE_VOICE_LANGS } ?: "auto"
             AsrEngine.MOONSHINE -> ""
         }
@@ -267,15 +267,15 @@ class AsrRecognizer @Inject constructor(
             val dir = engine.dir(context)
             fun p(name: String) = File(dir, name).absolutePath
             val modelConfig = when (engine) {
-                AsrEngine.WHISPER_TINY -> OfflineModelConfig(
+                AsrEngine.WHISPER_TINY, AsrEngine.WHISPER_BASE, AsrEngine.WHISPER_SMALL -> OfflineModelConfig(
                     whisper = OfflineWhisperModelConfig(
-                        encoder = p("tiny-encoder.int8.onnx"),
-                        decoder = p("tiny-decoder.int8.onnx"),
+                        encoder = p("${engine.whisperPrefix}-encoder.int8.onnx"),
+                        decoder = p("${engine.whisperPrefix}-decoder.int8.onnx"),
                         language = lang,      // pinned to the app language ("" = auto)
                         task = "transcribe",
                         tailPaddings = -1,
                     ),
-                    tokens = p("tiny-tokens.txt"),
+                    tokens = p("${engine.whisperPrefix}-tokens.txt"),
                     numThreads = 2,
                     modelType = engine.modelType,
                 )

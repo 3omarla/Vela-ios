@@ -84,7 +84,8 @@ What Vela Maps does today, one line per feature. How each one works is in [SPEC.
 - "Quick search buttons" picks which shortcuts show and in what order, on the map, on a route and
   in the car. A More chip at the end of the row opens every one, the switched-off ones included.
 - Commands, typed or spoken, such as "take me home", "nearest pharmacy" and "what's my ETA".
-- Voice search on the phone with three recognition engines, or through a voice app. "Voice search
+- Voice search on the phone with five recognition engines (Whisper tiny, base and small, SenseVoice
+  and Moonshine), or through a voice app. "Voice search
   mic" hides it.
 - "Search your contacts" suggests a contact's saved addresses. Off by default.
 - With a route planned or a drive running, search looks along the route.
