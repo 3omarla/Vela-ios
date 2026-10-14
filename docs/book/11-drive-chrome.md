@@ -160,6 +160,12 @@ merged node sits in the middle of the junction.
   degrees of the route's bearing there (`RouteProjection.stopIsOnRoute`). Orientation alone
   keeps the parallel street's sign. Distance alone keeps the one facing the cross street. On a
   Davis route the route's own signs sat 0 to 8 m from the line and the cross streets' 12 to 25 m.
+- A sign whose road is not known counts within `STOP_NO_BEARING_M = 10` m, between those two
+  bands. That covers the live Overpass path, which carries no road, and the bake's empty cases.
+- The bake reads a sign's road from drivable ways only. A crosswalk through the stop line runs
+  along the main road and would make the side street's sign look like yours. A sign on a junction
+  node holds the most minor road through it. An all-way stop (`stop=all`), or a sign where two
+  equal streets cross, gets no road.
 - A light, level crossing or hump counts within `SIGNAL_ON_ROUTE_M = 12` m. Orientation is not
   asked, because a node in the middle of a junction is on two roads.
 

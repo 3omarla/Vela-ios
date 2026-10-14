@@ -37,17 +37,25 @@ object RouteProjection {
      *  signs facing the cross streets sat 12 to 25 m off and the next street over 77 m or more. */
     const val STOP_ON_ROUTE_M = 20.0
 
+    /** How close a stop sign whose road is unknown has to be: between the route's own signs (0 to
+     *  8 m) and the cross streets' (12 to 25 m) on the same Davis route. Distance is all there is
+     *  to judge it by: the live Overpass path, an all-way stop, or a junction node of two equal
+     *  streets. */
+    const val STOP_NO_BEARING_M = 10.0
+
     /**
      * True when the stop sign at [loc], on a road running [roadDeg] (0-179, null when unknown),
      * is one the route stops at: its node is ON the route, and its road runs the way the route
      * does there. Direction alone kept every sign on the parallel street a block over (same
      * bearing, inside the 120 m corridor); distance alone would keep the sign holding the cross
-     * street, a few meters from the corner. Call it on the RAW nodes, before any clustering: a
-     * cluster's centroid sits in the middle of the junction, not on the line.
+     * street, a few meters from the corner. A sign with no known road must sit within
+     * [STOP_NO_BEARING_M]. Call it on the RAW nodes, before any clustering: a cluster's centroid
+     * sits in the middle of the junction, not on the line.
      */
     fun stopIsOnRoute(poly: List<LatLng>, cum: DoubleArray, loc: LatLng, roadDeg: Int?): Boolean {
+        if (roadDeg == null) return alongMeters(poly, cum, loc, STOP_NO_BEARING_M) != null
         val at = alongMeters(poly, cum, loc, STOP_ON_ROUTE_M) ?: return false
-        return roadDeg == null || alignedWithRoad(bearingAt(poly, cum, at), roadDeg)
+        return alignedWithRoad(bearingAt(poly, cum, at), roadDeg)
     }
 
     /** How close a traffic light's node has to be to the route: ON it. OSM maps a light per

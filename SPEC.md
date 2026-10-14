@@ -2212,7 +2212,15 @@ since a cluster's centroid sits in the junction's middle. The corridor fetch is 
 - A stop sign counts within `STOP_ON_ROUTE_M` (20 m) when its road orientation (0 to 179, from
   the bake) is within 40 degrees of the route's bearing there (`RouteProjection.stopIsOnRoute`,
   `alignedWithRoad`). Direction alone keeps the sign on the parallel street; distance alone
-  keeps the one facing the cross street. A null orientation keeps the sign.
+  keeps the one facing the cross street.
+- A stop sign with no orientation counts within `STOP_NO_BEARING_M` (10 m). On a Davis route the
+  route's own signs sat 0 to 8 m from the line and the cross streets' 12 to 25 m. The live
+  Overpass path never has an orientation.
+- The bake (`scripts/road_features_tsv.py`) takes a node's orientation from drivable ways only
+  (motorway to track, a `*_link` ranked with its parent). A stop line's node is often shared with
+  a crosswalk, which runs along the main road. A stop sign on a node shared by several roads
+  takes the most minor road's orientation. It is empty when the sign is tagged `stop=all`, or
+  when the most minor roads through it differ by more than 40 degrees.
 - The set is keyed per driven route, so a same-course heal never refetches, and capped at
   `CONTROLS_ROUTE_CAP` (800) nearest the start.
 - While a corridor set is loaded the viewport path neither refetches nor runs its zoom-clear
