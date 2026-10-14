@@ -353,6 +353,8 @@ off the list when it has been.
   Voice (`PiperSynth.LEAD_IN_MS`) and on the phone's engine (`playSilentUtterance`, whose
   Not seen: a Bluetooth head unit, where the clipping was reported, or the phone's own engine.
 
+- The turn card's Then line wraps to a second line (#799). Not seen on a drive here, which needs
+  a compound turn onto a long street name; the change is the line count.
 ### Open from the October 2026 audit
 
 Found reading everything since 0.4.1912 and not fixed yet.

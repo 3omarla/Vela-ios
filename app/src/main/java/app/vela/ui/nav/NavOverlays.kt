@@ -432,8 +432,9 @@ fun ManeuverBanner(
                         modifier = Modifier.size(24.dp),
                     )
                     Spacer(Modifier.width(8.dp))
-                    // Vela says what the next step is; Google's tab shows the arrow alone.
-                    Text(nextText, style = MaterialTheme.typography.bodyLarge, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                    // Vela says what the next step is; Google's tab shows the arrow alone. Two lines,
+                    // so a long street name wraps instead of running off the tab (issue #799).
+                    Text(nextText, style = MaterialTheme.typography.bodyLarge, maxLines = 2, overflow = TextOverflow.Ellipsis)
                 }
             }
         }
