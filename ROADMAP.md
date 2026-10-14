@@ -414,6 +414,9 @@ Found reading everything since 0.4.1912 and not fixed yet.
   badly. Not started.
 - Contrast by day: the Contrast map colors draw as Modern in light mode. A light palette with
   the same intent (warm streets, roads a few steps from the land) is not drawn. Not started.
+- An e-ink look (#789): a map look in black lines on white with no shading beside the five
+  under Map look, and a high-contrast app theme without grays. The nearest today is Positron
+  with the light theme. Not started; needs someone with an e-ink phone to look at it.
 - Camera alerts in driving mode (#727): the speed camera and plate camera alerts are projected
   onto a route (`refreshRouteSpeedCams`, `refreshRouteFlock`), so the mode without a route has
   none. Not started. The work is a look-ahead from the fix stream: the cameras within a cone

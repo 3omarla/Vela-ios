@@ -60,6 +60,13 @@ lives only in a chat, a local branch or one machine.
 - No em dashes. US English.
 - If a fact is in SPEC, other files link to it and do not restate it.
 
+### Say who is talking
+
+When someone known from another project opens an issue, a pull request or a discussion, or
+replies in one (a maintainer of OSM tooling, a data source, another maps app, a well-known
+contributor elsewhere), say so when the thread is presented, with the project. It changes how
+the reply is written. Nominatim's maintainer has written here (SPEC 15, the Overpass exit).
+
 ### No AI attribution
 
 No commit, pull request, issue comment, release note or file carries a `Co-Authored-By` line
