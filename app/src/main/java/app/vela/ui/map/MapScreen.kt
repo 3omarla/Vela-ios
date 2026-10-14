@@ -2429,11 +2429,11 @@ fun MapScreen(
             // and reverted — every surface tone melted into the dark tiles.
             FloatingActionButton(
                 onClick = onRecenter,
-                shape = CircleShape,
+                shape = mapButtonShape,
                 containerColor = mapButtonColor(darkTheme), contentColor = mapButtonInk(darkTheme),
                 elevation = androidx.compose.material3.FloatingActionButtonDefaults.elevation(defaultElevation = 10.dp),
                 modifier = Modifier
-                    .dpadHighlight(CircleShape)
+                    .dpadHighlight(mapButtonShape)
                     .align(Alignment.BottomEnd)
                     .navigationBarsPadding()
                     .padding(16.dp)
@@ -2570,11 +2570,11 @@ fun MapScreen(
             ) {
                 FloatingActionButton(
                     onClick = onRecenter,
-                    shape = CircleShape,
+                    shape = mapButtonShape,
                     containerColor = mapButtonColor(darkTheme), contentColor = mapButtonInk(darkTheme),
                 elevation = androidx.compose.material3.FloatingActionButtonDefaults.elevation(defaultElevation = 10.dp),
                     modifier = Modifier
-                        .dpadHighlight(CircleShape)
+                        .dpadHighlight(mapButtonShape)
                         .align(Alignment.TopEnd)
                         .offset {
                             androidx.compose.ui.unit.IntOffset(
@@ -2935,13 +2935,17 @@ private fun mapButtonInk(dark: Boolean, accent: Color? = null) =
     if (app.vela.ui.theme.wallpaperColorsInUse()) MaterialTheme.colorScheme.onPrimaryContainer
     else accent ?: if (dark) Color.White else Color(0xFF3C4043)
 
+/** The locate button's shape (issue #797), read where `CircleShape` was: a getter for a getter, so
+ *  `MapScreen` grows no bytecode (see the size notes). */
+private val mapButtonShape: androidx.compose.ui.graphics.Shape get() = app.vela.ui.MapButtonShape.shape()
+
 /** The locate button's face: the glyph inside the ring (drawn here, since the button's own
  *  modifier chain ends in its position). */
 @Composable
 private fun LocateGlyph(dark: Boolean) {
     val ring = mapButtonRing(dark)
     Box(
-        Modifier.size(56.dp).then(if (ring != null) Modifier.border(ring, CircleShape) else Modifier),
+        Modifier.size(56.dp).then(if (ring != null) Modifier.border(ring, mapButtonShape) else Modifier),
         contentAlignment = Alignment.Center,
     ) {
         // Blue, as the dot it sends you back to is: the one place on these buttons blue means "you".
@@ -6542,7 +6546,7 @@ private fun BoxScope.ParkingControl(state: MapUiState, vm: MapViewModel, darkThe
     // Settings > Map can hide it (issue #626); a saved spot keeps it, the way back to the car.
     if (app.vela.ui.ParkingButton.on.value || parkingSet) {
         Surface(
-            shape = CircleShape,
+            shape = mapButtonShape,
             // Same surface as the locate button, saved spot or not; the glyph carries the state.
             color = mapButtonColor(darkTheme),
             contentColor = mapButtonInk(darkTheme, accent = if (parkingSet) Color(0xFF8AB4F8) else null),
@@ -6552,7 +6556,7 @@ private fun BoxScope.ParkingControl(state: MapUiState, vm: MapViewModel, darkThe
                 .align(Alignment.BottomEnd)
                 .navigationBarsPadding()
                 .padding(end = 20.dp, bottom = chromeLift + 92.dp)
-                .dpadHighlight(CircleShape),
+                .dpadHighlight(mapButtonShape),
         ) {
             Box(
                 Modifier

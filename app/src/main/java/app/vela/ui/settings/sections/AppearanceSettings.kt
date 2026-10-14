@@ -264,6 +264,31 @@ internal fun AppearanceSettingsScreen(vm: MapViewModel, onBack: () -> Unit) {
                 Hint(stringResource(R.string.settings_map_colors_hint))
             }
         }
+        Spacer(Modifier.height(8.dp))
+        // The locate and parking buttons' shape (issue #797): round, or square-cornered beside
+        // Material You apps.
+        SettingsGroup(title = stringResource(R.string.settings_map_buttons)) {
+            androidx.compose.foundation.layout.Column(Modifier.padding(horizontal = 16.dp)) {
+                FlowRow(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                    val shapeFocus = remember { List(2) { FocusRequester() } }
+                    listOf(
+                        app.vela.ui.MapButtonShape.ROUND to stringResource(R.string.settings_map_buttons_round),
+                        app.vela.ui.MapButtonShape.SQUARE to stringResource(R.string.settings_map_buttons_square),
+                    ).forEachIndexed { i, (id, label) ->
+                        FilterChip(
+                            selected = app.vela.ui.MapButtonShape.mode.value == id,
+                            onClick = { app.vela.ui.MapButtonShape.set(context, id) },
+                            label = { Text(label) },
+                            shape = androidx.compose.foundation.shape.CircleShape,
+                            modifier = Modifier
+                                .dpadHighlight(androidx.compose.foundation.shape.CircleShape)
+                                .dpadRowSibling(shapeFocus, i),
+                        )
+                    }
+                }
+                Hint(stringResource(R.string.settings_map_buttons_hint))
+            }
+        }
         }
 
         // Material You (issue #15): tint the app's buttons, chips and accents from the

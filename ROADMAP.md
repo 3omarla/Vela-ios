@@ -320,6 +320,9 @@ off the list when it has been.
 - The three map buttons on the AMOLED theme (#769), every menu's corner (#771), a recent row's
   swipe to its menu (#772) and a renamed address keeping its street (#736): seen on a Pixel 4a.
   Not seen: Home and Work set from a plain address after the change.
+- Square map buttons (#797): seen on a 4a, the locate and parking buttons with Round and with
+  Square, and the setting reached from the settings search. Not seen: the keypad highlight on
+  the square shape, the AMOLED theme, or the car screen.
 - A reroute after a wrong turn on a trip with stops. The simulated drive cannot leave its route.
 - UK fuel prices on a phone in the UK.
 - Saved pins at every zoom (#791): seen on a 4a at zoom 7, where a pin 100 km from the fix

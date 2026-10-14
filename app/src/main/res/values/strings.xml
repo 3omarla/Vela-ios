@@ -1177,6 +1177,10 @@
     <string name="settings_map_look_dark">Black</string>
     <string name="settings_map_look_hint">Vela is OpenFreeMap\'s Liberty style with Vela\'s own colors, icons and road widths. The others are OpenFreeMap\'s Bright, Positron, Fiord and Black (its Dark style) as they come; Fiord and Black are dark whatever the theme.</string>
     <string name="settings_map_colors">Map colors</string>
+    <string name="settings_map_buttons">Map buttons</string>
+    <string name="settings_map_buttons_round">Round</string>
+    <string name="settings_map_buttons_square">Square</string>
+    <string name="settings_map_buttons_hint">The locate and parking buttons on the map: round, or with square corners like the Material You apps around them.</string>
     <string name="settings_map_colors_modern">Modern</string>
     <string name="settings_map_colors_classic">Classic</string>
     <string name="settings_map_colors_contrast">Contrast</string>
