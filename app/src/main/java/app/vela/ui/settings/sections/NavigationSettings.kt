@@ -42,6 +42,8 @@ import app.vela.ui.settings.SettingsGroup
 import app.vela.ui.settings.SettingsScaffold
 import app.vela.ui.settings.ToggleRow
 import app.vela.ui.dpadHighlight
+import app.vela.ui.map.NavFraming
+import app.vela.ui.dpadRowSibling
 import androidx.compose.foundation.shape.RoundedCornerShape as DpadShape
 
 /** Navigation sub-screen: guidance toggles, vibrate chips, cameras, live re-checks. Parking
@@ -103,6 +105,32 @@ internal fun NavigationSettingsScreen(vm: MapViewModel, onBack: () -> Unit) {
             onCheckedChange = { app.vela.ui.ZoomToTurn.set(context, it) },
             hint = stringResource(R.string.settings_zoom_to_turn_hint),
         )
+        // How far out it may go (issue #781): three floors as chips, the pick kept on its own.
+        if (app.vela.ui.ZoomToTurn.on.value) {
+            androidx.compose.foundation.layout.Column(Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
+                Text(stringResource(R.string.settings_zoom_to_turn_floor), style = MaterialTheme.typography.bodyMedium)
+                Spacer(Modifier.height(6.dp))
+                Row(horizontalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(6.dp)) {
+                    val floorFocus = remember { List(3) { FocusRequester() } }
+                    val picked = app.vela.ui.ZoomToTurn.floor.value.takeIf { it > 0.0 } ?: NavFraming.ZOOM_TURN_MIN
+                    listOf(
+                        R.string.settings_zoom_to_turn_floor_town,
+                        R.string.settings_zoom_to_turn_floor_region,
+                        R.string.settings_zoom_to_turn_floor_far,
+                    ).forEachIndexed { i, label ->
+                        val value = app.vela.ui.ZoomToTurn.FLOORS[i]
+                        FilterChip(
+                            selected = picked == value,
+                            onClick = { app.vela.ui.ZoomToTurn.setFloor(context, value) },
+                            label = { Text(stringResource(label)) },
+                            shape = CircleShape,
+                            modifier = Modifier.dpadHighlight(CircleShape).dpadRowSibling(floorFocus, i),
+                        )
+                    }
+                }
+                Hint(stringResource(R.string.settings_zoom_to_turn_floor_hint))
+            }
+        }
         GroupDivider()
         ToggleRow(
             label = stringResource(R.string.settings_route_trail),

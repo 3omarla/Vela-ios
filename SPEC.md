@@ -842,6 +842,7 @@ the page fills it after load, and a small stub sits beside it.
 | Map > Keep north up | `NorthLock`, `keep_north_up`, off | the rotation gesture is off (set after `setAllGesturesEnabled`, which turns it back on), a resting camera more than `NORTH_LOCK_SLACK_DEG` (0.05) off north is turned back at camera idle (a following drive camera is left to its ticker), drives start with `navNorthUp` and the compass toggle keeps it, `VelaMapView` treats `navNorthUp` as on whatever the state says, the free-drive follow stays north-up, the drive compass fades at north, and the car map is north-up, flat and centered while following |
 | Navigation > Navigation icon | `PuckStyle.shape`, `puck_shape`, arrow | see below |
 | Appearance > Map buttons | `MapButtonShape.mode`, `map_button_shape`, `round` | the locate and parking buttons round, or with 16 dp corners (`square`); the FABs read it through `mapButtonShape`, a getter in place of `CircleShape`'s, so `MapScreen` grows no bytecode |
+| Navigation > Zoom out as far as | `ZoomToTurn.floor`, `zoom_to_turn_floor`, 0 | the floor of Zoom to the next turn, 12, 10 or 8 (Town, Region, Far); 0 is no pick, and the `turnZoomMin` dial decides (4.7, Framing) |
 | Map > Where the map opens | `StartView.mode`, `start_view`, `here` | the view the map starts on: `here`, `last`, `home`, `place` or `drive`, which is `here` in driving mode (4.7, Where the map opens and Driving mode) |
 | Map > Names on the map | `MapNames.mode`, `map_names`, `english_latin` | which name a road or place label shows for a Latin-script UI: English then the basemap's romanized name, English then the local name, the local name alone, or local and English (4.10, the label rules); rides `styleKey` |
 
@@ -1846,8 +1847,9 @@ Zoom to the next turn (`ZoomToTurn`, Settings > Navigation, off by default; issu
   turn callout, a bubble about 40 dp tall anchored up to 30 m past the corner) under the top
   chrome's edge: the turn card's bottom as the framer adopted it, the top of the map in
   landscape, in picture-in-picture and with no card. The tilt it frames for is the one the
-  camera holds (`navTiltCeiling` above, else the wanted 55). Never below the floor: the
-  `turnZoomMin` dial, `ZOOM_TURN_MIN` (12) without one. The zoom eases like the speed zoom
+  camera holds (`navTiltCeiling` above, else the wanted 55). Never below the floor: the user's
+  pick under Navigation (`ZoomToTurn.floor`, 12, 10 or 8), else the `turnZoomMin` dial, else
+  `ZOOM_TURN_MIN` (12). The zoom eases like the speed zoom
   (0.5 s), so a passed turn eases out to the next one and a near one eases in to the speed's.
   North-up, and under a pinch, the zoom is what it was.
 - Measured on the 4a over a 13 mile simulated drive with the `VelaFps` framing fields: the

@@ -1430,6 +1430,11 @@
     <string name="settings_nav_north_up_hint">The map stays flat with north at the top while you drive. Tap the compass during a drive to switch.</string>
     <string name="settings_zoom_to_turn">Zoom to the next turn</string>
     <string name="settings_zoom_to_turn_hint">The map zooms out until the next turn sits just under the turn card, and back in as you near it. Made for long stretches between turns; street names and traffic lights do not show that far out.</string>
+    <string name="settings_zoom_to_turn_floor">Zoom out as far as</string>
+    <string name="settings_zoom_to_turn_floor_town">Town</string>
+    <string name="settings_zoom_to_turn_floor_region">Region</string>
+    <string name="settings_zoom_to_turn_floor_far">Far</string>
+    <string name="settings_zoom_to_turn_floor_hint">How far out the map may zoom to keep the next turn on screen. Each step reaches about four times as far; the far ones trade street names for the stretch ahead.</string>
     <string name="settings_puck_shape">Navigation icon</string>
     <string name="settings_puck_shape_arrow">Arrow</string>
     <string name="settings_puck_shape_car">Car</string>

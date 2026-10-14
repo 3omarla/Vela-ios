@@ -230,10 +230,13 @@ internal object NavFraming {
     fun withTurn(speedZoom: Double, turnZoom: Double, floor: Double = ZOOM_TURN_MIN): Double =
         if (turnZoom.isNaN()) speedZoom else min(speedZoom, max(turnZoom, floor))
 
-    /** The floor in use: the `turnZoomMin` dial (`debug.vela.tune.turnZoomMin` on a test phone,
-     *  else calibration's), [ZOOM_TURN_MIN] without one. */
+    /** The floor in use: the user's pick under Navigation (`ZoomToTurn.floor`), else the
+     *  `turnZoomMin` dial (`debug.vela.tune.turnZoomMin` on a test phone, else calibration's),
+     *  [ZOOM_TURN_MIN] without either. */
     fun turnFloor(): Double =
-        app.vela.ui.AppTune.local("turnZoomMin") ?: app.vela.core.config.CalibrationStore.latest.tune("turnZoomMin", ZOOM_TURN_MIN)
+        app.vela.ui.ZoomToTurn.floor.value.takeIf { it > 0.0 }
+            ?: app.vela.ui.AppTune.local("turnZoomMin")
+            ?: app.vela.core.config.CalibrationStore.latest.tune("turnZoomMin", ZOOM_TURN_MIN)
 }
 
 /**

@@ -341,6 +341,9 @@ off the list when it has been.
   after the fix the turn on its row, 24 dp under the card within 2 dp, through the tilted
   stretch. A driver's screenshot showed the callout half under the card at 24 dp; the margin
   is 72 dp. Not seen: a real road with it, a reroute with it on, and the floor dial below 12.
+- "Zoom out as far as" (#781): seen on a 4a, the three choices under the switch, Town picked
+  by default, Region picked and kept. Not seen: a drive with Region or Far picked, where the
+  map may go out to zoom 10 or 8.
 
 ### Open from the October 2026 audit
 
