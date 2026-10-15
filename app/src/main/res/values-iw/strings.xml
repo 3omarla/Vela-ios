@@ -81,7 +81,7 @@
     <string name="settings_offline_addresses_update">עדכן אזורים שמורים</string>
     <string name="settings_offline_delete_area">מחק את האזור הלא מקוון הזה</string>
     <string name="settings_routing_regions">מדינות וארצות</string>
-    <string name="settings_routing_regions_hint">כל מה שצריך כדי להתנייד במדינה, מחוז או ארץ שלמה ללא רשת: הכבישים והמקומות שלה, כך שמסלולים וחיפוש עובדים בכל מקום בתוכה. תפוס לאן שאתה נוסע.</string>
+    <string name="settings_routing_regions_hint">הוראות ניווט, חיפוש מקומות ומיפוי של מדינה שלמה, מחוז או ארץ, כך שיהיה אפשר לחפש מקומות ולעיין במידע עליהם גם ללא חיבור לרשת. המיפוי הוא החלק הגדול בהורדה, האזורים הקטנים יותר ששמרת למעלה מכסים רק עיר.</string>
     <string name="settings_routing_no_regions">אין עדיין אזורים זמינים.</string>
     <string name="settings_clear_filter">ניקוי סינון</string>
     <string name="settings_routing_filter_placeholder">חיפוש</string>
@@ -94,7 +94,7 @@
     <string name="settings_update_places">עדכן מקומות</string>
     <string name="settings_routing_update_available">מותקן · עדכון מקומות זמין</string>
     <string name="settings_routing_remove">הסר ניתוב לא מקוון</string>
-    <string name="settings_download">הורד</string>
+    <string name="settings_download">הורדה</string>
     <string name="settings_region_whole_or_pieces">קובץ אחד, או %1$d חלקים למטה</string>
     <string name="settings_downloaded_title">הורדו</string>
     <string name="settings_downloaded_none">עדיין לא הורדת כלום. אפשר לשמור למעלה את האזור שרואים על המסך, או לבחור מחוזות ומדינות אחרים למטה.</string>
@@ -114,12 +114,12 @@
     <string name="settings_data_privacy_hint">היישום Vela יוצר קשר עם נקודות הקצה הציבוריות של Google ישירות מהמכשיר הזה: בלי שרת, בלי חשבון, בלי מפתח API. ל־Google יש גישה לכתובת ה־IP, לשאילתה ולאזור המפה המוצג, אך לא לזהותך.</string>
     <string name="settings_privacy_button">אילו נתונים Google מקבל</string>
     <string name="settings_google_free">שימוש ב־Vela בלי Google</string>
-    <string name="settings_google_free_hint">שום דבר לא נשלח ל-Google. החיפוש משתמש ב-OpenStreetMap ובאזורים שהורדת, המקומות במפה מגיעים מהנתונים של Vela עצמו, והמסלולים מגיעים מהנתב הפתוח ללא תנועה בזמן אמת. אתה מוותר על ביקורות, תמונות, שעות פתיחה, זמני הגעה בזמן אמת, תצוגת רחוב, הוראות תחבורה ציבורית ותקריבי הלוויין; אזורים שהורדו עדיין עובדים במלואם ללא חיבור.</string>
+    <string name="settings_google_free_hint">שום דבר לא נשלח אל Google. החיפוש משתמש ב־OpenStreetMap ובאזורים שהורדת, המקומות במפה מגיעים מהנתונים של Vela עצמו, והמסלולים מגיעים מהנתב הפתוח ללא תנועה בזמן אמת. נדרש ממך לוותר על הביקורות, התמונות, שעות הפתיחה, זמני ההגעה בזמן אמת, Street View, ותקריבי הלוויין. הוראות ההגעה בתחבורה ציבורית מגיעים מהספק הפתוח. אזורים שהורדו עדיין עובדים במלואם ללא חיבור.</string>
     <string name="settings_diagnostics">אבחון</string>
     <string name="settings_diagnostics_hint">כבוי כברירת מחדל. כשדלוק, Vela שומר יומן מקומי קצר שאפשר לייצא ולמסור למפתח. שום דבר לא מועלה, וכיבוי מוחק את היומן.</string>
     <string name="settings_share_diagnostics">שתף אבחון</string>
     <string name="settings_diag_nothing">עדיין אין תיעוד ביומן. יש להשתמש ביישום ולאחר מכן לייצא.</string>
-    <string name="settings_diag_export">ייצא הפעלת ניפוי</string>
+    <string name="settings_diag_export">ייצוא הפעלת ניפוי שגיאות</string>
     <string name="settings_diag_redact">הסתרת מקומות בייצוא</string>
     <string name="settings_diag_redact_trips_hint">מסתיר חיפושים, יעדים, קישורים ושמות מקומות מייצוא האבחון ומעגל את הקואורדינטות לכ-10 ק\"מ. תזמונים, ספירות ושגיאות נשארים. נסיעות משותפות מתחילות במרחק הגזימה הגדול ביותר.</string>
     <string name="settings_save_trips">שמור את הנסיעות שלי (לשידור חוזר)</string>
@@ -155,7 +155,7 @@
     <string name="settings_expand">הרחב</string>
     <string name="settings_voice_lib_empty_hint">★ מסמן את הקולות המומלצים. כל קול פועל ללא רשת בטלפון שלך.</string>
     <string name="settings_voice_lib_installed_hint">מותקן: %1$d מ\"ב · %2$d קולות.</string>
-    <string name="settings_voice_lib_lang_hint">שפת האפליקציה שלך היא %1$s. הורד קול %2$s למטה כדי שההוראות המדוברות יתאימו (קול אנגלי יהגה שגוי שמות רחובות ב%3$s).</string>
+    <string name="settings_voice_lib_lang_hint">הוראות הניווט נשמרות בתוך %1$s. מומלץ להוריד למטה קול של השפה ה%2$s כדי שההוראות המדוברות יתאימו (קול אנגלי יהגה לא נכון שמות רחובות ב%3$s).</string>
     <string name="settings_voice_search">חפש קולות</string>
     <string name="settings_voice_show_more">הצג עוד %1$d</string>
     <string name="settings_voice_show_less">הצג פחות</string>
@@ -475,7 +475,7 @@
     <string name="update_car_save">שמור את הקובץ</string>
     <string name="update_car_anyway">עדכן בכל זאת</string>
     <string name="settings_update_auto">בדוק עדכונים בהפעלה</string>
-    <string name="settings_update_auto_hint">בודק ב-GitHub בערך פעם ביום ומציע גרסאות חדשות יותר. כבה אם אתה מעדכן דרך Obtainium.</string>
+    <string name="settings_update_auto_hint">בודק ב־GitHub בערך פעם ביום ומציע גרסאות חדשות יותר. אפשר לכבות אם משתמשים ביישום מעדכן.</string>
     <string name="settings_update_check_now">בדוק עדכונים</string>
     <string name="settings_update_checking">בודק…</string>
     <string name="settings_update_none">נעשה שימוש בגרסה העדכנית.</string>
@@ -513,11 +513,11 @@
     <string name="transit_nav_next">הבא</string>
     <string name="place_last_available">אחרון זמין</string>
     <string name="car_search">חיפוש</string>
-    <string name="car_search_hint">הקלד כדי לחפש יעד</string>
-    <string name="car_go">צא</string>
-    <string name="car_end">סיום</string>
-    <string name="car_mute">השתק</string>
-    <string name="car_unmute">בטל השתקה</string>
+    <string name="car_search_hint">יש להקליד כדי לחפש יעד</string>
+    <string name="car_go">התחלת המסלול</string>
+    <string name="car_end">סיום המסלול</string>
+    <string name="car_mute">השתקה</string>
+    <string name="car_unmute">ביטול השתקה</string>
     <string name="car_faster_route">מהיר יותר −%1$d דק׳</string>
     <string name="car_pause">השהה</string>
     <string name="car_resume">המשך</string>
@@ -556,7 +556,9 @@
     <string name="place_edit_note">ערוך הערה</string>
     <string name="place_note_label">הערה</string>
     <plurals name="map_save_list">
-        <item quantity="other">שמור רשימה · %1$d מקומות</item>
+        <item quantity="one">שמירת הרשימה · מקום אחד</item>
+        <item quantity="two">שמירת הרשימה · שני מקומות</item>
+        <item quantity="other">שמירת הרשימה · %1$d מקומות</item>
     </plurals>
     <string name="map_list_saved">\"%1$s\" נשמרה לרשימות שלך</string>
     <string name="settings_update_nightly">כלול גרסאות nightly</string>
@@ -569,6 +571,8 @@
     <string name="mapvm_export_lists_chooser">ייצא רשימות</string>
     <string name="lists_empty_hint">אין עדיין רשימות. הקש \"חדשה\" כדי ליצור אחת, או שמור מקום מהעמוד שלו.</string>
     <plurals name="lists_place_count">
+        <item quantity="one">מקום אחד</item>
+        <item quantity="two">שני מקומות</item>
         <item quantity="other">%1$d מקומות</item>
     </plurals>
     <string name="navservice_notif_eta">הגעה %1$s</string>
@@ -583,7 +587,7 @@
     <string name="voice_capture_done">סיום</string>
     <string name="mapvm_asr_ready">Vela Voice מוכן</string>
     <string name="mapvm_asr_download_failed">לא ניתן להוריד את מודל הקול. בדוק את החיבור ונסה שוב.</string>
-    <string name="mapvm_closing_soon">%1$s נסגר ב-%2$s ואתה מגיע בסביבות %3$s</string>
+    <string name="mapvm_closing_soon">‏הסגירה של %1$s תהיה בשעה %2$s וההגעה תהיה בסביבות %3$s</string>
     <string name="mapvm_closing_before_arrival">%1$s נסגר ב-%2$s, לפני שתגיע בסביבות %3$s</string>
     <string name="settings_voice_search_model">חיפוש קולי של Vela</string>
     <string name="settings_voice_search_model_hint">Vela Voice הופך דיבור לחיפוש ישירות בטלפון שלך: לא צריך אפליקציה אחרת ושום דבר לא מועלה. הורדה חד־פעמית בגודל %1$d מ״ב.</string>
@@ -605,7 +609,7 @@
     <string name="loc_off_body">לא הוענקה ל־Vela הרשאת גישה למיקום. ניתן להעניק אותה בהגדרות המערכת.</string>
     <string name="loc_off_settings">פתח הגדרות</string>
     <string name="loc_approx_title">מיקום משוער</string>
-    <string name="loc_approx_body">Vela יודע רק את האזור המשוער שלך, לא היכן אתה נמצא. המפה מציגה עיגול רחב במקום נקודה, וניווט מונחה לא יעבוד. אפשר לעבור למיקום מדויק בכל עת.</string>
+    <string name="loc_approx_body">Vela יודע רק את אזורך המשוער, לא את מיקומך המדויק. המפה מציגה עיגול רחב במקום נקודה, וניווט מונחה לא יעבוד. אפשר לעבור למיקום מדויק בכל עת.</string>
     <string name="loc_approx_allow">אפשר מדויק</string>
     <string name="loc_approx_keep">השאר משוער</string>
     <string name="notif_ask_title">לדלג על התראות?</string>
@@ -704,10 +708,10 @@
     <string name="root_offline_body">Vela מקבל מקומות, חיפוש והוראות הגעה מ-Google, כך שללא קליטה יפעלו רק אזורים שהורדת. הגדר אזור עכשיו כדי להיות מכוסה כשאין קליטה.</string>
     <string name="root_offline_setup">הגדרת מצב לא מקוון</string>
     <string name="no_browser_installed">במכשיר שלך אין דפדפן</string>
-    <string name="street_view_none">No Street View imagery here</string>
+    <string name="street_view_none"></string>
     <string name="street_view_move">מעבר לכאן</string>
     <string name="street_view_dates">צפייה בתאריכים אחרים</string>
-    <string name="street_view_fullscreen">Toggle full screen</string>
+    <string name="street_view_fullscreen">הפעלת מסך מלא</string>
     <string name="softkey_options">אפשרויות</string>
     <string name="softkey_search">חיפוש</string>
     <string name="softkey_recenter">מרכוז</string>
@@ -820,7 +824,7 @@
     <string name="settings_places_lookup">בדוק ב-Google מקומות שהקשת עליהם</string>
     <string name="settings_places_lookup_hint">הקשה על מקום מביאה את השעות, הביקורות והתמונות שלו מ-Google, ו-Vela זוכר את ההתאמה כך שההקשה הבאה מיידית. כבוי = מקום שהקשת עליו מציג רק את מה שיש בנתונים של Vela (שם, סוג, כתובת, טלפון, אתר) ושום דבר על ההקשה לא מגיע ל-Google. חיפוש ומסלולים עדיין משתמשים ב-Google.</string>
     <string name="settings_places_source_more_title">מאיפה מגיעים נתוני המקומות של Vela</string>
-    <string name="settings_places_source_more_body">נתוני המקומות של Vela הם Overture Maps, מאגר פתוח של עסקים המתוחזק על ידי Meta, Microsoft ואחרים. Vela מגיש אותו ממאגר ה-GitHub שלו עצמו, כך ששום דבר על המקומות שאתה מסתכל בהם לא מגיע ל-Meta או ל-Google.\n\nהוא נטען תוך כדי עיון ויורד יחד עם אזור לשימוש ללא חיבור. במקומות שבהם עדיין אין ל-Vela נתונים, המפה נופלת חזרה ל-Google.\n\nחיפוש, פרטי מקום, שעות, ביקורות ותמונות מגיעים תמיד מ-Google, לא משנה באיזו אפשרות תבחר.</string>
+    <string name="settings_places_source_more_body">נתוני המקומות של Vela לקוחים ממיזם Overture Maps, מאגר עסקים פתוח המתוחזק על ידי Meta,‏ Microsoft ועוד חברות אחרות, לרבות AllThePlaces, שאוסף רשתות מנתוני כתובות הסניפים שלהן, כאשר נעשה שימוש ב־OpenStreetMap לתיקון הכתובת המדויקת של כל סניף. היישום Vela משלב את שלושת המקורות לכדי מקומות במפה ומספק אותם מתוך מאגר ה־GitHub שלו, כך ששום מידע על המקומות שהסתכלת עליהם לא מגיע אל Meta או Google.\n\nהנתונים נטענים תוך כדי עיון וניתן להוריד אזורים כדי להציג אותם ללא חיבור לרשת. היכן שליישום Vela עדיין אין נתונים על האזור, תתבצע נסיגה להצגת נתוני המפה מתוך Google.\n\nנתוני החיפוש, פרטי המקומות, שעות הפתיחה, הביקורות והתמונות תמיד מגיעים מתוך Google, לא משנה באיזו אפשרות בוחרים.</string>
     <string name="settings_show_civic">פארקים, בתי ספר ומקומות ציבוריים</string>
     <string name="settings_show_civic_hint">שכבת האייקונים שאינה עסקית. כבוי מציג עסקים בלבד.</string>
     <string name="settings_show_transit_stops">תחנות תחבורה ציבורית</string>
@@ -975,7 +979,7 @@
     <string name="settings_road_label_bar">מעל הסרגל התחתון</string>
     <string name="settings_road_label_puck">מתחת לחץ</string>
     <string name="settings_road_label_inbar">בתוך הסרגל התחתון</string>
-    <string name="settings_road_label_hint">היכן מוצג שם הכביש שאתה נוסע בו בזמן נהיגה. מעל הסרגל שומר אותו ממורכז וקריא גם לשמות ארוכים; מתחת לחץ נע יחד עם החץ.</string>
+    <string name="settings_road_label_hint">היכן מוצג שם הכביש שעליו נמצאים בזמן הנהיגה. מעל הסרגל שומר אותו ממורכז וקריא גם לשמות ארוכים; מתחת לחץ נע יחד עם החץ.</string>
     <string name="settings_prefer_buttons">העדף כפתורים על פני מחוות</string>
     <string name="settings_prefer_buttons_hint">משאיר כפתור לדברים שיש להם גם מחווה: כפתורי התקרבות והתרחקות במפה, וכפתור רשימת השלבים בסרגל הניווט. תמיד דלוק בטלפונים ללא מסך מגע.</string>
     <string name="settings_faster_auto">עבור אוטומטית למסלולים מהירים יותר</string>
@@ -998,8 +1002,8 @@
     <string name="settings_font_bad">לא ניתן היה לקרוא את הקובץ הזה כגופן.</string>
     <string name="settings_font_custom">גופן מותאם אישית</string>
     <string name="settings_speeding_alert">התראת חריגה ממהירות</string>
-    <string name="settings_speeding_alert_hint">אומר \"אתה חורג ממגבלת המהירות\" אחרי כמה שניות של נסיעה מעל המהירות המותרת, ושוב אחרי שתאט ותחזור לחרוג. רק היכן שידועה מהירות מותרת, זו שמוצגת בתג המהירות. כבוי אלא אם תפעיל.</string>
-    <string name="nav_speeding_alert">אתה חורג ממגבלת המהירות</string>
+    <string name="settings_speeding_alert_hint">הכרזת „מעל למהירות המותרת” אחרי כמה שניות של נסיעה מעל למהירות המותרת, ושוב לאחר חריגות חוזרות. ההכרזה תפעל רק היכן שידוע מה המהירות המותרת, זו שמוצגת בתג המהירות. ההכרזה כבויה כברירת מחדל.</string>
+    <string name="nav_speeding_alert">מעל למהירות המותרת</string>
     <string name="routing_offer_title">ניווט לא מקוון עבור %1$s?</string>
     <string name="routing_offer_download">הורדה</string>
     <string name="routing_offer_body">מוריד את הכבישים, המקומות והמפה של האזור, כ-%1$s. חישוב מסלול מחדש מהיר יותר והניווט עובד גם בלי קליטה. ההורדות נמצאות בהגדרות, מפות לא מקוונות.</string>
@@ -1122,7 +1126,7 @@
     <string name="settings_confirm_end_nav_hint">כפתור החזרה תמיד מבקש אישור בזמן נסיעה. אפשרות זו דואגת שתוצג בקשת אישור גם בעת לחיצה על האיקס האדום</string>
     <string name="nav_end_confirm_title">לסיים את הניווט?</string>
     <string name="nav_end_confirm_body">המסלול והעצירות שלו יימחקו.</string>
-    <string name="nav_end_confirm_end">סיום</string>
+    <string name="nav_end_confirm_end">סיום המסלול</string>
     <string name="nav_end_confirm_keep">המשך</string>
     <string name="settings_parking_button">כפתור חניה</string>
     <string name="settings_parking_button_hint">כפתור ה-P במפה ששומר איפה חנית. כבוי: הוא מוצג רק כשיש מיקום חניה שמור.</string>
@@ -1197,7 +1201,7 @@
     <string name="car_setting_avoid_highways">הימנע מכבישים מהירים</string>
     <string name="car_setting_avoid_ferries">הימנע ממעבורות</string>
     <string name="car_location_title">אישור מיקום</string>
-    <string name="car_location_body">Vela צריכה אותו כדי להציג איפה אתה ולתת הוראות נסיעה</string>
+    <string name="car_location_body">היישום Vela זקוק לה כדי להציג את מיקומך הנוכחי ולספק הוראות ניווט</string>
     <string name="car_location_denied">המיקום כבוי. הפעל אותו עבור Vela בהגדרות הטלפון.</string>
     <string name="settings_page_transitions">מעברים בין דפים</string>
     <string name="settings_page_transitions_hint">מנפיש דפים וחלוניות תחתונות בעת פתיחה וסגירה, ומציג תצוגה מקדימה של הדף הקודם בעת החלקה לחזרה.</string>
@@ -1251,7 +1255,7 @@
     <string name="street_view_offline">תצוגת רחוב דורשת כאן חיבור: לא צפית בנקודה הזו קודם</string>
     <string name="mapscreen_other_locations">הצג סניפים אחרים</string>
     <string name="settings_other_locations_auto">מצא סניפים אחרים אוטומטית</string>
-    <string name="settings_other_locations_auto_hint">כשחיפוש לפי שם מגיע למקום אחד, מבקש מ-Google גם את הסניפים האחרים שלו. אלה כמה בקשות נוספות ל-Google בכל חיפוש כזה. כשכבוי, כפתור \"הצג סניפים אחרים\" עושה זאת כשאתה מקיש עליו.</string>
+    <string name="settings_other_locations_auto_hint">כשחיפוש לפי שם מגיע למקום אחד, היישום מבקש מ־Google גם את הסניפים האחרים שלו. אלה כמה בקשות נוספות ל־Google בכל חיפוש כזה. כשכבוי, כפתור \"הצגת סניפים אחרים\" עושה זאת כשמקישים עליו.</string>
     <string name="mapscreen_view_map">הצג מפה</string>
     <string name="whatsnew_show_after_updates">הצג מה חדש אחרי עדכונים</string>
     <string name="replay_play">נגן</string>
@@ -1326,4 +1330,6 @@
     <string name="welcome_google_on_title">שימוש ב־Google</string>
     <string name="welcome_google_off_title">בלי Google</string>
     <string name="settings_google_uses">למה Google משמש</string>
+    <string name="settings_directions_language">שפת הוראות הניווט</string>
+    <string name="settings_directions_same_as_app">כמו שפת היישום</string>
 </resources>
