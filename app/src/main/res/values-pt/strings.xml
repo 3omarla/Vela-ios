@@ -55,7 +55,7 @@
     <string name="settings_live_traffic">Camada de trânsito em direto</string>
     <string name="settings_live_traffic_hint">Sombreia as estradas conforme o trânsito ao explorar. A navegação já colore a tua rota pelo trânsito.</string>
     <string name="settings_transit_layer">Destacar linhas de transporte</string>
-    <string name="settings_transit_layer_hint">Desenha as linhas de comboio e metro no mapa.</string>
+    <string name="settings_transit_layer_hint">Desenhar as linhas de comboio e metro no mapa.</string>
     <string name="settings_read_all_reviews">Botão “Ler todas as avaliações”</string>
     <string name="settings_read_all_reviews_hint">Adiciona um botão que abre a página completa de avaliações do Google na app, com todas as avaliações. Desligado = apenas a lista da Vela.</string>
     <string name="settings_buildings_3d">Edifícios em 3D</string>
@@ -116,7 +116,7 @@
     <string name="settings_data_privacy_hint">A Vela fala com os endpoints públicos do Google diretamente deste aparelho: sem backend, sem conta, sem chave de API. O Google vê o teu IP, a pesquisa e a área do mapa, não quem és.</string>
     <string name="settings_privacy_button">Que dados a Google recebe</string>
     <string name="settings_google_free">Usar a Vela sem a Google</string>
-    <string name="settings_google_free_hint">Nada é enviado à Google. A pesquisa usa o OpenStreetMap e as regiões transferidas, os locais no mapa vêm dos dados da própria Vela e as rotas vêm do planeador de rotas aberto, sem trânsito em tempo real. Perde as avaliações, fotos, horários, horas de chegada em tempo real, Street View, direções de transportes e os grandes planos de satélite; as regiões transferidas continuam a funcionar totalmente offline.</string>
+    <string name="settings_google_free_hint">Nada é enviado para a Google. A pesquisa utiliza o OpenStreetMap e as suas regiões descarregadas, os locais no mapa provêm dos dados do próprio Vela e as rotas provêm do router aberto, sem tráfego em tempo real. Perde avaliações, fotos, horário de funcionamento do Google, previsão de chegada em tempo real, Street View e as imagens de satélite ampliadas. As rotas de transporte público vêm do planeador aberto. As regiões descarregadas continuam a funcionar totalmente offline.</string>
     <string name="settings_diagnostics">Diagnóstico</string>
     <string name="settings_diagnostics_hint">Desligado por predefinição. Ligado, a Vela mantém um pequeno registo local que podes exportar e entregar a um programador. Nada é enviado, e desligar apaga-o.</string>
     <string name="settings_share_diagnostics">Partilhar diagnóstico</string>
@@ -159,7 +159,7 @@
     <string name="settings_voice_lib_empty_hint">★ assinala as vozes recomendadas. Todas funcionam offline no telemóvel.</string>
     <string name="settings_voice_lib_installed_hint">Instalado: %1$d MB · %2$d voz(es).</string>
     <!-- format -->
-    <string name="settings_voice_lib_lang_hint">O idioma da sua aplicação é %1$s, transfira uma voz de %2$s abaixo para que as indicações faladas correspondam (uma voz de inglês pronunciaria mal os nomes das ruas em %3$s).</string>
+    <string name="settings_voice_lib_lang_hint">Direções estão em %1$s, transfira uma voz de %2$s abaixo para que as indicações faladas correspondam (uma voz de inglês pronunciaria mal os nomes das ruas em %3$s).</string>
     <string name="settings_voice_search">Pesquisar vozes</string>
     <string name="settings_voice_show_more">Mostrar mais %1$d</string>
     <string name="settings_voice_show_less">Mostrar menos</string>
@@ -266,8 +266,8 @@
     <string name="place_search_reviews">Pesquisar avaliações</string>
     <string name="place_sort_reviews">Ordenar avaliações</string>
     <plurals name="place_review_count">
-        <!-- format -->
         <item quantity="one">%1$d avaliação</item>
+        <item quantity="many">%1$d avaliações</item>
         <item quantity="other">%1$d avaliações</item>
     </plurals>
     <string name="place_more_photos">Mais fotos</string>
@@ -322,8 +322,8 @@
     <string name="mapscreen_heads_up">Atenção</string>
     <string name="mapscreen_dismiss">Dispensar</string>
     <plurals name="mapscreen_results_count">
-        <!-- format -->
         <item quantity="one">%1$d resultado</item>
+        <item quantity="many">%1$d resultados</item>
         <item quantity="other">%1$d resultados</item>
     </plurals>
     <string name="mapscreen_shrink_list">Encolher lista</string>
@@ -491,8 +491,8 @@
     <string name="settings_update_none">Você está na versão mais recente.</string>
     <string name="settings_place_pages">Páginas de locais</string>
     <plurals name="place_transit_stops">
-        <!-- format -->
-        <item quantity="one">%1$d parada</item>
+        <item quantity="one">%1$d paragem</item>
+        <item quantity="many">%1$d paragens</item>
         <item quantity="other">%1$d paradas</item>
     </plurals>
     <string name="place_transit_stop_id">Parada %1$s</string>
@@ -573,12 +573,13 @@
     <string name="place_note_label">Nota</string>
     <plurals name="map_save_list">
         <item quantity="one">Guardar lista · %1$d local</item>
+        <item quantity="many">Guardar lista · %1$d locais</item>
         <item quantity="other">Guardar lista · %1$d locais</item>
     </plurals>
     <string name="map_list_saved">“%1$s” guardada nas suas listas</string>
     <string name="settings_update_nightly">Incluir compilações nightly</string>
     <string name="settings_update_nightly_hint">Atualizar para a nightly mais recente (pré-lançamento) em vez de apenas versões estáveis. As nightly são mais recentes mas menos testadas.</string>
-    <string name="settings_lists_export_hint">Faça uma cópia das suas listas num ficheiro ou restaure-as noutro dispositivo.</string>
+    <string name="settings_lists_export_hint">Faça uma cópia das suas listas num ficheiro ou restaure-as noutro dispositivo. A opção de importação também aceita listas da pasta \"Salvos\" do Google Takeout (um ficheiro CSV por lista); cada local nela é pesquisado, pelo que é necessária uma ligação.</string>
     <string name="settings_lists_imported">%1$d lista(s) importada(s)</string>
     <string name="settings_places_imported">%1$d local(is) importado(s)</string>
     <!-- format -->
@@ -727,10 +728,10 @@
     <string name="settings_asr_use">Usar</string>
     <!-- format -->
     <string name="no_browser_installed">O seu dispositivo não tem navegador</string>
-    <string name="street_view_none">No Street View imagery here</string>
-    <string name="street_view_move">Move here</string>
-    <string name="street_view_dates">See other dates</string>
-    <string name="street_view_fullscreen">Toggle full screen</string>
+    <string name="street_view_none">Sem imagens de Street View aqui</string>
+    <string name="street_view_move">Mover para aqui</string>
+    <string name="street_view_dates">Ver outras datas</string>
+    <string name="street_view_fullscreen">Alterar ecrã inteiro</string>
     <string name="softkey_options">Opções</string>
     <string name="softkey_search">Pesquisar</string>
     <string name="softkey_recenter">Recentrar</string>
@@ -777,7 +778,7 @@
     <string name="suggestion_contact_badge">Contacto</string>
     <string name="settings_speed_cams">Radares</string>
     <string name="settings_speed_cam_warn">Avisar em voz alta</string>
-    <string name="settings_speed_cam_warn_hint">Diz “Radar à frente” quando se aproxima de um durante a navegação, com cerca de doze segundos de antecedência. Segue a definição das indicações faladas. Avisar sobre radares ao volante é restrito em alguns países, por isso isto fica desligado até o ligar.</string>
+    <string name="settings_speed_cam_warn_hint">Diz \"Radar de velocidade à frente\" e mostra um cartão quando se aproxima de um radar durante a navegação, com um tempo de aviso de aproximadamente doze segundos. Ele segue as suas instruções de voz. O aviso sobre radares durante a condução é restrito em alguns países, pelo que está desativado a menos que o ative.</string>
     <string name="nav_speed_camera_ahead">Radar à frente</string>
     <string name="settings_flock_nav_card">Aviso de câmaras de matrículas</string>
     <string name="settings_flock_nav_card_hint">Durante a navegação, mostra um cartão quando se aproxima de uma câmara de leitura de matrículas no seu percurso. As câmaras viradas para uma rua transversal são ignoradas. Desligado por predefinição.</string>
@@ -933,7 +934,7 @@
     <string name="whatsnew_got_it">Entendido</string>
     <string name="whatsnew_full_notes">Notas completas</string>
     <string name="settings_whatsnew">Novidades desta versão</string>
-    <string name="settings_whatsnew_hint">As notas de lançamento da versão que tem instalada. Aparecem também uma vez após cada atualização.</string>
+    <string name="settings_whatsnew_hint">As notas de lançamento da versão que tem instalada.</string>
     <string name="mapvm_export_trips_subject">Viagens da Vela: %1$d trajetos (%2$d pontos)</string>
     <string name="mapvm_export_trip_scrubbed_subject">Viagem da Vela: %1$d pontos, pontas cortadas</string>
     <string name="mapvm_area_uses_pack">Os locais e as moradas desta área vêm com a transferência de %1$s</string>
@@ -984,7 +985,7 @@
     <string name="voice_cmd_eta">Hora de chegada, ao conduzir</string>
     <string name="voice_cmd_hint">Funcionam falados ou escritos na barra de pesquisa, no idioma da app ou em inglês. O resto é uma pesquisa normal.</string>
     <string name="settings_map_data">Dados do mapa</string>
-    <string name="settings_map_data_hint">O mapa, as suas ruas, etiquetas e números de porta são dados do OpenStreetMap, disponíveis sob a Open Database License, servidos como mosaicos vetoriais pelo OpenFreeMap. Os estabelecimentos no mapa, nas regiões cobertas, são dados de locais da Overture Maps Foundation (com origem na Meta e na Microsoft), disponíveis sob a Community Data License Agreement, Permissive 2.0. Os detalhes dos locais, as avaliações, os percursos e o trânsito vêm da Google. As imagens de satélite são da Esri e da Google.</string>
+    <string name="settings_map_data_hint">O mapa, as suas ruas, etiquetas e números de porta são dados do OpenStreetMap, disponíveis sob a Open Database License, servidos como mosaicos vetoriais pelo OpenFreeMap. Os estabelecimentos no mapa, nas regiões cobertas, são dados de locais da Overture Maps Foundation (com origem na Meta e na Microsoft), disponíveis sob a Community Data License Agreement, Permissive 2.0. Os detalhes dos locais, as avaliações, os percursos e o trânsito vêm da Google. As imagens de satélite são da Esri e da Google. A forma como a voz diz 3500 nomes de locais vem da Wikipedia e os seus contribuidores, ao abrigo da CC BY-SA 4.0.</string>
     <string name="settings_map_data_button">Direitos de autor do OpenStreetMap</string>
     <string name="settings_map_data_overture_button">Licença do Overture Maps</string>
     <string name="settings_theme_auto">Dia e noite</string>
@@ -1126,26 +1127,29 @@
     <string name="mapvm_cells_incomplete">Alguns blocos de %1$s não foram transferidos. Tente mais tarde.</string>
     <plurals name="area_pick_cells">
         <item quantity="one">Transferir rotas e locais offline só para esta área: cerca de %1$s (%2$d parte da região)</item>
+        <item quantity="many">Transferir rotas e locais offline só para esta área: cerca de %1$s (%2$d parte da região)</item>
         <item quantity="other">Transferir rotas e locais offline só para esta área: cerca de %1$s (%2$d partes da região)</item>
     </plurals>
     <plurals name="settings_downloaded_cells">
         <item quantity="one">Parte da região: %1$d bloco, %2$s</item>
+        <item quantity="many">Parte da região: %1$d blocos, %2$s</item>
         <item quantity="other">Parte da região: %1$d blocos, %2$s</item>
     </plurals>
     <string name="settings_offline_delete_cells">Eliminar estes blocos</string>
     <plurals name="settings_cells_update_available">
         <item quantity="one">%1$d bloco tem uma versão mais recente</item>
+        <item quantity="many">%1$d blocos tem uma versão mais recente</item>
         <item quantity="other">%1$d blocos têm uma versão mais recente</item>
     </plurals>
     <string name="settings_confirm_end_nav">Perguntar antes de terminar a navegação</string>
-    <string name="settings_confirm_end_nav_hint">O X vermelho e o botão Voltar pedem confirmação durante a condução, para que um toque acidental não a termine</string>
+    <string name="settings_confirm_end_nav_hint">O botão Voltar pede confirmação durante a condução, para que um toque acidental não a termine</string>
     <string name="nav_end_confirm_title">Terminar a navegação?</string>
     <string name="nav_end_confirm_body">A rota e as paragens são apagadas.</string>
     <string name="nav_end_confirm_end">Terminar</string>
     <string name="nav_end_confirm_keep">Continuar</string>
     <string name="settings_parking_button">Botão de estacionamento</string>
     <string name="settings_parking_button_hint">O botão P no mapa que guarda o local onde estacionou. Desligado: só aparece enquanto houver um lugar guardado.</string>
-    <string name="map_layers_places">Locais: %1$s</string>
+    <string name="map_layers_places">Ícones de Locais: %1$s</string>
     <string name="settings_two_finger_tilt">Inclinar com dois dedos</string>
     <string name="settings_two_finger_tilt_hint">Arraste dois dedos para cima ou para baixo para inclinar o mapa para 3D. Desligado: o gesto de pinça só aplica zoom.</string>
     <string name="settings_speed_display">Mostrar velocidade e limite de velocidade</string>
@@ -1248,10 +1252,12 @@
     <string name="settings_flock_route_alert_hint">Conta as câmaras de leitura de matrículas (Flock) em cada rota (uma câmara apontada para a rua transversal fica de fora, porque lê o trânsito que cruza) e escolhe automaticamente uma com menos câmaras quando isso custa apenas um pouco mais de tempo. Nunca o desvia muito do caminho, por isso onde as câmaras são inevitáveis limita-se a mostrar as contagens e deixa a escolha consigo. Toque sem soltar no mapa para fazer a rota passar por um ponto à sua escolha. Desligado por predefinição.</string>
     <plurals name="dir_cameras_avoided">
         <item quantity="one">Passa por menos %1$d câmara do que a rota mais rápida</item>
+        <item quantity="many">Passa por menos %1$d câmaras do que a rota mais rápida</item>
         <item quantity="other">Passa por menos %1$d câmaras do que a rota mais rápida</item>
     </plurals>
     <plurals name="dir_cameras_on_route">
         <item quantity="one">%1$d câmara nesta rota</item>
+        <item quantity="many">%1$d câmaras nesta rota</item>
         <item quantity="other">%1$d câmaras nesta rota</item>
     </plurals>
     <string name="settings_offline_cached_places">Guardar os locais vistos para offline</string>
@@ -1309,7 +1315,7 @@
     <string name="settings_map_names_local_english">Local e inglês</string>
     <string name="settings_map_names_hint">Os nomes romanizados são gerados automaticamente onde o OpenStreetMap não tem nome em inglês, e leem-se mal em hebraico e noutros alfabetos. A língua da app e a voz não mudam.</string>
     <string name="settings_project">Projeto</string>
-    <string name="settings_project_hint">O código-fonte, os relatórios de erros e as discussões estão no GitHub.</string>
+    <string name="settings_project_hint">O website tem a visão geral, e a página de imprensa. O código-fonte, os relatórios de erros e as discussões estão no GitHub.</string>
     <string name="settings_project_github_button">Vela no GitHub</string>
     <string name="mapvm_rechecking_connection">A verificar a ligação…</string>
     <string name="mapvm_back_online">De novo online</string>
@@ -1330,4 +1336,157 @@
     <string name="trip_shortcut_unsupported">Este ecrã inicial não permite fixar atalhos</string>
     <string name="trip_shortcut_themed">Como os ícones temáticos</string>
     <string name="settings_places_source_note">Pesquisar ou tocar num local continua a consultar a Google para horários, avaliações e fotos, seja qual for a opção escolhida.</string>
+    <string name="settings_directions_language">Linguagem direções</string>
+    <string name="settings_directions_same_as_app">O mesmo que a linguagem</string>
+    <string name="settings_directions_language_hint">As direções são apresentadas e reproduzidas em áudio. Escolha uma voz correspondente na biblioteca de vozes.</string>
+    <string name="settings_keep_north_up">Manter o norte para cima</string>
+    <string name="settings_keep_north_up_hint">O mapa nunca roda: rotação com dois dedos desativada e norte mantém se no topo.</string>
+    <string name="settings_start_view">Onde abre o mapa</string>
+    <string name="settings_start_view_here">Onde estou</string>
+    <string name="settings_start_view_last">Onde fiquei no mapa</string>
+    <string name="settings_start_view_place">Um local à minha escolha</string>
+    <string name="settings_start_view_use_current">Usar a visão actual de mapa</string>
+    <string name="settings_start_view_hint">Onde o mapa se encontra ao iniciar o Vela. Um link para outra app ainda abre no seu local.</string>
+    <string name="settings_start_view_saved">Vela abre nesta vista.</string>
+    <string name="nav_bar_trip">Viagem %1$s · %2$s</string>
+    <string name="nav_bar_your_stop">A sua paragem</string>
+    <string name="nav_bar_stop_cd">%1$s e %2$s para %3$s, chegada às %4$s. Viagem completa %5$s e %6$s, chegada às %7$s.</string>
+    <string name="nav_stops_whole_trip">Viagem completa: %1$s · %2$s · chegada às %3$s</string>
+    <string name="settings_voice_row_other_language">Direções são faladas em %1$s. Para ouvir esta voz, defina a voz de direções para %2$s.</string>
+    <string name="mapscreen_location_tip_title">Ainda sm localização?</string>
+    <string name="nav_bar_to_stop">Para %1$s</string>
+    <string name="mapscreen_location_tip_body">Apenas o GPS nem sempre consegue boa localozação em interiores. No GrapheneOS, ative a localização de rede em Definições &gt; Localização &gt; Serviços de localização.</string>
+    <string name="mapscreen_location_tip_settings">Definições de Localização</string>
+    <string name="search_saved_tip">O seus locais guardados estão no botão de favoritos acima. Guarde um para o manter aqui.</string>
+    <string name="search_open_now_phrase">Aberto agora</string>
+    <string name="nav_voice_button">Direções faladas: ativas, só alertas or desligadas</string>
+    <string name="welcome_feature_private_body">Sem conta, sem publicidade, sem telemetria, e sem servidor Vela.</string>
+    <string name="welcome_continue">Continuar</string>
+    <string name="welcome_cameras_title">Câmeras de matrícula</string>
+    <string name="welcome_cameras_intro">Este emblema identifica um leitor de matrículas Flock ou outro similar no mapa. A Vela pode também:</string>
+    <string name="camera_badge_plate">Marcador de câmera de matrícula</string>
+    <string name="camera_badge_speed">Marcador de câmera de velocidade</string>
+    <string name="welcome_cameras_avoid">Contorná-los</string>
+    <string name="welcome_cameras_warn">Avise-me ao aproximar-me</string>
+    <string name="welcome_google_customize">Escolher para que o Google será usado</string>
+    <string name="welcome_google_title">Usar Google?</string>
+    <string name="welcome_google_intro">Pode alterar isto mais tarde nas Preferências, ou desligar apenas partes.</string>
+    <string name="welcome_google_on_title">Usar Google</string>
+    <string name="welcome_google_on_gives">Avaliações, fotos, trafego em direto e Street View.</string>
+    <string name="welcome_google_on_sends">Pesquisas e rotas enviadas para a Google, sem conta.</string>
+    <string name="welcome_google_off_title">Sem Google</string>
+    <string name="welcome_google_off_gives">Apenas dados abertos. Sem avaliações, fotos ou trafego em direto.</string>
+    <string name="welcome_google_off_sends">Nada é enviado para a Google.</string>
+    <string name="settings_voice_mode_on">Ativo</string>
+    <string name="settings_voice_mode_alerts">Apenas Alertas</string>
+    <string name="settings_voice_mode_off">Desligado</string>
+    <string name="settings_voice_mode_hint">Apenas Alertas exibe apenas um breve sinal sonoro para alertas de excesso de velocidade e radares, sem dizer mais nada. O botão do altifalante, durante a condução, ativa os mesmos três alertas.</string>
+    <string name="car_setting_traffic">Trafego</string>
+    <string name="settings_google_uses">Para que é usado a Google</string>
+    <string name="settings_google_uses_hint">Desligue uma opção, e o Vela deixa de enviar para a Google. Cada opção está também na sua própria página.</string>
+    <string name="settings_google_uses_traffic">Trafego e rotas</string>
+    <string name="list_delete_title">Remover %1$s?</string>
+    <plurals name="lists_delete_count">
+        <item quantity="one">Remover esta lista?</item>
+        <item quantity="many">Remover %d listas?</item>
+        <item quantity="other">Remover %d listas?</item>
+    </plurals>
+    <string name="list_reorder">Arrastar para reordenar</string>
+    <string name="recent_remove">Remover do histórico</string>
+    <string name="settings_takeout_list_default">Lista Importada</string>
+    <string name="settings_takeout_progress">A verificar %1$d de %2$d</string>
+    <plurals name="settings_takeout_imported">
+        <item quantity="one">Importado %1$d para %2$s.</item>
+        <item quantity="many">Importados %1$d para %2$s.</item>
+        <item quantity="other">Importados %1$d para %2$s.</item>
+    </plurals>
+    <plurals name="settings_takeout_imported_missed">
+        <item quantity="one">Importado %1$d para %2$s. %3$d não foram encontrados.</item>
+        <item quantity="many">Importados %1$d para %2$s. %3$d não foram encontrados.</item>
+        <item quantity="other">Importados %1$d para %2$s. %3$d não foram encontrados.</item>
+    </plurals>
+    <string name="settings_takeout_imported_none">Nenhum local das lista foi encontrado, %1$s não foi executado.</string>
+    <plurals name="settings_takeout_need_google">
+        <item quantity="one">%1$d local precisa de ser verificado com Google.</item>
+        <item quantity="many">%1$d locais precisam de ser verificados com Google.</item>
+        <item quantity="other">%1$d locais precisam de ser verificados com Google.</item>
+    </plurals>
+    <plurals name="settings_takeout_need_google_none">
+        <item quantity="one">%1$d local precisa de ser verificado com Google, por isso %2$s não foi executado.</item>
+        <item quantity="many">%1$s locais precisam de ser verificados com Google, por isso %2$s não foram executado.</item>
+        <item quantity="other">%1$s locais precisam de ser verificados com Google, por isso %2$s não foram executado.</item>
+    </plurals>
+    <string name="settings_takeout_busy">Uma lista ainda está a ser importada, espere que termine.</string>
+    <string name="settings_map_look">Aspeto do mapa</string>
+    <string name="settings_map_look_liberty">Vela</string>
+    <string name="settings_map_look_bright">Claro</string>
+    <string name="settings_map_look_positron">Positron</string>
+    <string name="settings_map_look_fiord">Fiord</string>
+    <string name="settings_map_look_dark">Escuro</string>
+    <string name="settings_map_look_hint">Vela é o estilo Liberty do OpenFreeMap com cores, ícones e larguras de estradas próprias do Vela. Os outros são os estilos Claro, Positron, Fiord e Dark do OpenFreeMap, tal como vêm nas suas versões originais; Fiord e Dark são escuros independentemente do tema.</string>
+    <string name="settings_map_data_fuel_gb">Os preços dos combustíveis no Reino Unido são provenientes do Fuel Finder do governo britânico, republicado por matthewgall/fuelfinder-archive no GitHub. Contém informações do setor público licenciadas sob a Licença de Governo Aberto v3.0.</string>
+    <string name="settings_map_data_ogl_button">Licença Open Government</string>
+    <string name="place_fuel_updated_today">Atualizado hoje</string>
+    <string name="place_fuel_updated_yesterday">Atualizado ontem</string>
+    <plurals name="place_fuel_updated_days">
+        <item quantity="one">Atualizado há %d dia</item>
+        <item quantity="many">Atualizado há %d dias</item>
+        <item quantity="other">Atualizado há %d dias</item>
+    </plurals>
+    <string name="link_trip_finding">Encontrar locais nesta viagem</string>
+    <string name="link_trip_while_navigating">Terminar navegação para abrir esta viagem</string>
+    <string name="link_trip_looking_cd">A pesquisar</string>
+    <string name="link_trip_found_cd">Encontrado</string>
+    <string name="link_trip_not_found_cd">Não encontrado</string>
+    <string name="link_trip_stop_missing">Não foi possível encontrar %1$s. A rota ignora-o.</string>
+    <string name="link_trip_start_missing">Não foi possível encontrar %1$s. A viagem começa onde está.</string>
+    <string name="link_trip_search">Procurar por isso</string>
+    <string name="link_trip_skip">Saltar</string>
+    <string name="link_trip_stop_title">Paragem não encontrada</string>
+    <string name="link_trip_start_title">Ponto de partida não encontrado</string>
+    <string name="link_trip_pick_start">Escolher um ponto de partida</string>
+    <string name="link_trip_start_here">Começar onde me encontro</string>
+    <string name="link_trip_fix">Afixar</string>
+    <plurals name="link_trip_places_missing">
+        <item quantity="one">%1$d local não encontrado</item>
+        <item quantity="many">%1$d locais não encontrados</item>
+        <item quantity="other">%1$d locais não encontrados</item>
+    </plurals>
+    <string name="settings_road_alerts_group">Alertas na estrada</string>
+    <string name="settings_bridge_openings">Abertura de pontes</string>
+    <string name="settings_bridge_openings_hint">Nos Países Baixos, o sistema indica quando uma ponte móvel no seu percurso está aberta ou com previsão de abertura, à medida que se aproxima da mesma. As informações sobre as aberturas planeadas e em curso são obtidas a partir dos dados de estradas abertas da NDW, consultados apenas quando a sua rota entra nos Países Baixos.</string>
+    <string name="nav_bridge_open_ahead">Ponte à frente está aberta</string>
+    <string name="nav_bridge_opening_ahead">Ponte à frente: abertura planeada às %1$s</string>
+    <string name="settings_zoom_key_in">Tecla de ampliação</string>
+    <string name="settings_zoom_key_out">Tecla de redução</string>
+    <string name="settings_zoom_key_none">Não definido</string>
+    <string name="settings_zoom_keys_hint">Duas teclas que permitem ampliar e reduzir o mapa em qualquer ponto, como as teclas 2 e 5 de um teclado numérico. Num campo de texto, o utilizador ainda digita.</string>
+    <string name="settings_zoom_key_press">Pressione a tecla para usar. As setas, OK e Voltar estão reservadas.</string>
+    <string name="settings_zoom_key_clear">Limpar</string>
+    <string name="settings_project_site_button">Website</string>
+    <string name="nav_left_your_route">Deixei “%1$s”. A seguir o caminho mais rápido.</string>
+    <string name="list_sound_label">Som quando passa por um</string>
+    <string name="list_sound_off">Desligado</string>
+    <string name="list_sound_ping">Ping</string>
+    <string name="list_sound_bell">Campaínha</string>
+    <string name="list_sound_double">Dois beeps</string>
+    <string name="list_sound_low">Tom baixo</string>
+    <string name="list_sound_name">Dizer o nome</string>
+    <string name="bulk_select">Selecionar locais</string>
+    <plurals name="bulk_selected">
+        <item quantity="one">%1$d selecionado</item>
+        <item quantity="many">%1$d selecionados</item>
+        <item quantity="other">%1$d selecionado</item>
+    </plurals>
+    <string name="bulk_all">Todos</string>
+    <string name="bulk_move">Mover para lista</string>
+    <string name="bulk_new_list">Nova lista…</string>
+    <string name="bulk_remove">Remover</string>
+    <plurals name="bulk_remove_title">
+        <item quantity="one">Remover %1$d local?</item>
+        <item quantity="many">Remover %1$d locais?</item>
+        <item quantity="other">Remover %1$d locais?</item>
+    </plurals>
+    <string name="bulk_done">Seleção terminada</string>
+    <string name="bulk_moved">%1$d movido para %2$s</string>
 </resources>
