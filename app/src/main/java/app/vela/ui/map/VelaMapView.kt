@@ -3384,12 +3384,12 @@ fun VelaMapView(
                     // ZOOM TO THE NEXT TURN (issue #781, SPEC 4.7 Framing): heading-up, the zoom
                     // pulls out until the next maneuver sits under the turn card, never closer than
                     // the speed's and never below the floor (turnZoomMin). The same ease as the speed zoom.
-                    val tgtZoom = when {
-                        !navUserZoom[0].isNaN() -> navUserZoom[0]
-                        app.vela.ui.ZoomToTurn.on.value && !navNorthUpHolder.value ->
-                            NavFraming.withTurn(speedZoom, navPuck.framer.turnZoom(context, cam.height.toInt(), pt, tiltForTurn), NavFraming.turnFloor())
-                        else -> speedZoom
-                    }
+                    val turnZoomRaw = if (app.vela.ui.ZoomToTurn.on.value && !navNorthUpHolder.value && navUserZoom[0].isNaN())
+                        navPuck.framer.turnZoom(context, cam.height.toInt(), pt, tiltForTurn) else Double.NaN
+                    val tgtZoom = if (!navUserZoom[0].isNaN()) navUserZoom[0] else NavFraming.withTurn(speedZoom, turnZoomRaw, NavFraming.turnFloor())
+                    // The camera turns toward the maneuver it frames, up to 45 degrees off the
+                    // heading, so a far turn off to the side sits in the frame (NavFraming.turnYaw).
+                    val navYaw = NavTurnTarget.point?.let { t -> NavFraming.turnYaw(navPuck.displayBearing.toDouble(), bearingDeg(pt, t).toDouble(), speedZoom, turnZoomRaw) } ?: 0.0
                     if (camState[0].isNaN()) { // (re)seed from the live camera for a smooth hand-off
                         val cp = cam.cameraPosition
                         camState[0] = cp.target?.latitude ?: pt.lat
@@ -3449,7 +3449,7 @@ fun VelaMapView(
                     // Compass toggle (user 2026-07-15): north-up keeps the follow (position, zoom,
                     // puck-low framing) but eases bearing to 0 and the tilt flat; the puck arrow
                     // then rotates on the north-up map instead of the map rotating under it.
-                    val brgTgt = if (navNorthUpHolder.value) 0.0 else navPuck.displayBearing.toDouble()
+                    val brgTgt = if (navNorthUpHolder.value) 0.0 else (navPuck.displayBearing.toDouble() + navYaw + 360.0) % 360.0
                     val db = ((brgTgt - camState[2] + 540.0) % 360.0) - 180.0 // shortest arc
                     // CAMERA BEARING IS ADAPTIVELY DAMPED (issue #251, the "crinkly roads" residual).
                     // A road digitized from imagery wiggles even where it is physically straight, and
@@ -4661,9 +4661,10 @@ fun VelaMapView(
                                     val dist = from?.distanceTo(t) ?: Double.NaN
                                     val arrowY = m.height * (1 + navPuck.framer.pad) / 2
                                     val pred = if (from == null) Double.NaN else arrowY - NavFraming.screenUp(dist / NavFraming.metersPerDp(cp.zoom, from.lat), cp.tilt, m.height / dens) * dens
-                                    " turnY=%.0f pred=%.0f card=%d top=%.0f tilt=%.1f dist=%.0f pad=%.3f".format(
-                                        m.projection.toScreenLocation(org.maplibre.android.geometry.LatLng(t.lat, t.lng)).y, pred,
-                                        NavChromeEdges.bannerBottomPx, navPuck.framer.chromeTopPx, cp.tilt, dist, navPuck.framer.pad,
+                                    val sp = m.projection.toScreenLocation(org.maplibre.android.geometry.LatLng(t.lat, t.lng))
+                                    " turnX=%.0f turnY=%.0f pred=%.0f card=%d top=%.0f tilt=%.1f dist=%.0f pad=%.3f hdg=%.0f".format(
+                                        sp.x, sp.y, pred,
+                                        NavChromeEdges.bannerBottomPx, navPuck.framer.chromeTopPx, cp.tilt, dist, navPuck.framer.pad, navPuck.displayBearing,
                                     )
                                 }
                             } ?: ""

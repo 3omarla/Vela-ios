@@ -156,7 +156,10 @@ bearing of the route segment you are on, or failing that the last heading. The b
 nearest route point flickers on a parked car's GPS jitter and swings the view.
 
 Zoom follows speed whenever the view follows a moving car, from 17.2 at rest to 15.0 at 110 km/h
-and up, on a straight line, eased. A fix that reports no speed takes the distance since the last
+and up, on a straight line, eased. With the phone's "Zoom to the next turn" on, a drive also zooms
+out until the next maneuver sits 40 px under the top of the visible area, no farther than the
+phone's floor, turns the camera toward it up to 45 degrees as the phone does (chapter 11), and
+lies flatter that far out. A fix that reports no speed takes the distance since the last
 fix over the time between them, because a fix read as parked held the zoom at its closest, and
 one with no bearing takes the direction from the last fix once it has moved a few meters. A pan,
 a pinch or a zoom button stops following until `RECENTER_MS` (6 s) has passed or you press

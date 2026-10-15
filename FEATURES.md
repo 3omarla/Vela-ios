@@ -121,7 +121,8 @@ What Vela Maps does today, one line per feature. How each one works is in [SPEC.
 - With a large display size or large text the turn card stays within a third of the screen, the
   arrow stays clear of the bottom bar, and the map zooms out to keep the road ahead in view.
 - "Zoom to the next turn" zooms the map out until the next turn sits just under the turn card,
-  and back in as you near it. Off by default.
+  turns the camera toward a turn off to the side, and back in as you near it. Off by default.
+  On the car screen too.
   "Zoom out as far as" sets how far out it may go: a town, a region or far.
 - Spoken directions with street names and lanes. "Say street names" off shortens them.
 - Two turns a block apart are said together: "Turn right onto Elm Street, then turn left onto Oak

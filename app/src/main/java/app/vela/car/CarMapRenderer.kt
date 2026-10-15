@@ -95,6 +95,12 @@ class CarMapRenderer(
     private var targetHeading = 0.0
     private var camBearing = 0.0
     private var tilt = 0.0
+    // Zoom to the next turn on the car (followZoom): the camera's turn toward the maneuver it
+    // frames, added to the heading by the ticker, and the maneuver's point cached per step.
+    private var turnYaw = 0.0
+    private var turnRoute: Route? = null
+    private var turnStep = -1
+    private var turnPoint: LatLng? = null
     private var following = true // pan turns this off in browse
     // The phone's free-drive latch: once the smoothed speed passes DRIVE_LATCH_MPS with a course
     // known, the view is heading-up with no route and stays so at a red light; it lets go when the
@@ -169,6 +175,7 @@ class CarMapRenderer(
         const val ZOOM_EASE = 0.06    // per tick, so a speed change glides over a second or so
         const val TILT_EASE = 0.05    // per tick: the tilt comes in over about two seconds
         const val PUCK_DOWN = 0.72    // the puck sits this far down the VISIBLE area in a heading-up view
+        const val TURN_MARGIN_PX = 40.0 // the next maneuver is framed this far under the top of the visible area
         const val PUCK_AIM_PX = 40.0  // how far ahead of the arrow, in ground pixels, its heading is sampled for its turn on screen
         const val DRIVE_LATCH_MPS = 2.5 // the phone's free-drive latch speed, on the smoothed speed
         const val DRIVE_SPEED_TAU_S = 1.0 // the smoothing behind it
@@ -431,11 +438,12 @@ class CarMapRenderer(
                 if (abs(db) > 0.2) { heading = normalizeAngle(heading + db * BEARING_EASE); moved = true }
                 // The camera turns onto the arrow's heading, or back to north, and once there it
                 // follows the heading exactly, so a turn is not eased twice.
-                val camTarget = if (headingUp()) heading else 0.0
+                val camTarget = if (headingUp()) normalizeAngle(heading + turnYaw) else 0.0
                 val dc = shortestAngleDelta(camBearing, camTarget)
                 if (abs(dc) > 0.3) { camBearing = normalizeAngle(camBearing + dc * CAM_BEARING_EASE); moved = true }
                 else if (dc != 0.0) { camBearing = camTarget; moved = true }
-                val tiltTarget = if (headingUp()) CarFraming.NAV_TILT_DEG else 0.0
+                // Zoomed out to a far turn the camera lies flatter, as the phone's does.
+                val tiltTarget = if (headingUp()) app.vela.ui.map.NavFraming.tiltAt(zoomTarget, CarFraming.NAV_TILT_DEG) else 0.0
                 if (abs(tiltTarget - tilt) > 0.05) { tilt += (tiltTarget - tilt) * TILT_EASE; moved = true }
                 else if (tilt != tiltTarget) { tilt = tiltTarget; moved = true }
                 if (abs(zoomTarget - zoom) > 0.004) { zoom += (zoomTarget - zoom) * ZOOM_EASE; moved = true }
@@ -648,6 +656,28 @@ class CarMapRenderer(
     /** Zoom that tightens as you slow (more detail at junctions) and widens at speed. */
     private fun navZoom(): Double = CarFraming.navZoom(speedMps * 3.6)
 
+    /**
+     * The following zoom: the speed's, or in a drive heading-up with the phone's "Zoom to the next
+     * turn" on, the lesser of that and the zoom that puts the next maneuver [TURN_MARGIN_PX] under
+     * the top of the visible area, never below the phone's floor (NavFraming, SPEC 4.7 Framing).
+     * Sets [turnYaw], the camera's turn toward that maneuver, zero when the speed's zoom governs.
+     */
+    private fun followZoom(nav: Boolean): Double {
+        val speed = navZoom()
+        val from = puck
+        val st = navSession.state.value
+        if (!nav || from == null || !app.vela.ui.ZoomToTurn.on.value || !headingUp()) { turnYaw = 0.0; return speed }
+        if (st.route !== turnRoute || st.nav.stepIndex != turnStep) {
+            turnRoute = st.route; turnStep = st.nav.stepIndex
+            turnPoint = app.vela.ui.map.NavTurnTarget.pointFor(st.route, st.nav.stepIndex)
+        }
+        val target = turnPoint ?: run { turnYaw = 0.0; return speed }
+        val upPx = framingArea().height() * PUCK_DOWN - TURN_MARGIN_PX
+        val raw = app.vela.ui.map.NavFraming.turnZoomFlattening(from.distanceTo(target), upPx, height.toDouble(), CarFraming.NAV_TILT_DEG, from.lat)
+        turnYaw = app.vela.ui.map.NavFraming.turnYaw(heading, from.bearingTo(target), speed, raw)
+        return app.vela.ui.map.NavFraming.withTurn(speed, raw, app.vela.ui.map.NavFraming.turnFloor())
+    }
+
     private var styleLayerIds: List<String> = emptyList()
 
     /** Vela's palette on the snapshotter's style, for the car's current day/night. Logged under
@@ -686,7 +716,7 @@ class CarMapRenderer(
         if (nav && overview) navSession.state.value.route?.let { r -> frameRoute(remainingRoute(r)); zoomTarget = zoom }
         val follow = following // false while the user has panned (until auto-recenter)
         // Zoom by speed whenever the view follows a moving car: a drive, or driving with no route.
-        zoomTarget = if (follow && !overview && previewRoute == null && (nav || driving)) navZoom() else zoom
+        zoomTarget = if (follow && !overview && previewRoute == null && (nav || driving)) followZoom(nav) else { turnYaw = 0.0; zoom }
         if (themed) applyOverlays(snap, nav)
         // FRAME INSIDE THE VISIBLE AREA. The camera target lands at the bitmap's center, but the host
         // covers part of the surface with its cards, so the point the driver should see (the puck,
@@ -733,7 +763,7 @@ class CarMapRenderer(
                 if (android.util.Log.isLoggable("VelaCar", android.util.Log.DEBUG)) {
                     android.util.Log.d(
                         "VelaCar",
-                        "snapshot ${android.os.SystemClock.elapsedRealtime() - startedMs} ms zoom=${"%.1f".format(java.util.Locale.US, zoom)} tilt=${tilt.toInt()} traffic=${trafficShown == true} speed=${(speedMps * 3.6).toInt()}",
+                        "snapshot ${android.os.SystemClock.elapsedRealtime() - startedMs} ms zoom=${"%.1f".format(java.util.Locale.US, zoom)} tilt=${tilt.toInt()} yaw=${turnYaw.toInt()} traffic=${trafficShown == true} speed=${(speedMps * 3.6).toInt()}",
                     )
                 }
                 // THE STYLE OBSERVER NEVER FIRED IN PRACTICE (Gearslip preview, 2026-09-22: no

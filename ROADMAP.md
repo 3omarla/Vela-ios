@@ -347,6 +347,15 @@ off the list when it has been.
 - "Zoom out as far as" (#781): seen on a 4a, the three choices under the switch, Town picked
   by default, Region picked and kept. Not seen: a drive with Region or Far picked, where the
   map may go out to zoom 10 or 8.
+- The camera turned toward the next turn, and Zoom to the next turn on the car screen (#781):
+  unit-tested (`TurnYawTest`). Seen on a 4a in a simulated drive from Davis to the airport with
+  the Town floor: heading-up through town with no yaw, the camera held 45 degrees toward the
+  far junction through the looping on-ramp, then on the freeway the junction 21 km out kept in
+  the center column (x 542 of 1080) with the camera 10 degrees off the road's heading, at 59
+  fps. Seen on the Desktop Head Unit (1280 x 720) in the same drive: zoom 12 and flat on the
+  freeway with the camera 19 to 31 degrees toward the junction, back to zoom 15.2 and 55
+  degrees of tilt as it neared, the yaw fading from 43 to 23. Not seen: a real road, the yaw
+  fading out through a turn in town at the speed zoom, and a head unit in portrait.
 - Whisper base and small for voice search (#798): seen on a 4a, both in the picker under
   Search with their sizes, base downloaded and unpacked in half a minute, made active, and the
   mic opened on it. Unit-tested: the first download offered is tiny for English and base
@@ -470,9 +479,6 @@ Found reading everything since 0.4.1912 and not fixed yet.
   all of which the tiles carry today; an elevation profile for a route from the terrain tiles
   the shading already uses. Not in the tiles: the hiking difficulty grade, cliffs, contour lines,
   which need a bake of their own. Not started.
-- Zoom to the next turn, the driver's asks (#781): the camera turned toward the next turn, up
-  to 45 degrees off the heading, so a far turn sits in the frame instead of off its edge, and
-  the same zoom to the turn on the car screen, which zooms by speed alone today. Next.
 - Snapping the dot to the road with no route (#803): the browse and driving-mode dot is the raw
   fix, and a weak head unit GPS puts it a lane or a row of houses off. Vela already finds the
   road under the car for the speed limit; a snap onto it while moving, released at junctions

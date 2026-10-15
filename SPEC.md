@@ -1879,8 +1879,16 @@ Zoom to the next turn (`ZoomToTurn`, Settings > Navigation, off by default; issu
   (the road-name pass runs from z14.6), lights and stop signs (z15.4) do not draw that far out,
   which the option accepts. Lower would load a region's tiles at each step and show nothing a
   drive needs.
-- The camera stays heading-up. The arrow's turn on screen keeps its meaning and a turn to the
-  side is in view already; the camera is not turned toward it.
+- The camera turns toward the maneuver it frames (`NavFraming.turnYaw`): the bearing's target is
+  the heading plus the angle from the heading to the point, at most `TURN_YAW_MAX_DEG` (45)
+  either way, scaled from nothing while the speed zoom governs to all of it once the turn's
+  unfloored zoom is `TURN_YAW_BLEND_LEVELS` (1) under the speed's, so the yaw fades out over the
+  last stretch before the turn and the view is heading-up through it. The bearing eases as for a
+  turn, and the arrow is drawn turned off vertical by the yaw. North-up and under a pinch there
+  is no yaw.
+- The car screen runs the same zoom and yaw on the phone's switch and floor (10.6), from the
+  arrow's row to `TURN_MARGIN_PX` (40) under the top of the visible area, and its tilt flattens
+  with the zoom as the phone's does (`tiltAt`).
 - The pre-engage camera (the car not yet on the line, a reroute) takes the same zoom, so a
   reroute does not zoom in and back out.
 - On the fixture with the card at 230 dp and latitude 38.5: 344 dp above the arrow reach 949
@@ -2187,9 +2195,10 @@ theme ticker waits in the background.
 
 - Frame rate: `debug.vela.fps` and `scripts/map-fps.sh` (section 13). A `VelaFps` line carries
   the second's zoom range and bearing change, so a dip at a turn reads off the log. With "Zoom to
-  the next turn" on it also carries the next maneuver's screen row (`turnY`), the row the framing
-  model predicts for the same camera (`pred`), the live card edge (`card`) and the one the framer
-  adopted (`top`), the tilt, the ground distance and the arrow's pad, window px, so a miss on a
+  the next turn" on it also carries the next maneuver's screen column and row (`turnX`, `turnY`),
+  the row the framing model predicts for the same camera (`pred`), the live card edge (`card`)
+  and the one the framer adopted (`top`), the tilt, the ground distance, the arrow's pad and the
+  arrow's heading (`hdg`, against the camera's `brg` the yaw), window px, so a miss on a
   drive can be laid at the model or at its inputs.
 - Layer bisect: `debug.vela.hide`, re-applied every 250 ms while set, so layers nav adds at
   Start are hidden too.
@@ -5519,7 +5528,12 @@ The map:
   the visible area's height. Otherwise the view is north-up, flat and centered on the arrow.
 - Zoom follows speed whenever the view follows a moving car, drive or not: `CarFraming.navZoom`,
   `ZOOM_NEAR` (17.2) at rest to `ZOOM_FAR` (15.0) at `ZOOM_FAR_KMH` (110) and above, a straight
-  line between. Otherwise the zoom is the user's.
+  line between. In a drive with the phone's "Zoom to the next turn" on, the zoom is the lesser of
+  that and the zoom that frames the next maneuver `TURN_MARGIN_PX` (40) under the top of the
+  visible area, with the phone's floor, the camera turns toward the maneuver by
+  `NavFraming.turnYaw`, and the tilt flattens with the zoom (4.7, Framing). The maneuver is
+  `NavTurnTarget.pointFor` on the session's route and step, cached per step. Otherwise the zoom
+  is the user's.
 - The arrow lands on the wanted pixel two ways. Down the screen the camera target is moved:
   `CarFraming.targetOffset` gives the ground offset in pixels at the center's scale, the flat
   screen offset at tilt 0, and under tilt the solution of MapLibre's perspective (camera distance

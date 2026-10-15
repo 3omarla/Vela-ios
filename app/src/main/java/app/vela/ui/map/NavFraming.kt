@@ -237,6 +237,29 @@ internal object NavFraming {
         app.vela.ui.ZoomToTurn.floor.value.takeIf { it > 0.0 }
             ?: app.vela.ui.AppTune.local("turnZoomMin")
             ?: app.vela.core.config.CalibrationStore.latest.tune("turnZoomMin", ZOOM_TURN_MIN)
+
+    /** The camera turns toward the maneuver it frames by at most this, off the heading (#781). */
+    const val TURN_YAW_MAX_DEG = 45.0
+
+    /** The yaw comes in over this many zoom levels of the turn's zoom under the speed's: none
+     *  while the speed zoom governs (the turn is near), all of it a level out. */
+    const val TURN_YAW_BLEND_LEVELS = 1.0
+
+    /**
+     * Degrees the drive camera turns off the arrow's [headingDeg] toward a maneuver that lies at
+     * [toTurnDeg] from the arrow, positive clockwise, at most [TURN_YAW_MAX_DEG] either way, scaled
+     * by [yawWeight]. Zero with nothing to frame, while the speed zoom governs, or straight ahead.
+     */
+    fun turnYaw(headingDeg: Double, toTurnDeg: Double, speedZoom: Double, turnZoom: Double): Double {
+        val w = yawWeight(speedZoom, turnZoom)
+        if (w <= 0.0) return 0.0
+        val off = ((toTurnDeg - headingDeg + 540.0) % 360.0) - 180.0
+        return off.coerceIn(-TURN_YAW_MAX_DEG, TURN_YAW_MAX_DEG) * w
+    }
+
+    /** How much of the yaw applies, 0 to 1, from how far the unfloored [turnZoom] sits under [speedZoom]. */
+    fun yawWeight(speedZoom: Double, turnZoom: Double): Double =
+        if (turnZoom.isNaN() || speedZoom.isNaN()) 0.0 else ((speedZoom - turnZoom) / TURN_YAW_BLEND_LEVELS).coerceIn(0.0, 1.0)
 }
 
 /**
@@ -256,11 +279,14 @@ internal object NavTurnTarget {
         if (route === this.route && stepIndex == step) return
         this.route = route
         step = stepIndex
-        point = route?.let { r ->
-            var i = stepIndex
-            while (i < r.maneuvers.size && quiet(r.maneuvers[i])) i++
-            r.maneuvers.getOrNull(i)?.location
-        }
+        point = pointFor(route, stepIndex)
+    }
+
+    /** The point a drive on [route] at [stepIndex] frames, null with none; the car reads it too. */
+    fun pointFor(route: app.vela.core.model.Route?, stepIndex: Int): app.vela.core.model.LatLng? = route?.let { r ->
+        var i = stepIndex
+        while (i < r.maneuvers.size && quiet(r.maneuvers[i])) i++
+        r.maneuvers.getOrNull(i)?.location
     }
 
     /** A continue or straight step the voice says nothing for: the same test as NavEngine's. */
