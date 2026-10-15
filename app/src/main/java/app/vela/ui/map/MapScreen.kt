@@ -240,9 +240,9 @@ private const val CHOOSER_BODY_MIN_LAND_DP = 64f
 private val CHOOSER_CARD_MIN_LAND_DP = 170.dp
 // How far down the ramp the exit callout sits, past the maneuver point where the ramp leaves.
 private const val EXIT_CALLOUT_AHEAD_M = 70.0
-// The blue turn bubble sits this far into the street you turn onto: at the corner, clear of the
-// junction's own labels.
-private const val TURN_CALLOUT_AHEAD_M = 30.0
+// The blue turn bubble's tail sits on the corner itself; the steps below move it into the new
+// street only when a light, stop sign or camera stands there.
+private const val TURN_CALLOUT_AHEAD_M = 0.0
 /** Extra steps along the new street, tried in order, until no drawn light, stop sign or camera is
  *  within [TURN_CALLOUT_CLEAR_M] of the callout's anchor. */
 private val TURN_CALLOUT_STEPS_M = doubleArrayOf(0.0, 15.0, 30.0, 45.0, 60.0)
@@ -4206,8 +4206,8 @@ private fun MapSurface(
                 }
             }
         },
-        // The street the next TURN enters, in a blue bubble on that street just past the corner
-        // (user 2026-10-02): the name right where you turn, the way Google labels it.
+        // The street the next TURN enters, in a blue bubble with its tail on the corner: the name
+        // right where you turn, the way Google labels it.
         navTurnCallout = if (turnCalloutRoad == null) null else remember(state.activeRoute, state.nav.stepIndex, state.roadNameLatin, state.trafficControls, state.flockCameras) {
             val m = state.activeRoute?.maneuvers?.getOrNull(state.nav.stepIndex)
             val poly = state.activeRoute?.polyline.orEmpty()

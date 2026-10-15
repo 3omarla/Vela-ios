@@ -380,8 +380,12 @@ off the list when it has been.
   turned on with a saved custom map already showing, which goes through the same re-seat.
 - Turn arrows on the route (#804): seen on a 4a in a simulated drive, a white arrow in a dark
   casing through the right turn onto a cross street and the turns after it, the passed one gone
-  with its step; unit-tested on an L-shaped route. Not seen: a roundabout exit or a fork, the
-  switch under Navigation turning them off mid-drive, or the car screen, which has none.
+  with its step, and after the corner was moved onto the line's own bend, the arrow through a
+  freeway on-ramp bending left with the ramp and the blue turn bubble's tail on the corner;
+  unit-tested on an L-shaped route, a keep-left whose split lies 60 m past the point and a lane
+  change before a corner. Not seen on a phone: a fork found past its point, a lane change
+  smoothed out, a roundabout exit, the switch under Navigation turning them off mid-drive, or
+  the car screen, which has none.
 - The car's speed badge and limit sign sized with the screen (#817): seen on the desktop head
   unit's 800 by 480 profile in a demo drive, the badge and the sign at the template's button
   size. Not seen: the 1280 by 720 profile with the new sizes, or a real head unit.

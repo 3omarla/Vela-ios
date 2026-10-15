@@ -1846,7 +1846,8 @@ Zoom to the next turn (`ZoomToTurn`, Settings > Navigation, off by default; issu
 
 - Heading-up, the zoom is the lesser of the speed's (its pull-back and `ZOOM_FLOOR` included)
   and the zoom at which the next maneuver's point lands `TURN_MARGIN_DP` (72 dp: room for the
-  turn callout, a bubble about 40 dp tall anchored up to 30 m past the corner) under the top
+  turn callout, a bubble about 40 dp tall anchored on the corner, up to 60 m past it when a
+  light stands there) under the top
   chrome's edge: the turn card's bottom as the framer adopted it, the top of the map in
   landscape, in picture-in-picture and with no card. The tilt it frames for is the one the
   camera holds (`navTiltCeiling` above, else the wanted 55). Never below the floor: the user's
@@ -2440,10 +2441,10 @@ Cross-street labels are points Vela places, not line-center labels on the basema
   stop sign or camera is skipped (`crossLabelPoint(avoid=)`), and the cross-street layers sit
   below the camera badges, the controls' collision claim and the POI layer, so they yield.
 - The street the next turn enters (turn, slight, sharp and roundabout-exit maneuvers that name
-  a road or ref) gets a blue callout on `NAV_TURN_LAYER` (`#1A66D9`), `TURN_CALLOUT_AHEAD_M`
-  (30 m) into it. It never yields, and steps along the street (`TURN_CALLOUT_STEPS_M`, up to
-  60 m more) until no light, stop sign or camera is within 30 m. That street leaves the white
-  cross-street callouts.
+  a road or ref) gets a blue callout on `NAV_TURN_LAYER` (`#1A66D9`) with its tail on the corner
+  (`TURN_CALLOUT_AHEAD_M`, 0). It never yields, and steps into the street
+  (`TURN_CALLOUT_STEPS_M`, up to 60 m) until no light, stop sign or camera is within 30 m. That
+  street leaves the white cross-street callouts.
 - A passed callout is let go when its anchor projects within 28 dp of the nav bar's top edge
   (`navBarTopPx`) or off either side, checked every `NAV_XLABEL_TICK_MS` (80 ms), with
   `NAV_XLABEL_DROP_BEHIND_M` (600 m) as the backstop.
@@ -3908,9 +3909,16 @@ A version query on `BAKED_URL` moves the map cache off old tiles after a rebake.
 
 - During a drive a short arrow draws on the route through each turn ahead (issue #804, as
   Google and OsmAnd draw them): `TurnArrowGeometry.arrows` takes the route's stretch from
-  `BEFORE_M` (30 m) before the maneuver to `AFTER_M` (30 m) past it, for the maneuvers in
-  `TYPES` (turns, forks, ramps, keeps, a U-turn, a roundabout's exit; not a continue, a merge or
-  the roundabout's entry) from the step in hand onward, with the bearing the stretch ends on.
+  `BEFORE_M` (30 m) before the maneuver point through the corner to `AFTER_M` (30 m) past it,
+  for the maneuvers in `TYPES` (turns, forks, ramps, keeps, a U-turn, a roundabout's exit; not a
+  continue, a merge or the roundabout's entry) from the step in hand onward. The corner is found
+  on the line, from `CORNER_BACK_M` (10 m) before the point to `SEEK_M` (150 m) past it: the
+  first vertex where the chords `HOLD_M` (25 m) long on either side differ by `BEND_DEG` (12)
+  or more, moved on to a sharper vertex within `CORNER_NEAR_M` (15 m). A fork's or a ramp's
+  split lies past the maneuver point, and a lane change is a jog the chord after it does not
+  hold. With no such vertex the stretch ends `AFTER_M` past the point. Each arm is simplified
+  (Douglas-Peucker, `SIMPLIFY_M` 5 m), the corner kept, and the arrowhead aims along the chord
+  over the last `HEAD_CHORD_M` (12 m).
 - `TurnArrows` (holder, `turn_arrows_on`, on by default under Settings > Navigation) is written
   by `NavController` per tick, change-gated on the route and the step like `NavTurnTarget`, and
   read by `VelaMapView`, so `MapScreen` carries nothing for it. The layers (`vela-turn-arrows-casing`,
