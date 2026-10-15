@@ -366,6 +366,9 @@ off the list when it has been.
 - Side-street stop signs on a junction node (#805): the bake records the most minor road's
   bearing for such a sign, and none for an all-way stop. Unit-checked on a made-up junction;
   it reaches phones with the next road-features bake, which has not run.
+- Drawings and custom maps above the satellite imagery (#816): seen on a 4a, a three-point line
+  and its area drawn over the photo, and with the Vela look as before. Not seen: the satellite
+  turned on with a saved custom map already showing, which goes through the same re-seat.
 
 ### Open from the October 2026 audit
 

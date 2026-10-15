@@ -8102,6 +8102,10 @@ private fun ensureSatellite(style: Style, on: Boolean) {
         // them with the satellite-aware anchor.
         runCatching { style.removeLayer(TRANSIT_LAYER) }
         runCatching { style.removeLayer(TRAFFIC_LAYER) }
+        // Drawings and custom maps the same way (issue #816): their fills and lines re-seat above
+        // the raster, from the sources that still hold them.
+        for (id in listOf(SHAPES_FILL, SHAPES_DRAFT_FILL, SHAPES_LINE, SHAPES_DRAFT_LINE)) runCatching { style.removeLayer(id) }
+        if (style.getSource(SHAPES_SRC) != null) runCatching { ensureShapeLayers(style) }
         if (style.getLayer(SAT_ROADS_LAYER) == null && basemapSrc(style) != null) {
             val roads = LineLayer(SAT_ROADS_LAYER, basemapSrc(style) ?: "openmaptiles").apply {
                 setSourceLayer("transportation")
@@ -8260,9 +8264,15 @@ private const val SHAPES_DRAFT_LINE = "vela-shapes-draft-line"
  * (along a line, in the middle of an area), then the drawn shape's points.
  */
 private fun ensureShapeLayers(style: Style) {
-    if (style.getSource(SHAPES_SRC) != null) return
-    style.addSource(GeoJsonSource(SHAPES_SRC, GeoJsonOptions().withMaxZoom(16)))
-    style.addSource(GeoJsonSource(SHAPES_DRAFT_SRC, GeoJsonOptions().withMaxZoom(16)))
+    if (style.getSource(SHAPES_SRC) == null) {
+        style.addSource(GeoJsonSource(SHAPES_SRC, GeoJsonOptions().withMaxZoom(16)))
+        style.addSource(GeoJsonSource(SHAPES_DRAFT_SRC, GeoJsonOptions().withMaxZoom(16)))
+    }
+    if (style.getLayer(SHAPES_LINE) != null) return
+    // Above the satellite imagery when it is on: anchored under the labels alone, the lines and
+    // fills sat under the raster and a drawing showed as bare points (issue #816). The satellite
+    // toggle drops these four layers and calls back here, so they re-seat on the fresh raster.
+    val satTop = style.getLayer(SAT_ROADS_LAYER) ?: style.getLayer(SAT_LAYER)
     val below = firstSymbolLayerId(style)
     val isArea = Expression.eq(Expression.get("area"), Expression.literal(true))
     fun fill(id: String, src: String) = FillLayer(id, src).withFilter(isArea).withProperties(
@@ -8275,12 +8285,18 @@ private fun ensureShapeLayers(style: Style) {
         PropertyFactory.lineWidth(Expression.get("width")),
         PropertyFactory.lineCap(Property.LINE_CAP_ROUND), PropertyFactory.lineJoin(Property.LINE_JOIN_ROUND),
     )
+    var anchor = satTop?.id
     for (l in listOf(
         fill(SHAPES_FILL, SHAPES_SRC), fill(SHAPES_DRAFT_FILL, SHAPES_DRAFT_SRC),
         line(SHAPES_LINE, SHAPES_SRC), line(SHAPES_DRAFT_LINE, SHAPES_DRAFT_SRC),
     )) {
-        if (below != null) style.addLayerBelow(l, below) else style.addLayer(l)
+        when {
+            anchor != null -> { style.addLayerAbove(l, anchor); anchor = l.id } // in order, each on the last
+            below != null -> style.addLayerBelow(l, below)
+            else -> style.addLayer(l)
+        }
     }
+    if (style.getLayer(SHAPES_LABEL) != null) return // the labels and the dots sit on top already
     fun label(id: String, area: Boolean) = SymbolLayer(id, SHAPES_SRC)
         .withFilter(if (area) isArea else Expression.not(isArea))
         .withProperties(
@@ -8328,8 +8344,8 @@ private fun shapeFeature(s: app.vela.core.model.MapShape, idx: Int): Feature? {
  * not in it (see [ensureShapeDraft]).
  */
 private fun ensureShapes(style: Style, shapes: List<app.vela.core.model.MapShape>) {
-    if (style.getSource(SHAPES_SRC) == null) {
-        if (shapes.isEmpty()) return
+    if (style.getLayer(SHAPES_LINE) == null) {
+        if (shapes.isEmpty() && style.getSource(SHAPES_SRC) == null) return
         ensureShapeLayers(style)
     }
     val features = shapes.mapNotNull { s -> shapeFeature(s, shapes.indexOf(s)) }
@@ -8340,8 +8356,8 @@ private fun ensureShapes(style: Style, shapes: List<app.vela.core.model.MapShape
  *  set, is what a dragged point uploads on every move event. Its index is never read (while
  *  drawing, a tap adds a point). */
 private fun ensureShapeDraft(style: Style, draft: app.vela.core.model.MapShape?, dots: List<LatLng>) {
-    if (style.getSource(SHAPES_DRAFT_SRC) == null) {
-        if (draft == null && dots.isEmpty()) return
+    if (style.getLayer(SHAPES_DRAFT_LINE) == null) {
+        if (draft == null && dots.isEmpty() && style.getSource(SHAPES_DRAFT_SRC) == null) return
         ensureShapeLayers(style)
     }
     val dotFeatures = dots.map { Feature.fromGeometry(Point.fromLngLat(it.lng, it.lat)).apply { addBooleanProperty("dot", true); addBooleanProperty("area", false) } }

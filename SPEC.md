@@ -3250,7 +3250,10 @@ the shared 12 s timeout cuts it off.
   (`ensureShapeDraft`, `vela-shapes-draft-src`, a fill and a line layer directly above the saved
   shapes' fill and line), so a dragged point uploads that one shape. On the saved shapes' source
   every move event would re-upload and re-tile all of them. `MapSurface` passes the unfinished
-  shape as the last of `shapes`; `VelaMapView` takes it off the saved set.
+  shape as the last of `shapes`; `VelaMapView` takes it off the saved set. The fill and line
+  layers sit under the basemap's labels, or above the satellite imagery when it is on (the
+  raster buried them and a drawing showed as bare points, issue #816); the satellite toggle
+  drops the four layers and `ensureShapeLayers` seats them again on the fresh raster.
 - The shape sheet's menu has "Edit this drawing" (`DrawState.editOf`, saved back in place) and
   "Delete this drawing" (`ShapeActions.delete`, `MapViewModel.deleteOpenedShape`).
 
