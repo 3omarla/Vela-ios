@@ -363,6 +363,9 @@ off the list when it has been.
 - An expanded transit route stays expanded across a swipe of the sheet (#812, `TransitExpanded`): seen on a 4a, a bus itinerary expanded, the sheet dropped to its card by its handle and raised again with the legs still open.
 - One Share on the route picker (#814): seen on a 4a, Start and Add stops below, Route options, Share and Close in the header.
 - Saved routes named from a named start (#815): seen on a 4a, a trip from a named start saved under both names by default, and the list row with the start and the end under it; a route from the phone's own position still reads Route to the end.
+- Side-street stop signs on a junction node (#805): the bake records the most minor road's
+  bearing for such a sign, and none for an all-way stop. Unit-checked on a made-up junction;
+  it reaches phones with the next road-features bake, which has not run.
 
 ### Open from the October 2026 audit
 
