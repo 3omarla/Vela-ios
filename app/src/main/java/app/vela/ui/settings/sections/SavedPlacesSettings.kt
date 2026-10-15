@@ -214,9 +214,12 @@ private fun SavedRoutesGroup(vm: MapViewModel, onOpen: (app.vela.core.model.Save
                 // The row opens the route on the map (a run with its stops loaded).
                 Column(Modifier.weight(1f).dpadHighlight().clickable { onOpen(r) }) {
                     Text(r.name, style = MaterialTheme.typography.bodyLarge)
+                    // "Hamburg to Berlin" when the start was a named place (issue #815), else the end alone.
+                    val ends = if (r.originLabel.isNotBlank() && r.destLabel.isNotBlank()) stringResource(R.string.route_save_default_from, r.originLabel, r.destLabel)
+                        else r.destLabel.takeIf { it.isNotBlank() }
                     val sub = listOfNotNull(
                         if (r.isRun) androidx.compose.ui.res.pluralStringResource(R.plurals.saved_route_stops, r.stops.size, r.stops.size) else null,
-                        r.destLabel.takeIf { it.isNotBlank() },
+                        ends,
                     ).joinToString(" · ")
                     if (sub.isNotBlank()) Text(sub, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }

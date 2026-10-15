@@ -341,7 +341,9 @@ tap", in the same section, does the same until you tap Show traffic on the route
 ### Saved routes
 
 "Save this route" in the chooser's ⋮ menu stores the route's line, its two ends, the travel
-mode and a name. A later trip with no stops, in the same mode, that starts within 1 km of the
+mode and a name, "Route to <end>" or "<start> to <end>" when the trip was planned from a
+place; the list under Settings > Saved places shows the start and the end under the name. A
+later trip with no stops, in the same mode, that starts within 1 km of the
 saved start and ends within 250 m of the saved end is offered the saved route (`SavedRoutes`):
 
 - If a route already on offer goes the same way (every 25 m sample within 60 m, in both

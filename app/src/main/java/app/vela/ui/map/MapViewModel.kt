@@ -6608,6 +6608,7 @@ class MapViewModel @Inject constructor(
         val saved = app.vela.core.model.SavedRoute(
             id = java.util.UUID.randomUUID().toString(),
             name = name.trim().ifEmpty { defaultSavedRouteName() },
+            originLabel = savedRouteOriginLabel(),
             mode = s.travelMode.name,
             originLat = route.polyline.first().lat, originLng = route.polyline.first().lng,
             destLat = route.polyline.last().lat, destLng = route.polyline.last().lng,
@@ -6630,10 +6631,19 @@ class MapViewModel @Inject constructor(
         flashStatus(appContext.getString(R.string.route_saved_toast))
     }
 
+    /** "Hamburg to Berlin" when the trip starts at a named place, else "Route to Berlin" (issue #815). */
     fun defaultSavedRouteName(): String {
         val s = _state.value
         val dest = if (s.directionsReversed) (s.directionsOrigin?.name ?: appContext.getString(R.string.mapscreen_your_location)) else s.selected?.name
-        return appContext.getString(R.string.route_save_default, dest ?: "")
+        val from = savedRouteOriginLabel()
+        return if (from.isNotBlank()) appContext.getString(R.string.route_save_default_from, from, dest ?: "")
+        else appContext.getString(R.string.route_save_default, dest ?: "")
+    }
+
+    /** The planned start's name, blank when the trip starts where the phone is. */
+    private fun savedRouteOriginLabel(): String {
+        val s = _state.value
+        return (if (s.directionsReversed) s.selected?.name else s.directionsOrigin?.name).orEmpty()
     }
 
     /** Open a saved route in the chooser: a RUN loads its stops in order, from where you are; a

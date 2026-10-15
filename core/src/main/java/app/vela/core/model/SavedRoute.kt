@@ -25,6 +25,9 @@ data class SavedRoute(
     val stops: List<SavedStop> = emptyList(),
     /** Shown on the search page; every saved route is in the Saved sheet either way. */
     val pinned: Boolean = false,
+    /** The start's name when the route was planned from a place rather than the phone's
+     *  position, for "Hamburg to Berlin" in the list (issue #815); blank before 2026-10-14. */
+    val originLabel: String = "",
 ) {
     val isRun: Boolean get() = stops.isNotEmpty()
     val origin: LatLng get() = LatLng(originLat, originLng)

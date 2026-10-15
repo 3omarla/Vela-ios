@@ -3348,8 +3348,11 @@ the shared 12 s timeout cuts it off.
 #### Saved routes
 
 "Save this route" in the route chooser's menu stores a `SavedRoute` (encoded 1e-5 polyline,
-ends, mode, name; `SavedRouteStore`, prefs `vela_saved_routes`). Settings > Saved places lists
-them. They are not in the saved-places export.
+ends, mode, name, and the start's name when the trip was planned from a place, `originLabel`;
+`SavedRouteStore`, prefs `vela_saved_routes`). The default name is "Route to <end>", or
+"<start> to <end>" from a named start (`defaultSavedRouteName`, issue #815), and the list under
+Settings > Saved places shows "<start> to <end>" under the name when the start is known. They
+are not in the saved-places export.
 
 - A later trip with no stops, the same mode, a start within `SavedRoutes.ORIGIN_M` (1 km) and
   an end within `DEST_M` (250 m) gets it offered. A route already on offer that is the same way

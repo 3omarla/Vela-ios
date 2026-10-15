@@ -108,7 +108,8 @@ What Vela Maps does today, one line per feature. How each one works is in [SPEC.
 - Walking uses the open foot router. "Bike routes prefer bike lanes and quiet streets" is on by
   default.
 - A step list before you start. Tap a step to see it on the map.
-- "Save this route" keeps a route and offers it as "Your route" for the same trip.
+- "Save this route" keeps a route and offers it as "Your route" for the same trip, named
+  "<start> to <end>" when the trip was planned from a place.
 - "Add to home screen" pins a trip as a shortcut. The share button sends the trip as text.
 - A warning when the destination or a stop closes around your arrival.
 - "Live traffic only when I tap" plans on the open router until you tap Show traffic.
