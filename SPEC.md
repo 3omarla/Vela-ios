@@ -3914,7 +3914,10 @@ A version query on `BAKED_URL` moves the map cache off old tiles after a rebake.
 
 - The traffic raster (`vela-traffic`, opacity 0.6) sits above `building-3d`, else `building`, else
   below the first symbol layer, so footprints do not paint over the congestion colors. With
-  satellite on it sits above the imagery.
+  satellite on it sits above the imagery. Its source stops at z16 (issue #800): closer in,
+  MapLibre scales the z16 tile, whose lines Google draws thin, so the layer reads the same
+  everywhere; z17 and z18 requests were up to 16 per z16 tile, Google throttled them, and the
+  tiles that never came left far-out tiles stretched into fat bands beside bare patches.
 - It carries a 900 ms `raster-fade-duration`. Google's tiles expire while the map is open, and
   at the default 300 ms a replaced tile reads as the whole layer flickering.
 - It is not drawn during a drive (`navMode`), whatever the setting: the route line carries the

@@ -376,6 +376,9 @@ off the list when it has been.
 - The car's speed badge and limit sign sized with the screen (#817): seen on the desktop head
   unit's 800 by 480 profile in a demo drive, the badge and the sign at the template's button
   size. Not seen: the 1280 by 720 profile with the new sizes, or a real head unit.
+- The traffic layer's tiles stop at z16 (#800): seen on a 4a at z17.5 over a downtown, two z16
+  requests for the view where there were fourteen at z18, the bands scaled and even. Not seen:
+  the reporter's phone, where close-up tiles never arrived.
 
 ### Open from the October 2026 audit
 

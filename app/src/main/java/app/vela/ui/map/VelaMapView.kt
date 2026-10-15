@@ -7642,7 +7642,12 @@ private fun ensureTraffic(style: Style, on: Boolean) {
     val present = style.getLayer(TRAFFIC_LAYER) != null
     if (on && !present) {
         if (style.getSource(TRAFFIC_SRC) == null) {
-            style.addSource(RasterSource(TRAFFIC_SRC, TileSet("2.2.0", TRAFFIC_TILES), 256))
+            // Tiles up to z16 only (issue #800): past that MapLibre scales the z16 tile, which
+            // Google draws with thin lines, so the close-up view reads the same everywhere. Asking
+            // for z17 and z18 tiles meant up to 16 requests per z16 tile, Google throttled them
+            // per connection, and the ones that never came left z13 tiles stretched into fat bands
+            // next to bare patches.
+            style.addSource(RasterSource(TRAFFIC_SRC, TileSet("2.2.0", TRAFFIC_TILES).apply { maxZoom = 16f }, 256))
         }
         val layer = RasterLayer(TRAFFIC_LAYER, TRAFFIC_SRC).withProperties(
             // Subdue it: it's a browse-only overlay now (nav uses the per-segment route
