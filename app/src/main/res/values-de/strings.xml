@@ -1137,7 +1137,7 @@
         <item quantity="other">Für %1$d Abschnitte gibt es eine neuere Version</item>
     </plurals>
     <string name="settings_confirm_end_nav">Vor dem Beenden der Navigation fragen</string>
-    <string name="settings_confirm_end_nav_hint">Das rote X und Zurück fragen während der Fahrt erst nach, damit ein versehentliches Tippen sie nicht beendet</string>
+    <string name="settings_confirm_end_nav_hint">„Zurück-Taste“ fragt während der Fahrt immer zuerst, ob die Navigation beendet werden soll. Wenn diese Option aktiviert ist, fragt auch die \"Taste-X\" danach.</string>
     <string name="nav_end_confirm_title">Navigation beenden?</string>
     <string name="nav_end_confirm_body">Die Route und ihre Stopps werden gelöscht.</string>
     <string name="nav_end_confirm_end">Beenden</string>
