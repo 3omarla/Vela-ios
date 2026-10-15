@@ -11,8 +11,10 @@ times are green or red, canceled calls are struck through. Tap a stop there to o
 Directions in transit mode list trips with their times, lines and walks. Chips set the time
 (Leave now, Depart at, Arrive by, Last available), the vehicles to prefer, and fewer transfers
 or less walking. A picked time is kept while the sheet is swiped down and back, until its time
-has passed or another destination is chosen. Expanding a trip draws it on the map. Starting it opens a pane that guides you
-leg by leg, speaks each one and moves on when you reach a leg's end.
+has passed or another destination is chosen. Expanding a trip draws it on the map, and it stays
+expanded while the sheet is swiped down and back. Starting it opens a pane that guides you
+leg by leg, speaks each one and moves on when you reach a leg's end; the last card's button
+reads Done and closes the pane.
 
 "Highlight transit lines" draws rail lines in their own colors. With no connection, a stop whose
 board you opened before still shows it, marked with when it was last seen.

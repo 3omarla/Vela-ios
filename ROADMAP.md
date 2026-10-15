@@ -359,6 +359,7 @@ off the list when it has been.
   showed the count, the regions updated in turn under one card, and a place pack whose delta did
   not fit fell back to the whole file as a row's own Update does. Not seen: Cancel mid-run, or
   a drive started during the run.
+- The transit guidance pane's last card ends with Done (#811): seen on a 4a, a four-leg bus trip stepped to its end, the card's Back and Done, and Done back on the map.
 
 ### Open from the October 2026 audit
 

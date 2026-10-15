@@ -5310,7 +5310,11 @@ one destination per `SettingsSection`. `SettingsHub` holds the category rows and
 - `STEPS`, `SHAPES` and `NONE` do not slide, and `STEPS` to or from `NAV_CONTROLS` is not
   animated here. The nav bar and the step list share one height animation in `StepsSheet`, whose
   back handler finishes the close animation before clearing the state.
-- Transit guidance and the transit route-detail sheet use `SheetTransition` too.
+- Transit guidance and the transit route-detail sheet use `SheetTransition` too. The guidance
+  pane's last card, "You have arrived", carries Done in place of Next and ends the guidance
+  (issue #811). Which itineraries are expanded in the directions panel is held in
+  `TransitExpanded`, keyed by the itinerary, so an expanded route survives the panel dropping
+  to its card (issue #812); a new set of results prunes the keys.
 - Outgoing content ignores pointer input, is hidden from accessibility, and reads
   `LocalSheetActive` as false, which disables its own back handlers.
 - Predictive back translates the current sheet by its measured height times the gesture

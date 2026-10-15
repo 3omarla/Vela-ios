@@ -2529,8 +2529,10 @@ fun TransitNavSheet(
                 FilledTonalButton(onClick = onBack, enabled = nav.stepIndex > 0, modifier = Modifier.weight(1f)) {
                     Text(stringResource(R.string.settings_back))
                 }
-                Button(onClick = onNext, modifier = Modifier.weight(1f)) {
-                    Text(stringResource(R.string.transit_nav_next))
+                // The last card's button ends the guidance (issue #811): Next had nothing left
+                // to advance to and only said the arrival line again.
+                Button(onClick = if (nav.arrived) onEnd else onNext, modifier = Modifier.weight(1f)) {
+                    Text(stringResource(if (nav.arrived) R.string.nav_done else R.string.transit_nav_next))
                 }
             }
         }
