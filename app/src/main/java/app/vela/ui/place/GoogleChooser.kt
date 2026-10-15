@@ -564,11 +564,8 @@ fun GoogleStyleDirectionsPanel(
                         Spacer(Modifier.width(8.dp))
                         Text(stringResource(R.string.exp_chooser_add_stops))
                     }
-                    FilledTonalButton(onClick = onShare) {
-                        Icon(Sym.Share, contentDescription = null, modifier = Modifier.size(18.dp))
-                        Spacer(Modifier.width(8.dp))
-                        Text(stringResource(R.string.place_share))
-                    }
+                    // Share is the header's round button alone (issue #814): a second one here did
+                    // the same thing.
                 }
             }
         }

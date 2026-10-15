@@ -5180,8 +5180,9 @@ the catalog, the ones switched off included; a pick runs that search. The one-bu
   `classicRoutePicker` sets the default for anyone who never touched the switch.
 - On: `GoogleStyleDirectionsPanel` (`ui/place/GoogleChooser.kt`). The mode is the title, the mode
   tabs carry each mode's time, one summary shows the selected route with the alternates behind an
-  "other routes" line and as time bubbles on the map, and a bottom bar has Start, Add stops and
-  Share. It has three states: minimized, summary and list. Tapping a step in the list drops
+  "other routes" line and as time bubbles on the map, and a bottom bar has Start and Add stops
+  (Share is the header's round button alone, issue #814). It has three states: minimized,
+  summary and list. Tapping a step in the list drops
   the picker to the summary, so the map shows the step, and `startNav` clears the previewed
   step.
 - Off: the classic `DirectionsPanel`, which lists every route. Transit always uses it.
