@@ -589,6 +589,7 @@
     <string name="lists_empty_hint">Ainda sem listas. Toque em Nova ou guarde um local a partir da sua página.</string>
     <plurals name="lists_place_count">
         <item quantity="one">%1$d local</item>
+        <item quantity="many">%1$d locais</item>
         <item quantity="other">%1$d locais</item>
     </plurals>
     <string name="navservice_notif_eta">Chegada %1$s</string>
@@ -669,8 +670,9 @@
     <string name="settings_layers_button">Mostrar botão de camadas</string>
     <string name="settings_layers_button_hint">O botão do mapa para satélite, trânsito, transporte e terreno.</string>
     <plurals name="topcard_more_stops">
-        <item quantity="one">mais %d parada</item>
-        <item quantity="other">mais %d paradas</item>
+        <item quantity="one">mais %d paragem</item>
+        <item quantity="many">mais %d paragens</item>
+        <item quantity="other">mais %d paragens</item>
     </plurals>
     <string name="settings_places">Locais</string>
     <string name="settings_privacy">Privacidade</string>
@@ -1030,6 +1032,7 @@
     <string name="routing_offer_body">Obtém as estradas, os locais e o mapa desta região, cerca de %1$s. Os recálculos ficam mais rápidos e as indicações funcionam sem rede. As transferências estão em Definições, Mapas offline.</string>
     <plurals name="exp_chooser_alts">
         <item quantity="one">%1$d outra rota</item>
+        <item quantity="many">%1$d outras rotas</item>
         <item quantity="other">%1$d outras rotas</item>
     </plurals>
     <string name="nav_hold_controls">Pausar ou silenciar</string>
@@ -1177,6 +1180,7 @@
     <string name="route_save_keep_stops_hint">Desligado: as paragens só definem o caminho, e a rota é proposta junto das outras para este trajeto.</string>
     <plurals name="saved_route_stops">
         <item quantity="one">%1$d paragem</item>
+        <item quantity="many">%1$d paragens</item>
         <item quantity="other">%1$d paragens</item>
     </plurals>
     <string name="mapscreen_section_routes">As suas rotas</string>
@@ -1413,13 +1417,13 @@
     </plurals>
     <plurals name="settings_takeout_need_google_none">
         <item quantity="one">%1$d local precisa de ser verificado com Google, por isso %2$s não foi executado.</item>
-        <item quantity="many">%1$s locais precisam de ser verificados com Google, por isso %2$s não foram executado.</item>
-        <item quantity="other">%1$s locais precisam de ser verificados com Google, por isso %2$s não foram executado.</item>
+        <item quantity="many">%1$d locais precisam de ser verificados com Google, por isso %2$s não foram executado.</item>
+        <item quantity="other">%1$d locais precisam de ser verificados com Google, por isso %2$s não foram executado.</item>
     </plurals>
     <string name="settings_takeout_busy">Uma lista ainda está a ser importada, espere que termine.</string>
     <string name="settings_map_look">Aspeto do mapa</string>
     <string name="settings_map_look_liberty">Vela</string>
-    <string name="settings_map_look_bright">Claro</string>
+    <string name="settings_map_look_bright">Bright</string>
     <string name="settings_map_look_positron">Positron</string>
     <string name="settings_map_look_fiord">Fiord</string>
     <string name="settings_map_look_dark">Escuro</string>
