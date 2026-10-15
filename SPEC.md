@@ -4345,7 +4345,9 @@ inside the region, or one the region should have and lacks). The row's Update bu
 archives, then the routing file. Routing files have no patches and download whole. "Update
 all" under Update downloaded regions (`updateAllRegions`, shown with the count when any row
 has one, issue #801) runs the same for every such region in turn, under one download card;
-Cancel stops after the region in hand.
+Cancel stops after the region in hand. An installed region's row ends with "updated <date>"
+from the newest installed revision of its routing file or place pack (`regionInstalledRev`;
+the catalog's revisions are yyyymmdd dates, anything else shows nothing).
 
 #### Place pack deltas
 

@@ -10269,6 +10269,13 @@ class MapViewModel @Inject constructor(
           }
     }
 
+    /** The newest bake installed for [region], its routing file's or its place pack's, as the
+     *  catalog's revision (a yyyymmdd date), 0 when nothing is installed (issue #801). */
+    fun regionInstalledRev(region: app.vela.offline.RoutingRegion): Int {
+        val pack = packFor(region)?.let { p -> _state.value.poiPackInstalledRevs[p.id] ?: 0 } ?: 0
+        return maxOf(obfStore.installedRev(region.id), pack)
+    }
+
     /** [region]'s place pack from the cached catalog: its own, or its parent's (RegionPacks). */
     fun packFor(region: app.vela.offline.RoutingRegion): app.vela.offline.RoutingRegion? =
         app.vela.offline.RegionPacks.packFor(region, _state.value.poiPackRegions, _state.value.poiPackInstalledIds)

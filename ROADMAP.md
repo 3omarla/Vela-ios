@@ -379,6 +379,8 @@ off the list when it has been.
 - The traffic layer's tiles stop at z16 (#800): seen on a 4a at z17.5 over a downtown, two z16
   requests for the view where there were fourteen at z18, the bands scaled and even. Not seen:
   the reporter's phone, where close-up tiles never arrived.
+- Each installed region's row ends with its newest bake's date (#801): seen on a 4a, two regions
+  reading "updated Oct 1, 2026". Not seen: a region whose routing file is newer than its pack.
 
 ### Open from the October 2026 audit
 
@@ -445,10 +447,6 @@ Found reading everything since 0.4.1912 and not fixed yet.
   ones. Not started. The order and hidden set are keyed by the chip's query, so a custom chip
   would fit the same store; the open questions are the icon and what the offline store expands
   for a word it does not know.
-- Zoom to the next turn, the driver's asks (#781): the camera kept tilted however far the turn
-  is, the turn held near the screen's middle by turning the camera up to 45 degrees off the
-  heading, and the same on the car screen. Not started; the flattening below z15 is there for
-  the frame rate (SPEC 4.7, Tilt), and the car has its own framing.
 - `?cid=` links (#796): `maps.google.com/?cid=<id>` names nothing and Google answers it with a
   page, not a redirect, so opening one needs the hidden page load the reviews panel already
   does, reading the place off the page's final URL. Not started; short share links open.
@@ -465,6 +463,19 @@ Found reading everything since 0.4.1912 and not fixed yet.
   all of which the tiles carry today; an elevation profile for a route from the terrain tiles
   the shading already uses. Not in the tiles: the hiking difficulty grade, cliffs, contour lines,
   which need a bake of their own. Not started.
+- Zoom to the next turn, the driver's asks (#781): the camera turned toward the next turn, up
+  to 45 degrees off the heading, so a far turn sits in the frame instead of off its edge, and
+  the same zoom to the turn on the car screen, which zooms by speed alone today. Next.
+- Snapping the dot to the road with no route (#803): the browse and driving-mode dot is the raw
+  fix, and a weak head unit GPS puts it a lane or a row of houses off. Vela already finds the
+  road under the car for the speed limit; a snap onto it while moving, released at junctions
+  and when the fix leaves the road, is the shape. Waiting on the reporter's recording and his
+  unit's accuracy figure. Not started.
+- A swinging heading at a standstill and a speed readout that jumps at a steady speed (#818,
+  #819, one Pixel 10 Pro, phone and car): the fix handler takes a bearing over 0.5 m/s and
+  derives one from 3 m of movement, which may be too loose for that unit's fixes. Needs a
+  diagnostics export of such a drive before the gates move; never seen on the project's own
+  phones or head unit.
 - Street furniture on the map (#813): benches, bins, drinking water, toilets, shelters, hydrants
   and the like at z17 and up. The tiles carry waste baskets, drinking water, toilets, shelters,
   playgrounds, pitches and bicycle parking, so those are a layer with icons of our own; benches,

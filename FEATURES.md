@@ -214,7 +214,8 @@ What Vela Maps does today, one line per feature. How each one works is in [SPEC.
 - Offline routes cover driving, walking and cycling, with spoken turns, speed limits and avoid
   options, and are labeled offline.
 - "Update downloaded regions" applies small updates on Wi-Fi (the default), on mobile data too, or
-  never by itself, and an "Update all" button does every region with an update in turn.
+  never by itself, and an "Update all" button does every region with an update in turn. Each
+  installed region says when it was last updated.
 - "Store downloaded regions on" moves offline data to an SD card or back.
 - A storage breakdown, "Clear map cache" and "Delete all offline data".
 - "Include places with downloads" adds place data to a region. "Keep viewed places for offline"

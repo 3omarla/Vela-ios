@@ -602,9 +602,9 @@ private fun RegionRow(
                     (packDownloading || updating) && state.updateStage == 2 -> stringResource(R.string.settings_routing_full, if (packDownloading) state.poiPackDownloadPct else state.regionFilePct)
                     packDownloading -> stringResource(R.string.settings_routing_places_downloading, state.poiPackDownloadPct)
                     updating -> stringResource(R.string.settings_routing_updating, state.regionFilePct)
-                    updateAvailable -> stringResource(R.string.settings_routing_update_available)
-                    installed && packInstalled -> stringResource(R.string.settings_routing_installed_places)
-                    installed -> stringResource(R.string.settings_routing_installed)
+                    updateAvailable -> stringResource(R.string.settings_routing_update_available) + updatedOn(vm.regionInstalledRev(region))
+                    installed && packInstalled -> stringResource(R.string.settings_routing_installed_places) + updatedOn(vm.regionInstalledRev(region))
+                    installed -> stringResource(R.string.settings_routing_installed) + updatedOn(vm.regionInstalledRev(region))
                     here -> stringResource(R.string.settings_routing_size_installed_here, fmtMb(regionInstalledMb(region, packRegion, state.regionExtrasMb[region.id] ?: 0)))
                     else -> stringResource(R.string.settings_routing_size_installed, fmtMb(regionInstalledMb(region, packRegion, state.regionExtrasMb[region.id] ?: 0)))
                 },
@@ -765,3 +765,16 @@ private fun CacheRow(
 
 internal fun fmtMb(mb: Int): String =
     if (mb >= 1024) String.format(java.util.Locale.getDefault(), "%.1f GB", mb / 1024f) else "$mb MB"
+
+/** " · updated Sep 30, 2026" from a catalog revision of the form yyyymmdd (issue #801), or nothing
+ *  for a revision that is not a date. */
+@Composable
+private fun updatedOn(rev: Int): String {
+    if (rev < 20000101 || rev > 29991231) return ""
+    val date = runCatching {
+        java.time.LocalDate.of(rev / 10000, rev / 100 % 100, rev % 100)
+            .format(java.time.format.DateTimeFormatter.ofLocalizedDate(java.time.format.FormatStyle.MEDIUM))
+    }.getOrNull() ?: return ""
+    return " · " + stringResource(R.string.settings_region_updated_on, date)
+}
+

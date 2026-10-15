@@ -274,7 +274,8 @@ and when a working network appears, at most once in 20 hours. It applies every p
 patch that fits an installed archive or place pack and pulls newer grid cells. It never
 downloads a region whole and it skips a drive in progress. Under the same heading, "Update
 all" with the count does every region that has an update, one after another, the same as
-each row's own Update button.
+each row's own Update button. Each installed region's row ends with the date of its newest
+installed bake.
 
 The places and basemap catalogs are cached for an hour (`MANIFEST_TTL_MS`), so a process that
 lives for days still sees a new revision. The routing catalog is also written to disk on
