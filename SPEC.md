@@ -5537,7 +5537,10 @@ The map:
 - From z13.5 the renderer draws the `CarBridge` lights, stop signs and speed cameras as dots,
   plus the plate cameras along the route from the bundled set.
 - The speed badge and the limit sign draw during a drive and on the drive-mode screen
-  (`setDriveScreen`), with `SpeedDisplay` on.
+  (`setDriveScreen`), with `SpeedDisplay` on. They scale with the screen (issue #817): the
+  badge's radius is a 18th of the shorter side, 22 to 46 px, and the text, the sign and its
+  strokes follow by the same factor, so on an 800 by 480 unit they are three fifths of the old
+  fixed size and at 828 px and up the old size.
 
 Drive mode (`DriveCarScreen`, a `NavigationTemplate` with no navigation info): the map alone, no
 route and no list, opened from the landing strip's Drive action. Its strip holds search, saved

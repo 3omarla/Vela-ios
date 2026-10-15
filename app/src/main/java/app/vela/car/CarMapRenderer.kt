@@ -1004,11 +1004,18 @@ class CarMapRenderer(
         // surface's corner: the template's map action strip (overview, zoom) sits over the
         // surface's bottom right, and the badge drew under it (user 2026-09-22, stock Pixel 9). Scaled like the puck so a small unit keeps room.
         val vis = safeArea()
-        val rad = (minOf(width, height) / 12f).coerceIn(30f, 46f)
+        // Sized with the screen, text and the limit sign included (issue #817): on a small unit
+        // the badge and the sign at their old fixed sizes took more of the screen than the
+        // template's own bars. 46 px radius is the old look, kept on a 720 px screen and up.
+        val rad = (minOf(width, height) / 18f).coerceIn(22f, 46f)
+        val k = rad / 46f
+        badgeNum.textSize = 42f * k; badgeUnit.textSize = 18f * k
+        limitNum.textSize = 36f * k; limitWord.textSize = 13f * k
+        limitRing.strokeWidth = 7f * k; limitEdge.strokeWidth = 3f * k
         val cx = vis.right - rad - 16f; val cy = vis.bottom - rad - 20f
-        canvas.drawRoundRect(RectF(cx - rad, cy - rad, cx + rad, cy + rad), 20f, 20f, badgeBg)
-        canvas.drawText(num.toString(), cx, cy + 6f, badgeNum)
-        canvas.drawText(unit, cx, cy + 30f, badgeUnit)
+        canvas.drawRoundRect(RectF(cx - rad, cy - rad, cx + rad, cy + rad), 20f * k, 20f * k, badgeBg)
+        canvas.drawText(num.toString(), cx, cy + 6f * k, badgeNum)
+        canvas.drawText(unit, cx, cy + 30f * k, badgeUnit)
 
         speedLimitKmh?.let { kmh ->
             val limit = (if (imperial) kmh / 1.609344 else kmh).roundToInt()
@@ -1016,20 +1023,20 @@ class CarMapRenderer(
             limitNum.color = if (v > limit + (if (imperial) 3 else 5)) LIMIT_OVER else LIMIT_INK
             val ly = cy
             if (imperial) {
-                val hw = 34f; val hh = 44f
-                val lx = cx - rad - 14f - hw
+                val hw = 34f * k; val hh = 44f * k
+                val lx = cx - rad - 14f * k - hw
                 val sign = RectF(lx - hw, ly - hh, lx + hw, ly + hh)
-                canvas.drawRoundRect(sign, 9f, 9f, limitDisc)
-                canvas.drawRoundRect(sign, 9f, 9f, limitEdge)
-                canvas.drawText("SPEED", lx, ly - 24f, limitWord)
-                canvas.drawText("LIMIT", lx, ly - 10f, limitWord)
-                canvas.drawText(limit.toString(), lx, ly + 30f, limitNum)
+                canvas.drawRoundRect(sign, 9f * k, 9f * k, limitDisc)
+                canvas.drawRoundRect(sign, 9f * k, 9f * k, limitEdge)
+                canvas.drawText("SPEED", lx, ly - 24f * k, limitWord)
+                canvas.drawText("LIMIT", lx, ly - 10f * k, limitWord)
+                canvas.drawText(limit.toString(), lx, ly + 30f * k, limitNum)
             } else {
-                val lr = 42f
-                val lx = cx - rad - 14f - lr
+                val lr = 42f * k
+                val lx = cx - rad - 14f * k - lr
                 canvas.drawCircle(lx, ly, lr, limitDisc)
                 canvas.drawCircle(lx, ly, lr, limitRing)
-                canvas.drawText(limit.toString(), lx, ly + 14f, limitNum)
+                canvas.drawText(limit.toString(), lx, ly + 14f * k, limitNum)
             }
         }
     }

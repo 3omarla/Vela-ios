@@ -373,6 +373,9 @@ off the list when it has been.
   casing through the right turn onto a cross street and the turns after it, the passed one gone
   with its step; unit-tested on an L-shaped route. Not seen: a roundabout exit or a fork, the
   switch under Navigation turning them off mid-drive, or the car screen, which has none.
+- The car's speed badge and limit sign sized with the screen (#817): seen on the desktop head
+  unit's 800 by 480 profile in a demo drive, the badge and the sign at the template's button
+  size. Not seen: the 1280 by 720 profile with the new sizes, or a real head unit.
 
 ### Open from the October 2026 audit
 
@@ -454,6 +457,15 @@ Found reading everything since 0.4.1912 and not fixed yet.
 - An e-ink look (#789): a map look in black lines on white with no shading beside the five
   under Map look, and a high-contrast app theme without grays. The nearest today is Positron
   with the light theme. Not started; needs someone with an e-ink phone to look at it.
+- A hiking and cycling look (#808): trails dashed by type (path, footway, track, cycleway,
+  steps), paved against unpaved, mountain-bike difficulty, bicycle and foot access, and peaks,
+  all of which the tiles carry today; an elevation profile for a route from the terrain tiles
+  the shading already uses. Not in the tiles: the hiking difficulty grade, cliffs, contour lines,
+  which need a bake of their own. Not started.
+- Street furniture on the map (#813): benches, bins, drinking water, toilets, shelters, hydrants
+  and the like at z17 and up. The tiles carry waste baskets, drinking water, toilets, shelters,
+  playgrounds, pitches and bicycle parking, so those are a layer with icons of our own; benches,
+  hydrants, fountains, single trees and retaining walls wait for our own tiles. Not started.
 
 ## Big bets
 
