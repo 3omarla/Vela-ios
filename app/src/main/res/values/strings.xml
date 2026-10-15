@@ -266,6 +266,8 @@
     <string name="settings_start_view_saved">Vela will open on this view.</string>
     <string name="settings_speed_display">Show speed and speed limit</string>
     <string name="settings_speed_display_hint">Your speed and the posted limit while driving, on the phone and on the car screen</string>
+    <string name="settings_car_speed">Your speed on the car screen</string>
+    <string name="settings_car_speed_hint">Off, the car screen shows the posted limit alone; the car has its own speedometer.</string>
     <string name="mapvm_area_pack_big">Offline search here uses the place pack for all of %1$s. Get it from Settings > Offline maps.</string> <!-- format: %1$s country or state name -->
     <string name="settings_places_shared_pack">Places cover all of %1$s (%2$s)</string> <!-- format: %1$s country or state name, %2$s a size like "1.9 GB" -->
     <string name="settings_routing_places_downloading">Saving places · %1$d%%</string> <!-- format -->

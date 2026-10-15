@@ -183,6 +183,7 @@ class VelaApp : Application(), coil.ImageLoaderFactory {
         app.vela.ui.MapColors.init(this)
         app.vela.ui.MapButtonShape.init(this) // round or square map buttons (issue #797)
         app.vela.ui.TurnArrows.init(this) // arrows on the route at the turns ahead (issue #804)
+        app.vela.ui.CarSpeed.init(this) // the car's speed badge, off by default
         app.vela.ui.LiveReviews.init(this)
         app.vela.ui.ShowReviews.init(this)
         app.vela.ui.LoadPhotos.init(this)

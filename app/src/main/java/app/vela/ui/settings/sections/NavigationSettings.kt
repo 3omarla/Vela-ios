@@ -336,6 +336,15 @@ internal fun NavigationSettingsScreen(vm: MapViewModel, onBack: () -> Unit) {
             onCheckedChange = { app.vela.ui.SpeedDisplay.set(context, it) },
             hint = stringResource(R.string.settings_speed_display_hint),
         )
+        // The car's own badge, nested: off by default since the car has a speedometer.
+        if (app.vela.ui.SpeedDisplay.on.value) {
+            ToggleRow(
+                label = stringResource(R.string.settings_car_speed),
+                checked = app.vela.ui.CarSpeed.on.value,
+                onCheckedChange = { app.vela.ui.CarSpeed.set(context, it) },
+                hint = stringResource(R.string.settings_car_speed_hint),
+            )
+        }
         // Over-the-limit voice alert (issue #404): its own opt-in, off by default. Sits with the
         // other spoken extras; the timing is in :core SpeedingAlerts.
         GroupDivider()

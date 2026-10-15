@@ -9,13 +9,14 @@ their times, and start the drive.
 
 The drive screen is the map with your arrow and the route, a turn card with lane arrows, the
 arrival estimate, and a row of round buttons for mute, pause, search along the route and end. A
-second row on the map recenters, zooms and shows the rest of the route. Your speed sits in the
-bottom corner, with the posted limit beside it when Vela knows it.
+second row on the map recenters, zooms and shows the rest of the route. The posted limit sits in
+the bottom corner when Vela knows it; your speed sits beside it only if "Your speed on the car
+screen" is on under Settings > Navigation, since the car has a speedometer of its own.
 
 With no route, the map behaves as the phone's does: parked, it is north up and centered on you;
 once you move it turns with the car, tilts and zooms out with speed. The Drive button on the
 landing screen puts the list away and leaves the map alone, with search and your saved places a
-tap away and the speed badge in the corner. The traffic layer from the phone's map shows here when
+tap away and the limit sign in the corner. The traffic layer from the phone's map shows here when
 it is on, and the car's settings have a switch for it.
 
 Whether Vela is listed depends on how it was installed. Android Auto refuses an app that Google

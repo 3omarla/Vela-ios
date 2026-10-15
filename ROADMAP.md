@@ -381,6 +381,9 @@ off the list when it has been.
   the reporter's phone, where close-up tiles never arrived.
 - Each installed region's row ends with its newest bake's date (#801): seen on a 4a, two regions
   reading "updated Oct 1, 2026". Not seen: a region whose routing file is newer than its pack.
+- The car's speed badge off by default (`CarSpeed`, under Show speed and speed limit): seen on
+  the desktop head unit's 800 by 480 profile in a demo drive, the limit sign alone in the corner.
+  Not seen: the switch turned on, or a unit with the badge and the sign side by side after it.
 
 ### Open from the October 2026 audit
 

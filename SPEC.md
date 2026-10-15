@@ -844,6 +844,7 @@ the page fills it after load, and a small stub sits beside it.
 | Appearance > Map buttons | `MapButtonShape.mode`, `map_button_shape`, `round` | the locate and parking buttons round, or with 16 dp corners (`square`); the FABs read it through `mapButtonShape`, a getter in place of `CircleShape`'s, so `MapScreen` grows no bytecode |
 | Navigation > Zoom out as far as | `ZoomToTurn.floor`, `zoom_to_turn_floor`, 0 | the floor of Zoom to the next turn, 12, 10 or 8 (Town, Region, Far); 0 is no pick, and the `turnZoomMin` dial decides (4.7, Framing) |
 | Navigation > Turn arrows on the route | `TurnArrows.on`, `turn_arrows_on`, true | arrows on the route through the turns ahead during a drive (issue #804) |
+| Navigation > Your speed on the car screen | `CarSpeed.on`, `car_speed_on`, false | the car's speed badge; off, the limit sign alone |
 | Map > Where the map opens | `StartView.mode`, `start_view`, `here` | the view the map starts on: `here`, `last`, `home`, `place` or `drive`, which is `here` in driving mode (4.7, Where the map opens and Driving mode) |
 | Map > Names on the map | `MapNames.mode`, `map_names`, `english_latin` | which name a road or place label shows for a Latin-script UI: English then the basemap's romanized name, English then the local name, the local name alone, or local and English (4.10, the label rules); rides `styleKey` |
 
@@ -5451,9 +5452,12 @@ the same `:core` singletons as the phone (`CarDeps`).
   `CarToast`, and the route's lights, stop signs and speed cameras to the renderer. A drive
   started with the phone UI closed has no controller and gets neither.
 - Settings > Navigation "Show speed and speed limit" (`SpeedDisplay`, default on) hides the speed
-  badge on the phone and the car, and skips the car's limit lookup. The spoken speeding alert is
-  a separate setting. The car's limit sign follows the phone's: the "SPEED LIMIT" rectangle in
-  miles, the red-ring disc in kilometers, and a red number past 3 mph or 5 km/h over.
+  badge on the phone and the car, and skips the car's limit lookup. Nested under it, "Your speed
+  on the car screen" (`CarSpeed`, `car_speed_on`, default off, user 2026-10-15) draws the car's
+  own badge; off, the car shows the limit sign alone, in the badge's corner, since a car has a
+  speedometer. The spoken speeding alert is a separate setting. The car's limit sign follows the
+  phone's: the "SPEED LIMIT" rectangle in miles, the red-ring disc in kilometers, and a red
+  number past 3 mph or 5 km/h over.
 - The guidance voice is band-limited by the protocol: the Android Auto guidance stream is 16 kHz
   mono.
 

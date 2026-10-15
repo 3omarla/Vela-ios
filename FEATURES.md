@@ -315,8 +315,9 @@ What Vela Maps does today, one line per feature. How each one works is in [SPEC.
 - Search from the car, preview up to three routes, and start the drive. "Navigate to Starbucks"
   from the car's assistant opens the search on it. Gas stations in car
   results show their fuel price.
-- The drive screen has the map, a turn card with lanes, the arrival estimate, your speed and the
-  limit. The map turns with the car, tilts and zooms out with speed.
+- The drive screen has the map, a turn card with lanes, the arrival estimate and the posted limit;
+  your speed too if you switch it on, since the car has its own speedometer. The map turns with
+  the car, tilts and zooms out with speed.
 - With no route the map does the same once you move, and a Drive button puts the list away for a
   map-only view with the speed badge.
 - The car map has the phone's parking lot, plaza, field and trail fills, and shows the traffic

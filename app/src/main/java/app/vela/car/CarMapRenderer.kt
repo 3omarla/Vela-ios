@@ -1013,9 +1013,14 @@ class CarMapRenderer(
         limitNum.textSize = 36f * k; limitWord.textSize = 13f * k
         limitRing.strokeWidth = 7f * k; limitEdge.strokeWidth = 3f * k
         val cx = vis.right - rad - 16f; val cy = vis.bottom - rad - 20f
-        canvas.drawRoundRect(RectF(cx - rad, cy - rad, cx + rad, cy + rad), 20f * k, 20f * k, badgeBg)
-        canvas.drawText(num.toString(), cx, cy + 6f * k, badgeNum)
-        canvas.drawText(unit, cx, cy + 30f * k, badgeUnit)
+        // The badge itself is off by default on the car (CarSpeed): the car has a speedometer.
+        // Without it the limit sign takes the badge's corner.
+        val badge = app.vela.ui.CarSpeed.on.value
+        if (badge) {
+            canvas.drawRoundRect(RectF(cx - rad, cy - rad, cx + rad, cy + rad), 20f * k, 20f * k, badgeBg)
+            canvas.drawText(num.toString(), cx, cy + 6f * k, badgeNum)
+            canvas.drawText(unit, cx, cy + 30f * k, badgeUnit)
+        }
 
         speedLimitKmh?.let { kmh ->
             val limit = (if (imperial) kmh / 1.609344 else kmh).roundToInt()
@@ -1024,7 +1029,7 @@ class CarMapRenderer(
             val ly = cy
             if (imperial) {
                 val hw = 34f * k; val hh = 44f * k
-                val lx = cx - rad - 14f * k - hw
+                val lx = if (badge) cx - rad - 14f * k - hw else vis.right - 16f - hw
                 val sign = RectF(lx - hw, ly - hh, lx + hw, ly + hh)
                 canvas.drawRoundRect(sign, 9f * k, 9f * k, limitDisc)
                 canvas.drawRoundRect(sign, 9f * k, 9f * k, limitEdge)
@@ -1033,7 +1038,7 @@ class CarMapRenderer(
                 canvas.drawText(limit.toString(), lx, ly + 30f * k, limitNum)
             } else {
                 val lr = 42f * k
-                val lx = cx - rad - 14f * k - lr
+                val lx = if (badge) cx - rad - 14f * k - lr else vis.right - 16f - lr
                 canvas.drawCircle(lx, ly, lr, limitDisc)
                 canvas.drawCircle(lx, ly, lr, limitRing)
                 canvas.drawText(limit.toString(), lx, ly + 14f * k, limitNum)
