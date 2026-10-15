@@ -7,8 +7,9 @@
 #
 #   scripts/build-road-features.sh <id> "<Display name>" <geofabrik .osm.pbf URL>
 #
-# Output: gzipped TSV, one node per line, `lat<TAB>lon<TAB>kind` where kind is one letter:
-#   S traffic signal, T stop sign, R level crossing, H speed hump/bump/table/cushion, C speed camera.
+# Output: gzipped TSV, one node per line, `lat<TAB>lon<TAB>kind<TAB>bearing` where kind is one letter:
+#   S traffic signal, T stop sign, R level crossing, H speed hump/bump/table/cushion, C speed camera,
+#   and bearing is the orientation of the road the node holds, 0-179, or empty (road_features_tsv.py).
 # Named `.bin` on purpose (aapt un-gzips `.gz` assets; the app reads these from filesDir, but one
 # convention for every baked dataset). Needs: gh (authenticated), osmium-tool, jq, python3.
 set -euo pipefail
@@ -35,7 +36,7 @@ osmium tags-filter "$WORK/region.osm.pbf" \
 
 # The HIGHWAY ways, for the orientation of the road each control sits on (the app uses it to tell a
 # stop sign that holds you from the one that holds the side street). A failure here is not fatal:
-# the column comes out empty and the app keeps every sign, as it did before.
+# the column comes out empty and the app judges each sign on distance alone.
 echo "→ exporting highway ways (for road bearings)"
 osmium tags-filter "$WORK/region.osm.pbf" w/highway -o "$WORK/ways.osm.pbf" --overwrite 2>/dev/null || true
 WAYS_ARG=""

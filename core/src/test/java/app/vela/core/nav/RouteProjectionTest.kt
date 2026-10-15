@@ -42,8 +42,12 @@ class RouteProjectionTest {
         assertEquals(false, RouteProjection.stopIsOnRoute(poly, cum, LatLng(poly[3].lat + 0.0008, poly[3].lng + 0.004), 90))
     }
 
-    @Test fun `a sign with no known road direction is judged on distance alone`() {
+    @Test fun `a sign with no known road direction has to sit on the route`() {
         assertEquals(true, RouteProjection.stopIsOnRoute(poly, cum, LatLng(poly[3].lat, poly[3].lng + 0.004), null))
+        // 5 m off: the route's own sign.
+        assertEquals(true, RouteProjection.stopIsOnRoute(poly, cum, LatLng(poly[3].lat + 0.000045, poly[3].lng + 0.004), null))
+        // 15 m up the side street: inside STOP_ON_ROUTE_M, but with no road to test it is the cross street's.
+        assertEquals(false, RouteProjection.stopIsOnRoute(poly, cum, LatLng(poly[3].lat + 0.000135, poly[3].lng), null))
         assertEquals(false, RouteProjection.stopIsOnRoute(poly, cum, LatLng(poly[3].lat + 0.0008, poly[3].lng + 0.004), null))
     }
 

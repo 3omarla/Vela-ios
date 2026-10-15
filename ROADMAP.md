@@ -269,6 +269,9 @@ off the list when it has been.
   ahead of time (`NavEngine.upcomingPrompts`).
 - The next stop on Android Auto, and the trip's own time beside it. Built, not run on the
   Desktop Head Unit.
+- Side streets' stop signs left off a drive (#805): the bake's road for a sign from drivable ways
+  and the most minor road at a junction, and the 10 m limit for a sign with no road. Needs a
+  rebaked region driven down a main street, and one drive with no region (the Overpass path).
 - The approach prompt that is not said twice three seconds apart on a short step, and the first
   line of a short step that drops its sign tail so the line at the turn does not cut it. From a
   2026-10-11 trace; unit-tested, not yet heard on a drive.
