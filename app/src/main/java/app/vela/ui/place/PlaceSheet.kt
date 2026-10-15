@@ -2461,6 +2461,8 @@ private fun TransitBoard(
                     value = app.vela.ui.DemoClock.nowSec()
                 }
             }
+            // A new set of results drops the expansions kept for the old one (issue #812).
+            LaunchedEffect(trips) { app.vela.ui.TransitExpanded.prune(trips.map { app.vela.ui.TransitExpanded.keyOf(it) }) }
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 trips.take(6).forEach { TransitRow(it, nowSec, ink, dim, dark, onWalkDirections, onStartTransit, onPreview) }
             }
@@ -2568,7 +2570,10 @@ private fun departsInLabel(depEpochSec: Long?, nowSec: Long): String? {
 
 @Composable
 private fun TransitRow(t: TransitItinerary, nowSec: Long, ink: Color, dim: Color, dark: Boolean, onWalkDirections: suspend (LatLng, LatLng) -> List<String> = { _, _ -> emptyList() }, onStartTransit: (TransitItinerary) -> Unit = {}, onPreview: (TransitItinerary, Boolean) -> Unit = { _, _ -> }) {
-    var expanded by remember { mutableStateOf(false) }
+    // Held outside the row (issue #812): the row leaves composition when the sheet drops to its
+    // card and came back collapsed, with its itinerary still drawn on the map.
+    val expandedKey = app.vela.ui.TransitExpanded.keyOf(t)
+    val expanded = app.vela.ui.TransitExpanded.open[expandedKey] == true
     val canExpand = t.steps.isNotEmpty()
     // "Departs in X min" from the parsed departure epoch, and the real-time signal (a leg
     // carrying a live delay or a real-time-vs-timetable time) so the countdown can read green.
@@ -2580,7 +2585,7 @@ private fun TransitRow(t: TransitItinerary, nowSec: Long, ink: Color, dim: Color
             .fillMaxWidth()
             .clip(RoundedCornerShape(12.dp))
             .background(SheetPalette.row(dark))
-            .then(if (canExpand) Modifier.dpadHighlight(RoundedCornerShape(12.dp)).clickable { expanded = !expanded; onPreview(t, expanded) } else Modifier)
+            .then(if (canExpand) Modifier.dpadHighlight(RoundedCornerShape(12.dp)).clickable { app.vela.ui.TransitExpanded.open[expandedKey] = !expanded; onPreview(t, !expanded) } else Modifier)
             .padding(horizontal = 12.dp, vertical = 10.dp),
         verticalArrangement = Arrangement.spacedBy(6.dp),
     ) {

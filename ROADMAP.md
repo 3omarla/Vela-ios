@@ -360,6 +360,7 @@ off the list when it has been.
   not fit fell back to the whole file as a row's own Update does. Not seen: Cancel mid-run, or
   a drive started during the run.
 - The transit guidance pane's last card ends with Done (#811): seen on a 4a, a four-leg bus trip stepped to its end, the card's Back and Done, and Done back on the map.
+- An expanded transit route stays expanded across a swipe of the sheet (#812, `TransitExpanded`): seen on a 4a, a bus itinerary expanded, the sheet dropped to its card by its handle and raised again with the legs still open.
 
 ### Open from the October 2026 audit
 
