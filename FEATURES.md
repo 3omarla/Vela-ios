@@ -322,7 +322,8 @@ What Vela Maps does today, one line per feature. How each one works is in [SPEC.
   map-only view with the speed badge.
 - The car map has the phone's parking lot, plaza, field and trail fills, and shows the traffic
   layer when it is on.
-- Buttons for mute, pause, search along the route and end, plus recenter, zoom and overview.
+- Buttons for mute and end over the map, plus recenter and overview; pause, zoom and the search
+  along the route stay on the phone.
 - Camera, speeding and closing-soon alerts appear as car toasts.
 - The car's settings cover spoken directions, avoiding tolls, highways and ferries, and the
   traffic layer.

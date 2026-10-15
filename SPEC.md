@@ -5446,8 +5446,12 @@ the same `:core` singletons as the phone (`CarDeps`).
   (`showPreview(route, others)`), with a red dot at the destination. The drive draws the same
   dot, and the line ahead in the phone's paused lavender while the drive is paused.
 - Map action strips: recenter, zoom in, zoom out on the landing map; overview (re-frame the
-  selected route), zoom in, zoom out on the preview; recenter, zoom in, zoom out and an overview
-  toggle (`toggleOverview`, exempt from the pan auto-recenter) on the drive.
+  selected route), zoom in, zoom out on the preview; recenter and an overview toggle
+  (`toggleOverview`, exempt from the pan auto-recenter) on the drive. The drive's top strip is
+  mute and end alone (user 2026-10-15, after a side-by-side with Google's car screen): pause and
+  the search along the route went, they stay on the phone, and the drive's zoom buttons went
+  with them; a pinch zooms where the unit takes one. The route line on the car is the phone's
+  blue (`#1f6feb`) at 20 px, the driven part 18 px gray, alternates 14 px.
 - `CarBridge` carries the phone controller's spoken alerts (cameras, speeding, closing soon) to a
   `CarToast`, and the route's lights, stop signs and speed cameras to the renderer. A drive
   started with the phone UI closed has no controller and gets neither.

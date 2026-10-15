@@ -192,14 +192,9 @@ class ActiveNavCarScreen(carContext: CarContext, private val deps: CarDeps) :
                 },
             )
         }
-        // Hold the drive (the phone's pause): the route and the figures stay, the guidance stops.
-        strip.addAction(
-            carAction(if (s.paused) app.vela.R.drawable.ic_car_play else app.vela.R.drawable.ic_car_pause) {
-                deps.navSession.setPaused(!deps.navSession.state.value.paused); invalidate()
-            },
-        )
-        // Fuel, food, coffee along the drive; a pick becomes the next stop.
-        strip.addAction(carAction(app.vela.R.drawable.ic_car_search) { screenManager.push(AlongRouteCarScreen(carContext, deps)) })
+        // Two buttons up here (user 2026-10-15, after a side-by-side with Google's car screen):
+        // mute and end. Pause and the search along the route stay on the phone, where a drive is
+        // paused and stops are added; four round buttons over the map read as clutter on a car.
         strip.addAction(
             Action.Builder()
                 .setIcon(carIcon(app.vela.R.drawable.ic_car_close))
@@ -211,11 +206,11 @@ class ActiveNavCarScreen(carContext: CarContext, private val deps: CarDeps) :
                 .build(),
         )
 
-        // Google-style map controls: recenter (re-follow the puck) + zoom in/out.
+        // Map controls: recenter (re-follow the puck) and the overview. The zoom buttons came
+        // with the phone-parity work (#749) and went with the clutter cut above; a pinch zooms
+        // on units that take one, and the drive's zoom follows speed anyway.
         val mapStrip = ActionStrip.Builder()
             .addAction(carAction(app.vela.R.drawable.ic_car_recenter) { deps.mapRenderer(carContext).follow() })
-            .addAction(carAction(app.vela.R.drawable.ic_car_zoom_in) { deps.mapRenderer(carContext).zoomBy(1.0) })
-            .addAction(carAction(app.vela.R.drawable.ic_car_zoom_out) { deps.mapRenderer(carContext).zoomBy(-1.0) })
             // Overview: the whole remaining route framed, tap again (or recenter) to follow again.
             .addAction(carAction(app.vela.R.drawable.ic_car_overview) { deps.mapRenderer(carContext).toggleOverview() })
             .build()

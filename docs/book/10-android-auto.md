@@ -8,8 +8,8 @@ food, coffee and parking. From there you search or pick a place, preview up to t
 their times, and start the drive.
 
 The drive screen is the map with your arrow and the route, a turn card with lane arrows, the
-arrival estimate, and a row of round buttons for mute, pause, search along the route and end. A
-second row on the map recenters, zooms and shows the rest of the route. The posted limit sits in
+arrival estimate, and two round buttons, mute and end; pausing and the search along the route are
+done on the phone. A second row on the map recenters and shows the rest of the route. The posted limit sits in
 the bottom corner when Vela knows it; your speed sits beside it only if "Your speed on the car
 screen" is on under Settings > Navigation, since the car has a speedometer of its own.
 

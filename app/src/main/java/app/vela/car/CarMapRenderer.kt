@@ -249,19 +249,19 @@ class CarMapRenderer(
         requestRender()
     }
 
-    private val drivenPaint = strokePaint("#7b8494", 14f)
-    private val otherRoutePaint = strokePaint("#8a93a3", 11f)
-    private val pausedPaint = strokePaint("#9c8ad6", 15f) // the phone's paused-drive lavender
+    private val drivenPaint = strokePaint("#7b8494", 18f)
+    private val otherRoutePaint = strokePaint("#8a93a3", 14f)
+    private val pausedPaint = strokePaint("#9c8ad6", 20f) // the phone's paused-drive lavender
     private val pinFill = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = Color.parseColor("#ea4335") }
     private val pinRing = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = Color.WHITE; style = Paint.Style.STROKE; strokeWidth = 4f }
     private val pinDot = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = Color.WHITE }
     private val bgPaint = Paint().apply { color = Color.parseColor("#0f1420") }
     // Traffic colors (match the phone route line): free-flow blue → amber → red.
     private val trafficPaints = mapOf(
-        0 to strokePaint("#4c8dff", 15f), // free-flowing
-        1 to strokePaint("#f9a825", 15f), // moderate
-        2 to strokePaint("#e53935", 15f), // heavy
-        3 to strokePaint("#8e1414", 15f), // severe
+        0 to strokePaint("#1f6feb", 20f), // free-flowing, the phone route's blue; wider and darker like Google's car line (user 2026-10-15)
+        1 to strokePaint("#f9a825", 20f), // moderate
+        2 to strokePaint("#e53935", 20f), // heavy
+        3 to strokePaint("#8e1414", 20f), // severe
     )
     private val badgeBg = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = Color.parseColor("#cc1b1f2b") }
     private val badgeNum = Paint(Paint.ANTI_ALIAS_FLAG).apply {

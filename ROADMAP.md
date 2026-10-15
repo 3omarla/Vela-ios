@@ -384,6 +384,10 @@ off the list when it has been.
 - The car's speed badge off by default (`CarSpeed`, under Show speed and speed limit): seen on
   the desktop head unit's 800 by 480 profile in a demo drive, the limit sign alone in the corner.
   Not seen: the switch turned on, or a unit with the badge and the sign side by side after it.
+- The car's drive screen cut to mute and end up top, recenter and overview on the edge, and the
+  route at 20 px in the phone's blue (user 2026-10-15, after Google's car screen side by side):
+  seen on the desktop head unit at 1280 by 720 in a demo drive. Not seen: a real unit, or the
+  landing and preview screens, which keep their zoom buttons.
 
 ### Open from the October 2026 audit
 
