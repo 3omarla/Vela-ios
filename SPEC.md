@@ -843,6 +843,7 @@ the page fills it after load, and a small stub sits beside it.
 | Navigation > Navigation icon | `PuckStyle.shape`, `puck_shape`, arrow | see below |
 | Appearance > Map buttons | `MapButtonShape.mode`, `map_button_shape`, `round` | the locate and parking buttons round, or with 16 dp corners (`square`); the FABs read it through `mapButtonShape`, a getter in place of `CircleShape`'s, so `MapScreen` grows no bytecode |
 | Navigation > Zoom out as far as | `ZoomToTurn.floor`, `zoom_to_turn_floor`, 0 | the floor of Zoom to the next turn, 12, 10 or 8 (Town, Region, Far); 0 is no pick, and the `turnZoomMin` dial decides (4.7, Framing) |
+| Navigation > Turn arrows on the route | `TurnArrows.on`, `turn_arrows_on`, true | arrows on the route through the turns ahead during a drive (issue #804) |
 | Map > Where the map opens | `StartView.mode`, `start_view`, `here` | the view the map starts on: `here`, `last`, `home`, `place` or `drive`, which is `here` in driving mode (4.7, Where the map opens and Driving mode) |
 | Map > Names on the map | `MapNames.mode`, `map_names`, `english_latin` | which name a road or place label shows for a Latin-script UI: English then the basemap's romanized name, English then the local name, the local name alone, or local and English (4.10, the label rules); rides `styleKey` |
 
@@ -3888,6 +3889,22 @@ A version query on `BAKED_URL` moves the map cache off old tiles after a rebake.
   gradient is transparent before the piece's driven fraction, so the trail behind the arrow has
   none.
 - A Pixel 4a demo drive measures a median 59 fps with road edges and outlines on and off.
+
+#### Turn arrows
+
+- During a drive a short arrow draws on the route through each turn ahead (issue #804, as
+  Google and OsmAnd draw them): `TurnArrowGeometry.arrows` takes the route's stretch from
+  `BEFORE_M` (30 m) before the maneuver to `AFTER_M` (30 m) past it, for the maneuvers in
+  `TYPES` (turns, forks, ramps, keeps, a U-turn, a roundabout's exit; not a continue, a merge or
+  the roundabout's entry) from the step in hand onward, with the bearing the stretch ends on.
+- `TurnArrows` (holder, `turn_arrows_on`, on by default under Settings > Navigation) is written
+  by `NavController` per tick, change-gated on the route and the step like `NavTurnTarget`, and
+  read by `VelaMapView`, so `MapScreen` carries nothing for it. The layers (`vela-turn-arrows-casing`,
+  `vela-turn-arrows`, `vela-turn-arrows-head`) sit above the topmost `vela-route*` line layer,
+  the pieces' pending "-b" copies included, and are seated again when a piece has come in above
+  them (the drive's `vela-route-cut-b` hid the bodies on a 4a): a dark casing (10 to 24 px, z14
+  to z18), a white body (5 to 14 px) and a white arrowhead image rotated to the end bearing,
+  from z14. Empty outside a drive.
 
 #### Rasters
 

@@ -83,6 +83,14 @@ internal fun NavigationSettingsScreen(vm: MapViewModel, onBack: () -> Unit) {
         // congestion color already on the route line covers some of the same ground.
         var routeBar by remember { mutableStateOf(prefs.getBoolean("route_bar", false)) }
         GroupDivider()
+        // Arrows on the route at the turns ahead (issue #804), on by default.
+        ToggleRow(
+            label = stringResource(R.string.settings_turn_arrows),
+            checked = app.vela.ui.TurnArrows.on.value,
+            onCheckedChange = { app.vela.ui.TurnArrows.set(context, it) },
+            hint = stringResource(R.string.settings_turn_arrows_hint),
+        )
+        GroupDivider()
         ToggleRow(
             label = stringResource(R.string.settings_route_bar),
             checked = routeBar,

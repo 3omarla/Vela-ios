@@ -2433,6 +2433,12 @@ fun VelaMapView(
         val style = styleRef ?: return@LaunchedEffect
         runCatching { ensureShapes(style, savedShapes) }.onFailure { android.util.Log.w("VelaShapes", "shapes: ${it.message}") }
     }
+    // Turn arrows on the route at the turns ahead (issue #804), during a drive alone.
+    val turnArrows = app.vela.ui.TurnArrows.arrows.value
+    LaunchedEffect(turnArrows, navMode, styleRef) {
+        val style = styleRef ?: return@LaunchedEffect
+        runCatching { ensureTurnArrows(style, if (navMode) turnArrows else emptyList()) }.onFailure { android.util.Log.w("VelaTurnArrows", "arrows: ${it.message}") }
+    }
     LaunchedEffect(shapeDraft, drawDots, styleRef) {
         val style = styleRef ?: return@LaunchedEffect
         runCatching { ensureShapeDraft(style, shapeDraft, drawDots.orEmpty()) }.onFailure { android.util.Log.w("VelaShapes", "draft: ${it.message}") }
@@ -7559,6 +7565,77 @@ private fun ensureNavRoadLabels(style: Style, on: Boolean, dark: Boolean, densit
             PropertyFactory.textColor(if (dark) "#e8eaed" else "#202124"),
         )
     }
+}
+
+// Turn arrows on the route (issue #804): a short white arrow in a dark casing through each turn
+// ahead, Google's shape. Read from the TurnArrows holder, so MapScreen carries no parameter for it.
+private const val TURN_ARROW_SRC = "vela-turn-arrows-src"
+private const val TURN_ARROW_CASING_LAYER = "vela-turn-arrows-casing"
+private const val TURN_ARROW_LAYER = "vela-turn-arrows"
+private const val TURN_ARROW_HEAD_LAYER = "vela-turn-arrows-head"
+private const val TURN_ARROW_HEAD_IMG = "vela-turn-arrow-head"
+
+private fun ensureTurnArrows(style: Style, arrows: List<app.vela.core.nav.TurnArrowGeometry.Arrow>) {
+    if (style.getSource(TURN_ARROW_SRC) == null) {
+        if (arrows.isEmpty()) return
+        style.addSource(GeoJsonSource(TURN_ARROW_SRC))
+        if (style.getImage(TURN_ARROW_HEAD_IMG) == null) style.addImage(TURN_ARROW_HEAD_IMG, turnArrowHeadBitmap())
+    }
+    // Seated directly above the topmost route piece, below the labels, and seated AGAIN when a
+    // piece has come in above them since: the stretch ahead and the tail arrive with the drive,
+    // each placed under the first label, which put them over the arrows (seen on a 4a).
+    // Every route line layer, the pieces' pending "-b" copies included (vela-route-cut-b sat
+    // above the arrows and hid their bodies on a 4a); the route's bubbles are symbols and skipped.
+    val layers = style.layers
+    val routeTop = layers.indexOfLast { it.id.startsWith("vela-route") && it !is SymbolLayer }
+    val mine = layers.indexOfFirst { it.id == TURN_ARROW_CASING_LAYER }
+    if (mine < 0 || (routeTop >= 0 && mine < routeTop)) {
+        for (id in listOf(TURN_ARROW_HEAD_LAYER, TURN_ARROW_LAYER, TURN_ARROW_CASING_LAYER)) runCatching { style.removeLayer(id) }
+        val zoomed = { lo: Float, hi: Float -> Expression.interpolate(Expression.exponential(1.5f), Expression.zoom(), Expression.stop(14, lo), Expression.stop(18, hi)) }
+        val casing = LineLayer(TURN_ARROW_CASING_LAYER, TURN_ARROW_SRC).withProperties(
+            PropertyFactory.lineColor("#202124"), PropertyFactory.lineOpacity(0.85f), PropertyFactory.lineWidth(zoomed(10f, 24f)),
+            PropertyFactory.lineCap(Property.LINE_CAP_BUTT), PropertyFactory.lineJoin(Property.LINE_JOIN_ROUND),
+        ).apply { minZoom = 14f }
+        val body = LineLayer(TURN_ARROW_LAYER, TURN_ARROW_SRC).withProperties(
+            PropertyFactory.lineColor("#FFFFFF"), PropertyFactory.lineWidth(zoomed(5f, 14f)),
+            PropertyFactory.lineCap(Property.LINE_CAP_BUTT), PropertyFactory.lineJoin(Property.LINE_JOIN_ROUND),
+        ).apply { minZoom = 14f }
+        val head = SymbolLayer(TURN_ARROW_HEAD_LAYER, TURN_ARROW_SRC)
+            .withFilter(Expression.eq(Expression.get("head"), Expression.literal(true)))
+            .withProperties(
+                PropertyFactory.iconImage(TURN_ARROW_HEAD_IMG),
+                PropertyFactory.iconRotate(Expression.get("bearing")),
+                PropertyFactory.iconRotationAlignment(Property.ICON_ROTATION_ALIGNMENT_MAP),
+                PropertyFactory.iconAnchor(Property.ICON_ANCHOR_BOTTOM),
+                PropertyFactory.iconAllowOverlap(true), PropertyFactory.iconIgnorePlacement(true),
+                PropertyFactory.iconSize(zoomed(0.7f, 1.6f)),
+            ).apply { minZoom = 14f }
+        val above = layers.getOrNull(routeTop)?.id
+        if (above != null) {
+            style.addLayerAbove(casing, above); style.addLayerAbove(body, casing.id); style.addLayerAbove(head, body.id)
+        } else { style.addLayer(casing); style.addLayer(body); style.addLayer(head) }
+    }
+    val features = arrows.flatMap { a ->
+        val line = Feature.fromGeometry(LineString.fromLngLats(a.points.map { Point.fromLngLat(it.lng, it.lat) }))
+        val end = a.points.last()
+        val head = Feature.fromGeometry(Point.fromLngLat(end.lng, end.lat)).apply {
+            addBooleanProperty("head", true); addNumberProperty("bearing", a.endBearingDeg)
+        }
+        listOf(line, head)
+    }
+    (style.getSource(TURN_ARROW_SRC) as? GeoJsonSource)?.setGeoJson(FeatureCollection.fromFeatures(features))
+    android.util.Log.i("VelaTurnArrows", "set ${arrows.size} arrow(s), seated ${if (mine < 0 || (routeTop >= 0 && mine < routeTop)) "now" else "before"}")
+}
+
+/** The arrowhead: a white triangle in a dark casing, pointing up (north); the layer turns it. */
+private fun turnArrowHeadBitmap(): Bitmap {
+    val w = 56; val h = 44
+    val bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
+    val canvas = Canvas(bmp)
+    val path = Path().apply { moveTo(w / 2f, 2f); lineTo(w - 2f, h - 2f); lineTo(w / 2f, h - 14f); lineTo(2f, h - 2f); close() }
+    canvas.drawPath(path, Paint(Paint.ANTI_ALIAS_FLAG).apply { color = 0xD9202124.toInt(); style = Paint.Style.STROKE; strokeWidth = 6f; strokeJoin = Paint.Join.ROUND })
+    canvas.drawPath(path, Paint(Paint.ANTI_ALIAS_FLAG).apply { color = 0xFFFFFFFF.toInt(); style = Paint.Style.FILL })
+    return bmp
 }
 
 private fun ensureTraffic(style: Style, on: Boolean) {

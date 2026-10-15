@@ -369,6 +369,10 @@ off the list when it has been.
 - Drawings and custom maps above the satellite imagery (#816): seen on a 4a, a three-point line
   and its area drawn over the photo, and with the Vela look as before. Not seen: the satellite
   turned on with a saved custom map already showing, which goes through the same re-seat.
+- Turn arrows on the route (#804): seen on a 4a in a simulated drive, a white arrow in a dark
+  casing through the right turn onto a cross street and the turns after it, the passed one gone
+  with its step; unit-tested on an L-shaped route. Not seen: a roundabout exit or a fork, the
+  switch under Navigation turning them off mid-drive, or the car screen, which has none.
 
 ### Open from the October 2026 audit
 

@@ -169,6 +169,8 @@ internal class NavController(
                 // The next maneuver's point for the drive camera's zoom to the next turn (SPEC 4.7,
                 // Framing). Change-gated on the route and the step inside.
                 NavTurnTarget.update(if (ns.navigating) nsRoute else null, ns.nav.stepIndex)
+                // The arrows on the route at the turns ahead (issue #804), same gating.
+                app.vela.ui.TurnArrows.update(if (ns.navigating) nsRoute else null, ns.nav.stepIndex)
                 // The next stop's figures for the bottom bar, beside the whole trip's.
                 val toStop = ns.nextStop
                 app.vela.ui.nav.NavLegFigures.leg.value =
