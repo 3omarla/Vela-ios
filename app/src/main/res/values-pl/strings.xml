@@ -28,7 +28,7 @@
     <string name="settings_voice_none_hint">Brak głosu, otwórz Bibliotekę głosów poniżej, aby pobrać naturalny głos działający na urządzeniu (bez konta, w czasie rzeczywistym nawet na starszych telefonach). Zainstalowany systemowy silnik TTS również pojawi się tutaj do wyboru.</string>
     <string name="settings_voice_test">Przetestuj głos</string>
     <string name="settings_voice_system_settings">Systemowe ustawienia głosu</string>
-    <string name="settings_voice_test_hint">Dotknij Przetestuj głos, aby go usłyszeć. Zalecany jest głos Vela; możesz go zastąpić dowolnym zainstalowanym silnikiem syntezy mowy.</string>
+    <string name="settings_voice_test_hint">Dotknij Przetestuj głos aby go usłyszeć. Zalecany jest głos Vela; możesz go zastąpić dowolnym zainstalowanym silnikiem syntezy mowy.</string>
     <string name="settings_voice_library">Biblioteka głosów</string>
     <string name="settings_voice_advanced">Zaawansowane opcje głosu</string>
     <string name="settings_voice_try_label">Wypróbuj głos na dowolnym tekście</string>
@@ -55,7 +55,7 @@
     <string name="settings_live_traffic">Warstwa ruchu na żywo</string>
     <string name="settings_live_traffic_hint">Cieniuje drogi według korków podczas przeglądania. Nawigacja i tak koloruje trasę według ruchu.</string>
     <string name="settings_transit_layer">Wyróżnij linie transportu</string>
-    <string name="settings_transit_layer_hint">Rysuje linie kolejowe i metra na mapie.</string>
+    <string name="settings_transit_layer_hint">Rysuje na mapie linie kolejowe i metra – każdą w przypisanym jej kolorze, o ile jest on określony w otwartych danych transportowych.</string>
     <string name="settings_read_all_reviews">Przycisk „Czytaj wszystkie opinie”</string>
     <string name="settings_read_all_reviews_hint">Dodaje przycisk otwierający pełną stronę opinii Google w aplikacji, ze wszystkimi opiniami. Wył. = tylko lista Veli.</string>
     <string name="settings_buildings_3d">Budynki 3D</string>
@@ -69,14 +69,14 @@
     <string name="settings_hide_external_links">Ukryj stronę WWW i linki zewnętrzne</string>
     <string name="settings_hide_external_links_hint">Wł. = strony miejsc nie pokazują przycisków Strona WWW, Street View ani Rezerwuj / Zamów (bez otwierania dowolnych zewnętrznych stron).</string>
     <string name="settings_offline">Mapy offline</string>
-    <string name="settings_offline_hint">Dwa sposoby na Velę offline: zapisz obszar, w którym jesteś, na krótkie trasy, albo poniżej cały stan lub kraj na dłuższe.</string>
+    <string name="settings_offline_hint">Dwa sposoby na Velę offline: zapisz obszar w którym jesteś, na krótkie trasy albo poniżej cały stan lub kraj na dłuższe.</string>
     <string name="settings_offline_map_area">Obszar lokalny</string>
     <string name="settings_offline_download_viewport">Pobierz oglądany obszar</string>
     <string name="settings_region_updates">Aktualizuj pobrane regiony</string>
     <string name="settings_region_updates_off">Nigdy automatycznie</string>
     <string name="settings_region_updates_wifi">Przez Wi-Fi</string>
     <string name="settings_region_updates_mobile">Przez Wi-Fi i dane komórkowe</string>
-    <string name="settings_offline_download_viewport_hint">Zapisuje mapę, którą oglądasz, wraz z drogami i adresami, aby ten obszar działał bez zasięgu.</string>
+    <string name="settings_offline_download_viewport_hint">Zapisuje mapę którą oglądasz wraz z drogami i adresami aby ten obszar działał bez zasięgu.</string>
     <string name="settings_offline_no_areas">Nie zapisano jeszcze żadnych obszarów.</string>
     <string name="settings_offline_addresses_missing">Obszary zapisane przed tą aktualizacją nie zawierają danych adresowych. Zaktualizuj je, aby wyszukiwać adresy i wyznaczać do nich trasy offline.</string>
     <string name="settings_offline_addresses_update">Zaktualizuj zapisane obszary</string>
@@ -109,16 +109,16 @@
     <string name="settings_region_group_download">Pobierz wszystko</string>
     <string name="settings_update_region">Aktualizuj</string>
     <string name="settings_saved_places">Zapisane miejsca</string>
-    <string name="settings_saved_places_hint">Utwórz kopię zapasową oznaczonych miejsc w pliku lub przywróć je na innym urządzeniu. Import scala z tym, co już masz, nigdy niczego nie nadpisuje ani nie usuwa.</string>
+    <string name="settings_saved_places_hint">Utwórz kopię zapasową oznaczonych miejsc w pliku lub przywróć je na innym urządzeniu. Import scala z tym co już masz, nigdy niczego nie nadpisuje ani nie usuwa.</string>
     <string name="settings_no_saved_places">Brak zapisanych miejsc</string>
     <string name="settings_export">Eksportuj</string>
     <string name="settings_import">Importuj</string>
-    <string name="settings_data_privacy_hint">Vela łączy się z publicznymi punktami Google prosto z tego urządzenia: bez backendu, konta i klucza API. Google widzi IP, zapytanie i obszar mapy, nie to, kim jesteś.</string>
+    <string name="settings_data_privacy_hint">Vela łączy się z publicznymi punktami Google prosto z tego urządzenia: bez backendu, konta i klucza API. Google widzi IP, zapytanie i obszar mapy, nie to kim jesteś.</string>
     <string name="settings_privacy_button">Jakie dane otrzymuje Google</string>
     <string name="settings_google_free">Używaj Veli bez Google</string>
-    <string name="settings_google_free_hint">Nic nie jest wysyłane do Google. Wyszukiwanie korzysta z OpenStreetMap i pobranych regionów, miejsca na mapie pochodzą z własnych danych Veli, a trasy z otwartego planera tras, bez ruchu na żywo. Tracisz opinie, zdjęcia, godziny otwarcia, czasy przyjazdu na żywo, Street View, trasy komunikacji i zbliżenia satelitarne; pobrane regiony nadal działają w pełni offline.</string>
+    <string name="settings_google_free_hint">Nic nie jest wysyłane do Google. Wyszukiwanie korzysta z OpenStreetMap i pobranych regionów, miejsca na mapie pochodzą z własnych danych Veli a trasy z otwartego planera tras bez ruchu na żywo. Tracisz opinie, zdjęcia, godziny otwarcia, czasy przyjazdu na żywo, Street View, trasy komunikacji i zbliżenia satelitarne. Pobrane regiony nadal działają w pełni offline.</string>
     <string name="settings_diagnostics">Diagnostyka</string>
-    <string name="settings_diagnostics_hint">Domyślnie wyłączone. Po włączeniu Vela prowadzi krótki lokalny dziennik, który możesz wyeksportować i przekazać deweloperowi. Nic nie jest wysyłane, a wyłączenie go czyści.</string>
+    <string name="settings_diagnostics_hint">Domyślnie wyłączone. Po włączeniu Vela prowadzi krótki lokalny dziennik który możesz wyeksportować i przekazać deweloperowi. Nic nie jest wysyłane a wyłączenie go czyści.</string>
     <string name="settings_share_diagnostics">Udostępnij diagnostykę</string>
     <string name="settings_diag_nothing">Nic jeszcze nie zapisano, użyj aplikacji, a następnie wyeksportuj.</string>
     <string name="settings_diag_export">Eksportuj sesję debugowania</string>
@@ -142,7 +142,7 @@
     <string name="settings_crash_diag_offer">Diagnostyka jest wyłączona, więc nic nie zostało zapisane przed tą awarią. Włącz ją, aby następnym razem zebrać więcej szczegółów.</string>
     <string name="settings_crash_enable_diag">Włącz diagnostykę</string>
     <string name="settings_diag_consent_title">Włączyć diagnostykę?</string>
-    <string name="settings_diag_consent_body">Vela będzie prowadzić krótki lokalny dziennik Twoich wyszukiwań, tras i wszelkich błędów. Nigdy nie opuszcza telefonu, chyba że dotkniesz Eksportuj i wybierzesz miejsce docelowe. Wyłącz w dowolnej chwili, aby wyczyścić dziennik.</string>
+    <string name="settings_diag_consent_body">Vela będzie prowadzić krótki lokalny dziennik Twoich wyszukiwań, tras i wszelkich błędów. Nigdy nie opuszcza telefonu chyba że dotkniesz Eksportuj i wybierzesz miejsce docelowe. Wyłącz w dowolnej chwili aby wyczyścić dziennik.</string>
     <string name="settings_about">Informacje</string>
     <string name="settings_about_hint">Vela to odgooglowany klient map: otwarte kafelki dla mapy podkładowej, scrapowany Google dla POI, wyznaczanie tras i czasy przyjazdu uwzględniające ruch, głos Piper działający na telefonie. GPLv3. Nie wymaga Usług Play.</string>
     <string name="settings_support">Wsparcie</string>
@@ -159,7 +159,7 @@
     <string name="settings_voice_lib_empty_hint">★ oznacza polecane głosy. Każdy głos działa offline na telefonie.</string>
     <string name="settings_voice_lib_installed_hint">Zainstalowano: %1$d MB · %2$d głos(y).</string>
     <!-- format -->
-    <string name="settings_voice_lib_lang_hint">Twój język aplikacji to %1$s, pobierz głos %2$s poniżej, aby wskazówki głosowe pasowały (angielski głos błędnie wymawiałby %3$s nazwy ulic).</string>
+    <string name="settings_voice_lib_lang_hint">Wskazówki głosowe są w języku %1$s. Pobierz głos %2$s poniżej aby wskazówki głosowe pasowały (angielski głos błędnie wymawiałby %3$s nazwy ulic).</string>
     <string name="settings_voice_search">Szukaj głosów</string>
     <string name="settings_voice_show_more">Pokaż %1$d więcej</string>
     <string name="settings_voice_show_less">Pokaż mniej</string>
@@ -201,16 +201,15 @@
     <string name="mapvm_poipack_unavailable">Brak jeszcze pakietu miejsc dla regionu %1$s. Pojawi się tutaj po opublikowaniu.</string>
     <!-- format -->
     <string name="settings_demo_drive">Symuluj jazdę (demo)</string>
-    <string name="settings_demo_drive_hint">Start jedzie zaplanowaną trasą jako symulacja zamiast GPS. Wyłącz, aby nawigować naprawdę.</string>
+    <string name="settings_demo_drive_hint">Start jedzie zaplanowaną trasą jako symulacja zamiast GPS. Wyłącz aby nawigować naprawdę.</string>
     <string name="settings_sim_location">Symuluj moją lokalizację (demo)</string>
-    <string name="settings_sim_location_hint">Udaje, że jesteś w środku mapy, do demo i zrzutów. Wyłącz, aby używać prawdziwego GPS.</string>
+    <string name="settings_sim_location_hint">Udaje że jesteś w środku mapy do demo i zrzutów. Wyłącz aby używać prawdziwego GPS.</string>
     <string name="place_address_copied">Skopiowano adres</string>
     <string name="place_copy_address">Kopiuj adres</string>
     <string name="place_directions">Trasa</string>
     <string name="place_call">Zadzwoń</string>
     <string name="place_website">Strona</string>
     <string name="place_hours_not_listed">Godziny nie podane</string>
-    <string name="place_source_overture">Overture</string>
     <string name="place_source_atp">AllThePlaces (%1$s)</string>
     <string name="place_source_osm">OpenStreetMap</string>
     <string name="place_origin_checking">Źródło: %1$s · sprawdzanie w Google</string>
@@ -489,7 +488,7 @@
     <string name="update_car_save">Zapisz plik</string>
     <string name="update_car_anyway">Aktualizuj mimo to</string>
     <string name="settings_update_auto">Sprawdzaj aktualizacje przy starcie</string>
-    <string name="settings_update_auto_hint">Sprawdza GitHub mniej więcej raz dziennie i proponuje nowsze wydania. Wyłącz, jeśli aktualizujesz przez Obtainium.</string>
+    <string name="settings_update_auto_hint">Sprawdza GitHub mniej więcej raz dziennie i proponuje nowsze wydania. Wyłącz jeśli aktualizujesz przez Obtainium.</string>
     <string name="settings_update_check_now">Sprawdź aktualizacje</string>
     <string name="settings_update_checking">Sprawdzanie…</string>
     <string name="settings_update_none">Masz najnowszą wersję.</string>
@@ -586,7 +585,7 @@
     <string name="map_list_saved">Zapisano „%1$s” na twoich listach</string>
     <string name="settings_update_nightly">Uwzględnij kompilacje nightly</string>
     <string name="settings_update_nightly_hint">Aktualizuj do najnowszej wersji nightly (przedpremierowej) zamiast tylko stabilnych. Nightly są nowsze, ale mniej przetestowane.</string>
-    <string name="settings_lists_export_hint">Utwórz kopię zapasową list do pliku lub przywróć je na innym urządzeniu.</string>
+    <string name="settings_lists_export_hint">Utwórz kopię zapasową list do pliku lub przywróć je na innym urządzeniu. Funkcja importu obsługuje również listy z folderu „Zapisane” w usłudze Google Takeout (jeden plik CSV na listę); każde znajdujące się na nich miejsce jest wyszukiwane więc wymagane jest połączenie z internetem.</string>
     <string name="settings_lists_imported">Zaimportowano %1$d list(y)</string>
     <string name="settings_places_imported">Zaimportowano %1$d miejsc(a)</string>
     <!-- format -->
@@ -664,7 +663,7 @@
     <string name="settings_hub_performance_sub">Co wczytuje się z wyprzedzeniem, rysowanie mapy</string>
     <string name="settings_performance_intro">Wczytywanie rzeczy z wyprzedzeniem sprawia, że są od razu gotowe, gdy ich potrzebujesz, ale do tego czasu zajmują pamięć. Ustawienia domyślne zależą od tego, ile pamięci ma ten telefon.</string>
     <string name="settings_full_place_load">Wczytuj wszystkie zdjęcia i opinie</string>
-    <string name="settings_full_place_load_hint">Wyłączone: miejsce wczytuje kilka pierwszych zdjęć i pierwszą stronę opinii, a Więcej zdjęć lub Wszystkie opinie pobierają resztę. Włączone: każde otwierane miejsce wczytuje całą galerię zdjęć i do 50 opinii, co jest wolniejsze i wysyła do Google znacznie więcej zapytań.</string>
+    <string name="settings_full_place_load_hint">Wyłączone: miejsce wczytuje kilka pierwszych zdjęć i pierwszą stronę opinii a Więcej zdjęć lub Wszystkie opinie pobierają resztę. Włączone: każde otwierane miejsce wczytuje całą galerię zdjęć i do 50 opinii co jest wolniejsze i wysyła do Google znacznie więcej zapytań.</string>
     <string name="settings_speech_preload">Wczytuj wyszukiwanie głosowe przy starcie</string>
     <string name="settings_speech_preload_hint">Wczytuje model wyszukiwania głosowego przy otwarciu Veli, żeby mikrofon słuchał od razu. Zajmuje około 300 MB, dopóki nie miną dwie minuty bezczynności. Wyłączone: wczytuje się po dotknięciu pola wyszukiwania. Domyślnie włączone na telefonach z około 8 GB pamięci lub więcej.</string>
     <string name="settings_google_free_links">Otwieraj udostępnione linki Google Maps</string>
@@ -738,10 +737,10 @@
     <string name="settings_asr_use">Użyj</string>
     <!-- format -->
     <string name="no_browser_installed">Twoje urządzenie nie ma przeglądarki</string>
-    <string name="street_view_none">No Street View imagery here</string>
-    <string name="street_view_move">Move here</string>
-    <string name="street_view_dates">See other dates</string>
-    <string name="street_view_fullscreen">Toggle full screen</string>
+    <string name="street_view_none">Brak zdjęć Street View w tym miejscu</string>
+    <string name="street_view_move">Przenieś się tutaj</string>
+    <string name="street_view_dates">Zobacz inne daty</string>
+    <string name="street_view_fullscreen">Przełącz pełny ekran</string>
     <string name="softkey_options">Opcje</string>
     <string name="softkey_search">Szukaj</string>
     <string name="softkey_recenter">Wyśrodkuj</string>
@@ -787,11 +786,11 @@
     <string name="suggestion_contact_badge">Kontakt</string>
     <string name="settings_speed_cams">Fotoradary</string>
     <string name="settings_speed_cam_warn">Ostrzegaj głosowo</string>
-    <string name="settings_speed_cam_warn_hint">Mówi „Fotoradar przed tobą”, gdy podczas nawigacji zbliżasz się do jednego z nich, z około dwunastosekundowym wyprzedzeniem. Podlega ustawieniu wskazówek głosowych. Ostrzeganie o fotoradarach podczas jazdy jest w niektórych krajach zabronione, dlatego jest wyłączone, dopóki tego nie włączysz.</string>
+    <string name="settings_speed_cam_warn_hint">Mówi „Fotoradar przed tobą” gdy podczas nawigacji zbliżasz się do jednego z nich z około dwunastosekundowym wyprzedzeniem. Podlega ustawieniu wskazówek głosowych. Ostrzeganie o fotoradarach podczas jazdy jest w niektórych krajach zabronione dlatego jest wyłączone dopóki tego nie włączysz.</string>
     <string name="nav_speed_camera_ahead">Fotoradar przed tobą</string>
     <string name="settings_flock_nav_card">Ostrzeżenie o kamerach tablic rejestracyjnych</string>
     <string name="settings_flock_nav_card_hint">Podczas nawigacji pokazuje kartę, gdy zbliżasz się do kamery odczytującej tablice rejestracyjne na twojej trasie. Kamery skierowane na drogę poprzeczną są pomijane. Domyślnie wyłączone.</string>
-    <string name="settings_flock_nav_voice">Mów, gdy przed tobą jest kamera tablic</string>
+    <string name="settings_flock_nav_voice">Mów gdy przed tobą jest kamera tablic</string>
     <string name="settings_flock_nav_voice_hint">Podczas nawigacji mówi \"Kamera tablic rejestracyjnych przed tobą\", gdy zbliżasz się do takiej kamery na trasie, około dwunastu sekund przed nią. Działa zgodnie z ustawieniem wskazówek głosowych. Domyślnie wyłączone.</string>
     <string name="nav_flock_camera_ahead">Kamera tablic rejestracyjnych przed tobą</string>
     <string name="nav_flock_cameras_ahead">Kamery tablic rejestracyjnych przed tobą</string>
@@ -801,17 +800,17 @@
     <string name="settings_building_debug">Diagnostyka warstwy budynków</string>
     <string name="settings_building_debug_hint">Pokazuje na mapie małą plakietkę ze stanem uzupełniania budynków (wył. / brak tutaj / ukryte / rysowanie). Pomoc przy testach; wyłącz do zwykłego użytku.</string>
     <string name="settings_nav_trace">Ślad płynności nawigacji</string>
-    <string name="settings_nav_trace_hint">Rejestruje, jak porusza się kamera mapy podczas nawigacji, aby dało się zdiagnozować drgającą lub pływającą mapę. Nie zawiera danych o lokalizacji, tylko kierunki, prędkości i czasy, więc można go bezpiecznie dołączyć do zgłoszenia błędu.</string>
+    <string name="settings_nav_trace_hint">Rejestruje jak porusza się kamera mapy podczas nawigacji aby dało się zdiagnozować drgającą lub pływającą mapę. Nie zawiera danych o lokalizacji tylko kierunki, prędkości i czasy więc można go bezpiecznie dołączyć do zgłoszenia błędu.</string>
     <string name="settings_nav_trace_export">Udostępnij ślad nawigacji</string>
     <string name="settings_nav_trace_empty">Nie zarejestrowano jeszcze żadnego śladu. Najpierw gdzieś nawiguj.</string>
     <string name="settings_voice_vela_name">Głos Vela (%1$s)</string>
     <string name="settings_voice_install_vela">Zainstaluj głos Vela (%1$d MB)</string>
-    <string name="settings_voice_install_vela_hint">Zalecany głos nawigacji. Zainstaluj go tutaj ponownie, gdy zniknie albo gdy pobieranie się nie powiedzie.</string>
+    <string name="settings_voice_install_vela_hint">Zalecany głos nawigacji. Zainstaluj go tutaj ponownie gdy zniknie albo gdy pobieranie się nie powiedzie.</string>
     <string name="settings_texture_render">Renderowanie zgodności</string>
-    <string name="settings_texture_render_hint">Rysuje mapę ścieżką zgodności, która omija błędy sterowników graficznych niektórych urządzeń. Włącza się samo, jeśli mapa wywołała awarię aplikacji przy starcie. Nieco wolniejsze; wymaga ponownego uruchomienia aplikacji.</string>
+    <string name="settings_texture_render_hint">Rysuje mapę ścieżką zgodności która omija błędy sterowników graficznych niektórych urządzeń. Włącza się samo jeśli mapa wywołała awarię aplikacji przy starcie. Nieco wolniejsze; wymaga ponownego uruchomienia aplikacji.</string>
     <string name="settings_texture_render_auto_hint">Włączone automatycznie na %1$s po dwóch awariach mapy przy starcie. Jeśli mapa działa z tą opcją wyłączoną, zostaw ją wyłączoną: jest wolniejsza i może powodować zacinanie mapy podczas jazdy. Wymaga ponownego uruchomienia aplikacji.</string>
     <string name="settings_offline_places_with_downloads">Dołączaj miejsca do pobrań</string>
-    <string name="settings_offline_places_with_downloads_hint">Pobranie regionu przynosi też dane miejsc Veli dla niego, dzięki czemu firmy na mapie widać bez zasięgu. Około pół gigabajta dla dużego stanu. Wył. = miejsca wczytują się tylko online.</string>
+    <string name="settings_offline_places_with_downloads_hint">Pobranie regionu przynosi też dane miejsc Veli dla niego dzięki czemu firmy na mapie widać bez zasięgu. Około pół gigabajta dla dużego stanu. Wył. = miejsca wczytują się tylko online.</string>
     <string name="settings_routing_size_installed_here">Około %1$s po instalacji · obejmuje twoją lokalizację</string>
     <string name="settings_routing_size_installed">Około %1$s po instalacji</string>
     <string name="settings_storage_title">Pamięć</string>
@@ -824,7 +823,7 @@
     <string name="settings_clear_map_cache_hint">Zwalnia kafelki zapisane przez mapę podczas przeglądania. Zapisane obszary pozostają.</string>
     <string name="settings_map_cache_cleared">Wyczyszczono pamięć podręczną mapy</string>
     <string name="settings_delete_offline_all">Usuń wszystkie dane offline</string>
-    <string name="settings_delete_offline_all_hint">Usuwa każdy zapisany obszar, każdy pobrany region (trasy, miejsca, mapa), nakładki budynków i adresów oraz pamięć podręczną przeglądania, a także zmniejsza bazę danych mapy. Głosy zostają. Użyj tego, jeśli liczby zajętej pamięci powyżej nie zgadzają się z tym, co widać na listach.</string>
+    <string name="settings_delete_offline_all_hint">Usuwa każdy zapisany obszar, każdy pobrany region (trasy, miejsca, mapa), nakładki budynków i adresów oraz pamięć podręczną przeglądania a także zmniejsza bazę danych mapy. Głosy zostają. Użyj tego jeśli liczby zajętej pamięci powyżej nie zgadzają się z tym co widać na listach.</string>
     <string name="settings_delete_offline_all_title">Usunąć wszystkie dane offline?</string>
     <string name="settings_delete_offline_all_body">Zostanie usunięte około %1$s pobranych map, tras i miejsc. Zapisane miejsca, podróże i głosy zostają.</string>
     <string name="mapvm_offline_all_deleted">Usunięto dane offline</string>
@@ -848,9 +847,8 @@
     <string name="settings_places_source_both">Oba</string>
     <string name="settings_places_source_open_hint">Ikony pochodzą z własnych danych Veli. Przesuwanie mapy nigdy nie odpytuje Google i działa offline.</string>
     <string name="settings_places_source_google_hint">Ikony pochodzą z Google. Każde przesunięcie wysyła do Google twoją pozycję na mapie, a offline nic się nie rysuje.</string>
-    <string name="settings_places_source_both_hint">Ikony Veli, a gdy przestaniesz przesuwać mapę, także to, co dodatkowo ma Google.</string>
+    <string name="settings_places_source_both_hint">Ikony Veli, a gdy przestaniesz przesuwać mapę także to co dodatkowo ma Google.</string>
     <string name="settings_places_source_more">Dowiedz się więcej</string>
-    <string name="settings_places_source_more_credit">Overture Maps</string>
     <string name="settings_places_lookup">Sprawdzaj dotknięte miejsca w Google</string>
     <string name="settings_places_lookup_hint">Dotknięcie miejsca pobiera jego godziny, opinie i zdjęcia z Google, a Vela zapamiętuje dopasowanie, więc kolejne dotknięcie jest natychmiastowe. Wył. = dotknięte miejsce pokazuje tylko to, co mają dane Veli (nazwa, typ, adres, telefon, strona), a nic o dotknięciu nie trafia do Google. Wyszukiwanie i trasy nadal korzystają z Google.</string>
     <string name="settings_places_source_more_title">Skąd pochodzą dane miejsc Veli</string>
@@ -874,10 +872,10 @@
     <string name="nav_stop_offer_remove">Usuń przystanek</string>
     <string name="settings_google_session">Sesja Google</string>
     <string name="settings_block_google_telemetry">Blokuj telemetrię stron Google</string>
-    <string name="settings_block_google_telemetry_hint">Strony Google raportują same o sobie: pingi logujące i zapytania w tle z paska konta. Nic, co pokazuje Vela, ich nie potrzebuje. Domyślnie są wysyłane, bo przeglądarka, która nigdy ich nie wysyła, mniej przypomina dla Google człowieka, a to po części decyduje, czy twoja sesja dostanie ograniczony widok. Włącz to, aby zamiast tego odpowiadać na nie na telefonie.</string>
+    <string name="settings_block_google_telemetry_hint">Strony Google raportują same o sobie: pingi logujące i zapytania w tle z paska konta. Nic co pokazuje Vela ich nie potrzebuje. Domyślnie są wysyłane bo przeglądarka która nigdy ich nie wysyła mniej przypomina dla Google człowieka a to po części decyduje czy twoja sesja dostanie ograniczony widok. Włącz to aby zamiast tego odpowiadać na nie na telefonie.</string>
     <string name="settings_google_session_limited">Google daje teraz temu telefonowi ograniczony widok: mniej zdjęć na stronę, brak popularnych godzin przy niektórych miejscach, a Więcej opinii nic nie wczytuje. Zwykle mija to samo po jakimś czasie. Zupełnie nowa sesja też zaczyna od ograniczonego widoku, więc rozpoczęcie nowej rzadko pomaga.</string>
     <string name="place_limited_view">Google pokazuje teraz ograniczony widok, więc może tu brakować popularnych godzin i dalszych opinii.</string>
-    <string name="settings_google_session_hint">Google rozpoznaje ten telefon po pliku cookie, więc to, czego Vela szuka, póki ten plik jest ważny, można ze sobą powiązać, bez imienia ani konta. Rozpoczęcie nowej sesji to ogranicza. Nowa sesja przez jakiś czas dostaje od Google skrócony widok (mniej opinii, przy niektórych miejscach brak popularnych godzin).</string>
+    <string name="settings_google_session_hint">Google rozpoznaje ten telefon po pliku cookie, więc to czego Vela szuka póki ten plik jest ważny można ze sobą powiązać bez imienia ani konta. Rozpoczęcie nowej sesji to ogranicza. Nowa sesja przez jakiś czas dostaje od Google skrócony widok (mniej opinii, przy niektórych miejscach brak popularnych godzin).</string>
     <string name="settings_google_session_week">Nowa sesja co tydzień (zalecane)</string>
     <string name="settings_google_session_day">Nowa sesja codziennie</string>
     <string name="settings_google_session_launch">Nowa sesja przy każdym otwarciu Veli (najbardziej prywatne)</string>
@@ -945,7 +943,7 @@
     <string name="whatsnew_got_it">OK</string>
     <string name="whatsnew_full_notes">Pełne informacje</string>
     <string name="settings_whatsnew">Co nowego w tej wersji</string>
-    <string name="settings_whatsnew_hint">Informacje o wydaniu kompilacji, której używasz. Pokazują się też raz po każdej aktualizacji.</string>
+    <string name="settings_whatsnew_hint">Informacje o wydaniu kompilacji której używasz. Pokazują się też raz po każdej aktualizacji.</string>
     <string name="mapvm_export_trips_subject">Podróże Vela: %1$d przejazdów (%2$d punktów)</string>
     <string name="mapvm_export_trip_scrubbed_subject">Podróż Vela: %1$d punktów, końce przycięte</string>
     <string name="mapvm_area_uses_pack">Miejsca i adresy dla tego obszaru są w pobraniu %1$s</string>
@@ -967,7 +965,7 @@
     <string name="place_transit_subway">Metro</string>
     <string name="place_transit_train">Pociąg</string>
     <string name="place_transit_tram">Tramwaj</string>
-    <string name="settings_parking_history_empty">Nie zapisano jeszcze żadnego miejsca parkowania. Dotknij przycisku P na mapie, aby zapisać, gdzie zaparkowałeś.</string>
+    <string name="settings_parking_history_empty">Nie zapisano jeszcze żadnego miejsca parkowania. Dotknij przycisku P na mapie aby zapisać gdzie zaparkowałeś.</string>
     <string name="list_emoji_label">Wpisz dowolne emoji</string>
     <string name="settings_update_channel">Kanał aktualizacji</string>
     <string name="settings_update_channel_stable">Stabilny (co tydzień)</string>
@@ -996,7 +994,7 @@
     <string name="voice_cmd_eta">Czas przyjazdu, w trakcie jazdy</string>
     <string name="voice_cmd_hint">Działają głosowo lub wpisane w pasek wyszukiwania, w języku aplikacji albo po angielsku. Wszystko inne to zwykłe wyszukiwanie.</string>
     <string name="settings_map_data">Dane mapy</string>
-    <string name="settings_map_data_hint">Mapa, jej ulice, etykiety i numery domów to dane OpenStreetMap, dostępne na licencji Open Database License, udostępniane jako kafelki wektorowe przez OpenFreeMap. Firmy na mapie w objętych regionach to dane miejsc z Overture Maps Foundation (ze źródeł Meta i Microsoft), dostępne na licencji Community Data License Agreement, Permissive 2.0. Szczegóły miejsc, opinie, wyznaczanie tras i ruch pochodzą z Google. Zdjęcia satelitarne pochodzą z Esri i Google.</string>
+    <string name="settings_map_data_hint">Mapa – wraz z ulicami, etykietami i numerami domów – bazuje na danych OpenStreetMap, udostępnianych na licencji Open Database i serwowanych w formie kafelków wektorowych przez OpenFreeMap. Informacje o firmach i punktach usługowych na mapie (w obsługiwanych regionach) pochodzą z zasobów Overture Maps Foundation (dostarczonych przez firmy Meta i Microsoft) i są udostępniane na licencji Community Data Agreement – Permissive 2.0. Szczegółowe dane o miejscach, opinie, wyznaczanie tras oraz informacje o ruchu drogowym pochodzą od Google. Zdjęcia satelitarne dostarczają firmy Esri i Google. Wymowa około 3500 nazw miejsc bazuje na zasobach angielskiej Wikipedii i wkładzie jej współtwórców (na licencji CC BY-SA 4.0).</string>
     <string name="settings_map_data_button">Prawa autorskie OpenStreetMap</string>
     <string name="settings_map_data_overture_button">Licencja Overture Maps</string>
     <string name="settings_theme_auto">Dzień i noc</string>
@@ -1023,7 +1021,7 @@
     <string name="settings_bike_safe">Trasy rowerowe preferują ścieżki rowerowe i spokojne ulice</string>
     <string name="settings_bike_safe_hint">Trasy rowerowe wybierają oznakowane szlaki rowerowe, pasy dla rowerów i ulice osiedlowe zamiast najszybszej drogi, tak jak wyznacza je Google. Korzysta z mapy offline tam, gdzie ją pobrałeś, w przeciwnym razie z otwartego routera online. Wył. daje zwykłą najszybszą trasę rowerową.</string>
     <string name="settings_route_picker">Wybór trasy w stylu Google</string>
-    <string name="settings_route_picker_hint">Pokazuje jedną trasę naraz, pozostałe po dotknięciu z czasami na mapie, a Start na dole. Wyłącz, aby wrócić do klasycznego panelu Veli, który pokazuje wszystkie trasy naraz.</string>
+    <string name="settings_route_picker_hint">Pokazuje jedną trasę naraz, pozostałe po dotknięciu z czasami na mapie a Start na dole. Wyłącz aby wrócić do klasycznego panelu Veli który pokazuje wszystkie trasy naraz.</string>
     <string name="settings_route_bar">Pasek drogi przed tobą</string>
     <string name="settings_route_bar_hint">Pasek obok mapy pokazujący ruch i to, co czeka cię na dalszej części trasy. Pokazuje tylko to, co Vela naprawdę wie: korki, sygnalizację, znaki stop, przejazdy kolejowe, progi zwalniające i kamery monitoringu. Tylko w pionie.</string>
     <string name="settings_font">Czcionka</string>
@@ -1121,7 +1119,7 @@
     <string name="settings_storage">Miejsce na pobrane regiony</string>
     <string name="settings_storage_internal">Pamięć wewnętrzna</string>
     <string name="settings_storage_sd">Karta SD</string>
-    <string name="settings_storage_hint">Przenosi to, co już pobrano. Karta SD jest wolniejsza, a gdy jest wyjęta, zapisane na niej mapy offline są niedostępne i mapa wczytuje się z sieci.</string>
+    <string name="settings_storage_hint">Przenosi to co już pobrano. Karta SD jest wolniejsza a gdy jest wyjęta zapisane na niej mapy offline są niedostępne i mapa wczytuje się z sieci.</string>
     <string name="settings_storage_missing">Brak karty SD, więc pobrane dane trafiają do pamięci wewnętrznej, dopóki karta nie wróci.</string>
     <string name="settings_storage_moving">Przenoszenie danych offline… %1$d%%</string>
     <string name="settings_storage_busy">Poczekaj na koniec pobierania lub jazdy, a potem przenieś dane offline.</string>
@@ -1131,7 +1129,7 @@
     <string name="settings_storage_failed">Przenoszenie się nie powiodło; dane offline zostają tam, gdzie były.</string>
     <string name="settings_maps_links_on">Linki Google Maps otwierają się w Veli.</string>
     <string name="settings_maps_links_partial">Niektóre linki Google Maps otwierają się w Veli. Dodaj pozostałe w sekcji Otwieraj domyślnie, aby działały wszystkie rodzaje linków.</string>
-    <string name="settings_maps_links_off">Android otwiera linki Google Maps w przeglądarce. Aby otwierać je w Veli, włącz Otwieraj obsługiwane linki i dodaj linki w sekcji Otwieraj domyślnie.</string>
+    <string name="settings_maps_links_off">Android otwiera linki Google Maps w przeglądarce. Aby otwierać je w Veli włącz Otwieraj obsługiwane linki i dodaj linki w sekcji Otwieraj domyślnie.</string>
     <string name="settings_maps_links_open">Ustawienia Otwieraj domyślnie</string>
     <string name="mapvm_cells_progress">%1$s, część %2$d z %3$d</string>
     <string name="mapvm_cells_ready">Trasy i miejsca dla tej części regionu %1$s działają offline</string>
@@ -1156,7 +1154,7 @@
         <item quantity="other">%1$d fragmentu ma nowszą wersję</item>
     </plurals>
     <string name="settings_confirm_end_nav">Pytaj przed zakończeniem nawigacji</string>
-    <string name="settings_confirm_end_nav_hint">Czerwony X i Wstecz podczas jazdy najpierw pytają, żeby przypadkowe dotknięcie jej nie zakończyło</string>
+    <string name="settings_confirm_end_nav_hint">Podczas jazdy system zawsze najpierw pyta o potwierdzenie. Gdy ta funkcja jest włączona, czerwony symbol X również wymaga potwierdzenia.</string>
     <string name="nav_end_confirm_title">Zakończyć nawigację?</string>
     <string name="nav_end_confirm_body">Trasa i jej przystanki zostaną usunięte.</string>
     <string name="nav_end_confirm_end">Zakończ</string>
@@ -1181,9 +1179,9 @@
     <string name="route_save_title">Zapisz trasę</string>
     <string name="route_save_hint">Nazwa</string>
     <string name="route_save_default">Trasa do: %1$s</string>
-    <string name="route_saved_toast">Trasa zapisana. Pojawi się obok pozostałych, gdy znów wyznaczysz tę podróż.</string>
+    <string name="route_saved_toast">Trasa zapisana. Pojawi się obok pozostałych gdy znów wyznaczysz tę podróż.</string>
     <string name="settings_saved_routes">Zapisane trasy</string>
-    <string name="settings_saved_routes_empty">Wybierz trasę na ekranie wyboru trasy i użyj ⋮ &gt; Zapisz tę trasę. Pojawi się obok pozostałych, gdy znów wyznaczysz tę samą podróż.</string>
+    <string name="settings_saved_routes_empty">Wybierz trasę na ekranie wyboru trasy i użyj ⋮ &gt; Zapisz tę trasę. Pojawi się obok pozostałych gdy znów wyznaczysz tę samą podróż.</string>
     <string name="settings_saved_route_rename">Zmień nazwę</string>
     <string name="settings_saved_route_delete">Usuń</string>
     <string name="route_save_keep_stops">Zatrzymuj się w tych miejscach</string>
@@ -1278,7 +1276,7 @@
         <item quantity="other">%1$d kamery na tej trasie</item>
     </plurals>
     <string name="settings_offline_cached_places">Zachowuj oglądane miejsca offline</string>
-    <string name="settings_offline_cached_places_hint">Każde miejsce otwarte online zostaje na tym telefonie razem z tym, co się dla niego wczytało (szczegóły oraz opinie i zdjęcia, które widziałeś), więc otworzy się też bez zasięgu. Zachowywanych jest 400 najnowszych, przez miesiąc. Wyczyść historię i Usuń wszystkie dane offline je usuwają.</string>
+    <string name="settings_offline_cached_places_hint">Każde miejsce otwarte online zostaje na tym telefonie razem z tym co się dla niego wczytało (szczegóły oraz opinie i zdjęcia które widziałeś), więc otworzy się też bez zasięgu. Zachowywanych jest 400 najnowszych przez miesiąc. Wyczyść historię i Usuń wszystkie dane offline je usuwają.</string>
     <string name="settings_offline_cached_places_clear">Wyczyść zachowane miejsca</string>
     <string name="settings_offline_cached_places_used">%1$s zapisane na tym telefonie</string>
     <string name="settings_offline_cached_sv_used">Street View: %1$s zapisane na tym telefonie</string>
@@ -1332,14 +1330,14 @@
     <string name="settings_map_names_local_english">Lokalna i angielska</string>
     <string name="settings_map_names_hint">Nazwy w transliteracji są tworzone maszynowo tam, gdzie OpenStreetMap nie ma nazwy angielskiej, i źle się je czyta w hebrajskim i niektórych innych pismach. Język aplikacji i głos się nie zmieniają.</string>
     <string name="settings_project">Projekt</string>
-    <string name="settings_project_hint">Kod źródłowy, zgłoszenia błędów i dyskusje są na GitHubie.</string>
+    <string name="settings_project_hint">Strona internetowa zawiera ogólny opis oraz sekcję dla prasy. Kod źródłowy, Kod źródłowy, zgłoszenia błędów i dyskusje są na GitHubie.</string>
     <string name="settings_project_github_button">Vela na GitHubie</string>
     <string name="mapvm_rechecking_connection">Sprawdzanie połączenia…</string>
     <string name="mapvm_back_online">Znów online</string>
     <string name="mapvm_still_offline">Nadal offline. Vela zauważy, gdy tylko połączenie wróci.</string>
     <string name="search_offline_recheck">Offline. Dotknij, aby sprawdzić ponownie</string>
     <string name="settings_turn_declutter">Upraszczaj mapę na zakrętach</string>
-    <string name="settings_turn_declutter_hint">Gdy mapa obraca się na zakręcie, zostają na niej tylko nazwy ulic. Miejsca, znaki i kamery wracają, gdy tylko się ustabilizuje. Dzięki temu zakręty są płynne na wolniejszych telefonach.</string>
+    <string name="settings_turn_declutter_hint">Gdy mapa obraca się na zakręcie zostają na niej tylko nazwy ulic. Miejsca, znaki i kamery wracają, gdy tylko się ustabilizuje. Dzięki temu zakręty są płynne na wolniejszych telefonach.</string>
     <string name="settings_softkeys">Sprzętowe klawisze funkcyjne</string>
     <string name="settings_softkeys_hint">Przybliżaj i oddalaj mapę dwoma klawiszami funkcyjnymi telefonu. Tylko telefony z klawiaturą.</string>
     <string name="settings_softkeys_calibrate">Skalibruj klawisze funkcyjne</string>
@@ -1357,7 +1355,7 @@
     <string name="settings_directions_language_hint">Wypowiedzi są wyświetlane i odtwarzane głosowo. Wybierz pasujący głos z biblioteki głosów.</string>
     <string name="settings_keep_north_up">Trzymaj się północy</string>
     <string name="settings_keep_north_up_hint">Mapa nigdy się nie obraca: obracanie dwoma palcami jest wyłączone, a orientacja pozostaje ustawiona na północ u góry.</string>
-    <string name="settings_start_view">Tam gdzie otwiera się mapa</string>
+    <string name="settings_start_view">Mapa otworzy się</string>
     <string name="settings_start_view_here">Gdzie jestem</string>
     <string name="settings_start_view_place">Miejsce które wybieram</string>
     <string name="settings_start_view_use_current">Użyj bieżącego widoku mapy</string>
@@ -1374,4 +1372,137 @@
     <string name="mapscreen_location_tip_body">Sam GPS często nie jest w stanie ustalić pozycji wewnątrz budynków. W systemie GrapheneOS włącz lokalizację sieciową w sekcji Ustawienia &gt; Lokalizacja &gt; Usługi lokalizacji.</string>
     <string name="mapscreen_location_tip_settings">Ustawienia lokalizacji</string>
     <string name="search_saved_tip">Twoje zapisane miejsca znajdują się pod przyciskiem zakładek powyżej. Przypnij jedno aby zachować je w tym miejscu.</string>
+    <string name="welcome_cameras_warn">Ostrzeż mnie gdy będę się zbliżać.</string>
+    <string name="welcome_google_customize">Wybierz do czego używany jest Google</string>
+    <string name="welcome_google_title">Użyć Google?</string>
+    <string name="welcome_google_intro">Możesz to później zmienić w Ustawieniach lub wyłączyć tylko wybrane elementy.</string>
+    <string name="welcome_google_on_title">Użyj Google</string>
+    <string name="welcome_google_on_gives">Opinie, zdjęcia, informacje o ruchu drogowym w czasie rzeczywistym i Street View.</string>
+    <string name="welcome_google_on_sends">Wyszukiwania i trasy trafiają do Google bez użycia konta.</string>
+    <string name="welcome_google_off_title">Bez Google</string>
+    <string name="welcome_google_off_gives">Tylko otwarte dane. Brak recenzji, zdjęć czy informacji o ruchu drogowym w czasie rzeczywistym.</string>
+    <string name="welcome_google_off_sends">Nic nie jest wysyłane do Google.</string>
+    <string name="settings_voice_mode_on">Włączone</string>
+    <string name="settings_voice_mode_alerts">Tylko powiadomienia</string>
+    <string name="settings_voice_mode_off">Wyłączone</string>
+    <string name="settings_voice_mode_hint">Alerty emitują jedynie krótkie sygnały dźwiękowe informujące o przekroczeniu prędkości i fotoradarach i nic więcej. Przycisk głośnika podczas jazdy otwiera te same trzy.</string>
+    <string name="settings_google_uses">Do czego wykorzystywane jest Google</string>
+    <string name="settings_google_uses_hint">Wyłącz jeden z nich a Vela przestanie wysyłać do Google zapytania na jego temat. Każdy przełącznik znajduje się również na osobnej stronie.</string>
+    <string name="settings_google_uses_traffic">Ruch drogowy i trasy</string>
+    <string name="settings_map_data_fuel_gb">Dane dotyczące cen paliw w Wielkiej Brytanii pochodzą z rządowego narzędzia Fuel Finder i są udostępniane ponownie przez użytkownika matthewgall/fuelfinder-archive w serwisie GitHub. Zawierają informacje sektora publicznego na licencji Open Government Licence v3.0.</string>
+    <string name="settings_map_data_ogl_button">Licencja Open Government</string>
+    <string name="place_fuel_updated_today">Zaktualizowano dzisiaj</string>
+    <string name="place_fuel_updated_yesterday">Zaktualizowano wczoraj</string>
+    <plurals name="place_fuel_updated_days">
+        <item quantity="one">Zaktualizowano %d dzień temu</item>
+        <item quantity="few">Zaktualizowano %d dni temu</item>
+        <item quantity="many">Zaktualizowano %d dni temu</item>
+        <item quantity="other">Zaktualizowano %d dni temu</item>
+    </plurals>
+    <string name="link_trip_finding">Odnajdywanie miejsc podczas tej podróży</string>
+    <string name="link_trip_while_navigating">Zakończ nawigację aby otworzyć tę podróż</string>
+    <string name="link_trip_looking_cd">Sprawdzam to</string>
+    <string name="link_trip_found_cd">Znaleziono</string>
+    <string name="link_trip_not_found_cd">Nie znaleziono</string>
+    <string name="link_trip_start_missing">Nie znaleziono %1$s. Podróż zaczyna się tam gdzie jesteś.</string>
+    <string name="link_trip_search">Wyszukaj</string>
+    <string name="link_trip_skip">Pomiń</string>
+    <string name="link_trip_stop_title">Nie znaleziono przystanku</string>
+    <string name="settings_zoom_key_in">Przycisk powiększania</string>
+    <string name="settings_zoom_key_out">Przycisk pomniejszania</string>
+    <string name="settings_zoom_key_none">Nieustawione</string>
+    <string name="settings_zoom_keys_hint">Dwa przyciski służące do powiększania mapy z dowolnego miejsca na niej, na przykład 2 i 5 na klawiaturze numerycznej. W polu tekstowym nadal wprowadzają one znaki.</string>
+    <string name="settings_zoom_key_press">Naciśnij klawisz aby użyć. Klawisze strzałek, OK oraz Wstecz są już zajęte.</string>
+    <string name="settings_project_site_button">Strona internetowa</string>
+    <string name="nav_left_your_route">Skręcono w „%1$s”. Wybrano najszybszą trasę.</string>
+    <string name="list_sound_bell">Dzwonek</string>
+    <string name="list_sound_double">Dwa sygnały dźwiękowe</string>
+    <string name="list_sound_name">Wypowiedz jego imię</string>
+    <string name="bulk_select">Wybierz miejsca</string>
+    <plurals name="bulk_selected">
+        <item quantity="one">Wybrano %1$d</item>
+        <item quantity="few">Wybrano %1$d</item>
+        <item quantity="many">Wybrano %1$d</item>
+        <item quantity="other">Wybrano %1$d</item>
+    </plurals>
+    <string name="bulk_all">Wszystko</string>
+    <string name="bulk_move">Przenieś na listę</string>
+    <string name="bulk_new_list">Nowa lista…</string>
+    <string name="bulk_remove">Usuń</string>
+    <plurals name="bulk_remove_title">
+        <item quantity="one">Usunąć %1$d miejsce?</item>
+        <item quantity="few">Usunąć %1$d miejsc?</item>
+        <item quantity="many">Usunąć %1$d miejsc?</item>
+        <item quantity="other">Usunąć %1$d miejsc?</item>
+    </plurals>
+    <string name="bulk_done">Wybór zakończony</string>
+    <string name="bulk_moved">%1$d przeniesiono do %2$s</string>
+    <string name="settings_start_view_last">Gdzie zakończyłem</string>
+    <string name="mapscreen_location_tip_title">Nie masz jeszcze lokalizacji?</string>
+    <string name="search_open_now_phrase">Nie jest wyświetlane. Jest dodawane do zapytania wysyłanego do Google po włączeniu opcji „Otwarte teraz”, aby wyszukać miejsca aktualnie otwarte. Używaj słów zrozumiałych dla Map Google w Twoim języku.</string>
+    <string name="nav_voice_button">Wskazówki głosowe: włączone, tylko alerty lub wyłączone</string>
+    <string name="welcome_continue">Kontynuuj</string>
+    <string name="welcome_cameras_avoid">Omiń je</string>
+    <string name="car_setting_traffic">Ruch drogowy</string>
+    <string name="list_delete_title">Usunąć %1$s?</string>
+    <plurals name="lists_delete_count">
+        <item quantity="one">Usunąć tę listę?</item>
+        <item quantity="few">Usunąć %d list?</item>
+        <item quantity="many">Usunąć %d list?</item>
+        <item quantity="other">Usunąć %d list?</item>
+    </plurals>
+    <string name="list_reorder">Przeciągnij aby zmienić kolejność</string>
+    <string name="recent_remove">Usuń z historii</string>
+    <string name="settings_takeout_list_default">Zaimportowana lista</string>
+    <string name="settings_takeout_progress">Wyszukiwanie pozycji %1$d z %2$d</string>
+    <plurals name="settings_takeout_imported">
+        <item quantity="one">Zaimportowano %1$d miejsce do %2$s.</item>
+        <item quantity="few">Zaimportowano %1$d miejsc do %2$s.</item>
+        <item quantity="many">Zaimportowano %1$d miejsc do %2$s.</item>
+        <item quantity="other">Zaimportowano %1$d miejsc do %2$s.</item>
+    </plurals>
+    <plurals name="settings_takeout_imported_missed">
+        <item quantity="one">Zaimportowano %1$d miejsc do %2$s. Nie znaleziono %3$d.</item>
+        <item quantity="few">Zaimportowano %1$d miejsc do %2$s. Nie znaleziono %3$d z nich.</item>
+        <item quantity="many">Zaimportowano %1$d miejsc do %2$s. Nie znaleziono %3$d z nich.</item>
+        <item quantity="other">Zaimportowano %1$d miejsc do %2$s. Nie znaleziono %3$d z nich.</item>
+    </plurals>
+    <string name="settings_takeout_imported_none">Nie znaleziono żadnego miejsca na tej liście, więc %1$s nie zostało utworzone.</string>
+    <plurals name="settings_takeout_need_google">
+        <item quantity="one">Wyszukanie miejsca nr %1$d wymaga skorzystania z Google.</item>
+        <item quantity="few">W przypadku %1$d miejsc konieczne jest wyszukanie informacji w Google.</item>
+        <item quantity="many">W przypadku %1$d miejsc konieczne jest wyszukanie informacji w Google.</item>
+        <item quantity="other">W przypadku %1$d miejsc konieczne jest wyszukanie informacji w Google.</item>
+    </plurals>
+    <plurals name="settings_takeout_need_google_none">
+        <item quantity="one">Wyszukanie miejsca nr %1$d w Google jest konieczne, dlatego nie utworzono %2$s.</item>
+        <item quantity="few">Wyszukanie %1$d miejsc wymagało użycia Google, więc %2$s nie zostało utworzone.</item>
+        <item quantity="many">Wyszukanie %1$d miejsc wymagało użycia Google, więc %2$s nie zostało utworzone.</item>
+        <item quantity="other">Wyszukanie %1$d miejsc wymagało użycia Google, więc %2$s nie zostało utworzone.</item>
+    </plurals>
+    <string name="settings_takeout_busy">Lista jest nadal importowana więc poczekaj aż proces się zakończy.</string>
+    <string name="settings_map_look">Widok mapy</string>
+    <string name="settings_map_look_liberty">Vela</string>
+    <string name="settings_map_look_bright">Jasny</string>
+    <string name="settings_map_look_hint">Vela używa stylu Liberty z serwisu OpenFreeMap, wzbogaconego o własną kolorystykę, ikony oraz szerokości dróg. Pozostałe style to standardowe warianty OpenFreeMap: Jasny, Positron, Fiord i Ciemny; style Fiord i Ciemny pozostają ciemne niezależnie od wybranego motywu.</string>
+    <string name="settings_map_look_dark">Ciemny</string>
+    <string name="nav_bridge_opening_ahead">Most przed nami: otwarcie planowane na %1$s</string>
+    <string name="nav_bridge_open_ahead">Most przed nami jest otwarty</string>
+    <string name="settings_bridge_openings_hint">W Holandii system informuje czy most zwodzony na trasie jest otwarty lub czy zostanie otwarty w momencie gdy do niego dotrzesz. Dane o planowanych i bieżących otwarciach pochodzą z zasobów NDW dotyczących infrastruktury drogowej; zapytanie jest wysyłane tylko wtedy gdy trasa prowadzi przez terytorium Holandii.</string>
+    <string name="settings_road_alerts_group">Komunikaty drogowe</string>
+    <string name="settings_map_look_positron">Pozyton</string>
+    <string name="settings_map_look_fiord">Fiord</string>
+    <string name="link_trip_stop_missing">Nie znaleziono %1$s. Trasa go pomija.</string>
+    <string name="link_trip_start_here">Rozpocznij w w miejscu w którym jestem</string>
+    <string name="link_trip_fix">Napraw</string>
+    <plurals name="link_trip_places_missing">
+        <item quantity="one">%1$d miejsce nie znalezione</item>
+        <item quantity="few">Nie znaleziono %1$d miejsc</item>
+        <item quantity="many">Nie znaleziono %1$d miejsc</item>
+        <item quantity="other">Nie znaleziono %1$d miejsc</item>
+    </plurals>
+    <string name="settings_zoom_key_clear">Wyczyść</string>
+    <string name="list_sound_label">Dźwięk gdy przejeżdżasz obok jednego</string>
+    <string name="list_sound_off">Wyłącz</string>
+    <string name="list_sound_ping">Ping</string>
 </resources>
