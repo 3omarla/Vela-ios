@@ -251,7 +251,8 @@ What Vela Maps does today, one line per feature. How each one works is in [SPEC.
   swipes away the same way, and Clear recents is a button beside the heading.
 - Lists with a name, color and icon or emoji, in your order. A saved place or a list entry can carry
   a note, an icon and your own name (Rename, in its sheet's save menu).
-- Saved places show on the map in their list's color at every zoom, smaller far out, and can be
+- Saved places show on the map in their list's color at every zoom, smaller far out, with their
+  names under the pins from a neighborhood zoom, and can be
   pinned to the search page. A place's Save button shows filled when it is already in a list.
 - "Map buttons" draws the locate and parking buttons round or with square corners.
 - Export saved places and lists to a file and import them. Import also reads GPX, KML and GeoJSON,

@@ -3290,7 +3290,9 @@ the shared 12 s timeout cuts it off.
 - Saved pins draw at every zoom. From z8 (`SAVED_PIN_FULL_ZOOM`) every pin draws at
   `SAVED_PIN_SCALE` (1.35), over a neighbor if it must; below it the pin shrinks to 0.45 of that
   by z3 and a pile collapses to the pins that fit, so a far-out map still says where you have
-  places.
+  places. From z14 (`SAVED_LABEL_ZOOM`) the place's name draws under the pin (12 px, Noto Sans
+  Regular, anchored at the top 1.6 em down, 8 em wide, `textOptional`, so a pin whose name finds
+  no room keeps the pin); the dark palette recolors it with every symbol layer.
 - The sheet's star and its Save pill are filled when the place is quick-saved or in any list
   (`ListPlace.matches`). On a place in a list the pill opens the list chooser, where the ticks
   are; otherwise it toggles the quick-save. The star opens its menu either way.

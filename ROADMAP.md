@@ -344,6 +344,10 @@ off the list when it has been.
   after the fix the turn on its row, 24 dp under the card within 2 dp, through the tilted
   stretch. A driver's screenshot showed the callout half under the card at 24 dp; the margin
   is 72 dp. Not seen: a real road with it, a reroute with it on, and the floor dial below 12.
+- Names under saved pins from z14 (#823): seen on a 4a in dark mode at z14.5 and z16, three
+  pins in a downtown grid with their names under them beside the open-places labels, and a pin
+  on top of the basemap's own label for the same place keeping the pin and losing the name.
+  Not seen: light mode, a pile of pins, a long name's wrap.
 - "Zoom out as far as" (#781): seen on a 4a, the three choices under the switch, Town picked
   by default, Region picked and kept. Not seen: a drive with Region or Far picked, where the
   map may go out to zoom 10 or 8.

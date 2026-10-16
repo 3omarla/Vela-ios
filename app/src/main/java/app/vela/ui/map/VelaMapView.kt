@@ -268,6 +268,8 @@ private const val SAVED_PIN_SCALE = 1.35f
 /** Saved pins draw at every zoom (issue #791): the full pin from this zoom, under half of it by
  *  the far zoom, so a far-out map still says where you have places. */
 private const val SAVED_PIN_FULL_ZOOM = 8f
+/** The place's name draws under its saved pin from this zoom (issue #823). */
+private const val SAVED_LABEL_ZOOM = 14f
 private const val SAVED_PIN_FAR_ZOOM = 3f
 private const val SAVED_PIN_FAR_SCALE = 0.45f
 
@@ -521,7 +523,7 @@ private var lastAppliedSpeedCams: List<app.vela.core.data.SpeedCamera>? = null
 private var lastAppliedTransitStops: List<app.vela.core.data.transit.Transitous.MapStop>? = null
 
 /** One saved place drawn on the browse map (issue #171): its list's icon key + color. */
-data class SavedPin(val lat: Double, val lng: Double, val icon: String, val color: Long, val iconUrl: String? = null)
+data class SavedPin(val lat: Double, val lng: Double, val icon: String, val color: Long, val iconUrl: String? = null, val name: String = "")
 private var lastTransitBusHidden: Boolean? = null // gate the poi_transit filter flip
 private var origPoiTransitFilter: Expression? = null // basemap filter to restore when coverage goes
 private var lastOsmPoiVis: String? = null // identity-gate the basemap-POI visibility flips
@@ -6114,6 +6116,18 @@ private fun ensureLayers(style: Style, painted: Boolean) {
                     Expression.step(Expression.zoom(), Expression.literal(false), Expression.stop(SAVED_PIN_FULL_ZOOM, Expression.literal(true))),
                 ),
                 PropertyFactory.iconIgnorePlacement(false), // claims its spot, see the parking pin
+                // The place's name under the pin from SAVED_LABEL_ZOOM (issue #823); the pin stays
+                // when the name finds no room. The dark palette recolors every symbol layer's text.
+                PropertyFactory.textField(Expression.step(Expression.zoom(), Expression.literal(""), Expression.stop(SAVED_LABEL_ZOOM, Expression.get("name")))),
+                PropertyFactory.textFont(arrayOf("Noto Sans Regular")),
+                PropertyFactory.textSize(12f),
+                PropertyFactory.textAnchor(Property.TEXT_ANCHOR_TOP),
+                PropertyFactory.textOffset(arrayOf(0f, 1.6f)),
+                PropertyFactory.textMaxWidth(8f),
+                PropertyFactory.textOptional(true),
+                PropertyFactory.textColor("#3C4043"),
+                PropertyFactory.textHaloColor("#FFFFFF"),
+                PropertyFactory.textHaloWidth(1.3f),
             ),
         )
     }
@@ -9839,6 +9853,7 @@ private fun applyData(
             Feature.fromGeometry(Point.fromLngLat(pin.lng, pin.lat)).apply {
                 addNumberProperty(SAVED_INDEX_PROP, i)
                 addStringProperty(SAVED_ICON_PROP, imgKey)
+                addStringProperty("name", pin.name)
             }
         }
         style.getSourceAs<GeoJsonSource>(SAVED_SRC)?.setGeoJson(FeatureCollection.fromFeatures(feats))

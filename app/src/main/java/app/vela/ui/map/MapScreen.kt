@@ -3951,19 +3951,19 @@ private fun MapSurface(
         if (state.navigating || state.replaying || svPose != null || state.directionsOpen) emptyList()
         // A custom map on screen (opened from a link or from its saved list): its markers, as it drew them.
         else if (state.results.isNotEmpty()) state.results.filter { it.pinColor != null || it.pinIconUrl != null }
-            .map { SavedPin(it.location.lat, it.location.lng, "place", it.pinColor ?: 0xFF1A73E8, it.pinIconUrl) to it }
+            .map { SavedPin(it.location.lat, it.location.lng, "place", it.pinColor ?: 0xFF1A73E8, it.pinIconUrl, name = it.name) to it }
         else buildList {
             val seen = HashSet<String>()
             state.lists.forEach { l ->
                 l.places.forEach { lp ->
                     if (lp.layer != null && lp.layer in l.hiddenLayers) return@forEach // a custom map's hidden layer (#669)
-                    if (seen.add(lp.id)) add(SavedPin(lp.lat, lp.lng, lp.icon ?: l.icon, lp.color ?: l.color, lp.iconUrl.takeIf { lp.icon == null }) to lp.toPlace()) // its own icon first (#629), its own color (#669)
+                    if (seen.add(lp.id)) add(SavedPin(lp.lat, lp.lng, lp.icon ?: l.icon, lp.color ?: l.color, lp.iconUrl.takeIf { lp.icon == null }, name = lp.name) to lp.toPlace()) // its own icon first (#629), its own color (#669)
                 }
             }
             state.saved.forEach { sp ->
                 if (seen.add(sp.id)) {
                     add(
-                        SavedPin(sp.lat, sp.lng, sp.icon ?: "bookmark", 0xFF1A73E8) to
+                        SavedPin(sp.lat, sp.lng, sp.icon ?: "bookmark", 0xFF1A73E8, name = sp.name) to
                             app.vela.core.model.Place(id = sp.id, name = sp.name, location = sp.location, address = sp.address),
                     )
                 }
