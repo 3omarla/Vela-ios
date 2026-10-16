@@ -3087,6 +3087,11 @@ when the feature ids match. Two requests at most.
 - A saved pin or address is a point (`SavedPlace.isPoint`: `bare`, a `pin:` id, or a name that
   is the first line of its own address) and reopens as saved, with no search. Saving a place
   that is not a listing (`Place.isListing()` false) sets `bare`; so does a contact's address.
+- A reopened point also asks what Google lists on it (`MapViewModel.listingsAtPoint`): its
+  address, or its name when it has none, is searched once, and the listings within
+  `SAVED_ENRICH_SAME_SPOT_M` (30 m) go under the sheet's "Also at this location", a tap from
+  their pages. The point stays the place that is open. Online, with Google on, and not for a
+  label that is still looking for its own listing (`awaitsListing`).
 - A star or a list entry made from a map label before its listing was known (the tap still
   resolving, no connection, Google off) is kept under the label's id (`LabelPlace`: `poi:` plus
   the name's hash for a basemap label, `overture:` plus the feature's id for an open place).

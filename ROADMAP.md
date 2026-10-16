@@ -344,6 +344,8 @@ off the list when it has been.
   after the fix the turn on its row, 24 dp under the card within 2 dp, through the tilted
   stretch. A driver's screenshot showed the callout half under the card at 24 dp; the margin
   is 72 dp. Not seen: a real road with it, a reroute with it on, and the floor dial below 12.
+- A saved address or pin lists the businesses on it under "Also at this location" when it is
+  reopened. Not yet seen on a phone: a saved address that a shop has moved into.
 - Wide fixes and a phone at rest (#818, #819): a fix wider than 30 m under 3 m/s gives no course
   and no speed, the car's heading holds while stopped instead of re-asking the route segment,
   and the accelerometer says when the phone is at rest. Unit-tested (`StillnessTest`). Not yet

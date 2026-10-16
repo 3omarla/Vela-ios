@@ -1982,6 +1982,9 @@ class MapViewModel @Inject constructor(
             selectContactPlace(point)
             // Starred from a map label before its listing was known: looked up now that it is open.
             if (opens && sp.awaitsListing) relinkKept(point, detailsOnMiss = false)
+            // A pin or an address stays itself, and the businesses at that spot go under "Also at
+            // this location", so a saved address that has become a shop still leads to its page.
+            else if (opens) listingsAtPoint(point)
             return
         }
         val base = Place(id = sp.id, name = sp.name, location = sp.location)
@@ -2447,10 +2450,10 @@ class MapViewModel @Inject constructor(
     private fun offlineNow(): Boolean = _state.value.offline || !isOnline()
 
     private var netTick = 0
+    private var stillHeld = false // the at-rest sensor is held while the phone guides a drive
     private var etaTick = 0
     private var lastDataNote: String? = null
 
-    private var stillHeld = false // the at-rest sensor is held while the phone guides a drive
     /** Which of the drive's data is read from the phone and which is streamed. Counts and
      *  sources only: no region is named. */
     private fun driveDataNote(): String {
@@ -3409,6 +3412,29 @@ class MapViewModel @Inject constructor(
      * so the star and the list marks hold. Nothing is asked offline or with Google off, and the
      * lookup runs only when the place is opened. True when it started.
      */
+    /**
+     * What Google lists on a saved point, for the sheet's "Also at this location": the point's
+     * address is searched and the listings within [SAVED_ENRICH_SAME_SPOT_M] of it kept. The point
+     * itself stays the place that is open (discussion #681); a tap on a row opens the listing.
+     */
+    private fun listingsAtPoint(p: Place) {
+        if (googleOff() || !isOnline()) return
+        val query = p.address?.takeIf { it.isNotBlank() } ?: p.name
+        if (query.isBlank()) return
+        viewModelScope.launch {
+            fun onSpot(hits: List<Place>) = hits.filter { c -> c.isListing() && c.location.distanceTo(p.location) <= SAVED_ENRICH_SAME_SPOT_M }.take(6)
+            // The address search answers with the address itself more often than with the shop
+            // on it, so the places around the spot are asked next.
+            val searched = runCatching { dataSource.searchOnce(query, p.location) }.getOrDefault(emptyList())
+            val around = if (onSpot(searched).isEmpty()) runCatching { dataSource.nearbyPlaces(p.location, 150.0) }.getOrDefault(emptyList()) else emptyList()
+            val here = onSpot(searched).ifEmpty { onSpot(around) }
+            fun nearest(l: List<Place>) = l.minOfOrNull { it.location.distanceTo(p.location) }?.toInt() ?: -1
+            android.util.Log.i("VelaTap", "saved point reopened: ${here.size} listings at the spot; search ${searched.size} hits (${searched.count { it.isListing() }} listings, nearest ${nearest(searched)} m), around ${around.size} (${around.count { it.isListing() }} listings, nearest ${nearest(around)} m)") // never a name
+            if (here.isEmpty()) return@launch
+            _state.update { s -> if (s.selected?.id == p.id) s.copy(placesHere = here) else s }
+        }
+    }
+
     private fun relinkKept(p: Place, detailsOnMiss: Boolean): Boolean {
         if (googleOff() || p.name.isBlank()) return false
         // "Look up tapped places on Google" off covers an open-data place opened from a list too.
