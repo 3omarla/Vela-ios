@@ -18,4 +18,26 @@ object SettingsDump {
             .sortedBy { it.key }
             .joinToString(" ") { (k, v) -> "$k=" + if (v is Boolean) (if (v) "1" else "0") else v }
     }.getOrDefault("")
+
+    /**
+     * Where fixes come from, for a recorded drive: the location providers that are on, and on
+     * GrapheneOS its network location, SUPL, PSDS and geocoder choices, which it keeps in
+     * `Settings.Global` under these keys (absent on other phones). Words, never a position.
+     */
+    fun location(context: Context): String = runCatching {
+        val lm = context.getSystemService(Context.LOCATION_SERVICE) as android.location.LocationManager
+        val on = lm.allProviders.filter { p -> runCatching { lm.isProviderEnabled(p) }.getOrDefault(false) }
+        val cr = context.contentResolver
+        fun pick(key: String, names: Array<String>): String? {
+            val v = android.provider.Settings.Global.getInt(cr, key, -1)
+            return if (v < 0) null else "$key=" + (names.getOrNull(v) ?: v.toString())
+        }
+        val gos = listOfNotNull(
+            pick("network_location", arrayOf("off", "apple", "grapheneos_proxy", "apple_china")),
+            pick("force_disable_supl", arrayOf("standard", "off", "grapheneos_proxy")),
+            pick("psds_server", arrayOf("grapheneos", "standard", "off")),
+            pick("geocoder", arrayOf("off", "openstreetmap", "grapheneos")),
+        )
+        "providers " + on.joinToString(",").ifEmpty { "none" } + (if (gos.isEmpty()) "" else "; grapheneos " + gos.joinToString(" "))
+    }.getOrDefault("")
 }

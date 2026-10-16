@@ -348,6 +348,9 @@ off the list when it has been.
   pins in a downtown grid with their names under them beside the open-places labels, and a pin
   on top of the basemap's own label for the same place keeping the pin and losing the name.
   Not seen: light mode, a pile of pins, a long name's wrap.
+- The drive's `location:` note (#818): providers on, and GrapheneOS's network location, SUPL,
+  PSDS and geocoder choices. Not yet seen: a trip export carrying it; the GrapheneOS values need
+  a GrapheneOS phone.
 - "Zoom out as far as" (#781): seen on a 4a, the three choices under the switch, Town picked
   by default, Region picked and kept. Not seen: a drive with Region or Far picked, where the
   map may go out to zoom 10 or 8.

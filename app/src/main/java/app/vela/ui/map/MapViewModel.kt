@@ -629,6 +629,7 @@ class MapViewModel @Inject constructor(
                             "places ${app.vela.ui.MapPoiPrefs.placesSource.value}, icon ${app.vela.ui.PuckStyle.key()}",
                     )
                     app.vela.diag.TripNote.add("settings: " + app.vela.diag.SettingsDump.line(appContext))
+                    app.vela.diag.TripNote.add("location: " + app.vela.diag.SettingsDump.location(appContext))
                     app.vela.diag.NetCount.drain(); netTick = 0; lastDataNote = null
                 }
                 kotlinx.coroutines.delay(1_000)

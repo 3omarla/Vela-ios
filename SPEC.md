@@ -5897,6 +5897,11 @@ from GitHub (5.8). With "Use Vela without Google" on, only the open services are
 - `SettingsDump.line` puts the settings on one line in a crash report and at the start of a
   recorded drive: switches, numbers and short option names. Free text and any key that could
   hold a position, an address, a contact, a name, a provider or a font are skipped.
+- `SettingsDump.location` is the drive's third note, `location:`: the providers that are on,
+  and on GrapheneOS its `Settings.Global` choices `network_location` (off, apple,
+  grapheneos_proxy, apple_china), `force_disable_supl` (standard, off, grapheneos_proxy),
+  `psds_server` (grapheneos, standard, off) and `geocoder` (off, openstreetmap, grapheneos),
+  absent elsewhere. Words only.
 - A recorded drive's notes say what it ran on and fetched. `data:` (at the start and on change)
   lists which of routing, the map, places, buildings, addresses, speed limits and signs come
   from the phone and which are streamed, as counts with no region named. `net 10 s:` counts the
