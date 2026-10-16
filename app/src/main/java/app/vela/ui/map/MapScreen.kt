@@ -5064,9 +5064,12 @@ private fun SearchEntryContent(
                         // A swipe toward the start drops it from history (issue #748); the ⋮ stays
                         // as the key path.
                         // Toward the end opens the row's menu, where Add to list is (issue #772).
+                        // Painted in the page's own color: the theme's surface is gray on the
+                        // AMOLED theme and white on the light one, and the rows read as cards.
                         SwipeActionRow(
                             onDelete = { onRemoveRecentPlace(entry.place.id) }, deleteLabel = stringResource(R.string.recent_remove),
                             onEdit = { menuOpen = true }, editLabel = stringResource(R.string.place_save_to_list), editIcon = SymOutlined.BookmarkBorder,
+                            background = MaterialTheme.colorScheme.background,
                         ) {
                             SuggestionRow(
                                 icon = Sym.Place,
@@ -5094,7 +5097,7 @@ private fun SearchEntryContent(
                     }
                     is RecentQuery -> {
                         var menuOpen by remember(entry.query) { mutableStateOf(false) }
-                        SwipeActionRow(onDelete = { onRemoveRecent(entry.query) }, deleteLabel = stringResource(R.string.recent_remove)) {
+                        SwipeActionRow(onDelete = { onRemoveRecent(entry.query) }, deleteLabel = stringResource(R.string.recent_remove), background = MaterialTheme.colorScheme.background) {
                             SuggestionRow(
                                 icon = Sym.History,
                                 tint = MaterialTheme.colorScheme.onSurfaceVariant,

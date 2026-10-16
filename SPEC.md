@@ -3259,7 +3259,9 @@ the shared 12 s timeout cuts it off.
   the platform flags as the long press (`KeyEvent.isLongPress`), or the click on a release before
   it.
 - On the search page a recent query or place row is a `SwipeActionRow` that removes it from
-  history; Clear recents is a `FilledTonalButton` beside the Recent heading. A place row's
+  history, painted in the theme's `background` like the page itself (the `surface` default is
+  gray on the AMOLED theme and white on the light one, and the rows read as cards); Clear recents
+  is a `FilledTonalButton` beside the Recent heading. A place row's
   start to end swipe opens its menu. A query row has no edit, cannot be dragged that way, and
   draws no edit background: the box reports the direction for a moment as it settles.
 
