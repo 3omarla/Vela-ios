@@ -44,6 +44,15 @@ class NavStringsTest {
         assertEquals(FrNavStrings, NavStringsRegistry.forLanguage("fr"))
         assertEquals(JaNavStrings, NavStringsRegistry.forLanguage("ja")) // now translated
         assertEquals(EnNavStrings, NavStringsRegistry.forLanguage("th")) // untranslated → English fallback
+        // Portuguese splits by country: Portugal's table for pt and pt-PT, Brazil's for pt-BR (PR #825).
+        assertEquals("pt", NavStringsRegistry.tagOf(java.util.Locale("pt")))
+        assertEquals("pt", NavStringsRegistry.tagOf(java.util.Locale("pt", "PT")))
+        assertEquals("pt-br", NavStringsRegistry.tagOf(java.util.Locale("pt", "BR")))
+        assertEquals(PtPtNavStrings, NavStringsRegistry.forLanguage("pt"))
+        assertEquals(PtPtNavStrings, NavStringsRegistry.forLanguage("pt-PT"))
+        assertEquals(PtBrNavStrings, NavStringsRegistry.forLanguage("pt-br"))
+        assertEquals("Vire à esquerda na Rua Augusta", PtPtNavStrings.phrase("turn", "left", "Rua Augusta", null, null, null))
+        assertEquals("1 quilómetro", PtPtNavStrings.spokenDistance(1000.0, imperial = false))
         NavStringsRegistry.setLocale(Locale.FRANCE)
         assertEquals(FrNavStrings, NavStringsRegistry.current())
         NavStringsRegistry.setLocale(Locale.US) // reset so other tests see English
