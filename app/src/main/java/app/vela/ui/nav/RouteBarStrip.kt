@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.unit.dp
 import app.vela.core.nav.RouteBar
@@ -43,6 +44,8 @@ fun RouteBarStrip(model: RouteBar.Model, modifier: Modifier = Modifier) {
     val track = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.9f)
     val chip = MaterialTheme.colorScheme.surface
     val ink = MaterialTheme.colorScheme.onSurface
+    val lightImage = androidx.compose.runtime.remember { app.vela.ui.map.trafficLightBitmap().asImageBitmap() }
+    val stopImage = androidx.compose.runtime.remember { app.vela.ui.map.stopSignBitmap().asImageBitmap() }
     Column(modifier.width(STRIP_W.dp), horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
             if (model.reachesDestination) "" else formatDistance(model.spanM),
@@ -74,20 +77,16 @@ fun RouteBarStrip(model: RouteBar.Model, modifier: Modifier = Modifier) {
                 }
                 for (p in model.pins) {
                     when (p.kind) {
-                        // A light and a stop sign carry their glyphs on the track (issue #828): a green
-                        // disc with the light, a red octagon like the sign on the map; small, since a
-                        // town has many of both.
-                        RouteBar.Mark.SIGNAL -> Box(
-                            Modifier
-                                .size(MINI.dp)
-                                .clip(CircleShape)
-                                .background(pinColor(p.kind))
-                                .span(p.at, p.at, kind = ROLE_DOT),
-                            contentAlignment = Alignment.Center,
-                        ) {
-                            Icon(Sym.Traffic, contentDescription = null, tint = Color.White, modifier = Modifier.size((MINI - 5).dp))
-                        }
-                        RouteBar.Mark.STOP -> StopSign(pinColor(p.kind), Modifier.size(MINI.dp).span(p.at, p.at, kind = ROLE_DOT))
+                        // A light and a stop sign are the map's own glyphs on the track (issue #828),
+                        // the light's housing and the sign's octagon; small, since a town has many of both.
+                        RouteBar.Mark.SIGNAL -> androidx.compose.foundation.Image(
+                            bitmap = lightImage, contentDescription = null,
+                            modifier = Modifier.size(width = (MINI / 2).dp, height = MINI.dp).span(p.at, p.at, kind = ROLE_DOT),
+                        )
+                        RouteBar.Mark.STOP -> androidx.compose.foundation.Image(
+                            bitmap = stopImage, contentDescription = null,
+                            modifier = Modifier.size(MINI.dp).span(p.at, p.at, kind = ROLE_DOT),
+                        )
                         else -> Box(
                             Modifier
                                 .size(BADGE.dp)
@@ -197,23 +196,3 @@ private data class RouteBarSpan(val from: Double, val to: Double, val kind: Int)
     override fun androidx.compose.ui.unit.Density.modifyParentData(parentData: Any?) = this@RouteBarSpan
 }
 
-/** A stop sign at track size: the octagon the map draws, with a white band for the word. */
-@Composable
-private fun StopSign(color: Color, modifier: Modifier) {
-    androidx.compose.foundation.Canvas(modifier) {
-        val w = size.minDimension
-        val c = w / 2f
-        val r = c
-        val path = androidx.compose.ui.graphics.Path()
-        for (i in 0 until 8) {
-            val a = Math.toRadians(22.5 + 45.0 * i)
-            val x = (c + r * kotlin.math.cos(a)).toFloat()
-            val y = (c + r * kotlin.math.sin(a)).toFloat()
-            if (i == 0) path.moveTo(x, y) else path.lineTo(x, y)
-        }
-        path.close()
-        drawPath(path, color)
-        drawPath(path, Color.White, style = androidx.compose.ui.graphics.drawscope.Stroke(width = w * 0.07f))
-        drawRect(Color.White, topLeft = androidx.compose.ui.geometry.Offset(w * 0.22f, c - w * 0.09f), size = androidx.compose.ui.geometry.Size(w * 0.56f, w * 0.18f))
-    }
-}

@@ -140,9 +140,9 @@ the route as a strip on the left edge (`RouteBarStrip`). Scaled to a whole long 
 nearby lands in one pixel. With under 400 m left there is no bar.
 
 - Congestion is painted on the track in amber, red and dark red.
-- Lights and stop signs sit on the track at 16 dp with their glyphs, a green disc with a light
-  and a red octagon for a stop sign, the way the map draws them. Cameras, level crossings and
-  speed humps are badges beside it, so a badge never covers congestion.
+- Lights and stop signs sit on the track as the map's own glyphs, the light's housing and the
+  stop sign's octagon, 16 dp tall. Cameras, level crossings and speed humps are badges beside
+  it, so a badge never covers congestion.
 - A mark must lie within 40 m of the line, and a plate camera must face the route
   ([chapter 3](03-cameras.md)).
 - Marks within `PIN_MERGE_M = 60` m merge, and the kind that says most wins: camera, crossing,

@@ -10729,7 +10729,7 @@ private fun parkingBitmap(): Bitmap {
 
 /** A small traffic-light housing (white-rimmed dark rounded rect + red/amber/green dots) for the
  *  map-drawn signal layer. Sized to read as a recognizable stoplight at a ~0.55 icon scale, z16+. */
-private fun trafficLightBitmap(): Bitmap {
+internal fun trafficLightBitmap(): Bitmap {
     val w = 30
     val h = 60
     val bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
@@ -10747,7 +10747,7 @@ private fun trafficLightBitmap(): Bitmap {
 }
 
 /** A small red stop-sign octagon (white rim + "STOP") for the map-drawn stop layer. */
-private fun stopSignBitmap(): Bitmap {
+internal fun stopSignBitmap(): Bitmap {
     val s = 46
     val bmp = Bitmap.createBitmap(s, s, Bitmap.Config.ARGB_8888)
     val c = Canvas(bmp)
