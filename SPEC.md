@@ -3722,6 +3722,15 @@ basemap anyway. A walk or a ride keeps it at opacity 0.
   layer is hidden. An opacity change does not.
 - An 8-digit hex color string is rejected and falls back to opaque black.
 - A `fill-pattern` from the style cannot be cleared. The layer is hidden and a flat twin drawn.
+- A streamed archive (`pmtiles://https://`, the address, building and places overlays of a
+  region that is not downloaded) never reaches MapLibre's own PMTiles path: since MapLibre 13 that
+  path answers one byte range of a streamed archive with another's bytes and fails the source's
+  metadata with "incorrect header check" (maplibre-native issue 4462), so the overlay drew nothing,
+  and a state with an address overlay lost its house numbers. `offline/StreamedPmtiles` reads the
+  archive with `PmtilesReader.Archive.http` instead and serves its tiles to MapLibre as a plain
+  tile template on `pmtiles.vela.invalid` through the map's HTTP client (`overlaySource`, headers
+  read on IO first by `prefetchStreamed`). A downloaded archive file (`pmtiles://file://`) still
+  goes to MapLibre as it is; that path loads.
 - The pmtiles path never cold-fetches a tile clamped two or more levels below the camera.
 - Past a GeoJSON source's maxzoom every overscaled tile lays out all of its parent tile's
   features, so point sources set one. The route line sources set none.

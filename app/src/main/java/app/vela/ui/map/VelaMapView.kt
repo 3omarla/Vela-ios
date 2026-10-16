@@ -424,6 +424,23 @@ private const val CAM_BRG_TURN_DEG = 25.0
 private fun houseNumberMinZoom(): Float = app.vela.ui.HouseNumbers.minZoom()
 
 /**
+ * A vector source for an overlay archive. A downloaded file (`pmtiles://file://`) goes to MapLibre
+ * as it is; a streamed one (`pmtiles://https://`) is served tile by tile through Vela's own reader
+ * (`StreamedPmtiles`), since MapLibre 13's PMTiles path fails a streamed archive's metadata and the
+ * source then draws nothing. Null when the archive's header could not be read.
+ */
+private fun overlaySource(srcId: String, uri: String): VectorSource? =
+    if (app.vela.offline.StreamedPmtiles.serves(uri)) app.vela.offline.StreamedPmtiles.tileSet(uri)?.let { VectorSource(srcId, it) }
+    else VectorSource(srcId, uri)
+
+/** Reads the headers of the streamed archives among [uris] off the main thread, so [overlaySource] answers from memory. */
+private suspend fun prefetchStreamed(uris: List<String>) {
+    val streamed = uris.filter { app.vela.offline.StreamedPmtiles.serves(it) }
+    if (streamed.isEmpty()) return
+    kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) { streamed.forEach { runCatching { app.vela.offline.StreamedPmtiles.tileSet(it) } } }
+}
+
+/**
  * House numbers only AROUND THE SCREEN (issue #655, 2026-10-04). The basemap's tiles stop at z14,
  * so past that one tile holds a whole neighborhood's numbers and every one of them is drawn each
  * frame, on screen or not: in a dense residential part of Montreal at z19 the 4a panned at 33 fps,
@@ -1823,10 +1840,11 @@ fun VelaMapView(
             else -> "#c4c9d1" // classic-light + modern-light share this outline
         }
         val below = runCatching { style.getLayer("building")?.id }.getOrNull() // beneath OSM buildings so they win wherever OSM has them
+        prefetchStreamed(buildingOverlays)
         buildingOverlays.forEachIndexed { i, uri ->
             runCatching {
                 val srcId = "vela-ovl-src-$i"
-                style.addSource(VectorSource(srcId, uri)) // uri already carries pmtiles://file:// or pmtiles://https://
+                style.addSource(overlaySource(srcId, uri) ?: return@runCatching) // pmtiles://file:// straight to MapLibre, https:// through Vela's reader
                 val layer = FillLayer("vela-ovl-$i", srcId).apply {
                     setSourceLayer("building") // the tippecanoe layer name (build-overlay-region.sh: -l building)
                     setMinZoom(16f) // match the OSM `building` layer: footprints only at close (Google-like ~250ft) zoom, where the density gate can also compare accurately
@@ -2032,10 +2050,11 @@ fun VelaMapView(
         )
         runCatching { style.layers.filter { it.id.startsWith("vela-places-") }.forEach { style.removeLayer(it) } }
         runCatching { style.sources.filter { it.id.startsWith("vela-places-src-") }.forEach { style.removeSource(it) } }
+        prefetchStreamed(placesOverlays)
         placesOverlays.forEachIndexed { i, uri ->
             runCatching {
                 val srcId = "vela-places-src-$i"
-                style.addSource(VectorSource(srcId, uri))
+                style.addSource(overlaySource(srcId, uri) ?: return@runCatching)
                 // "top `n` in the cell, or prominent enough on its own" -> the value, else nothing.
                 // COALESCE the rank to 0 so a tile baked before the property existed passes the
                 // test instead of failing it: `frank` (the per-block icon budget) only appears in
@@ -2465,10 +2484,11 @@ fun VelaMapView(
         // mount AFTER applySatelliteLabels' style-load sweep, so they style themselves).
         val txt = if (satelliteOn) "#ffffff" else if (darkTheme) "#9aa0a6" else "#8a8a8a"
         val halo = if (satelliteOn) "#000000" else if (darkTheme) "#1b2432" else "#ffffff"
+        prefetchStreamed(addressOverlays)
         addressOverlays.forEachIndexed { i, uri ->
             runCatching {
                 val srcId = "vela-addr-src-$i"
-                style.addSource(VectorSource(srcId, uri))
+                style.addSource(overlaySource(srcId, uri) ?: return@runCatching)
                 val layer =
                     SymbolLayer("vela-addr-$i", srcId).apply {
                         setSourceLayer("address") // tippecanoe layer name (build-address-region.sh: -l address)
@@ -4578,14 +4598,18 @@ fun VelaMapView(
                         // revisit later in the session is already cached anyway.
                         val bucket = (Math.round(t.latitude / 0.02) shl 20) xor Math.round(t.longitude / 0.02)
                         if (!warmDoneBuckets.add(bucket)) return@Runnable
-                        val sources = StringBuilder()
-                        val layers = StringBuilder()
+                        val sources = ArrayList<String>()
+                        val layers = ArrayList<String>()
                         overlays.forEachIndexed { i, uri ->
-                            if (i > 0) { sources.append(','); layers.append(',') }
-                            sources.append("\"warm$i\":{\"type\":\"vector\",\"url\":\"").append(uri).append("\"}")
-                            layers.append("{\"id\":\"warm$i\",\"type\":\"fill\",\"source\":\"warm$i\",\"source-layer\":\"building\",\"paint\":{\"fill-color\":\"#000000\"}}")
+                            // A streamed archive through Vela's reader, as on the map (overlaySource); one whose
+                            // header is not in memory yet is left out of this warm-up.
+                            val src = if (app.vela.offline.StreamedPmtiles.serves(uri)) app.vela.offline.StreamedPmtiles.sourceJson(uri) ?: return@forEachIndexed
+                            else "{\"type\":\"vector\",\"url\":\"$uri\"}"
+                            sources += "\"warm$i\":$src"
+                            layers += "{\"id\":\"warm$i\",\"type\":\"fill\",\"source\":\"warm$i\",\"source-layer\":\"building\",\"paint\":{\"fill-color\":\"#000000\"}}"
                         }
-                        val styleJson = "{\"version\":8,\"sources\":{$sources},\"layers\":[$layers]}"
+                        if (sources.isEmpty()) return@Runnable
+                        val styleJson = "{\"version\":8,\"sources\":{${sources.joinToString(",")}},\"layers\":[${layers.joinToString(",")}]}"
                         runCatching {
                             warmSnapshotter[0]?.cancel()
                             val snap = org.maplibre.android.snapshotter.MapSnapshotter(

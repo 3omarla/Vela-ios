@@ -39,7 +39,8 @@ object LocalBasemapTiles : Interceptor {
                 okhttp3.OkHttpClient.Builder()
                     .dispatcher(okhttp3.Dispatcher().apply { maxRequestsPerHost = 20 })
                     .addInterceptor(this)
-                    // After the local hook: a tile answered from a downloaded file is not proof of a network.
+                    .addInterceptor(StreamedPmtiles) // a streamed archive's tiles, read by Vela, not by MapLibre's PMTiles path
+                    // After the local hooks: a tile answered from a file or an archive is not proof of a network.
                     .addInterceptor(app.vela.core.net.NetHealth.interceptor)
                     .addInterceptor(app.vela.diag.NetCount) // after the local hook too: only what reaches the network
                     .addInterceptor(ReleaseRedirects) // a release file's signed address, kept between range reads

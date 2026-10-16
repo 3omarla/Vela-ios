@@ -344,6 +344,10 @@ off the list when it has been.
   after the fix the turn on its row, 24 dp under the card within 2 dp, through the tilted
   stretch. A driver's screenshot showed the callout half under the card at 24 dp; the margin
   is 72 dp. Not seen: a real road with it, a reroute with it on, and the floor dial below 12.
+- Streamed overlays read by Vela instead of MapLibre (#827): the address, building and places
+  overlays of a region that is not downloaded come through `StreamedPmtiles`. Not yet seen on a
+  phone: house numbers back in a state with an address overlay, footprints in a suburb OSM has
+  not drawn, the open places layer with no region downloaded.
 - One list exported on its own (#822): a share button in the list editor's title row, seen on
   a 4a: it opens the share sheet with `vela-list-<name>.json`, and Delete, Cancel and Save keep
   their row. A file of that shape picked under Saved places > Your lists > Import came back as

@@ -396,6 +396,9 @@ signed file the app fetches at launch (SPEC 11).
 - An interceptor on MapLibre's HTTP client is installed after `MapLibre.getInstance`.
 - The pmtiles path never cold-fetches a tile two or more levels under the camera. A layer
   whose archive stops at z17 arms at z17 and gates visibility by opacity.
+- A streamed `pmtiles://https://` source goes through `StreamedPmtiles` (`overlaySource`), never
+  straight to MapLibre: since MapLibre 13 its PMTiles cache answers one range with another's
+  bytes and the source fails with `incorrect header check`. A `pmtiles://file://` source loads.
 - The bundled style JSON is one minified line. Edit it with a script that re-dumps compact.
 - Never keep a `Layer` object from `style.layers` past the call that fetched it. Keep the id
   and the style, and look the layer up again on that same style: after a reload the old
