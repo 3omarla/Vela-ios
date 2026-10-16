@@ -5558,9 +5558,11 @@ The map:
   once it has moved `FIX_COURSE_MIN_M` (3 m).
 - The arrow's heading is the GPS course above `STOPPED_MPS` (1 m/s) with a bearing accuracy of
   45 degrees or better, a fix wider than `Stillness.ACC_TRUST_M` (30 m) counting only from
-  `Stillness.SLOW_MPS` (3 m/s); else, while moving or before any heading is known, the bearing of
-  the route segment it is on; stopped, the last heading, so a wide fix at a light before a turn
-  no longer swings the arrow between the two streets. A crawl under 3 m/s on a wide fix, or while
+  `Stillness.SLOW_MPS` (3 m/s); else, while moving or before any heading is known, the route's
+  direction at the engine's own progress along it (`NavState.traveledM`, the way OsmAnd and
+  Organic Maps anchor the arrow to the route rather than to the fix), the segment nearest the fix
+  only off the route; stopped, the last heading, so a wide fix at a light before a turn no
+  longer swings the arrow between the two streets. A crawl under 3 m/s on a wide fix, or while
   the phone is at rest (`Stillness`), is a speed of 0. The heading is kept in every view, so a
   north-up map still turns the arrow.
 - The view is heading-up (`headingUp`) while following with no preview and no overview, the

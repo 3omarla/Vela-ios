@@ -192,6 +192,7 @@ class CarMapRenderer(
 
     private var courseKnown = false
     private var heldStill = false // the at-rest sensor is held while a drive is on
+    private var routeCum: Pair<app.vela.core.model.Route, DoubleArray>? = null // the route's cumulative meters, for the heading at its progress
 
     /** Whether the following view turns with the car: during a drive, or moving with no route,
      *  unless the phone's Settings > Map "Keep north up" is on. */
@@ -1155,8 +1156,19 @@ class CarMapRenderer(
      *  while parked, swinging the whole heading-up view ("moving in all directions in the driveway").
      *  The segment bearing is stable: small jitter keeps you on the same segment, so the heading holds. */
     private fun routeHeading(here: LatLng): Double? {
-        val poly = navSession.state.value.route?.polyline ?: return null
+        val st = navSession.state.value
+        val route = st.route ?: return null
+        val poly = route.polyline
         if (poly.size < 2) return null
+        // On the route, the direction at the engine's own progress along it (NavState.traveledM),
+        // the way OsmAnd and Organic Maps point the arrow: anchored to the route, not to the fix,
+        // so a wide fix at a corner cannot flip it between the two streets. Off the route, or
+        // before the first progress, the segment nearest the fix.
+        if (!st.nav.offRoute && st.nav.traveledM > 0.0) {
+            val cum = routeCum?.takeIf { it.first === route }?.second
+                ?: (route to app.vela.core.nav.RouteProjection.cumulative(poly)).also { routeCum = it }.second
+            return app.vela.core.nav.RouteProjection.bearingAt(poly, cum, st.nav.traveledM.coerceAtMost(cum.last()))
+        }
         var bestSeg = 0; var best = Double.MAX_VALUE
         for (i in 0 until poly.lastIndex) {
             val d = distToSegment(here, poly[i], poly[i + 1])

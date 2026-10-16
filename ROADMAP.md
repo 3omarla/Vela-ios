@@ -351,9 +351,11 @@ off the list when it has been.
   badge. Not seen: a stop sign's octagon on the bar, and the two 16 dp marks a few meters apart.
 - Wide fixes and a phone at rest (#818, #819): a fix wider than 30 m under 3 m/s gives no course
   and no speed, the car's heading holds while stopped instead of re-asking the route segment,
-  and the accelerometer says when the phone is at rest. Unit-tested (`StillnessTest`). Not yet
-  seen: a real stop at a light with a poor fix, on the phone or the head unit; a demo drive
-  cannot make a wide fix.
+  and the accelerometer says when the phone is at rest. Unit-tested (`StillnessTest`). The car's
+  route heading is read at the engine's progress along the route, as OsmAnd and Organic Maps do,
+  and the segment nearest the fix only off the route; seen on the desktop head unit in a demo
+  drive through town, the arrow along the route up to the turn. Not yet seen: a real stop at a
+  light with a poor fix, on the phone or the head unit; a demo drive cannot make a wide fix.
 - Streamed overlays read by Vela instead of MapLibre (#827): the address, building and places
   overlays of a region that is not downloaded come through `StreamedPmtiles`. Not yet seen on a
   phone: house numbers back in a state with an address overlay, footprints in a suburb OSM has
