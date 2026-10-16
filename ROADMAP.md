@@ -344,6 +344,11 @@ off the list when it has been.
   after the fix the turn on its row, 24 dp under the card within 2 dp, through the tilted
   stretch. A driver's screenshot showed the callout half under the card at 24 dp; the margin
   is 72 dp. Not seen: a real road with it, a reroute with it on, and the floor dial below 12.
+- Wide fixes and a phone at rest (#818, #819): a fix wider than 30 m under 3 m/s gives no course
+  and no speed, the car's heading holds while stopped instead of re-asking the route segment,
+  and the accelerometer says when the phone is at rest. Unit-tested (`StillnessTest`). Not yet
+  seen: a real stop at a light with a poor fix, on the phone or the head unit; a demo drive
+  cannot make a wide fix.
 - Streamed overlays read by Vela instead of MapLibre (#827): the address, building and places
   overlays of a region that is not downloaded come through `StreamedPmtiles`. Not yet seen on a
   phone: house numbers back in a state with an address overlay, footprints in a suburb OSM has

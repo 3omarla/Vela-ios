@@ -1434,6 +1434,16 @@ Each fix that reaches `NavSession.onLocation` runs in this order: project it ont
   good fixes. A first lock sharpening on a phone with no network location still lands at once.
 - Time between fixes comes from `elapsedRealtimeNanos`. `loc.time` mixes GNSS UTC with the
   system clock.
+- A fix wider than `Stillness.ACC_TRUST_M` (30 m) under `Stillness.SLOW_MPS` (3 m/s) says
+  nothing about direction: its course and the course derived from the last fix are not taken,
+  and the heading holds. On such a fix the course drifted 20 degrees on a straight approach to a
+  light (issue #818).
+- A speed under 3 m/s on a wide fix, or on any fix while the phone is at rest, reads as 0: a
+  parked car's 0.7 m/s showed as 1.5 mph on the tile (issue #819). At rest is
+  `core/location/Stillness`: the accelerometer, sampled every 100 ms over 15 samples while a
+  drive is on (held by the view model for the phone's drive and by the car renderer for its
+  own), with the magnitude's standard deviation under 0.25 m/s². It is only consulted below
+  3 m/s: at speed a steady cruise and rest look alike to it.
 - The provider registration keeps `minDistanceM = 0`. A distance filter delivers nothing at a
   standstill.
 - A measured speed more than 8 m/s² × dt + 5 m/s from the last accepted one is rejected once.
@@ -5539,8 +5549,12 @@ The map:
   it held the zoom at its closest. A fix with no bearing takes the direction from the last fix
   once it has moved `FIX_COURSE_MIN_M` (3 m).
 - The arrow's heading is the GPS course above `STOPPED_MPS` (1 m/s) with a bearing accuracy of
-  45 degrees or better, else the bearing of the route segment it is on, else the last heading. It
-  is kept in every view, so a north-up map still turns the arrow.
+  45 degrees or better, a fix wider than `Stillness.ACC_TRUST_M` (30 m) counting only from
+  `Stillness.SLOW_MPS` (3 m/s); else, while moving or before any heading is known, the bearing of
+  the route segment it is on; stopped, the last heading, so a wide fix at a light before a turn
+  no longer swings the arrow between the two streets. A crawl under 3 m/s on a wide fix, or while
+  the phone is at rest (`Stillness`), is a speed of 0. The heading is kept in every view, so a
+  north-up map still turns the arrow.
 - The view is heading-up (`headingUp`) while following with no preview and no overview, the
   phone's `NorthLock` off, and either a drive or the free-drive latch: the smoothed speed
   (`DRIVE_SPEED_TAU_S` 1 s) past `DRIVE_LATCH_MPS` (2.5) with a course known. The latch holds

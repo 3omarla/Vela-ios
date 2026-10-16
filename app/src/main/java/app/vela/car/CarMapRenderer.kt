@@ -191,6 +191,7 @@ class CarMapRenderer(
     private fun navigating() = navSession.state.value.navigating
 
     private var courseKnown = false
+    private var heldStill = false // the at-rest sensor is held while a drive is on
 
     /** Whether the following view turns with the car: during a drive, or moving with no route,
      *  unless the phone's Settings > Map "Keep north up" is on. */
@@ -357,6 +358,12 @@ class CarMapRenderer(
                     prev != null -> (movedM / dtFix).coerceIn(0.0, FIX_SPEED_MAX_MPS)
                     else -> 0.0
                 }
+                // A wide fix under SLOW_MPS, or any crawl while the phone is at rest, is a parked
+                // car: its speed reads 0 and its course is not believed (issues #818, #819).
+                val wide = loc.hasAccuracy() && loc.accuracy > app.vela.core.location.Stillness.ACC_TRUST_M
+                if (speedMps < app.vela.core.location.Stillness.SLOW_MPS && (wide || app.vela.core.location.Stillness.still)) speedMps = 0.0
+                val nav = navigating()
+                if (nav != heldStill) { if (nav) app.vela.core.location.Stillness.hold(carContext) else app.vela.core.location.Stillness.release(); heldStill = nav }
                 // The same for a fix without a bearing: the direction from the last fix, once it
                 // has moved far enough for that to mean something.
                 val fixCourse: Double? = when {
@@ -366,7 +373,10 @@ class CarMapRenderer(
                 }
                 lastFix = raw; lastFixMs = nowMs
                 driveSpeed += (speedMps - driveSpeed) * (1.0 - exp(-(if (dtFix > 0.0) dtFix else 1.0) / DRIVE_SPEED_TAU_S))
-                val course = if (fixCourse != null && speedMps > STOPPED_MPS) fixCourse else routeHeading(here)
+                // Stopped, the heading holds: asking the nearest route segment on every wide fix at
+                // a light before a turn swung the arrow between the two streets.
+                val courseOk = fixCourse != null && speedMps > STOPPED_MPS && (!wide || speedMps >= app.vela.core.location.Stillness.SLOW_MPS)
+                val course = if (courseOk) fixCourse else if (speedMps <= STOPPED_MPS && courseKnown) targetHeading else routeHeading(here)
                 estimator.onFix(here.lat, here.lng, speedMps, course, nowMs)
                 targetPuck = here
                 if (puck == null) {
@@ -394,10 +404,9 @@ class CarMapRenderer(
                 //     flickered between adjacent points and swung the view even while driving).
                 //  3. Else hold the last heading, never chase noise. With no route the arrow
                 //     keeps its course through a stop, and a north-up view still turns it.
-                val trustCourse = speedMps > STOPPED_MPS && fixCourse != null &&
-                    (!loc.hasBearingAccuracy() || loc.bearingAccuracyDegrees <= 45f)
+                val trustCourse = courseOk && (!loc.hasBearingAccuracy() || loc.bearingAccuracyDegrees <= 45f)
                 if (trustCourse) { targetHeading = fixCourse!!; courseKnown = true }
-                else routeHeading(here)?.let { targetHeading = it; courseKnown = true }
+                else if (!courseKnown || speedMps > STOPPED_MPS) routeHeading(here)?.let { targetHeading = it; courseKnown = true }
                 if ((previewRoute != null || resultPins.isNotEmpty()) && !navigating()) { requestRender(); return@collect } // a preview or the results own the camera
                 // Auto-recenter a few seconds after the user pans (Google-style: pan to look around, then snap back).
                 if (!following && !overview && android.os.SystemClock.uptimeMillis() - lastPanMs > RECENTER_MS) following = true
@@ -466,6 +475,7 @@ class CarMapRenderer(
     private fun normalizeAngle(a: Double): Double = ((a % 360.0) + 360.0) % 360.0
 
     fun stop() {
+        if (heldStill) { app.vela.core.location.Stillness.release(); heldStill = false }
         collectJob?.cancel()
         collectJob = null
         tickerJob?.cancel()

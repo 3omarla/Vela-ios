@@ -621,6 +621,7 @@ class MapViewModel @Inject constructor(
         viewModelScope.launch {
             while (true) {
                 if (!_state.value.navigating) {
+                    if (stillHeld) { app.vela.core.location.Stillness.release(); stillHeld = false } // the drive ended
                     app.vela.ui.map.MapPerf.reset(); _state.first { it.navigating }
                     // The drive's first note: what it ran on. No account, no place.
                     app.vela.diag.TripNote.add(
@@ -630,6 +631,7 @@ class MapViewModel @Inject constructor(
                     )
                     app.vela.diag.TripNote.add("settings: " + app.vela.diag.SettingsDump.line(appContext))
                     app.vela.diag.TripNote.add("location: " + app.vela.diag.SettingsDump.location(appContext))
+                    app.vela.core.location.Stillness.hold(appContext); stillHeld = true // the at-rest sensor, for the drive
                     app.vela.diag.NetCount.drain(); netTick = 0; lastDataNote = null
                 }
                 kotlinx.coroutines.delay(1_000)
@@ -1020,9 +1022,13 @@ class MapViewModel @Inject constructor(
                 // fixBearing = a course THIS fix actually measured or derived; null when stopped.
                 // The dot keeps the last one, but guidance gets only a fresh one: a reroute pins
                 // its departure heading, and a stale heading from before a stop is worse than none.
+                // A wide fix (ACC_TRUST_M) under SLOW_MPS says nothing about direction: its course
+                // wandered 20 degrees on a straight approach to a light (issue #818).
+                val wide = accM > app.vela.core.location.Stillness.ACC_TRUST_M
+                val slow = app.vela.core.location.Stillness.SLOW_MPS.toFloat()
                 val fixBearing = when {
-                    loc.hasBearing() && loc.speed > 0.5f -> loc.bearing
-                    canDerive && movedM > 3.0 -> bearingBetween(prev!!, here)
+                    loc.hasBearing() && loc.speed > 0.5f && (!wide || loc.speed >= slow) -> loc.bearing
+                    canDerive && movedM > 3.0 && (!wide || movedM / dt >= slow) -> bearingBetween(prev!!, here)
                     else -> null
                 }
                 val bearing = fixBearing ?: _state.value.myBearing
@@ -1037,6 +1043,10 @@ class MapViewModel @Inject constructor(
                     canDerive -> (movedM / dt).toFloat().coerceIn(0f, 70f)
                     nowMs - lastSpeedEvidenceMs > SPEED_HOLD_MS -> 0f
                     else -> _state.value.mySpeed
+                }?.let { s ->
+                    // A crawl on a wide fix, or any crawl while the phone is at rest, is a parked car:
+                    // 0.7 m/s on a parked car read as 1.5 mph on the tile (issue #819).
+                    if (s < slow && (wide || app.vela.core.location.Stillness.still)) 0f else s
                 }
                 // Plausibility-gate the measured speed (shared with replay): symmetric and
                 // accel-bounded — the old one-sided +15 m/s check let a single doppler down-glitch
@@ -2440,6 +2450,7 @@ class MapViewModel @Inject constructor(
     private var etaTick = 0
     private var lastDataNote: String? = null
 
+    private var stillHeld = false // the at-rest sensor is held while the phone guides a drive
     /** Which of the drive's data is read from the phone and which is streamed. Counts and
      *  sources only: no region is named. */
     private fun driveDataNote(): String {
