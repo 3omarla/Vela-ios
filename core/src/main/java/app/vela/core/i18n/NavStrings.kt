@@ -853,7 +853,7 @@ object PtPtNavStrings : NavStrings {
             "fork" -> ("Mantenha-se $m").trim() + sentido
             "roundabout", "rotary", "exit roundabout", "exit rotary" -> if (rbExit != null) "Na rotunda, siga pela ${rbExit}ª saída$na" else "Entre na rotunda$na"
             "roundabout turn" -> ("Na rotunda, vire $m").trim() + na
-            "uturn" -> "Faça o inversão de marcha$na"
+            "uturn" -> "Faça a inversão de marcha$na"
             else -> if (m.isNotBlank()) ("Vire $m").trim() + na else "Continue$na"
         }
     }
@@ -2540,9 +2540,11 @@ object NavStringsRegistry {
     fun setLocale(locale: Locale) { active = forLanguage(tagOf(locale)) }
 
     /** Language key for a locale — plain language code, except Chinese where the SCRIPT matters:
-     *  Traditional-script regions (TW/HK/MO, or an explicit Hant script) map to "zh-tw". */
+     *  Traditional-script regions (TW/HK/MO, or an explicit Hant script) map to "zh-tw", and
+     *  Portuguese, where Brazil ("pt-br") has its own guidance beside Portugal's ("pt"). */
     fun tagOf(locale: Locale): String {
         val lang = locale.language.lowercase()
+        if (lang == "pt") return if (locale.country.equals("BR", ignoreCase = true)) "pt-br" else "pt"
         if (lang != "zh") return lang
         val hant = locale.script.equals("Hant", ignoreCase = true) ||
             locale.country.uppercase() in setOf("TW", "HK", "MO")

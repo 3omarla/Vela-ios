@@ -18,7 +18,7 @@ are separate systems, so support differs by language.
 | Spanish | `es` | yes | yes | yes (Spain and Mexico) | yes |
 | Italian | `it` | yes | yes | yes | yes |
 | Portuguese (Portugal) | `pt` | yes | yes | yes (Brazilian voice) | yes |
-| Portuguese (Brazil) | `pt-BR` | yes | yes (the Portuguese table) | yes | yes |
+| Portuguese (Brazil) | `pt-BR` | yes | yes (its own table) | yes | yes |
 | Dutch | `nl` | yes | yes | yes | yes |
 | Russian | `ru` | yes | yes | yes | yes |
 | Polish | `pl` | yes | yes | yes | yes |
