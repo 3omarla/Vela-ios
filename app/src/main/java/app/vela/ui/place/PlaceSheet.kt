@@ -2521,12 +2521,16 @@ fun TransitNavSheet(
             if (remaining.isNotEmpty()) {
                 Text(stringResource(R.string.transit_nav_next), style = MaterialTheme.typography.labelMedium, color = dim)
                 Spacer(Modifier.height(6.dp))
+                // The list takes all the room above the buttons and scrolls inside it. It used to
+                // share that room with a spacer, and a short list left the buttons floating on the
+                // one card whose list was short (issue #831).
                 Column(
-                    Modifier.weight(1f, fill = false).verticalScroll(rememberScrollState()),
+                    Modifier.weight(1f).verticalScroll(rememberScrollState()),
                     verticalArrangement = Arrangement.spacedBy(10.dp),
                 ) { remaining.forEach { TransitStepRow(it, ink, dim) } }
+            } else {
+                Spacer(Modifier.weight(1f))
             }
-            Spacer(Modifier.weight(1f))
             Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 FilledTonalButton(onClick = onBack, enabled = nav.stepIndex > 0, modifier = Modifier.weight(1f)) {
                     Text(stringResource(R.string.settings_back))
