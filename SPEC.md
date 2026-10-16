@@ -3293,6 +3293,9 @@ the shared 12 s timeout cuts it off.
   places. From z14 (`SAVED_LABEL_ZOOM`) the place's name draws under the pin (12 px, Noto Sans
   Regular, anchored at the top 1.6 em down, 8 em wide, `textOptional`, so a pin whose name finds
   no room keeps the pin); the dark palette recolors it with every symbol layer.
+- A list's editor has a share button in its title row: `PlaceListStore.exportJson(id)` writes that one list
+  in the same JSON the export of every list writes, so it imports back as that list, and
+  `MapViewModel.exportListIntent` shares it as `vela-list-<name>.json` (issue #822).
 - The sheet's star and its Save pill are filled when the place is quick-saved or in any list
   (`ListPlace.matches`). On a place in a list the pill opens the list chooser, where the ticks
   are; otherwise it toggles the quick-save. The star opens its menu either way.

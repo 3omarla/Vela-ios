@@ -1020,6 +1020,7 @@
     <string name="list_emoji_label">Type any emoji</string>
     <string name="list_color_label">Color</string>
     <string name="list_delete">Delete</string>
+    <string name="list_export">Export this list</string>
     <string name="list_delete_title">Delete %1$s?</string> <!-- format -->
     <plurals name="lists_delete_count">
         <item quantity="one">Delete this list?</item>
@@ -1104,6 +1105,8 @@
     <string name="settings_no_lists">No lists to export yet</string>
     <string name="mapvm_export_lists_subject">Vela lists (%1$d)</string>
     <string name="mapvm_export_lists_chooser">Export lists</string>
+    <string name="mapvm_export_list_subject">Vela list: %1$s</string> <!-- format -->
+    <string name="mapvm_export_list_chooser">Export list</string>
     <string name="lists_empty_hint">No lists yet. Tap New to create one, or save a place from its page.</string>
     <plurals name="lists_place_count">
         <item quantity="one">%1$d place</item>

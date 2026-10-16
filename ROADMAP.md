@@ -344,6 +344,9 @@ off the list when it has been.
   after the fix the turn on its row, 24 dp under the card within 2 dp, through the tilted
   stretch. A driver's screenshot showed the callout half under the card at 24 dp; the margin
   is 72 dp. Not seen: a real road with it, a reroute with it on, and the floor dial below 12.
+- One list exported on its own (#822): a share button in the list editor's title row, seen on
+  a 4a: it opens the share sheet with `vela-list-<name>.json`, and Delete, Cancel and Save keep
+  their row. Not seen: that file imported back as the list.
 - Names under saved pins from z14 (#823): seen on a 4a in dark mode at z14.5 and z16, three
   pins in a downtown grid with their names under them beside the open-places labels, and a pin
   on top of the basemap's own label for the same place keeping the pin and losing the name.

@@ -7440,6 +7440,30 @@ class MapViewModel @Inject constructor(
         }.getOrNull()
     }
 
+    /** A share/save intent for ONE list, as the same JSON file the export of every list writes,
+     *  so it imports back as that list; null when there is no such list. */
+    fun exportListIntent(id: String): android.content.Intent? {
+        val list = listStore.lists().firstOrNull { it.id == id } ?: return null
+        val body = listStore.exportJson(id) ?: return null
+        return runCatching {
+            val dir = java.io.File(appContext.cacheDir, "export").apply { mkdirs() }
+            val safe = list.name.replace(Regex("[^A-Za-z0-9 _-]"), "").trim().replace(' ', '-').take(40).ifEmpty { "list" }
+            val file = java.io.File(dir, "vela-list-$safe.json")
+            file.writeText(body)
+            val uri = androidx.core.content.FileProvider.getUriForFile(
+                appContext, "${appContext.packageName}.fileprovider", file,
+            )
+            val send = android.content.Intent(android.content.Intent.ACTION_SEND).apply {
+                type = "application/json"
+                putExtra(android.content.Intent.EXTRA_STREAM, uri)
+                putExtra(android.content.Intent.EXTRA_SUBJECT, appContext.getString(R.string.mapvm_export_list_subject, list.name))
+                addFlags(android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
+            android.content.Intent.createChooser(send, appContext.getString(R.string.mapvm_export_list_chooser))
+                .apply { addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK) }
+        }.getOrNull()
+    }
+
     /** Import lists from a picked file [uri]; returns how many lists were newly added. */
     suspend fun importListsFromUri(uri: android.net.Uri): app.vela.core.data.ImportResult {
         val json = runCatching {

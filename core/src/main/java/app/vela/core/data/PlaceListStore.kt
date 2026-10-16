@@ -186,6 +186,10 @@ class PlaceListStore @Inject constructor(
     /** All lists as a portable JSON document (export / backup). */
     fun exportJson(): String = json.encodeToString(lists())
 
+    /** One list as the same JSON the export of every list writes, so it imports back as that
+     *  list; null when no list has [id]. */
+    fun exportJson(id: String): String? = lists().firstOrNull { it.id == id }?.let { json.encodeToString(listOf(it)) }
+
     /** Merge exported [json] lists in, de-duped by list id (existing lists keep their
      *  places; a brand-new list is appended whole). Returns how many lists were added. */
     /** Merge lists from an exported file; reports which outcome happened (issue #287, see

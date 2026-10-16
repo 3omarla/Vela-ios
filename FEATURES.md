@@ -255,7 +255,8 @@ What Vela Maps does today, one line per feature. How each one works is in [SPEC.
   names under the pins from a neighborhood zoom, and can be
   pinned to the search page. A place's Save button shows filled when it is already in a list.
 - "Map buttons" draws the locate and parking buttons round or with square corners.
-- Export saved places and lists to a file and import them. Import also reads GPX, KML and GeoJSON,
+- Export saved places and lists to a file and import them, or one list on its own from its
+  editor. Import also reads GPX, KML and GeoJSON,
   and a list from Google Takeout's Saved folder (one CSV per list) becomes a list of the same name,
   each place looked up by its Google id.
 - Select several places in a list or in Saved places (long press one, or the select button), then

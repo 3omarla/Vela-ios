@@ -6043,6 +6043,7 @@ private fun ListsSheet(
     vm: MapViewModel? = null,
 ) {
     val savedState = vm?.state?.collectAsState()
+    val exportContext = androidx.compose.ui.platform.LocalContext.current // starts the one-list export's share sheet
     var editing by remember { mutableStateOf<app.vela.core.model.PlaceList?>(null) }
     var creating by remember { mutableStateOf(false) }
     // The Saved places picked for removing or moving to a list; null while not selecting.
@@ -6265,6 +6266,8 @@ private fun ListsSheet(
             onDelete = { onDeleteList(list.id); editing = null },
             onDismiss = { editing = null },
             onPreviewSound = { sound, n -> vm?.playListSound(sound, n) },
+            // This one list as a file of its own (#822): the same shape as the export of all lists.
+            onExport = { vm?.exportListIntent(list.id)?.let { i -> runCatching { exportContext.startActivity(i) } }; editing = null },
         )
     }
     // A swiped list with places in it asks first; an empty one goes at once.
@@ -6640,6 +6643,7 @@ private fun ListEditorDialog(
     onDelete: (() -> Unit)?,
     onDismiss: () -> Unit,
     onPreviewSound: (sound: String, name: String) -> Unit = { _, _ -> },
+    onExport: (() -> Unit)? = null,
 ) {
     var name by remember { mutableStateOf(initial?.name ?: "") }
     var icon by remember { mutableStateOf(initial?.icon ?: "bookmark") }
@@ -6653,11 +6657,21 @@ private fun ListEditorDialog(
         val maxDialogHeight = (LocalConfiguration.current.screenHeightDp * 0.9f).dp
         Surface(shape = RoundedCornerShape(20.dp), color = MaterialTheme.colorScheme.surface) {
             Column(Modifier.padding(20.dp).widthIn(max = 420.dp).heightIn(max = maxDialogHeight)) {
-                Text(
-                    stringResource(if (initial == null) R.string.list_new_title else R.string.list_edit_title),
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                )
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        stringResource(if (initial == null) R.string.list_new_title else R.string.list_edit_title),
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.weight(1f),
+                    )
+                    // This one list as a file (#822), up here: a fourth control in the button row
+                    // below wrapped Save letter by letter.
+                    if (onExport != null) {
+                        IconButton(onClick = onExport, modifier = Modifier.dpadHighlight(CircleShape)) {
+                            Icon(Sym.Share, contentDescription = stringResource(R.string.list_export))
+                        }
+                    }
+                }
                 Spacer(Modifier.height(12.dp))
                 // The form fields scroll; `fill = false` lets the column shrink to content on tall
                 // screens (no dead space) but cap + scroll on short ones so Save is always reachable.
