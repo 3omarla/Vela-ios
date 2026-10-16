@@ -916,7 +916,7 @@ object PtPtNavStrings : NavStrings {
         return if (count > 1) "Use as $count faixas $sideWord" else "Use a faixa $sideWord"
     }
 
-    // expandForSpeech is left as the interface default (identity) — Portuguese road names are read natively.
+    // expandForSpeech is left as the interface default (identity): Portuguese road names are read natively.
 
     private fun ptNum(x: Double): String = x.toString().replace('.', ',')
 }
@@ -1022,7 +1022,7 @@ object PtBrNavStrings : NavStrings {
         return if (count > 1) "Use as $count faixas $sideWord" else "Use a faixa $sideWord"
     }
 
-    // expandForSpeech is left as the interface default (identity) — Portuguese road names are read natively.
+    // expandForSpeech is left as the interface default (identity): Portuguese road names are read natively.
 
     private fun ptNum(x: Double): String = x.toString().replace('.', ',')
 }
