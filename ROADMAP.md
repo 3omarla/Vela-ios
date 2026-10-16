@@ -346,6 +346,9 @@ off the list when it has been.
   is 72 dp. Not seen: a real road with it, a reroute with it on, and the floor dial below 12.
 - A saved address or pin lists the businesses on it under "Also at this location" when it is
   reopened. Not yet seen on a phone: a saved address that a shop has moved into.
+- Lights and stop signs with their glyphs on the road-ahead bar (#828): seen on a 4a in a
+  simulated drive through town, green discs with the light glyph on the track beside a camera
+  badge. Not seen: a stop sign's octagon on the bar, and the two 16 dp marks a few meters apart.
 - Wide fixes and a phone at rest (#818, #819): a fix wider than 30 m under 3 m/s gives no course
   and no speed, the car's heading holds while stopped instead of re-asking the route segment,
   and the accelerometer says when the phone is at rest. Unit-tested (`StillnessTest`). Not yet

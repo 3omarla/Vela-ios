@@ -74,13 +74,20 @@ fun RouteBarStrip(model: RouteBar.Model, modifier: Modifier = Modifier) {
                 }
                 for (p in model.pins) {
                     when (p.kind) {
-                        RouteBar.Mark.SIGNAL, RouteBar.Mark.STOP -> Box(
+                        // A light and a stop sign carry their glyphs on the track (issue #828): a green
+                        // disc with the light, a red octagon like the sign on the map; small, since a
+                        // town has many of both.
+                        RouteBar.Mark.SIGNAL -> Box(
                             Modifier
-                                .size(DOT.dp)
+                                .size(MINI.dp)
                                 .clip(CircleShape)
                                 .background(pinColor(p.kind))
                                 .span(p.at, p.at, kind = ROLE_DOT),
-                        )
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            Icon(Sym.Traffic, contentDescription = null, tint = Color.White, modifier = Modifier.size((MINI - 5).dp))
+                        }
+                        RouteBar.Mark.STOP -> StopSign(pinColor(p.kind), Modifier.size(MINI.dp).span(p.at, p.at, kind = ROLE_DOT))
                         else -> Box(
                             Modifier
                                 .size(BADGE.dp)
@@ -161,7 +168,8 @@ private const val STRIP_W = 52 // the track column plus a badge lane beside it
 private const val TRACK_COL = 26 // the track/dots/arrow column (a badge-wide column, so the arrow fits)
 private const val TRACK_W = 8
 private const val BADGE = 26
-private const val DOT = 9
+private const val DOT = 9   // the arrow marker's own dot
+private const val MINI = 16 // a light's disc or a stop sign on the track
 private const val ROLE_TRACK = 0
 private const val ROLE_BAND = 1
 private const val ROLE_DOT = 2
@@ -187,4 +195,25 @@ private fun Modifier.span(from: Double, to: Double, kind: Int) = this.then(Route
 private data class RouteBarSpan(val from: Double, val to: Double, val kind: Int) :
     androidx.compose.ui.layout.ParentDataModifier, Modifier.Element {
     override fun androidx.compose.ui.unit.Density.modifyParentData(parentData: Any?) = this@RouteBarSpan
+}
+
+/** A stop sign at track size: the octagon the map draws, with a white band for the word. */
+@Composable
+private fun StopSign(color: Color, modifier: Modifier) {
+    androidx.compose.foundation.Canvas(modifier) {
+        val w = size.minDimension
+        val c = w / 2f
+        val r = c
+        val path = androidx.compose.ui.graphics.Path()
+        for (i in 0 until 8) {
+            val a = Math.toRadians(22.5 + 45.0 * i)
+            val x = (c + r * kotlin.math.cos(a)).toFloat()
+            val y = (c + r * kotlin.math.sin(a)).toFloat()
+            if (i == 0) path.moveTo(x, y) else path.lineTo(x, y)
+        }
+        path.close()
+        drawPath(path, color)
+        drawPath(path, Color.White, style = androidx.compose.ui.graphics.drawscope.Stroke(width = w * 0.07f))
+        drawRect(Color.White, topLeft = androidx.compose.ui.geometry.Offset(w * 0.22f, c - w * 0.09f), size = androidx.compose.ui.geometry.Size(w * 0.56f, w * 0.18f))
+    }
 }

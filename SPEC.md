@@ -5245,6 +5245,9 @@ the catalog, the ones switched off included; a pick runs that search. The one-bu
   under the banner.
 - The route bar (`RouteBarStrip`) draws in portrait only and never in PiP. It shows the next
   `RouteBar.WINDOW_M` (5,000 m): scaled to a long trip, nearby marks collapse into one pixel.
+  Congestion is painted on the track by level; a light is a green `MINI` (16 dp) disc with the
+  light glyph and a stop sign a red octagon of the same size, both on the track; cameras,
+  crossings and humps are `BADGE` (26 dp) discs beside it with their glyphs (issue #828).
 - Search along the route is a page (`NavSearchChips`): the whole screen in portrait, the left
   column over a dimmed map in landscape, where a tap on the dimmed part closes it. It has a
   search field, `QuickCategories.forDrive()` as tiles three to a row with fuel and charging
