@@ -493,6 +493,11 @@ Found reading everything since 0.4.1912 and not fixed yet.
   all of which the tiles carry today; an elevation profile for a route from the terrain tiles
   the shading already uses. Not in the tiles: the hiking difficulty grade, cliffs, contour lines,
   which need a bake of their own. Not started.
+- Transit routing over OpenStreetMap's route relations (#809): the bus and tram lines mappers
+  have drawn carry their stops and order, and Organic Maps routes over them with no timetable.
+  Google's feed misses whole cities (Niš has its coaches and none of its city lines), and
+  Transitous has no feed there either, so a planner over the relations in the downloaded
+  region would answer where neither does, without times. Its own engine; not started.
 - Snapping the dot to the road with no route (#803): the browse and driving-mode dot is the raw
   fix, and a weak head unit GPS puts it a lane or a row of houses off. Vela already finds the
   road under the car for the speed limit; a snap onto it while moving, released at junctions
