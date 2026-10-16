@@ -346,11 +346,14 @@ off the list when it has been.
   is 72 dp. Not seen: a real road with it, a reroute with it on, and the floor dial below 12.
 - One list exported on its own (#822): a share button in the list editor's title row, seen on
   a 4a: it opens the share sheet with `vela-list-<name>.json`, and Delete, Cancel and Save keep
-  their row. Not seen: that file imported back as the list.
-- Names under saved pins from z14 (#823): seen on a 4a in dark mode at z14.5 and z16, three
-  pins in a downtown grid with their names under them beside the open-places labels, and a pin
-  on top of the basemap's own label for the same place keeping the pin and losing the name.
-  Not seen: light mode, a pile of pins, a long name's wrap.
+  their row. A file of that shape picked under Saved places > Your lists > Import came back as
+  the list with its two places and its pins on the map. Not seen: the exported file itself
+  going round, since the share sheet on the rig has no file target.
+- Names under saved pins from z14 (#823): seen on a 4a in dark and light mode at z14 to z16:
+  three pins in a downtown grid with their names under them beside the open-places labels, a
+  pin on top of the basemap's own label for the same place keeping the pin and losing the name,
+  a nine-pin list across a city center with every name that had room and the crowded ones
+  dropped, and names of six words wrapping to two or three lines at the 8 em width.
 - The drive's `location:` note (#818): providers on, and GrapheneOS's network location, SUPL,
   PSDS and geocoder choices. Not yet seen: a trip export carrying it; the GrapheneOS values need
   a GrapheneOS phone.
