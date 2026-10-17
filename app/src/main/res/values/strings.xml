@@ -1444,6 +1444,8 @@
     <string name="settings_zoom_to_turn_floor_region">Region</string>
     <string name="settings_zoom_to_turn_floor_far">Far</string>
     <string name="settings_zoom_to_turn_floor_hint">How far out the map may zoom to keep the next turn on screen. Each step reaches about four times as far; the far ones trade street names for the stretch ahead.</string>
+    <string name="settings_road_numbers">Road numbers first</string>
+    <string name="settings_road_numbers_hint">A road with a route number goes by the number, not a name such as Pearl Harbor Memorial Expressway. Under the arrow, on the car screen and in the directions of the next route.</string>
     <string name="settings_puck_shape">Navigation icon</string>
     <string name="settings_puck_shape_arrow">Arrow</string>
     <string name="settings_puck_shape_car">Car</string>

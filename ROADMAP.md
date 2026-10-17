@@ -441,6 +441,10 @@ off the list when it has been.
   picked in the chooser; a real drive still re-plans from the car when the chosen start is
   farther than 150 m away. Seen on a 4a: a drive from a grocery 500 m from the dot began in its
   parking lot, on the 3.1 mi route the chooser showed.
+- Road numbers first (#836, Settings > Navigation, off by default): a numbered road goes by its
+  number on the pill, the car's Continue on line and the directions of the next route. Unit-tested (`RoadLabelTest`). Seen on a 4a: with the switch on, a simulated drive's card read
+  "Turn left onto CR E6" for West Covell Boulevard with the number's chip beside it; off, a
+  boulevard with a number reads by name.
 - Street words abbreviated everywhere on screen (#837): the pill for every name, the turn card
   and its "then" line, the car's step and Continue on; the voice keeps the full words. Unit-tested (`RoadNameShortTest`). Seen on a 4a in a simulated drive: "Turn left onto G St" on the
   then line and "G St" on the pill.

@@ -151,6 +151,8 @@ What Vela Maps does today, one line per feature. How each one works is in [SPEC.
   under Navigation.
 - "Current road name" goes above the bottom bar, under the arrow, inside the bar, or off. A
   freeway shows its number, with the compass direction when the signs give one ("I 80 E").
+- "Road numbers first" puts the number on every road that has one, on the road name, the car
+  screen and the directions of the next route, instead of a dedication name no sign shows.
 - Street-name callouts where cross streets meet your route, with your turn and exit highlighted.
 - The number of the road you are on, as a shield on the route line about every mile.
 - Pause holds the drive with no rerouting, voice or offers. "Pause button on the navigation bar"

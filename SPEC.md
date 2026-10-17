@@ -92,7 +92,7 @@ Two Gradle modules.
 
 `:app` reads `:core`; `:core` cannot read `:app`. A setting that must act inside `:core` is
 written by `:app` into a plain flag there: `CategoryFilter.enabled`, `LowRamMode`,
-`LowDataMode`, `NoGoogle`, `RoutingPrefs`, `SpokenRoadNames`, `SpokenDetail`.
+`LowDataMode`, `NoGoogle`, `RoutingPrefs`, `RoadNumbers`, `SpokenRoadNames`, `SpokenDetail`.
 
 #### Use Vela without Google
 
@@ -228,7 +228,7 @@ The main classes by package. Parentheses name a class inside the preceding file.
   `MapTilt`, `NavEndConfirm`, `NavNorthUp`, `NorthLock`, `OfflinePlaces`, `Onboarding`,
   `OtherLocationsAuto`, `PageTransitions`, `ParkingButton`, `PauseInBar`, `PhotosOnTap`,
   `PipTurnCard`, `PreferButtons`, `PuckStyle`, `QuickChipsPref`, `RegionUpdates`, `ReviewsOnTap`, `RoadLabel`,
-  `RoutePicker`, `RouteTrafficOnTap`, `RouteTrail`, `SatelliteLayer`, `ShowReviews`,
+  `RoadNumbers`, `RoutePicker`, `RouteTrafficOnTap`, `RouteTrail`, `SatelliteLayer`, `ShowReviews`,
   `SimLocation`, `SpeechPreload`, `SpeedCamWarn`, `SpeedCams`, `SpeedDisplay`,
   `SpeedingAlert`, `SpokenDetail`, `SpokenRoadNames`, `StartView`, `Topography`, `Traffic`,
   `TransitLayer`, `TurnDeclutterPref`, `UiScale`, `Units`, `VoiceSearch`, `WhatsNew`.
@@ -842,6 +842,7 @@ the page fills it after load, and a small stub sits beside it.
 | Map > Keep north up | `NorthLock`, `keep_north_up`, off | the rotation gesture is off (set after `setAllGesturesEnabled`, which turns it back on), a resting camera more than `NORTH_LOCK_SLACK_DEG` (0.05) off north is turned back at camera idle (a following drive camera is left to its ticker), drives start with `navNorthUp` and the compass toggle keeps it, `VelaMapView` treats `navNorthUp` as on whatever the state says, the free-drive follow stays north-up, the drive compass fades at north, and the car map is north-up, flat and centered while following |
 | Navigation > Navigation icon | `PuckStyle.shape`, `puck_shape`, arrow | see below |
 | Appearance > Map buttons | `MapButtonShape.mode`, `map_button_shape`, `round` | the locate and parking buttons round, or with 16 dp corners (`square`); the FABs read it through `mapButtonShape`, a getter in place of `CircleShape`'s, so `MapScreen` grows no bytecode |
+| Navigation > Road numbers first | `RoadNumbers`, `road_numbers`, off | mirrored into `core/nav/RoadNumbers.preferred`: `roadLabel` and `instructionRoad` put the number on every road that has one (issue #836) |
 | Navigation > Zoom out as far as | `ZoomToTurn.floor`, `zoom_to_turn_floor`, 0 | the floor of Zoom to the next turn, 12, 10 or 8 (Town, Region, Far); 0 is no pick, and the `turnZoomMin` dial decides (4.7, Framing) |
 | Navigation > Turn arrows on the route | `TurnArrows.on`, `turn_arrows_on`, true | arrows on the route through the turns ahead during a drive (issue #804) |
 | Navigation > Your speed on the car screen | `CarSpeed.on`, `car_speed_on`, false | the car's speed badge; off, the limit sign alone |
@@ -5231,7 +5232,12 @@ the catalog, the ones switched off included; a pick runs that search. The one-bu
   named freeway (`isFreewayName`: the name ends in Freeway or Motorway, or starts with
   Autoroute, Autostrada, Autopista, Autovia or Autobahn), or where the name only says the
   number again ("State Route 9"). An expressway, a parkway or a turnpike keeps its name. The
-  number stays on the turn card as the current road's chip.
+  number stays on the turn card as the current road's chip. With Road numbers first
+  (`RoadNumbers`, issue #836) the number wherever there is one.
+- The road a direction names ("Turn right onto X") is `instructionRoad(name, ref)`: the name,
+  the number where there is no name, and the number wherever there is one with Road numbers
+  first. `RouteGeometry`, `LineNamer` and `ObfRouteEngine` call it as they phrase a step, so
+  the switch reaches the directions from the next route on and the pill at once.
 - A number is followed by a compass letter when a guide sign gave one: "I 80 E".
   `signedHeading` reads it from the text of the step that entered the road ("toward I 80 East:
   Sacramento"), else from the steps before it that are unnamed or already on that route, up to
