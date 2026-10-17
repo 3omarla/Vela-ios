@@ -1891,8 +1891,10 @@ Zoom to the next turn (`ZoomToTurn`, Settings > Navigation, off by default; issu
   which the option accepts. Lower would load a region's tiles at each step and show nothing a
   drive needs.
 - The camera turns toward the maneuver it frames (`NavFraming.turnYaw`): the bearing's target is
-  the heading plus the angle from the heading to the point, at most `TURN_YAW_MAX_DEG` (45)
-  either way, scaled from nothing while the speed zoom governs to all of it once the turn's
+  the heading plus the angle from the heading to the point, at most `TURN_YAW_MAX_DEG` (90,
+  so any turn ahead of the car can be brought to the top of the frame; 45 left a turn farther
+  round off the side of the screen on a curving road) either way, scaled from nothing while
+  the speed zoom governs to all of it once the turn's
   unfloored zoom is `TURN_YAW_BLEND_LEVELS` (1) under the speed's, so the yaw fades out over the
   last stretch before the turn and the view is heading-up through it. The bearing eases as for a
   turn, and the arrow is drawn turned off vertical by the yaw. North-up and under a pinch there

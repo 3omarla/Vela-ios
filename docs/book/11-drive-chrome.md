@@ -253,7 +253,7 @@ still draws motorways through minor roads and the route, and a turn farther than
 the top until it is nearer. Street names, lights and stop signs do not draw that far out. Below
 z15 the camera lies flatter, the way it does for a pinch, and the zoom allows for that, as it
 allows for the pitch MapLibre holds the camera under (52.6 degrees on a Pixel 4a, less on a
-denser screen). A turn off to the side pulls the camera toward it, up to 45 degrees off the
+denser screen). A turn off to the side pulls the camera toward it, up to 90 degrees off the
 heading, once the framing has taken the zoom a level out, and the camera turns back as the turn
 nears, so the arrow points off vertical by that much on the way and straight up through the turn.
 On a 1080 x 2340 px, 420 dpi phone the speed zoom at 30 m/s frames a turn 1.02 km ahead, a turn
