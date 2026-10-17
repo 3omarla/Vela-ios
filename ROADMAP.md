@@ -433,6 +433,10 @@ off the list when it has been.
 - One accessibility list on a place page instead of two (#832): the chip row above the rating
   card is gone, the About sections below carry the attributes. Seen on a 4a: a grocery's page,
   its four accessibility items once, under About.
+- A simulated drive from a chosen start (#835): Start drives the planned line from the start
+  picked in the chooser; a real drive still re-plans from the car when the chosen start is
+  farther than 150 m away. Seen on a 4a: a drive from a grocery 500 m from the dot began in its
+  parking lot, on the 3.1 mi route the chooser showed.
 
 ### Open from the October 2026 audit
 

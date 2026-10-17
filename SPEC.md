@@ -2517,7 +2517,9 @@ Cross-street labels are points Vela places, not line-center labels on the basema
   (`DemoTraceTest`). The car waits `START_HOLD_S` (3 s) before pulling away, while the opening
   line is said. The demo drives the route the drive is on: when it changes to a new line that
   starts within `DEMO_REPLAN_NEAR_M` (150 m) of the car (a stop added, the stops edited), the
-  trace is drawn again along it from the car's speed (`demoReplanned`). It is presented as
+  trace is drawn again along it from the car's speed (`demoReplanned`). Start with a chosen
+  start away from the car drives the planned line from that start; only a real drive re-plans
+  from the car first (`MapViewModel.startNav`, `START_FROM_ME_M`; issue #835). It is presented as
   real navigation: the replay controls are hidden and End cancels the demo job, whose `finally`
   resumes live GPS. A demo that reaches the end of its route stays on the arrival card, as a
   real drive does, and Done ends it through `stopNav`.

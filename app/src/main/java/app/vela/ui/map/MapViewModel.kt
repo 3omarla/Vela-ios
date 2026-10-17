@@ -7194,12 +7194,14 @@ class MapViewModel @Inject constructor(
      *  by deciding you are off route and re-planning from your position a few seconds later - which
      *  reads as the app throwing your trip away for an older one. Re-plan from your position first,
      *  keeping the destination and the stops, and start on that. Near the chosen start (you really
-     *  are there), nothing changes. */
+     *  are there), nothing changes. A simulated drive has no position of its own to start from: it
+     *  drives the planned line from the chosen start (issue #835). */
     fun startNav() {
         val s = _state.value
         val start = if (s.directionsReversed) null else s.directionsOrigin
         val me = s.myLocation
-        if (start != null && me != null && me.distanceTo(start.location) > START_FROM_ME_M) {
+        val demo = settingsPrefs.getBoolean("demo_drive", false)
+        if (!demo && start != null && me != null && me.distanceTo(start.location) > START_FROM_ME_M) {
             autoStartOnRoute = true
             _state.update { it.copy(directionsOrigin = null) }
             showStatus(appContext.getString(R.string.mapvm_start_from_here))
