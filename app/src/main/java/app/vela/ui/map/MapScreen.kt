@@ -37,6 +37,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -273,6 +274,45 @@ internal fun sidePanelWidth(): androidx.compose.ui.unit.Dp {
     // 0.56 of the width: with the cutout's margin taken off, that is the 47% Google's panel covers.
     return (w * 0.56f).dp.coerceIn(SIDE_PANEL_WIDTH_MIN, SIDE_PANEL_WIDTH_MAX)
 
+}
+
+/**
+ * The OpenStreetMap credit in the map's bottom-left corner (issue #302), [start] and [bottom] in
+ * from it. The basemap is OSM data and the ODbL asks for a visible credit wherever the map is
+ * shown, so it stays up in every map state, browse and nav alike. The short form is deliberate:
+ * the OSMF attribution guidelines accept "\u00a9 OpenStreetMap contributors" and "\u00a9 OpenStreetMap"
+ * alike, and require that the credit make the ODbL findable, which the tap-through to
+ * openstreetmap.org/copyright does. Do not shorten it further. MapLibre's own button is off (it
+ * covered the scale bar and read as a control).
+ *
+ * It fades out while the speaker's three voice choices are slid open: that row runs across the
+ * same strip and was drawn under the credit (issue #840). The row closes on its own in seconds.
+ * Its own composable because MapScreen is at the verifier's limit.
+ */
+@Composable
+private fun androidx.compose.foundation.layout.BoxScope.OsmCredit(darkTheme: Boolean, start: androidx.compose.ui.unit.Dp, bottom: androidx.compose.ui.unit.Dp) {
+    val context = LocalContext.current
+    val shown by androidx.compose.animation.core.animateFloatAsState(
+        if (app.vela.ui.nav.VoiceSlideOutOpen.value) 0f else 1f,
+        label = "osmCredit",
+    )
+    Text(
+        stringResource(R.string.map_osm_attribution),
+        style = MaterialTheme.typography.labelSmall,
+        color = if (darkTheme) Color(0xFFB8C2CC) else Color(0xFF4A4A4A),
+        modifier = Modifier
+            .align(Alignment.BottomStart)
+            .navigationBarsPadding()
+            .padding(start = start, bottom = bottom)
+            .alpha(shown)
+            .dpadHighlight(RoundedCornerShape(6.dp))
+            .clickable {
+                runCatching {
+                    context.startActivity(android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse("https://www.openstreetmap.org/copyright")))
+                }
+            }
+            .padding(horizontal = 4.dp, vertical = 2.dp),
+    )
 }
 
 @Composable
@@ -2494,39 +2534,20 @@ fun MapScreen(
             // down level with the locate FAB, user 2026-07-14) - the follow gate alone missed a
             // moving-but-panned map, where both used to want the same spot.
             // The landscape panel owns the bottom-left corner - the bar would draw on top of it.
-            // OpenStreetMap attribution (issue #302): the basemap is OSM data and the ODbL asks
-            // for a visible credit wherever the map is shown, so this stays up in every map
-            // state, browse and nav alike. The short form is deliberate: the OSMF attribution
-            // guidelines accept "© OpenStreetMap contributors" and "© OpenStreetMap" alike, and
-            // require that the credit make the ODbL findable - which the tap-through to
-            // openstreetmap.org/copyright below does. Do not shorten it further.
-            // MapLibre's own ⓘ button is off (it covered the
-            // scale bar and read as a control). Bottom-left under the scale bar, lifted over
-            // the nav bar and the minimized results bar, into the map strip in landscape.
-            // Tapping it opens the OSM copyright page. Satellite keeps its own centered credit.
+            // OpenStreetMap attribution (issue #302, [OsmCredit] has the rules): bottom-left under
+            // the scale bar, lifted over the nav bar and the minimized results bar, into the map
+            // strip in landscape. Satellite keeps its own centered credit.
             run {
-                val osmUri = "https://www.openstreetmap.org/copyright"
                 val navLift = if (state.navigating) with(LocalDensity.current) { navBarHeightPx.toDp() } + 6.dp else 0.dp
                 // The free-drive speed box takes the same low corner, and the credit was touching
                 // it (user 2026-09-18). The scale bar already yields the spot; this has to as
                 // well, and it may not simply hide, because the ODbL wants the credit visible in
                 // every map state. SPEED_BOX_LIFT_DP clears the box's own height and margin.
                 val speedLift = if (!state.navigating && movingFree) SPEED_BOX_LIFT_DP else 0.dp
-                Text(
-                    stringResource(R.string.map_osm_attribution),
-                    style = MaterialTheme.typography.labelSmall,
-                    color = if (darkTheme) Color(0xFFB8C2CC) else Color(0xFF4A4A4A),
-                    modifier = Modifier
-                        .align(Alignment.BottomStart)
-                        .navigationBarsPadding()
-                        .padding(start = if (sidePanelUp) sidePanelWidthDp + 8.dp else 8.dp, bottom = 2.dp + chromeLift + navLift + speedLift)
-                        .dpadHighlight(RoundedCornerShape(6.dp))
-                        .clickable {
-                            runCatching {
-                                context.startActivity(android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse(osmUri)))
-                            }
-                        }
-                        .padding(horizontal = 4.dp, vertical = 2.dp),
+                OsmCredit(
+                    darkTheme,
+                    start = if (sidePanelUp) sidePanelWidthDp + 8.dp else 8.dp,
+                    bottom = 2.dp + chromeLift + navLift + speedLift,
                 )
             }
             if (!(driveFollowing && speedOverlayArmed) && !movingFree && !sidePanelUp) {

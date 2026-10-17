@@ -3999,7 +3999,10 @@ lifted over the nav bar, the minimized results bar and the free-drive speed box,
 the map strip in landscape. It opens `openstreetmap.org/copyright`. Never gate it on a chrome
 state: the ODbL asks for the credit wherever the map shows. MapLibre's own info button and logo
 are off. The satellite credit is a separate centered line, which adds Google where the Google
-deep layer shows.
+deep layer shows. The label is `OsmCredit` in MapScreen.kt; driving mode draws its own above the
+bar's middle (`DrivingChrome`). Both fade out while the speaker's three voice choices are slid
+out (`VoiceSlideOutOpen`, up to `OPEN_MS`), since that row runs across the same strip and was
+drawn under them (issue #840).
 
 #### Dials
 
@@ -5292,14 +5295,14 @@ the catalog, the ones switched off included; a pick runs that search. The one-bu
   the picker to the summary, so the map shows the step, and `startNav` clears the previewed
   step.
 - Off: the classic `DirectionsPanel`, which lists every route. Transit always uses it.
-- In drive mode both pickers show one "Avoid" label and four chips: Tolls, Highways, Ferries,
-  Cameras. Cameras is the `FlockRouteAlert` switch and refetches through
-  `RouteActions.camerasChanged`.
 - Swap (`swapDirections`) flips `directionsReversed`: the place becomes the start and
   `directionsOrigin` (or your position) the end, so on a swapped trip the End row edits the
   origin. "Choose on map" keeps the end as shown in `pickOnMap` (`shownPick`), so the banner and
   its button name the end that was tapped, and `applyMapPick` flips it back to the end to set
   (issue #839). A long press in the pick does the same.
+- In drive mode both pickers show one "Avoid" label and four chips: Tolls, Highways, Ferries,
+  Cameras. Cameras is the `FlockRouteAlert` switch and refetches through
+  `RouteActions.camerasChanged`.
 - The endpoints card (`RouteTopCard`) menu has "Add to home screen". Its dialog takes a name (24
   characters), a glyph (`PoiIcons.SHORTCUT_ICON_KEYS`) and a themed look that copies the
   launcher's themed icons (pref `trip_shortcut_themed`), then pins the trip through
