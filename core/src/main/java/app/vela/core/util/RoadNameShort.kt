@@ -8,13 +8,16 @@ package app.vela.core.util
  * The first word is never shortened (it is the name: "North Avenue" stays "North Ave", "Court
  * Street" stays "Court St"), and a direction is shortened only as the first or last word of a name
  * of three words or more ("Northeast 8th Street" is "NE 8th St").
+ *
+ * On screen every road name goes through it: the pill under the arrow, the turn card and its
+ * "then" line ([inText]), the car's step (issue #837). The voice keeps the full words.
  */
 object RoadNameShort {
     private val TYPES = mapOf(
         "street" to "St", "avenue" to "Ave", "boulevard" to "Blvd", "road" to "Rd", "drive" to "Dr",
         "lane" to "Ln", "court" to "Ct", "place" to "Pl", "highway" to "Hwy", "parkway" to "Pkwy",
         "terrace" to "Ter", "circle" to "Cir", "trail" to "Trl", "expressway" to "Expy", "freeway" to "Fwy",
-        "square" to "Sq", "turnpike" to "Tpke",
+        "square" to "Sq", "turnpike" to "Tpke", "junction" to "Jct",
     )
     private val DIRECTIONS = mapOf(
         "north" to "N", "south" to "S", "east" to "E", "west" to "W",
@@ -33,5 +36,17 @@ object RoadNameShort {
                 else -> w
             }
         }.joinToString(" ")
+    }
+
+    /** [text] with its one [road] name shortened in place: "Turn right onto Court Street" with the
+     *  road "Court Street" is "Turn right onto Court St". The name is shortened on its own, so its
+     *  first word is kept; the text is unchanged when the road is not in it (a romanized name, a
+     *  number used instead). */
+    fun inText(text: String, road: String?): String {
+        if (road.isNullOrBlank()) return text
+        val short = shorten(road)
+        if (short == road) return text
+        val at = text.indexOf(road)
+        return if (at < 0) text else text.substring(0, at) + short + text.substring(at + road.length)
     }
 }

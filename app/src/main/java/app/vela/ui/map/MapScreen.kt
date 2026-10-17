@@ -4551,7 +4551,9 @@ private fun BoxScope.NavTurnBanner(
         else app.vela.core.voice.SpokenScript.forDisplay(s, navUiLang, state.roadNameLatin)
     ManeuverBanner(
         offRoute = state.nav.offRoute,
-        text = navRomanize(if (previewing) (shown?.instruction.orEmpty()) else state.maneuverText),
+        // The road inside the text is abbreviated the way the pill does it (issue #837); the
+        // voice keeps the full words from `maneuverText`.
+        text = navRomanize(app.vela.core.util.RoadNameShort.inText(if (previewing) (shown?.instruction.orEmpty()) else state.maneuverText, shown?.road)),
         // The headline distance is the APPROACH to the shown maneuver. A maneuver's own
         // distanceMeters is the travel AFTER it (Route.kt convention) — showing it here
         // put the leg-after on the previewed step's headline ("3.1 mi — Turn right onto
@@ -4567,7 +4569,7 @@ private fun BoxScope.NavTurnBanner(
         ref = shown?.ref,
         laneHint = shown?.laneHint,
         lanes = shown?.lanes.orEmpty(),
-        nextText = next?.instruction?.let { navRomanize(it) },
+        nextText = next?.instruction?.let { navRomanize(app.vela.core.util.RoadNameShort.inText(it, next.road)) },
         nextType = next?.type,
         nextRoundabout = next?.roundabout,
         nextRef = next?.ref,
@@ -6762,11 +6764,11 @@ private val navBarRightPx = androidx.compose.runtime.mutableIntStateOf(0)
 /** The top of the nav button column, in window px: the compass sits on it, as the column's first button. */
 internal val navFabTopPx = androidx.compose.runtime.mutableIntStateOf(0)
 
-/** The road name in the floating pill: street words shortened once the name is long, the text
- *  shrunk to 80 percent before it is cut with an ellipsis. */
+/** The road name in the floating pill: street words shortened as a sign does it (issue #837),
+ *  the text shrunk to 80 percent before it is cut with an ellipsis. */
 @Composable
 private fun RoadPillText(name: String) {
-    val text = remember(name) { if (name.length > ROAD_PILL_SHORTEN_AT) app.vela.core.util.RoadNameShort.shorten(name) else name }
+    val text = remember(name) { app.vela.core.util.RoadNameShort.shorten(name) }
     val scale = remember(text) { androidx.compose.runtime.mutableFloatStateOf(1f) }
     val style = MaterialTheme.typography.titleMedium
     // Its height (the tallest at this density and font scale) is what the drive camera leaves
@@ -6788,7 +6790,6 @@ private fun RoadPillText(name: String) {
             .padding(horizontal = 14.dp, vertical = 6.dp),
     )
 }
-private const val ROAD_PILL_SHORTEN_AT = 16
 
 @Composable
 private fun SpeedWidget(

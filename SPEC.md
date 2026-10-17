@@ -5262,8 +5262,11 @@ the catalog, the ones switched off included; a pick runs that search. The one-bu
   return after the step list closes.
 
 - Road-name pill: its width is the room between the speed readout's right edge
-  (`speedBoxRightPx`) plus 8 dp and the FAB column, at least 96 dp. Names over 16 characters
-  are shortened by `RoadNameShort`, and the text shrinks to 80 percent before it is ellipsized.
+  (`speedBoxRightPx`) plus 8 dp and the FAB column, at least 96 dp. Every name is shortened
+  by `RoadNameShort` ("W Covell Blvd"), and the text shrinks to 80 percent before it is
+  ellipsized. The turn card and its "then" line shorten the road inside their text the same way
+  (`RoadNameShort.inText`, the maneuver's `road`), and so does the car's step and its "Continue
+  on" (issue #837). The voice keeps the full words: it speaks `maneuverText`, not the card.
 
 #### Route picker
 

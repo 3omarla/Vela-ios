@@ -258,7 +258,9 @@ session's place list is not allowed on that display and crashes the app there.
   counter-clockwise otherwise. The exit number comes from the router, with a floor of 1 because
   the car API throws on a roundabout with none.
 - Past `CONTINUE_FAR_M` (1,500 m) the card reads "Continue on" and the road you are on, with a
-  straight arrow, and the turn is the "then" step. Closer in, the turn leads.
+  straight arrow, and the turn is the "then" step. Closer in, the turn leads. Road names on the
+  card are abbreviated as on the phone's pill ("Russell Rd NE"); "Road numbers first" applies here
+  too.
 - Lanes are drawn as a bitmap of arrows, valid lanes white and the rest dimmed, for up to eight
   lanes.
 - Distances round to 10 below 100 ft or m and to 50 above, and switch to miles at 1,000 ft and to

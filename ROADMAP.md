@@ -441,6 +441,9 @@ off the list when it has been.
   picked in the chooser; a real drive still re-plans from the car when the chosen start is
   farther than 150 m away. Seen on a 4a: a drive from a grocery 500 m from the dot began in its
   parking lot, on the 3.1 mi route the chooser showed.
+- Street words abbreviated everywhere on screen (#837): the pill for every name, the turn card
+  and its "then" line, the car's step and Continue on; the voice keeps the full words. Unit-tested (`RoadNameShortTest`). Seen on a 4a in a simulated drive: "Turn left onto G St" on the
+  then line and "G St" on the pill.
 
 ### Open from the October 2026 audit
 

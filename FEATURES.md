@@ -118,7 +118,8 @@ What Vela Maps does today, one line per feature. How each one works is in [SPEC.
 ## Navigation
 
 - A turn banner with arrow, distance, road name, highway shields, exit numbers and lanes. Swipe it
-  to look ahead.
+  to look ahead. Street words are abbreviated on screen ("Court St", "NE 8th St"); the voice says
+  them in full.
 - With a large display size or large text the turn card stays within a third of the screen, the
   arrow stays clear of the bottom bar, and the map zooms out to keep the road ahead in view.
 - "Zoom to the next turn" zooms the map out until the next turn sits just under the turn card,
