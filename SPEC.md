@@ -815,6 +815,11 @@ the page fills it after load, and a small stub sits beside it.
 
 #### Place sheet
 
+- The header holds the name and the X. Save and Share are pills in the action row with
+  Directions, Start and Call, Google's layout (issue #830): Save opens the save menu (the quick
+  save, Save to list, the note, the icon, the name, Set as home, Set as work; a drawn shape adds
+  edit and delete), Share the share menu (open on the web, open in another app, copy the name
+  or the link, send a pin, the coordinates or the address).
 - Tabs sit under the action pills and open on Overview (info rows, popular times, a review
   summary card, About, related places). Selection is keyed by tab name. A pinned copy of
   the tab row shows once the in-flow row scrolls under the sheet top. Over three tabs the row

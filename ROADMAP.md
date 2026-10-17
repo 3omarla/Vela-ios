@@ -446,6 +446,12 @@ off the list when it has been.
   number on the pill, the car's Continue on line and the directions of the next route. Unit-tested (`RoadLabelTest`). Seen on a 4a: with the switch on, a simulated drive's card read
   "Turn left onto CR E6" for West Covell Boulevard with the number's chip beside it; off, a
   boulevard with a number reads by name.
+- One Save and one Share on a place page (#830): both are pills in the action row and the
+  header keeps only the X, as Google lays it out; the Save pill opens the menu the header's
+  bookmark had (quick save, lists, note, icon, name, Home, Work). Seen on a 4a: a grocery's
+  page with the X alone up top, Directions, Start, Call, Save, Share, Website and Street View
+  in the row, the Save menu (Save, Save to list, Set as Home, Set as Work) and the Share menu
+  off their pills.
 - Street words abbreviated everywhere on screen (#837): the pill for every name, the turn card
   and its "then" line, the car's step and Continue on; the voice keeps the full words. Unit-tested (`RoadNameShortTest`). Seen on a 4a in a simulated drive: "Turn left onto G St" on the
   then line and "G St" on the pill.

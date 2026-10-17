@@ -866,34 +866,7 @@ fun PlaceSheet(
                             )
                         },
                 )
-                // Save + Share as compact header actions (preferred look). The name has weight(1f) and
-                // wraps to 2 lines if long, so these stay put without shoving it off.
-                // The STAR is the whole save/pin menu now (quick save, lists, note, home/work) —
-                // four circled buttons crowded the header, and the overflow's items were all
-                // save-family anyway (user 2026-07-10). D-pad-first via VelaMenu (docs/dpad.md).
-                Box {
-                    HeaderCircleButton(
-                        icon = if (marked) Sym.Bookmark else Sym.BookmarkBorder,
-                        contentDescription = if (marked) stringResource(R.string.place_saved) else stringResource(R.string.place_save),
-                        tint = if (marked) MaterialTheme.colorScheme.primary else dim,
-                        bg = dim,
-                    ) { saveMenu = true }
-                    VelaMenu(expanded = saveMenu, onDismissRequest = { saveMenu = false }) {
-                        // A drawn or imported line/area: it can be deleted from its list here.
-                        if (place.id.startsWith("shape:")) item(stringResource(R.string.draw_edit)) { saveMenu = false; app.vela.ui.ShapeActions.edit?.invoke() }
-                        if (place.id.startsWith("shape:")) item(stringResource(R.string.draw_delete)) { saveMenu = false; app.vela.ui.ShapeActions.delete?.invoke() }
-                        item(stringResource(if (isSaved) R.string.place_saved else R.string.place_save)) { saveMenu = false; onToggleSave() }
-                        if (!isParking) {
-                            item(stringResource(R.string.place_save_to_list)) { saveMenu = false; showListChooser = true }
-                            if (inAnyList) item(stringResource(R.string.place_edit_note)) { saveMenu = false; showNoteEditor = true }
-                            if (inAnyList || isSaved) item(stringResource(R.string.place_choose_icon)) { saveMenu = false; onChooseIcon() }
-                            if (isSaved || inAnyList) item(stringResource(R.string.mapscreen_menu_rename)) { saveMenu = false; showSavedRename = true }
-                        }
-                        item(stringResource(R.string.place_set_as_home)) { saveMenu = false; onSetShortcut(ShortcutKind.HOME) }
-                        item(stringResource(R.string.place_set_as_work)) { saveMenu = false; onSetShortcut(ShortcutKind.WORK) }
-                    }
-                }
-                ShareIconButton(place, dim)
+                // Only the X up here: Save and Share are pills in the action row (issue #830).
                 HeaderCircleButton(Sym.Close, stringResource(R.string.place_close), dim, dim, onClick = onClose)
             }
 
@@ -1082,10 +1055,10 @@ fun PlaceSheet(
             }
             }
             }
-            // Quick-action pills FIRST — a highlighted Directions + short Call / Website, right under
-            // the identity block so Directions is reachable WITHOUT scrolling (Google's order). Save/
-            // Share live in the header; the actual phone number / website domain are tappable detail
-            // rows lower down (below the hours), out of the way of the primary action.
+            // Quick-action pills FIRST: a highlighted Directions, then Start, Call, Save, Share and
+            // Website, right under the identity block so Directions is reachable WITHOUT scrolling
+            // (Google's order). The actual phone number / website domain are tappable detail rows
+            // lower down (below the hours), out of the way of the primary action.
             Row(
                 Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()).padding(top = 14.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -1115,16 +1088,32 @@ fun PlaceSheet(
                         runCatching { context.startActivity(Intent(Intent.ACTION_DIAL, Uri.parse(dialable))) }
                     }
                 }
-                // Save sits in the action row Google-style (outlined pill), alongside the save/read
-                // affordances in the header menu.
-                // Filled for a place in any list too. On one, the pill opens the list chooser, where
-                // the ticks are: a quick-save toggle would change nothing the pill shows (issue #792).
-                val savePillClick: () -> Unit = if (inAnyList) ({ showListChooser = true }) else onToggleSave
-                ActionPill(
-                    if (marked) Icons.Default.Bookmark else Icons.Default.BookmarkBorder,
-                    stringResource(if (marked) R.string.place_saved else R.string.place_save),
-                    onClick = savePillClick,
-                )
+                // Save and Share are pills here and nowhere else, Google's layout (issue #830,
+                // after #814 did the same for the route picker). Save opens the save menu: the
+                // quick save, the lists, the note, the icon, the name, Home and Work; a drawn shape
+                // adds edit and delete. Filled for a place in any list too. D-pad-first via
+                // VelaMenu (docs/dpad.md).
+                Box {
+                    ActionPill(
+                        if (marked) Icons.Default.Bookmark else Icons.Default.BookmarkBorder,
+                        stringResource(if (marked) R.string.place_saved else R.string.place_save),
+                    ) { saveMenu = true }
+                    VelaMenu(expanded = saveMenu, onDismissRequest = { saveMenu = false }) {
+                        // A drawn or imported line/area: it can be deleted from its list here.
+                        if (place.id.startsWith("shape:")) item(stringResource(R.string.draw_edit)) { saveMenu = false; app.vela.ui.ShapeActions.edit?.invoke() }
+                        if (place.id.startsWith("shape:")) item(stringResource(R.string.draw_delete)) { saveMenu = false; app.vela.ui.ShapeActions.delete?.invoke() }
+                        item(stringResource(if (isSaved) R.string.place_saved else R.string.place_save)) { saveMenu = false; onToggleSave() }
+                        if (!isParking) {
+                            item(stringResource(R.string.place_save_to_list)) { saveMenu = false; showListChooser = true }
+                            if (inAnyList) item(stringResource(R.string.place_edit_note)) { saveMenu = false; showNoteEditor = true }
+                            if (inAnyList || isSaved) item(stringResource(R.string.place_choose_icon)) { saveMenu = false; onChooseIcon() }
+                            if (isSaved || inAnyList) item(stringResource(R.string.mapscreen_menu_rename)) { saveMenu = false; showSavedRename = true }
+                        }
+                        item(stringResource(R.string.place_set_as_home)) { saveMenu = false; onSetShortcut(ShortcutKind.HOME) }
+                        item(stringResource(R.string.place_set_as_work)) { saveMenu = false; onSetShortcut(ShortcutKind.WORK) }
+                    }
+                }
+                SharePill(place)
                 if (!app.vela.ui.HideExternalLinks.on.value) {
                     place.website?.let { site ->
                         ActionPill(Sym.Language, stringResource(R.string.place_website)) {
@@ -4386,10 +4375,10 @@ private fun ActionPill(icon: ImageVector, label: String, emphasized: Boolean = f
     }
 }
 
-/** Share action: opens a small menu — a Google Maps link, a keyless geo: pin
+/** The Share pill: opens a small menu with a Google Maps link, a keyless geo: pin
  *  (opens in any maps app, incl. Vela), raw coordinates, or just the address. */
 @Composable
-private fun ShareIconButton(place: Place, tint: Color) {
+private fun SharePill(place: Place) {
     val context = LocalContext.current
     var open by remember { mutableStateOf(false) }
     val lat = place.location.lat
@@ -4469,7 +4458,7 @@ private fun ShareIconButton(place: Place, tint: Color) {
     }
 
     Box {
-        HeaderCircleButton(Sym.Share, stringResource(R.string.place_share), tint, tint) { open = true }
+        ActionPill(Sym.Share, stringResource(R.string.place_share)) { open = true }
         VelaMenu(expanded = open, onDismissRequest = { open = false }) {
             item(stringResource(R.string.place_open_web)) { openWeb() }
             item(stringResource(R.string.place_open_other_app)) { openInOtherApp() }

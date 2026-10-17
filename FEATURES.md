@@ -249,7 +249,7 @@ What Vela Maps does today, one line per feature. How each one works is in [SPEC.
 
 ## Saved places, lists and sharing
 
-- Save any place with the bookmark, and set Home and Work.
+- Save any place with the Save pill, which also sets Home and Work; Share sits beside it.
 - In the lists sheet, swipe a list toward the start to delete it or toward the end to edit it,
   drag its handle to reorder, and long press to select several. Swipes tick. A recent search row
   swipes away the same way, and Clear recents is a button beside the heading.
