@@ -33,8 +33,9 @@ Set 2026-10-07.
    the prebuilt voice runtime (sherpa-onnx) or the prebuilt Cronet. The work is a build
    flavor that compiles or leaves out each of them, and reproducible output. Not started.
 
-Traffic incidents from official feeds (issue #688) are out of this list. They belong in a
-sister project beside Vela Almanac, which Vela would read as data.
+Traffic incidents from official feeds (issue #688; Germany's Autobahn API, Mobilithek and the
+Hamburg traffic feed in issue #833) are out of this list. They belong in a sister project beside
+Vela Almanac, which Vela would read as data.
 
 ## Less to Google
 
@@ -549,6 +550,11 @@ Found reading everything since 0.4.1912 and not fixed yet.
   and the like at z17 and up. The tiles carry waste baskets, drinking water, toilets, shelters,
   playgrounds, pitches and bicycle parking, so those are a layer with icons of our own; benches,
   hydrants, fountains, single trees and retaining walls wait for our own tiles. Not started.
+- Fuel and chargers along a route (#834): a count and the longest gap between `amenity=fuel`
+  or `amenity=charging_station` places near the line, on the route chooser, so two routes
+  through sparse country can be compared before one is taken. The places come from the
+  downloaded place pack or the open places tiles, so it works offline; the gap is measured
+  along the line. Not started.
 
 ## Big bets
 
