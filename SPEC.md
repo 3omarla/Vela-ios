@@ -815,8 +815,8 @@ the page fills it after load, and a small stub sits beside it.
 
 #### Place sheet
 
-- Tabs sit under the action pills and open on Overview (info rows, popular times, highlights, a
-  review summary card, About, related places). Selection is keyed by tab name. A pinned copy of
+- Tabs sit under the action pills and open on Overview (info rows, popular times, a review
+  summary card, About, related places). Selection is keyed by tab name. A pinned copy of
   the tab row shows once the in-flow row scrolls under the sheet top. Over three tabs the row
   scrolls.
 - The tab set is decided from the first reply; a rated or reviewed place gets Photos up front.

@@ -1363,34 +1363,10 @@ fun PlaceSheet(
                 }
             }
 
-            // Attribute highlights (Google-style chips) — the most useful items from About
-            // (service options, offerings, accessibility…), surfaced on the overview for
-            // quick scanning instead of being buried in the tab. Filled by the detail fetch.
-            val highlights = remember(place.about) { attributeHighlights(place.about).distinctBy { it.lowercase().trim() }.take(5) }
-            if (highlights.isNotEmpty()) {
-                Row(
-                    Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()).padding(top = 20.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                ) {
-                    highlights.forEach { h ->
-                        Text(
-                            h,
-                            style = MaterialTheme.typography.labelLarge,
-                            color = ink,
-                            maxLines = 1,
-                            modifier = Modifier
-                                .clip(RoundedCornerShape(50))
-                                .background(dim.copy(alpha = 0.12f))
-                                .padding(horizontal = 12.dp, vertical = 6.dp),
-                        )
-                    }
-                }
-            }
-
             // Popular times sit BELOW the action buttons (Google's order). Lazily
             // filled by the WebView detail fetch, so it pops in a beat after open.
             place.popularTimes?.let {
-                Spacer(Modifier.height(10.dp)) // clear air between the attribute chips and the chart
+                Spacer(Modifier.height(10.dp)) // clear air between the rows above and the chart
                 PopularTimesSection(it, ink, dim)
             }
             // While the (slow, ~10–20 s) detail fetch is in flight and popular times
@@ -4595,8 +4571,10 @@ private fun hourLabel(h: Int): String = when {
     else -> "${h - 12}p"
 }
 
-/** The handful of attribute items worth showing as overview chips — the categories users
- *  scan for first, a few items each, deduped and capped. (Full set stays in the About tab.) */
+/** The handful of attribute items worth a line on the place card under the hours (the
+ *  categories users scan for first), deduped and capped. The sheet shows no such row: its
+ *  overview carries the About sections in full, and a chip row above them showed the same
+ *  items twice (issue #832). */
 internal fun attributeHighlights(about: List<AboutSection>): List<String> {
     if (about.isEmpty()) return emptyList()
     val priority = listOf(

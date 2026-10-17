@@ -430,6 +430,9 @@ off the list when it has been.
   route at 20 px in the phone's blue (user 2026-10-15, after Google's car screen side by side):
   seen on the desktop head unit at 1280 by 720 in a demo drive. Not seen: a real unit, or the
   landing and preview screens, which keep their zoom buttons.
+- One accessibility list on a place page instead of two (#832): the chip row above the rating
+  card is gone, the About sections below carry the attributes. Seen on a 4a: a grocery's page,
+  its four accessibility items once, under About.
 
 ### Open from the October 2026 audit
 

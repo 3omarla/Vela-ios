@@ -3658,7 +3658,7 @@ private fun ResultPlaceCard(
             }
         }
                     // Google-style service checks ("✓ Dine-in · ✓ Takeout · ✓ Delivery")
-                    // under the hours, from the About fetch. Same source as the sheet's chips.
+                    // under the hours, from the About fetch.
                     val checks = remember(place.id, place.about) { app.vela.ui.place.attributeHighlights(place.about).take(3) }
                     if (checks.isNotEmpty()) {
                         // One line, cut with an ellipsis: three long ones ran off the card.
