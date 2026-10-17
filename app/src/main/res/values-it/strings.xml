@@ -1386,4 +1386,12 @@
     <string name="bulk_done">Fine selezione</string>
     <string name="bulk_moved">%1$d spostato in %2$s</string>
     <string name="settings_start_view">Dove si apre la mappa</string>
+    <string name="settings_region_updated_on">aggiornato %1$s</string>
+    <string name="settings_keep_north_up">Tieni il nord in alto</string>
+    <string name="settings_keep_north_up_hint">La mappa non ruota mai: la rotazione con due dita è disattivata e le direzioni rimangono con il nord in alto.</string>
+    <string name="settings_start_view_here">Dove mi trovo</string>
+    <string name="settings_start_view_last">Dove avevo lasciato la mappa</string>
+    <string name="settings_start_view_place">Un posto che ho scelto</string>
+    <string name="settings_start_view_use_current">Utilizza la vista attuale della mappa</string>
+    <string name="settings_start_view_drive">Modalità guida</string>
 </resources>

@@ -27,18 +27,18 @@ object VelaConfig {
      */
     const val USER_AGENT =
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
-        "(KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36"
+        "(KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36"
 
     /** The exact client-hint brand list Chrome [USER_AGENT]'s major sends, which Chrome derives from
      *  the major (BrowserHeaders.secChUaFor; BrowserHeadersTest pins the two equal). */
     const val SEC_CH_UA =
-        "\"Google Chrome\";v=\"155\", \"Chromium\";v=\"155\", \"Not(A:Brand\";v=\"24\""
+        "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"Google Chrome\";v=\"156\""
 
     /** The full Chrome build of [USER_AGENT]'s major (chromiumdash, Windows stable), for the
      *  high-entropy client hints the WebView sends when a page asks for them. Real Chrome sends the
      *  real build there; "155.0.0.0" is a version no Chrome ever reports. Calibration
      *  `chromeFullVersion` replaces it; a value whose major does not match the UA is ignored. */
-    const val CHROME_FULL_VERSION = "155.0.8059.12"
+    const val CHROME_FULL_VERSION = "156.0.8078.36"
 
     /**
      * HONEST identifier for COMMUNITY services (FOSSGIS OSRM, Nominatim, Photon, Overpass) — never
