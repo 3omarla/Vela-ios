@@ -270,7 +270,7 @@ data class MapUiState(
     // survives the browse. A result pick adds a STOP to the trip (Google-style) instead of opening
     // the place's own sheet, and closing the results returns to the directions panel.
     val alongRouteDest: Place? = null,
-    val pickOnMap: MapPick? = null,          // "Choose on map" crosshair mode is active for this endpoint
+    val pickOnMap: MapPick? = null,          // "Choose on map" crosshair mode is active for this endpoint, as shown (swapped trips flip it)
     val areaPicking: Boolean = false,        // the offline area picker's frame is over the map (issue #609)
     val areaPick: MapViewModel.AreaPlan? = null, // its live estimate for the framed area
     val travelMode: TravelMode = TravelMode.DRIVE,
@@ -5342,11 +5342,7 @@ class MapViewModel @Inject constructor(
             viewModelScope.launch {
                 val place = runCatching { dataSource.reverseGeocode(location) }.getOrNull()
                     ?: Place(id = "pin:${location.lat},${location.lng}", name = appContext.getString(R.string.mapvm_dropped_pin), location = location)
-                when (pick) {
-                    MapPick.ORIGIN -> setDirectionsOrigin(place)
-                    MapPick.STOP -> addStop(place)
-                MapPick.DEST -> setDirectionsDestination(place)
-                }
+                applyMapPick(pick, place)
             }
             return
         }
@@ -6105,7 +6101,25 @@ class MapViewModel @Inject constructor(
         route(_state.value.travelMode)
     }
 
-    fun chooseDestOnMap() = _state.update { it.copy(pickingDest = false, pickOnMap = MapPick.DEST) }
+    fun chooseDestOnMap() = _state.update { it.copy(pickingDest = false, pickOnMap = shownPick(MapPick.DEST, it)) }
+
+    /** [pickOnMap] holds the end as the user sees it, which a swapped trip turns around: there the
+     *  row labeled End edits [MapUiState.directionsOrigin], and its crosshair asked for "the starting
+     *  point" (issue #839). [role] is the end being edited; the answer is the one on screen. The
+     *  same flip takes a shown end back to the one to set ([applyMapPick]). */
+    private fun shownPick(role: MapPick, s: MapUiState = _state.value): MapPick = when {
+        !s.directionsReversed -> role
+        role == MapPick.ORIGIN -> MapPick.DEST
+        role == MapPick.DEST -> MapPick.ORIGIN
+        else -> role
+    }
+
+    /** Set the end the crosshair was showing, [shown], to [place]. */
+    private fun applyMapPick(shown: MapPick, place: Place) = when (shownPick(shown)) {
+        MapPick.ORIGIN -> setDirectionsOrigin(place)
+        MapPick.STOP -> addStop(place)
+        MapPick.DEST -> setDirectionsDestination(place)
+    }
 
     /** Set a custom directions origin (a place other than your live location) and
      *  re-route. Clears with [clearRoute]. */
@@ -6116,7 +6130,7 @@ class MapViewModel @Inject constructor(
 
     /** "Choose on map" for an endpoint — leave the search overlay, show a center crosshair over the
      *  live map, and set that endpoint from wherever the map is centered (or a long-press) on confirm. */
-    fun chooseOriginOnMap() = _state.update { it.copy(pickingOrigin = false, pickingDest = false, pickOnMap = MapPick.ORIGIN) }
+    fun chooseOriginOnMap() = _state.update { it.copy(pickingOrigin = false, pickingDest = false, pickOnMap = shownPick(MapPick.ORIGIN, it)) }
     fun chooseStopOnMap() = _state.update { it.copy(pickingStop = false, pickOnMap = MapPick.STOP) }
     fun cancelChooseOnMap() = _state.update { it.copy(pickOnMap = null) }
 
@@ -6128,11 +6142,7 @@ class MapViewModel @Inject constructor(
         viewModelScope.launch {
             val place = runCatching { dataSource.reverseGeocode(at) }.getOrNull()
                 ?: Place(id = "pin:${at.lat},${at.lng}", name = appContext.getString(R.string.mapvm_dropped_pin), location = at)
-            when (target) {
-                MapPick.ORIGIN -> setDirectionsOrigin(place)
-                MapPick.STOP -> addStop(place)
-                MapPick.DEST -> setDirectionsDestination(place)
-            }
+            applyMapPick(target, place)
         }
     }
 

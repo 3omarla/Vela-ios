@@ -5295,6 +5295,11 @@ the catalog, the ones switched off included; a pick runs that search. The one-bu
 - In drive mode both pickers show one "Avoid" label and four chips: Tolls, Highways, Ferries,
   Cameras. Cameras is the `FlockRouteAlert` switch and refetches through
   `RouteActions.camerasChanged`.
+- Swap (`swapDirections`) flips `directionsReversed`: the place becomes the start and
+  `directionsOrigin` (or your position) the end, so on a swapped trip the End row edits the
+  origin. "Choose on map" keeps the end as shown in `pickOnMap` (`shownPick`), so the banner and
+  its button name the end that was tapped, and `applyMapPick` flips it back to the end to set
+  (issue #839). A long press in the pick does the same.
 - The endpoints card (`RouteTopCard`) menu has "Add to home screen". Its dialog takes a name (24
   characters), a glyph (`PoiIcons.SHORTCUT_ICON_KEYS`) and a themed look that copies the
   launcher's themed icons (pref `trip_shortcut_themed`), then pins the trip through
