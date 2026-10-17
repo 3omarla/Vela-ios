@@ -65,4 +65,48 @@
     <string name="settings_voice_try_label">Sesi herhangi bir metinde deneyin</string>
     <string name="settings_voice_nav_sample_text">Yaklaşık 400 metre sonra sağa, Ana Cadde\'ye dönün, hedefiniz solunuzda kalacak.</string>
     <string name="settings_voice_speak">Konuşma</string>
+    <string name="settings_voice_speed">Konuşma hızı · %1$s</string>
+    <string name="place_avoid_short_cameras">Kameralar</string>
+    <string name="place_avoid_short_ferries">Feribotlar</string>
+    <string name="place_avoid_short_highways">Otoyollar</string>
+    <string name="place_avoid_short_tolls">Geçiş Ücretleri</string>
+    <string name="settings_page_transitions_hint">Sayfalar ve alt sayfalar açılıp kapanırken animasyon ekleyin ve geri kaydırdığınızda önceki sayfayı ön izleyin.</string>
+    <string name="settings_page_transitions">Sayfa geçişleri</string>
+    <string name="driven_route_save">Sürüş tarzınızı kaydedin</string>
+    <string name="saved_sheet_routes">Rotalarınız</string>
+    <string name="saved_sheet_places">Kaydedilen yerler</string>
+    <string name="saved_unpin">Arama sayfasından sabitlemeyi kaldır</string>
+    <string name="saved_pin">Arama sayfasına sabitle</string>
+    <string name="settings_saved_route_edit_hint">Durakları değiştirin veya başka bir rota seçin, ardından ⋮ &gt; Değişiklikleri kaydet.</string>
+    <string name="settings_saved_route_edit">Düzenle</string>
+    <string name="route_updated_toast">%1$s için yapılan değişiklikler kaydedildi</string>
+    <string name="route_update">Değişiklikleri %1$s için kaydet</string>
+    <string name="stops_max">Bir yolculukta en fazla %1$d durak olabilir</string>
+    <string name="mapscreen_section_routes">Rotalarınız</string>
+    <plurals name="saved_route_stops">
+        <item quantity="one">%1$d durak</item>
+        <item quantity="other">%1$d durak</item>
+    </plurals>
+    <string name="route_save_keep_stops_hint">Kapalı: Duraklar sadece yolu şekillendirir ve bu yolculuk için rota diğerlerinin yanında sunulur.</string>
+    <string name="route_save_keep_stops">Bu noktalarda durun</string>
+    <string name="settings_saved_route_delete">Sil</string>
+    <string name="settings_saved_route_rename">Yeniden adlandır</string>
+    <string name="settings_saved_routes_empty">Rota seçici ekranından bir rota seçin ve ⋮ &gt; Bu rotayı kaydet seçeneğini kullanın. Aynı yolculuğu istediğinizde, bu rota diğerlerinin yanında görünecektir.</string>
+    <string name="settings_saved_routes">Kaydedilen rotalar</string>
+    <string name="bulk_moved">%1$d, %2$s konumuna taşındı</string>
+    <string name="bulk_done">Seçim işlemi tamamlandı</string>
+    <plurals name="bulk_remove_title">
+        <item quantity="one">%1$d yeri kaldır?</item>
+        <item quantity="other">%1$d yeri kaldır?</item>
+    </plurals>
+    <string name="bulk_remove">Sil</string>
+    <string name="bulk_new_list">Yeni liste…</string>
+    <string name="bulk_move">Listeye taşı</string>
+    <string name="bulk_all">Hepsi</string>
+    <plurals name="bulk_selected">
+        <item quantity="one">%1$d adet seçildi</item>
+        <item quantity="other">%1$d adet seçildi</item>
+    </plurals>
+    <string name="bulk_select">Yerleri seçin</string>
+    <string name="list_sound_name">Adını söyleyin</string>
 </resources>
