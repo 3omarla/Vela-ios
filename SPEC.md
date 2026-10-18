@@ -5748,6 +5748,12 @@ WebGL embed serves a stripped shell that renders black on ANGLE. Do not retry it
   fails to load, or while the place sheet itself is off screen (`SheetEdge.shown`, set by the
   sheet's own position reports and cleared when it leaves: the search page keeps the place
   selected).
+- The pano comes from the place's first search reply, else from its details reply
+  (`PlaceDetails.svPanoId`, carried over in `mergeDetails` with its own yaw), else, for a Google
+  listing only, from the nearest-pano lookup the Street View button makes, faced at the place
+  (`MapViewModel.thumbPano`, once the details are in; 2026-10-18, some businesses had no
+  thumbnail). Google was already asked about that listing by name, so the lookup's point tells
+  it nothing new. A tapped building, a dropped pin and a saved point never trigger it.
 
 ### 10.8 Content gating
 

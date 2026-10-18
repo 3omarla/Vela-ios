@@ -479,6 +479,9 @@ off the list when it has been.
   town and ZIP and no comma, and half typed ("Covell Bl") all led with the address and the
   store on it; before the id fix all four found no address. Not seen: a phone with its network
   really off, or the user's own area.
+- The Street View thumbnail for every Google listing (user, 2026-10-18): seen on a 4a, the
+  Davis Food Co-op, which had none, now shows one; four other businesses kept theirs. Not
+  seen: a listing whose nearest pano is across a wide road or behind the building.
 
 ### Open from the October 2026 audit
 

@@ -3800,15 +3800,16 @@ class MapViewModel @Inject constructor(
             return
         }
         loadStreetView(faceToward = place.location, nearLocation = place.location) {
-            // Prefer a pano on the place's OWN street (a mid-block geocode can otherwise snap to the
-            // alley pano behind the building). For a business the street is in `address`; for a plain
-            // address result it's the `name` ("2005 5th Ave") and `address` is just the locality - so
-            // take whichever actually parses to a street.
-            val street = listOfNotNull(place.address, place.name)
-                .firstOrNull { app.vela.core.data.google.StreetViewParser.streetOf(it) != null }
-            dataSource.streetView(place.location, preferStreet = street)
+            dataSource.streetView(place.location, preferStreet = svStreet(place))
         }
     }
+
+    /** The street a place's panorama should stand on, so a mid-block geocode does not snap to the
+     *  alley pano behind the building. For a business the street is in `address`; for a plain
+     *  address result it is the `name` ("2005 5th Ave") and `address` is just the locality, so
+     *  whichever actually parses to a street. */
+    private fun svStreet(place: Place): String? = listOfNotNull(place.address, place.name)
+        .firstOrNull { app.vela.core.data.google.StreetViewParser.streetOf(it) != null }
 
     /** Walk to a neighboring pano (arrow tap): fetch it BY ID so it's epoch-exact - a
      *  nearest-location lookup snapped to a different-year capture (green May imagery under a
@@ -4039,7 +4040,7 @@ class MapViewModel @Inject constructor(
         // businesses have no owner description, so this hidden page loaded on nearly every tap.
         // The search reply already carries both when Google has them.
         val complete = p.popularTimes != null && p.reviewCount != null && !p.address.isNullOrBlank() && p.hours.size >= 2
-        if (complete) return
+        if (complete) { thumbPano(p); return }
         _state.update { if (it.selected?.id == p.id) it.copy(loadingDetails = true) else it }
         viewModelScope.launch {
             // The details page is a search for "name address" run inside a warmed Google page. Sent
@@ -4086,6 +4087,29 @@ class MapViewModel @Inject constructor(
                 ?.also { if (fidKey != null) placeCachePut(detailsCache, fidKey, it) }
             if (d != null) mergeDetails(p, d)
             _state.update { st -> if (st.selected?.id != p.id) st else st.copy(loadingDetails = false) }
+            thumbPano(p)
+        }
+    }
+
+    /**
+     * The Street View thumbnail above the card, for a listing neither of whose search replies
+     * named a panorama (some businesses had a thumbnail and some none, 2026-10-18): the nearest
+     * panorama on the place's street, the lookup the Street View button makes, faced at the
+     * place. Only for a Google listing, which Google was already asked about by name, so its
+     * point tells Google nothing new; never for a tapped building or a dropped pin. Follows the
+     * thumbnail's own gates (photos on, not on tap, Google on, online).
+     */
+    private fun thumbPano(p: Place) {
+        val sel = _state.value.selected ?: return
+        if (sel.id != p.id || sel.svPanoId != null || !sel.isListing() || sel.featureId?.contains(':') != true) return
+        if (!app.vela.ui.LoadPhotos.on.value || app.vela.ui.PhotosOnTap.on.value || googleOff()) return
+        viewModelScope.launch {
+            val pano = runCatching { dataSource.streetView(sel.location, preferStreet = svStreet(sel)) }.getOrNull() ?: return@launch
+            val yaw = LatLng(pano.lat, pano.lng).bearingTo(sel.location)
+            _state.update { st ->
+                val s = st.selected
+                if (s?.id != p.id || s.svPanoId != null) st else st.copy(selected = s.copy(svPanoId = pano.panoId, svYawDeg = yaw))
+            }
         }
     }
 
@@ -4112,6 +4136,9 @@ class MapViewModel @Inject constructor(
                     about = sel.about.ifEmpty { d.about },
                     featuredReview = sel.featuredReview ?: d.featuredReview,
                     updates = sel.updates.ifEmpty { d.updates },
+                    // The pano and its heading travel together, so the yaw is never another view's.
+                    svPanoId = sel.svPanoId ?: d.svPanoId,
+                    svYawDeg = if (sel.svPanoId != null) sel.svYawDeg else d.svYawDeg,
                 ),
             )
         }
