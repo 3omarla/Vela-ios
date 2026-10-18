@@ -473,9 +473,12 @@ off the list when it has been.
 - A pair of close turns said in a line that ends before the second turn's own (user,
   2026-10-17): `NavEngineChainTest`. Not seen or heard: a real drive, or a trip export of the
   reported one, so whether the cut was this or the second turn's queued approach line is open.
-- Offline address search with a town or a half-typed street (user, 2026-10-17):
-  `OfflineStreetWordsTest` for the word lists. Not seen: a phone offline, since the 4a's network
-  cannot be cut from here.
+- Offline address search (user, 2026-10-17): the pack's street ids read as 64-bit, and the
+  word lists (`OfflineStreetWordsTest`). Seen on a 4a with `debug.vela.tune.offline 1` against
+  the Northern California pack: a Davis address typed plain, with its town after a comma, with
+  town and ZIP and no comma, and half typed ("Covell Bl") all led with the address and the
+  store on it; before the id fix all four found no address. Not seen: a phone with its network
+  really off, or the user's own area.
 
 ### Open from the October 2026 audit
 

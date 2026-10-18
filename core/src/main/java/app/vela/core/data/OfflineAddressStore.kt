@@ -308,16 +308,19 @@ class OfflineAddressStore @Inject constructor(
     // int. Matching street names first (a ~60k-row scan) keeps a whole-state query fast — the big
     // tables are then hit through their sid/hn indexes, never LIKE-scanned.
 
-    /** sids (+ display name) of pack street names matching all [words]. */
-    private fun packSids(pack: SQLiteDatabase, words: List<String>): Map<Int, String> {
+    /** sids (+ display name) of pack street names matching all [words]. A sid is a 63-bit hash of
+     *  the normalized name (scripts/poipack_build.py `stable_sid`, since 2026-07-07), so it is
+     *  read as a Long: read as an Int it was cut to its low 32 bits, matched no address or
+     *  centerline row, and every forward lookup in a downloaded region came back empty. */
+    private fun packSids(pack: SQLiteDatabase, words: List<String>): Map<Long, String> {
         val clauses = words.map { "street_norm LIKE ?" }
         val args = words.map { "%$it%" }
-        val out = LinkedHashMap<Int, String>()
+        val out = LinkedHashMap<Long, String>()
         runCatching {
             pack.rawQuery(
                 "SELECT sid,street FROM streetname WHERE ${clauses.joinToString(" AND ")} LIMIT 200",
                 args.toTypedArray(),
-            ).use { c -> while (c.moveToNext()) out[c.getInt(0)] = c.getString(1) }
+            ).use { c -> while (c.moveToNext()) out[c.getLong(0)] = c.getString(1) }
         }
         return out
     }
@@ -335,7 +338,7 @@ class OfflineAddressStore @Inject constructor(
             }
             pack.rawQuery(sql, if (houseNo != null) arrayOf(houseNo) else null).use { c ->
                 while (c.moveToNext()) {
-                    rows.add(AddrRow(c.getString(0), sids[c.getInt(1)], c.getString(2), c.getDouble(3), c.getDouble(4)))
+                    rows.add(AddrRow(c.getString(0), sids[c.getLong(1)], c.getString(2), c.getDouble(3), c.getDouble(4)))
                 }
             }
         }
@@ -352,7 +355,7 @@ class OfflineAddressStore @Inject constructor(
                 null,
             ).use { c ->
                 while (c.moveToNext()) {
-                    rows.add(StreetPt(sids[c.getInt(0)] ?: return@use, c.getDouble(1), c.getDouble(2)))
+                    rows.add(StreetPt(sids[c.getLong(0)] ?: return@use, c.getDouble(1), c.getDouble(2)))
                 }
             }
         }
