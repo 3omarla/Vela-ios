@@ -4016,7 +4016,10 @@ A version query on `BAKED_URL` moves the map cache off old tiles after a rebake.
 
 A tappable "© OpenStreetMap" label sits bottom-left under the scale bar in every map state. It is
 lifted over the nav bar, the minimized results bar and the free-drive speed box, and moves into
-the map strip in landscape. It opens `openstreetmap.org/copyright`. Never gate it on a chrome
+the map strip in landscape. The scale bar (`ScaleBarReader`) is never hidden for the speed box:
+both rise by `SPEED_BOX_LIFT_DP` (78 dp) only while the box is drawn, moving without a route
+with Show speed on (`speedBoxLift`). The scale used to hide for two minutes after any motion
+while the map followed the dot, box or no box, and left the corner empty (issue #848). It opens `openstreetmap.org/copyright`. Never gate it on a chrome
 state: the ODbL asks for the credit wherever the map shows. MapLibre's own info button and logo
 are off. The satellite credit is a separate centered line, which adds Google where the Google
 deep layer shows. The label is `OsmCredit` in MapScreen.kt; driving mode draws its own above the

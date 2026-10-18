@@ -487,6 +487,9 @@ off the list when it has been.
   landing there for `adb pull`. Not seen: GrapheneOS's own picker on the P9.
 - The Street View window as a 360° button when there is no picture (user, 2026-10-18): seen on
   a 4a on a saved point, the figure over "360°", and a tap opening the viewer on that block.
+- The scale bar riding over the free-drive speed box instead of hiding (#848): seen on a 4a at
+  rest, the bar through a restart and three pans. Not seen: a phone moving without a route,
+  with Show speed on (the bar and credit raised) or off (both in place).
 
 ### Open from the October 2026 audit
 
