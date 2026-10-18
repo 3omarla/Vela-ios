@@ -6031,6 +6031,11 @@ the geometry.
 ### 14.4 Location hygiene
 
 Test coordinates, screenshot corners, sample addresses and "checked on a drive to X" lines add
+- "Save to phone" in the one-trip dialog writes the full trace, untrimmed, into a file the user
+  picks with the system's save dialog (`CreateDocument("text/csv")`, `MapViewModel.saveTripTo`,
+  named as the full share is, `tripFullFileName`). The file stays on the phone, so nothing is
+  trimmed; it is how a trip reaches a computer over USB (`adb pull` from Downloads) without
+  passing through another app. Added 2026-10-18.
 up, in permanent public history, to where the author lives. Before a place, address or
 coordinate enters the repository, ask whether it was chosen for a reason anyone could have. A
 place that is the subject of a report, such as the business whose hours parse wrong, is fine.

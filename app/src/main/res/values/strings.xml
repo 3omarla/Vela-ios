@@ -425,6 +425,8 @@
     <string name="settings_trip_share_first">First remaining point: %1$s, %2$s. Check it is not somewhere that identifies you.</string>
     <string name="settings_trip_share_trimmed">Share trimmed</string>
     <string name="settings_trip_share_full">Share full trace</string>
+    <string name="settings_trip_save_phone">Save to phone</string>
+    <string name="settings_trip_saved">Saved the full trace</string>
     <string name="settings_trip_scrub_short">This drive is shorter than the trim distance, so there is no middle left to share. Try a smaller one.</string>
     <string name="settings_trip_delete">Delete trip</string>
     <string name="settings_trip_delete_selected">Delete (%1$d)</string>

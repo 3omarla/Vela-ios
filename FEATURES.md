@@ -372,6 +372,8 @@ What Vela Maps does today, one line per feature. How each one works is in [SPEC.
 - Diagnostics, off by default, keeps a local log that "Export debug session" shares where you
   choose.
 - "Redact places in exports" hides searches, destinations and place names.
+- A recorded trip can be saved to the phone as its full trace, in a folder you pick, besides
+  shared trimmed or whole.
 - After a crash, "Export crash report" shares the saved report.
 - "Simulate driving (demo)" and "Simulate my location (demo)" run the app without real GPS, on the
   car screen too.

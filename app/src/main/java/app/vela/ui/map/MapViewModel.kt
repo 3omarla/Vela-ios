@@ -7750,11 +7750,24 @@ class MapViewModel @Inject constructor(
         }.getOrNull()
     }
 
+    /** The file name a trip's full trace is shared and saved under. */
+    fun tripFullFileName(meta: app.vela.replay.TripMeta): String = "vela-trip-${tripStamp(meta.startedAt)}-full.csv"
+
+    /** Write a trip's full trace into [uri], a file the user picked with the system's save
+     *  dialog (Downloads, say): the phone keeps it, nothing is sent anywhere. False when the
+     *  trip cannot be read or the file cannot be written. Call off the main thread. */
+    fun saveTripTo(meta: app.vela.replay.TripMeta, uri: android.net.Uri): Boolean {
+        val csv = tripStore.rawCsv(meta.id) ?: return false
+        return runCatching {
+            appContext.contentResolver.openOutputStream(uri, "wt")?.use { it.write(csv.toByteArray()) } != null
+        }.getOrDefault(false)
+    }
+
     fun exportTripIntent(meta: app.vela.replay.TripMeta): android.content.Intent? {
         val csv = tripStore.rawCsv(meta.id) ?: return null
         return runCatching {
             val dir = java.io.File(appContext.cacheDir, "export").apply { mkdirs() }
-            val file = java.io.File(dir, "vela-trip-${tripStamp(meta.startedAt)}-full.csv")
+            val file = java.io.File(dir, tripFullFileName(meta))
             file.writeText(csv)
             val uri = androidx.core.content.FileProvider.getUriForFile(
                 appContext, "${appContext.packageName}.fileprovider", file,

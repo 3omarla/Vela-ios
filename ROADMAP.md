@@ -482,6 +482,9 @@ off the list when it has been.
 - The Street View thumbnail for every Google listing (user, 2026-10-18): seen on a 4a, the
   Davis Food Co-op, which had none, now shows one; four other businesses kept theirs. Not
   seen: a listing whose nearest pano is across a wide road or behind the building.
+- Save to phone for a recorded trip (user, 2026-10-18): seen on a 4a, the system save dialog
+  opening in Download with the trip's file name, and the full trace (15.9 KB, every line kind)
+  landing there for `adb pull`. Not seen: GrapheneOS's own picker on the P9.
 
 ### Open from the October 2026 audit
 
