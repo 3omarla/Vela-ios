@@ -532,9 +532,10 @@ object NavEngine {
         }
         // The line at the turn, with the next turn on it when the two are chained. That next turn
         // says its own line at ITS turn-now point, interrupting, so the pair has to be over by the
-        // time the car gets there: a brisk pair 60 m apart was heard as "..., then turn left onto
-        // Oak Av" cut off by "Turn left onto Oak Avenue" (a real drive, 2026-10-17). When the
-        // whole pair will not fit, the first turn drops its street name, then the second does;
+        // time the car gets there. Nothing checked that, and taken briskly a pair 60 m apart has
+        // about 4 s for a line that needs 5 (a drive on 2026-10-17 had a line cut at two close
+        // turns; whether by this or by the second turn's queued approach line is unconfirmed).
+        // When the whole pair will not fit, the first turn drops its street name, then the second does;
         // the shortest form is said even when it will not quite fit, since it still says what
         // comes next. A first turn with no form without its street is said alone.
         fun turnNowLine(plain: String): String {

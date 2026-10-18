@@ -236,8 +236,7 @@ class OfflineAddressStore @Inject constructor(
         val houseNo = m?.groupValues?.get(1)?.takeIf { it.isNotBlank() }
         val streetPart = (m?.groupValues?.get(2) ?: query).substringBefore(',').trim()
         // Every word has to be in the street's name, so a town or a half-typed last word matched
-        // nothing and the list was only the bus stops named after nearby corners (2026-10-17).
-        // The words are tried as typed, then with the last ones dropped (streetWordTries).
+        // nothing. The words are tried as typed, then with the last ones dropped (streetWordTries).
         for (words in streetWordTries(streetPart)) {
             val hits = geocodeWords(houseNo, words, streetPart, near, limit)
             if (hits.isNotEmpty()) return hits
