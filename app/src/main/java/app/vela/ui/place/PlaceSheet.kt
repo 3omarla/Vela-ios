@@ -3793,7 +3793,9 @@ private fun PlaceTabs(
                 "Overview" -> {
                     overview()
                     if ("Reviews" in tabs && place.rating != null) {
-                        ReviewSummaryCard(place, ink, dim, onOpen = { onSelect("Reviews") })
+                        // Its Show reviews is the tap the reviews wait for (ReviewsOnTap), so the
+                        // tab opens loading them instead of asking a second time (issue #845).
+                        ReviewSummaryCard(place, ink, dim, onOpen = { onShowReviews?.invoke(); onSelect("Reviews") })
                     }
                     // The newest post only; the Updates tab has them all (Google's layout).
                     if (place.updates.isNotEmpty()) {

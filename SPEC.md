@@ -840,7 +840,7 @@ the page fills it after load, and a small stub sits beside it.
 | Setting | Holder, pref, default | Effect |
 | --- | --- | --- |
 | Performance > Load all photos and reviews | `FullPlaceLoad`, `place_full_load`, off | every tap runs the full photo walk and scrapes up to 50 reviews at once |
-| Places > Load reviews only when I tap | `ReviewsOnTap`, `reviews_on_tap`, off | a Show reviews button replaces the scroll trigger (`reviewsAwaitingTapFor`, `loadReviewsNow`); overrides `FullPlaceLoad` for reviews |
+| Places > Load reviews only when I tap | `ReviewsOnTap`, `reviews_on_tap`, off | a Show reviews button replaces the scroll trigger (`reviewsAwaitingTapFor`, `loadReviewsNow`); the rating card's Show reviews on the overview counts as that tap and opens the tab loading (issue #845); overrides `FullPlaceLoad` for reviews |
 | Places > Load photos only when I tap | `PhotosOnTap`, `photos_on_tap`, off | the photo request waits for a Show photos button (`photosAwaitingTapFor`, `loadPhotosNow`) |
 | Places > Wait for popular times | `DetailsRetry`, `details_retry`, on | off makes `placeTries()` 1 |
 | Privacy > Live traffic only when I tap | `RouteTrafficOnTap`, `route_traffic_on_tap`, off | clears `RoutingPrefs.googleTraffic` for each new trip, so directions, reroutes and rechecks skip Google and the transit chip is not prefetched. The chooser's Show traffic (`requestRouteTraffic`) sets it for that trip and refetches |

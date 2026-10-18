@@ -463,6 +463,9 @@ off the list when it has been.
   size; seen on the desktop head unit at 1280 by 720, the traffic lights through a downtown at
   about road width. Not seen: a stop sign on the car map, the 800 by 480 profile, or a real
   head unit.
+- The rating card's Show reviews loading the reviews when they wait for a tap (#845): seen on a
+  4a with "Load reviews only when I tap" on, one tap opening the Reviews tab with the reviews
+  loading. Not seen: a place whose Reviews tab is already open when the card is tapped.
 
 ### Open from the October 2026 audit
 
