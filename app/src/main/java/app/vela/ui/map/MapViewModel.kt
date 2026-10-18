@@ -3024,6 +3024,7 @@ class MapViewModel @Inject constructor(
         // A trip still being looked up from an earlier link gives way to this one.
         linkTripJob?.cancel()
         clearLinkTrip()
+        if (link.streetView && openStreetViewLink(link)) return
         // The user's choice for links (LinkAction): a plain location link can open directions,
         // and either kind can start the drive once its route lands (the one-tap Start path, so
         // the precise-location and notification gates still apply).
@@ -3059,6 +3060,26 @@ class MapViewModel @Inject constructor(
                 _state.update { it.copy(center = near, centerZoom = link.zoom) }
             }
         }
+    }
+
+    /**
+     * A Street View link (issue #847): the map moves to its point and the in-app viewer opens on
+     * the panorama it names, or on the nearest one, facing the link's heading. False when Street
+     * View is not offered (Google turned off) or the link has neither a point nor a panorama, so
+     * the caller opens it as a plain point instead.
+     */
+    private fun openStreetViewLink(link: MapLink): Boolean {
+        if (app.vela.ui.GoogleFree.on.value) return false
+        val at = link.lat?.let { la -> link.lng?.let { ln -> LatLng(la, ln) } }
+        val pano = link.panoId
+        if (at == null && pano == null) return false
+        diag.record("search", "link: street view${if (pano != null) " by pano" else ""}")
+        if (at != null) _state.update { it.copy(center = at, centerZoom = 18.0) }
+        val heading = link.heading?.let { ((it % 360.0) + 360.0) % 360.0 }
+        loadStreetView(faceHeading = heading, panoIdHint = pano, nearLocation = at) {
+            pano?.let { dataSource.streetViewByPano(it) } ?: at?.let { dataSource.streetView(it) }
+        }
+        return true
     }
 
     /** A place link carries the place's feature id: once the search by its name lands, the hit whose

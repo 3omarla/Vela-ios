@@ -466,6 +466,10 @@ off the list when it has been.
 - The rating card's Show reviews loading the reviews when they wait for a tap (#845): seen on a
   4a with "Load reviews only when I tap" on, one tap opening the Reviews tab with the reviews
   loading. Not seen: a place whose Reviews tab is already open when the card is tapped.
+- Street View links opening the viewer (#847): `MapLinkParserTest` for the three link shapes;
+  seen on a 4a, a web map Street View link handed to Vela opening the viewer on that block. Not
+  seen: the `map_action=pano` and `layer=c` links on a phone, a link with a pano id, or the
+  kav app itself.
 
 ### Open from the October 2026 audit
 

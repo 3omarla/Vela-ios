@@ -91,7 +91,7 @@ What Vela Maps does today, one line per feature. How each one works is in [SPEC.
 - "Search your contacts" suggests a contact's saved addresses. Off by default.
 - With a route planned or a drive running, search looks along the route.
 - Map links from other apps open in Vela. "Links from other apps" picks the place, directions or
-  navigation.
+  navigation. A Street View link opens straight into Street View.
 - Offline, search covers downloaded regions. With Google off, it uses open data.
 
 ## Routes

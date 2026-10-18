@@ -3157,6 +3157,13 @@ when the feature ids match. Two requests at most.
   intent. `MapLink.directions` routes `openDeepLink` to `openDirectionsLink`: a coordinate
   becomes a reverse-geocoded pin, a name runs the "navigate to" search
   (`openDirectionsOnResult`).
+- Street View links (issue #847, `MapLinkParser.parseStreetView`, asked before directions):
+  `maps/@<lat>,<lng>,3a,...,<n>h,...` with the panorama as `!1s<pano>!2e0` in its `data=`,
+  `maps/@?api=1&map_action=pano&viewpoint=&heading=&pano=`, and the old
+  `maps?layer=c&cbll=&cbp=<n>,<heading>&panoid=`. `MapLink.streetView` sends `openDeepLink` to
+  `openStreetViewLink`: the camera moves to the point at z18 and the viewer opens on the named
+  panorama, or the nearest one when there is none or it fails, facing the link's heading. With
+  Google off (`GoogleFree`) the link opens as a plain point.
 - The places between the start and the end are `MapLink.stops`, at most
   `SavedRoutes.MAX_STOPS`. A path-form link from a desktop browser carries each place's own
   coordinate in its `data=` blob (`MapLinkParser.dirPins`: a `1m<n>` field per place, with
