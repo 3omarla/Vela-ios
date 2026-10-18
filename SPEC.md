@@ -5754,6 +5754,10 @@ WebGL embed serves a stripped shell that renders black on ANGLE. Do not retry it
   (`MapViewModel.thumbPano`, once the details are in; 2026-10-18, some businesses had no
   thumbnail). Google was already asked about that listing by name, so the lookup's point tells
   it nothing new. A tapped building, a dropped pin and a saved point never trigger it.
+- With no picture to load by itself (no pano, Load photos off or on tap, or the picture failed),
+  the window still shows, as the Street View figure over "360°" on the dark fill, and a tap
+  opens the viewer through `openStreetView`, the card button's lookup; nothing is requested
+  before the tap (user 2026-10-18). Not for a drawn shape, and not with Google off or offline.
 
 ### 10.8 Content gating
 
@@ -6027,15 +6031,15 @@ the geometry.
   drive spent inside a trimmed end, not where.
 - A route block whose polyline trims to nothing drops its `RD` and `M` lines.
 - A trip that trims to nothing is never sent raw. A batch share leaves it out and counts it.
-
-### 14.4 Location hygiene
-
-Test coordinates, screenshot corners, sample addresses and "checked on a drive to X" lines add
 - "Save to phone" in the one-trip dialog writes the full trace, untrimmed, into a file the user
   picks with the system's save dialog (`CreateDocument("text/csv")`, `MapViewModel.saveTripTo`,
   named as the full share is, `tripFullFileName`). The file stays on the phone, so nothing is
   trimmed; it is how a trip reaches a computer over USB (`adb pull` from Downloads) without
   passing through another app. Added 2026-10-18.
+
+### 14.4 Location hygiene
+
+Test coordinates, screenshot corners, sample addresses and "checked on a drive to X" lines add
 up, in permanent public history, to where the author lives. Before a place, address or
 coordinate enters the repository, ask whether it was chosen for a reason anyone could have. A
 place that is the subject of a report, such as the business whose hours parse wrong, is fine.

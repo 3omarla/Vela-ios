@@ -62,7 +62,8 @@ What Vela Maps does today, one line per feature. How each one works is in [SPEC.
   Google's in the US, the UK government's Fuel Finder prices (E10 and diesel) in the UK and
   Northern Ireland, in any app language and with Google on or off. The place page says how old a
   UK station's last report is.
-- Street View in the app: look around, walk between panoramas, view older captures.
+- Street View in the app: look around, walk between panoramas, view older captures. A window
+  above the place card shows the view, or a 360° button to open it when there is no picture.
 - "Show reviews" and "Load photos" turn those off. "Load reviews only when I tap" and "Load photos
   only when I tap" defer them.
 - "Wait for popular times" and "Load all photos and reviews" trade more Google requests for fuller
@@ -371,9 +372,9 @@ What Vela Maps does today, one line per feature. How each one works is in [SPEC.
   the drive decided and ran on are kept for the whole drive; they hold no place.
 - Diagnostics, off by default, keeps a local log that "Export debug session" shares where you
   choose.
-- "Redact places in exports" hides searches, destinations and place names.
 - A recorded trip can be saved to the phone as its full trace, in a folder you pick, besides
   shared trimmed or whole.
+- "Redact places in exports" hides searches, destinations and place names.
 - After a crash, "Export crash report" shares the saved report.
 - "Simulate driving (demo)" and "Simulate my location (demo)" run the app without real GPS, on the
   car screen too.
