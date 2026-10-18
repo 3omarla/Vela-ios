@@ -547,7 +547,7 @@ object SearchParser {
     /** Google sometimes ships a holiday label with itself repeated ("Thanksgiving/Thanksgiving",
      *  a live listing returned the label repeated). Collapse slash/middot-separated repeats that are
      *  identical case/space-insensitively; distinct multi-labels pass through untouched. */
-    internal fun dedupeHolidayLabel(note: String): String {
+    fun dedupeHolidayLabel(note: String): String {
         val parts = note.split('/', '·', '•', '|').map { it.trim() }.filter { it.isNotEmpty() }
         if (parts.size >= 2 && parts.all { it.equals(parts[0], ignoreCase = true) }) return parts[0]
         return note.trim()
