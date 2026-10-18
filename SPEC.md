@@ -2231,6 +2231,9 @@ theme ticker waits in the background.
   Start are hidden too.
 - Thread CPU first: `adb shell top -H -b -n 2 -d 5 -p <pid> -o TID,%CPU,CMD -s 2`. Coroutine
   workers on both Default and IO are named `DefaultDispatcher-worker`.
+- `debug.vela.tune.offline 1` makes `MapViewModel.isOnline` answer no, so search takes the
+  offline path (`OfflinePoiStore`, the places archives, `OfflineAddressStore.geocode`) on a phone
+  that is online. Read on every call; `setprop` it back to 0 after.
 - `debug.vela.tune.demoSpeedup <n>` runs a demo drive at n times real time, as a trip replay
   runs. `debug.vela.tune.camTurnTau <s>` replaces `CAM_BRG_TAU_TURN`.
 - Traps: the travel mode is sticky, and a demo started in walking mode skips the driving

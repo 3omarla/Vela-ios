@@ -2484,7 +2484,10 @@ class MapViewModel @Inject constructor(
         caps.hasCapability(android.net.NetworkCapabilities.NET_CAPABILITY_VALIDATED)
     }.getOrDefault(true)
 
-    private fun isOnline(): Boolean = app.vela.core.net.NetHealth.recentlyOnline() || systemOnline()
+    /** Test dial `debug.vela.tune.offline 1` (adb only) answers no, so the offline search and
+     *  geocoder can be run on a phone that is online, without touching its network settings. */
+    private fun isOnline(): Boolean = !app.vela.ui.AppTune.localOn("offline") &&
+        (app.vela.core.net.NetHealth.recentlyOnline() || systemOnline())
 
     /** What Android says about the network, nothing else. */
     private fun systemOnline(): Boolean = runCatching {
@@ -2685,6 +2688,8 @@ class MapViewModel @Inject constructor(
                             .map { p -> if (p.address.isNullOrBlank()) p.copy(address = a.address ?: a.name) else p }
                     }
                     val merged = (if (addrs.isNotEmpty()) atAddr + addrs + pois else pois + addrs).distinctBy { it.id }
+                    // Counts only, never the query: which source answered an offline search.
+                    android.util.Log.i("VelaOffline", "search: ${pois.size} places, ${addrs.size} addresses, ${atAddr.size} at the address")
                     val have = merged.isNotEmpty() ||
                         runCatching { offlinePoiStore.count() > 0 || addressStore.count() > 0 || addressStore.streetCount() > 0 }.getOrDefault(false)
                     merged to have
