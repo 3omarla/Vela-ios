@@ -358,9 +358,14 @@ off the list when it has been.
   drive through town, the arrow along the route up to the turn. Not yet seen: a real stop at a
   light with a poor fix, on the phone or the head unit; a demo drive cannot make a wide fix.
 - Streamed overlays read by Vela instead of MapLibre (#827): the address, building and places
-  overlays of a region that is not downloaded come through `StreamedPmtiles`. Not yet seen on a
-  phone: house numbers back in a state with an address overlay, footprints in a suburb OSM has
-  not drawn, the open places layer with no region downloaded.
+  overlays of a region that is not downloaded come through `StreamedPmtiles`. Seen on a 4a
+  (2026-10-18): a Davis block at z18.6 drawing the overlay's house numbers, with its tiles asked
+  of `pmtiles.vela.invalid`. Not seen: footprints in a suburb OSM has not drawn, the open places
+  layer with no region downloaded.
+- Compass words after a route number cut to their letter on screen (#837 follow-up): "toward
+  US 169 North" on the card and the car's step reads "toward US 169 N" (`RoadNameShort
+  .routeCardinals`, `RoadNameShortTest`). Seen on a 4a in a simulated drive: "Take the ramp on
+  the right toward I 80 W". Not seen on the car.
 - One list exported on its own (#822): a share button in the list editor's title row, seen on
   a 4a: it opens the share sheet with `vela-list-<name>.json`, and Delete, Cancel and Save keep
   their row. A file of that shape picked under Saved places > Your lists > Import came back as

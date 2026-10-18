@@ -41,12 +41,24 @@ object RoadNameShort {
     /** [text] with its one [road] name shortened in place: "Turn right onto Court Street" with the
      *  road "Court Street" is "Turn right onto Court St". The name is shortened on its own, so its
      *  first word is kept; the text is unchanged when the road is not in it (a romanized name, a
-     *  number used instead). */
+     *  number used instead). A compass word after a route number is cut to its letter wherever it
+     *  stands, a sign's destination included ("toward US 169 North" is "toward US 169 N", as the
+     *  sign reads; issue #837). A direction in a town's name ("toward North Bend") stays. */
     fun inText(text: String, road: String?): String {
-        if (road.isNullOrBlank()) return text
+        val t = routeCardinals(text)
+        if (road.isNullOrBlank()) return t
         val short = shorten(road)
-        if (short == road) return text
-        val at = text.indexOf(road)
-        return if (at < 0) text else text.substring(0, at) + short + text.substring(at + road.length)
+        if (short == road) return t
+        val at = t.indexOf(road)
+        return if (at < 0) t else t.substring(0, at) + short + t.substring(at + road.length)
     }
+
+    /** "US 169 North" to "US 169 N", "I-44 Westbound" to "I-44 W": a compass word straight after a
+     *  route number (letters, then digits), English only. */
+    fun routeCardinals(text: String): String = ROUTE_CARDINAL.replace(text) { m ->
+        m.groupValues[1] + " " + CARDINAL_LETTER.getValue(m.groupValues[2].lowercase().removeSuffix("bound"))
+    }
+
+    private val CARDINAL_LETTER = mapOf("north" to "N", "south" to "S", "east" to "E", "west" to "W")
+    private val ROUTE_CARDINAL = Regex("""\b((?:[A-Z]{1,4}[ -]?)\d{1,4}[A-Z]?)\s+(North|South|East|West|Northbound|Southbound|Eastbound|Westbound)\b""")
 }

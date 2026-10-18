@@ -28,6 +28,16 @@ class RoadNameShortTest {
         assertEquals("Elm Jct", RoadNameShort.shorten("Elm Junction"))
     }
 
+    @Test fun aCompassWordAfterARouteNumberIsItsLetter() {
+        assertEquals("Take the ramp on the right toward US 169 N: I 44, Tulsa",
+            RoadNameShort.inText("Take the ramp on the right toward US 169 North: I 44, Tulsa", null))
+        assertEquals("Merge onto I-44 W", RoadNameShort.inText("Merge onto I-44 Westbound", null))
+        assertEquals("Take exit 18 toward CA 113 S", RoadNameShort.inText("Take exit 18 toward CA 113 South", null))
+        // A direction in a place's name, or with no route number before it, stays.
+        assertEquals("Keep left toward North Bend", RoadNameShort.inText("Keep left toward North Bend", null))
+        assertEquals("Turn right onto W Covell Blvd", RoadNameShort.inText("Turn right onto West Covell Boulevard", "West Covell Boulevard"))
+    }
+
     @Test fun otherLanguagesPassThrough() {
         assertEquals("Rue de la Paix", RoadNameShort.shorten("Rue de la Paix"))
         assertEquals("Hauptstraße", RoadNameShort.shorten("Hauptstraße"))
