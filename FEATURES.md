@@ -332,6 +332,7 @@ What Vela Maps does today, one line per feature. How each one works is in [SPEC.
 - Buttons for the voice and end over the map, plus recenter and overview; pause, zoom and the
   search along the route stay on the phone. The voice button steps on, alerts only and off, like
   the phone's.
+- Traffic lights and stop signs on the car map are the phone's glyphs, sized to the screen.
 - Camera, speeding and closing-soon alerts appear as car toasts.
 - The car's settings cover spoken directions, avoiding tolls, highways and ferries, and the
   traffic layer.

@@ -459,6 +459,10 @@ off the list when it has been.
   unit at 1280 by 720 in a simulated drive, the glyph going speaker, bell, crossed speaker and
   back to speaker. Not seen: the phone's own button following a change made in the car, or a
   real head unit.
+- The phone's light and stop sign glyphs on the car map (#844): `CarControlGlyphTest` for the
+  size; seen on the desktop head unit at 1280 by 720, the traffic lights through a downtown at
+  about road width. Not seen: a stop sign on the car map, the 800 by 480 profile, or a real
+  head unit.
 
 ### Open from the October 2026 audit
 

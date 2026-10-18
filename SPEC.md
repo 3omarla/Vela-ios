@@ -5637,8 +5637,12 @@ The map:
   pinch keeps the point under the fingers in place. A fling decays exponentially (`FLING_TAU_S`
   0.35 s, stops under `FLING_STOP_PX_S` 40 px/s), stepped by the render ticker and stopped by
   recenter, zoom, overview and route preview. The map recenters `RECENTER_MS` (6 s) after a pan.
-- From z13.5 the renderer draws the `CarBridge` lights, stop signs and speed cameras as dots,
-  plus the plate cameras along the route from the bundled set.
+- From z13.5 the renderer draws the `CarBridge` lights and stop signs as the phone's glyphs
+  (`trafficLightBitmap`, `stopSignBitmap`; issue #844), and rail crossings, speed humps, speed
+  cameras and the plate cameras along the route from the bundled set as dots. A stop sign is
+  `controlGlyphPx`: a twentieth of the screen's short side, scaled with zoom as the phone
+  scales its glyphs (0.7 at z14, 1 at z15.5, 1.3 at z17), between 16 and 56 px; a light is
+  `LIGHT_TALL` (1.4) times that tall.
 - The speed badge and the limit sign draw during a drive and on the drive-mode screen
   (`setDriveScreen`), with `SpeedDisplay` on. They scale with the screen (issue #817): the
   badge's radius is a 18th of the shorter side, 22 to 46 px, and the text, the sign and its
