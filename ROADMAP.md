@@ -473,6 +473,9 @@ off the list when it has been.
 - A pair of close turns said in a line that ends before the second turn's own (user,
   2026-10-17): `NavEngineChainTest`. Not seen or heard: a real drive, or a trip export of the
   reported one, so whether the cut was this or the second turn's queued approach line is open.
+- Offline address search with a town or a half-typed street (user, 2026-10-17):
+  `OfflineStreetWordsTest` for the word lists. Not seen: a phone offline, since the 4a's network
+  cannot be cut from here.
 
 ### Open from the October 2026 audit
 

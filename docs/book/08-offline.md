@@ -196,6 +196,10 @@ and [chapter 6](06-search.md) has the matching and ranking rules:
 - For text that looks like an address, `OfflineAddressStore.geocode`, in four layers: the
   exact house number on the street, a position interpolated between the nearest mapped
   numbers, any mapped house on the street, then the nearest point on the street's centerline.
+  Every street word has to be in the street's name, so the words are tried as typed and then
+  with the last ones dropped (`streetWordTries`), and anything after a comma is left out. A
+  town, a state, a ZIP or a half-typed last word ("Covell Bl") still finds the street; a typed
+  address used to return nothing then, leaving only the bus stops named after nearby corners.
 
 A pack is one SQLite file per region. Street names are stored once and the millions of
 address and centerline rows point at them by number, so a whole-state pack answers as fast as

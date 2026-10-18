@@ -234,10 +234,19 @@ class OfflineAddressStore @Inject constructor(
     fun geocode(query: String, near: LatLng?, limit: Int = 20): List<Place> {
         val m = HOUSE_STREET.find(query.trim())
         val houseNo = m?.groupValues?.get(1)?.takeIf { it.isNotBlank() }
-        val streetPart = (m?.groupValues?.get(2) ?: query).trim()
-        val words = normalizeStreet(streetPart).split(' ').filter { it.length >= 2 }
-        if (words.isEmpty()) return emptyList()
+        val streetPart = (m?.groupValues?.get(2) ?: query).substringBefore(',').trim()
+        // Every word has to be in the street's name, so a town or a half-typed last word matched
+        // nothing and the list was only the bus stops named after nearby corners (2026-10-17).
+        // The words are tried as typed, then with the last ones dropped (streetWordTries).
+        for (words in streetWordTries(streetPart)) {
+            val hits = geocodeWords(houseNo, words, streetPart, near, limit)
+            if (hits.isNotEmpty()) return hits
+        }
+        return emptyList()
+    }
 
+    /** [geocode]'s four layers for one set of street [words]. */
+    private fun geocodeWords(houseNo: String?, words: List<String>, streetPart: String, near: LatLng?, limit: Int): List<Place> {
         // (1) exact house number on the street.
         if (houseNo != null) {
             val exact = run(houseNo, words, near, limit)
@@ -459,6 +468,35 @@ class OfflineAddressStore @Inject constructor(
         private const val REV_BOX_DEG = 0.0016 // ~180 m lat/lng box for the reverse-geocode nearest scan
         private const val REV_ADDR_M = 60.0    // accept a mapped house this close as the POI's address
         private const val REV_STREET_M = 150.0 // else fall back to a street name this close
+
+        /**
+         * The street words [geocode] tries for [streetPart] (the text after the house number and
+         * before any comma), in order: all of them, then with the last word dropped, and so on,
+         * while a word that is neither a direction nor a street type is left. "Covell Bl" tries
+         * "covell bl", then "covell"; "Main Street Davis CA" ends at "main"; "North Street" is
+         * tried as typed and no shorter, since "north" alone names no street. Words under two
+         * letters are dropped, as before.
+         */
+        internal fun streetWordTries(streetPart: String): List<List<String>> {
+            val words = normalizeStreet(streetPart.substringBefore(',')).split(' ').filter { it.length >= 2 }
+            if (words.isEmpty()) return emptyList()
+            // The words as typed always go first: "North Street" is a street.
+            val out = arrayListOf(words)
+            var n = words.size - 1
+            while (n > 0) {
+                val w = words.subList(0, n)
+                if (w.none { it !in DIRECTION_WORDS && it !in FULL_STREET_TYPES }) break
+                out += w.toList()
+                n--
+            }
+            return out
+        }
+
+        private val DIRECTION_WORDS = setOf("north", "south", "east", "west", "northeast", "northwest", "southeast", "southwest")
+        private val FULL_STREET_TYPES = setOf(
+            "street", "avenue", "boulevard", "drive", "road", "lane", "court", "place", "square",
+            "terrace", "circle", "highway", "parkway", "trail", "way", "loop", "route",
+        )
 
         // A query is address-like if it starts with a house number or names a street type. Used to decide
         // whether to run the geocoder alongside the POI search (so "coffee" doesn't hit the address table).
