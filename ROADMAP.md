@@ -366,6 +366,7 @@ off the list when it has been.
   US 169 North" on the card and the car's step reads "toward US 169 N" (`RoadNameShort
   .routeCardinals`, `RoadNameShortTest`). Seen on a 4a in a simulated drive: "Take the ramp on
   the right toward I 80 W". Not seen on the car.
+- The debug export's `input` line (#744): not seen; written for the head unit's report.
 - One list exported on its own (#822): a share button in the list editor's title row, seen on
   a 4a: it opens the share sheet with `vela-list-<name>.json`, and Delete, Cancel and Save keep
   their row. A file of that shape picked under Saved places > Your lists > Import came back as

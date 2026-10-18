@@ -6003,6 +6003,10 @@ from GitHub (5.8). With "Use Vela without Google" on, only the open services are
   grapheneos_proxy, apple_china), `force_disable_supl` (standard, off, grapheneos_proxy),
   `psds_server` (grapheneos, standard, off) and `geocoder` (off, openstreetmap, grapheneos),
   absent elsewhere. Words only.
+- The debug export's `input` field (`SettingsDump.input`): `touchscreen=yes|no`,
+  `keypadFirst=yes|no` (`isDpadFirstDevice`) and `dpadDevices=`, the driver names of the
+  physical input devices that report a D-pad, so a report where taps do nothing (a head unit's
+  hardware buttons taken for a keypad, issue #744) shows whether Vela is waiting for keys.
 - A recorded drive's notes say what it ran on and fetched. `data:` (at the start and on change)
   lists which of routing, the map, places, buildings, addresses, speed limits and signs come
   from the phone and which are streamed, as counts with no region named. `net 10 s:` counts the
