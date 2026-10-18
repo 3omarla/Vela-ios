@@ -69,7 +69,7 @@
     <string name="settings_hide_external_links">Ukryj stronę WWW i linki zewnętrzne</string>
     <string name="settings_hide_external_links_hint">Wł. = strony miejsc nie pokazują przycisków Strona WWW, Street View ani Rezerwuj / Zamów (bez otwierania dowolnych zewnętrznych stron).</string>
     <string name="settings_offline">Mapy offline</string>
-    <string name="settings_offline_hint">Dwa sposoby na Velę offline: zapisz obszar w którym jesteś, na krótkie trasy albo poniżej cały stan lub kraj na dłuższe.</string>
+    <string name="settings_offline_hint">Dwa sposoby na Velę offline: zapisz obszar w którym jesteś na krótkie trasy albo poniżej cały stan lub kraj na dłuższe.</string>
     <string name="settings_offline_map_area">Obszar lokalny</string>
     <string name="settings_offline_download_viewport">Pobierz oglądany obszar</string>
     <string name="settings_region_updates">Aktualizuj pobrane regiony</string>
@@ -82,7 +82,7 @@
     <string name="settings_offline_addresses_update">Zaktualizuj zapisane obszary</string>
     <string name="settings_offline_delete_area">Usuń ten obszar offline</string>
     <string name="settings_routing_regions">Regiony i kraje</string>
-    <string name="settings_routing_regions_hint">Wszystko, by poruszać się offline po całym stanie, prowincji lub kraju: drogi i miejsca, dzięki czemu trasy i wyszukiwanie działają na całym obszarze. Pobierz tam, dokąd jedziesz.</string>
+    <string name="settings_routing_regions_hint">Wskazówki dojazdu, wyszukiwanie miejsc oraz mapa obejmująca cały stan, prowincję lub kraj – dzięki temu możesz nawigować i wyszukiwać informacje w dowolnym miejscu na danym obszarze nawet bez dostępu do internetu. Plik mapy stanowi największą część pobieranych danych; mniejsze obszary które możesz zapisać (jak wspomniano powyżej) obejmują zazwyczaj tylko jedno miasto.</string>
     <string name="settings_routing_no_regions">Brak dostępnych regionów.</string>
     <string name="settings_clear_filter">Wyczyść filtr</string>
     <string name="settings_routing_filter_placeholder">Szukaj</string>
@@ -650,7 +650,7 @@
     <string name="settings_map_colors">Kolory mapy</string>
     <string name="settings_map_colors_modern">Nowoczesne</string>
     <string name="settings_map_colors_classic">Klasyczne</string>
-    <string name="settings_map_colors_hint">Nowoczesne odpowiadają obecnej palecie Google Maps. Klasyczne to wcześniejszy wygląd Vela: białe drogi, żółte autostrady, wyraziste zielenie.</string>
+    <string name="settings_map_colors_hint">Styl „Modern” odpowiada aktualnej palecie kolorystycznej aplikacji Google. „Classic” to wcześniejszy wygląd mapy Vela: białe drogi, żółte autostrady i wyraziste odcienie zieleni. „Contrast” to mapa w wersji nocnej – z ciepłymi barwami ulic na tle w kolorze łupka przypominająca widok z górskiego szczytu; w ciągu dnia prezentuje się natomiast tak samo jak styl „Modern”.</string>
     <string name="map_parking_find">Znajdź mój samochód</string>
     <string name="map_parking_move_here">Przenieś parking tutaj</string>
     <string name="map_parking_earlier">Wcześniejsze miejsca</string>
@@ -674,7 +674,7 @@
     <string name="settings_topography_hint">Cieniuje wzgórza i góry na mapie. Domyślnie wyłączone.</string>
     <string name="map_layers">Warstwy</string>
     <string name="settings_layers_button">Pokaż przycisk warstw</string>
-    <string name="settings_layers_button_hint">Przycisk mapy do przełączania satelity, ruchu, transportu i terenu.</string>
+    <string name="settings_layers_button_hint">Przycisk na mapie służy do wyboru jej wyglądu – pozwala włączać widok satelitarny, informacje o ruchu drogowym, komunikację miejską, ukształtowanie terenu, modele budynków 3D oraz ikony miejsc a także uruchamia tryb nawigacji samochodowej.</string>
     <plurals name="topcard_more_stops">
         <item quantity="one">+%d kolejny przystanek</item>
         <item quantity="few">+%d kolejne przystanki</item>
@@ -690,7 +690,7 @@
     <string name="settings_hub_map_sub">Ruch, komunikacja, warstwy, budynki 3D</string>
     <string name="settings_hub_navigation_sub">Prowadzenie, kamery, sprawdzanie na żywo</string>
     <string name="settings_hub_voice_sub">Wskazówki głosowe i głosy</string>
-    <string name="settings_hub_search_sub">Wyszukiwanie głosowe i modele mowy</string>
+    <string name="settings_hub_search_sub">Wyszukiwanie głosowe, modele mowy i przyciski szybkiego wyszukiwania</string>
     <string name="settings_hub_offline_sub">Mapy offline, trasy, miejsca</string>
     <string name="settings_hub_saved_sub">Twoje listy, eksport, historia parkowania</string>
     <string name="settings_hub_privacy_sub">Co dostaje Google, czyszczenie historii</string>
@@ -727,7 +727,7 @@
     <string name="mapvm_stop_added">Dodano przystanek</string>
     <string name="shortcut_home">Dom</string>
     <string name="shortcut_work">Praca</string>
-    <string name="settings_asr_engines_hint">Mowa staje sie wyszukiwaniem w telefonie. Nic nie jest wysylane. Wybierz silnik mikrofonu.</string>
+    <string name="settings_asr_engines_hint">Mowa zamienia się w wyszukiwanie bezpośrednio w Twoim telefonie – nie potrzeba żadnej dodatkowej aplikacji a dane nie są nigdzie przesyłane. Pobierz jeden lub więcej silników rozpoznawania mowy i wybierz ten z którego ma korzystać mikrofon.</string>
     <string name="settings_asr_engine_meta">%1$s · %2$d MB</string>
     <!-- format -->
     <string name="settings_asr_langs_whisper">Wszystkie języki obsługiwane przez Vela</string>
@@ -790,7 +790,7 @@
     <string name="nav_speed_camera_ahead">Fotoradar przed tobą</string>
     <string name="settings_flock_nav_card">Ostrzeżenie o kamerach tablic rejestracyjnych</string>
     <string name="settings_flock_nav_card_hint">Podczas nawigacji pokazuje kartę, gdy zbliżasz się do kamery odczytującej tablice rejestracyjne na twojej trasie. Kamery skierowane na drogę poprzeczną są pomijane. Domyślnie wyłączone.</string>
-    <string name="settings_flock_nav_voice">Mów gdy przed tobą jest kamera tablic</string>
+    <string name="settings_flock_nav_voice">Mów gdy przed tobą jest kamera tablic rejestracyjnych</string>
     <string name="settings_flock_nav_voice_hint">Podczas nawigacji mówi \"Kamera tablic rejestracyjnych przed tobą\", gdy zbliżasz się do takiej kamery na trasie, około dwunastu sekund przed nią. Działa zgodnie z ustawieniem wskazówek głosowych. Domyślnie wyłączone.</string>
     <string name="nav_flock_camera_ahead">Kamera tablic rejestracyjnych przed tobą</string>
     <string name="nav_flock_cameras_ahead">Kamery tablic rejestracyjnych przed tobą</string>
@@ -810,7 +810,7 @@
     <string name="settings_texture_render_hint">Rysuje mapę ścieżką zgodności która omija błędy sterowników graficznych niektórych urządzeń. Włącza się samo jeśli mapa wywołała awarię aplikacji przy starcie. Nieco wolniejsze; wymaga ponownego uruchomienia aplikacji.</string>
     <string name="settings_texture_render_auto_hint">Włączone automatycznie na %1$s po dwóch awariach mapy przy starcie. Jeśli mapa działa z tą opcją wyłączoną, zostaw ją wyłączoną: jest wolniejsza i może powodować zacinanie mapy podczas jazdy. Wymaga ponownego uruchomienia aplikacji.</string>
     <string name="settings_offline_places_with_downloads">Dołączaj miejsca do pobrań</string>
-    <string name="settings_offline_places_with_downloads_hint">Pobranie regionu przynosi też dane miejsc Veli dla niego dzięki czemu firmy na mapie widać bez zasięgu. Około pół gigabajta dla dużego stanu. Wył. = miejsca wczytują się tylko online.</string>
+    <string name="settings_offline_places_with_downloads_hint">Pobieranie regionu zawiera również dane miejsc Veli dzięki czemu firmy na mapie widać bez zasięgu. Około pół gigabajta dla dużego stanu. Wył. = miejsca wczytują się tylko online.</string>
     <string name="settings_routing_size_installed_here">Około %1$s po instalacji · obejmuje twoją lokalizację</string>
     <string name="settings_routing_size_installed">Około %1$s po instalacji</string>
     <string name="settings_storage_title">Pamięć</string>
@@ -992,7 +992,7 @@
     <string name="voice_cmd_route">Między dwoma miejscami</string>
     <string name="voice_cmd_nearby">Szukaj w pobliżu</string>
     <string name="voice_cmd_eta">Czas przyjazdu, w trakcie jazdy</string>
-    <string name="voice_cmd_hint">Działają głosowo lub wpisane w pasek wyszukiwania, w języku aplikacji albo po angielsku. Wszystko inne to zwykłe wyszukiwanie.</string>
+    <string name="voice_cmd_hint">Działają one zarówno po wypowiedzeniu jak i wpisaniu w pasek wyszukiwania – w języku aplikacji lub po angielsku. Wszystkie pozostałe zapytania są traktowane jak zwykłe wyszukiwanie.</string>
     <string name="settings_map_data">Dane mapy</string>
     <string name="settings_map_data_hint">Mapa – wraz z ulicami, etykietami i numerami domów – bazuje na danych OpenStreetMap, udostępnianych na licencji Open Database i serwowanych w formie kafelków wektorowych przez OpenFreeMap. Informacje o firmach i punktach usługowych na mapie (w obsługiwanych regionach) pochodzą z zasobów Overture Maps Foundation (dostarczonych przez firmy Meta i Microsoft) i są udostępniane na licencji Community Data Agreement – Permissive 2.0. Szczegółowe dane o miejscach, opinie, wyznaczanie tras oraz informacje o ruchu drogowym pochodzą od Google. Zdjęcia satelitarne dostarczają firmy Esri i Google. Wymowa około 3500 nazw miejsc bazuje na zasobach angielskiej Wikipedii i wkładzie jej współtwórców (na licencji CC BY-SA 4.0).</string>
     <string name="settings_map_data_button">Prawa autorskie OpenStreetMap</string>
@@ -1007,9 +1007,9 @@
     <string name="settings_road_label_bar">Nad dolnym paskiem</string>
     <string name="settings_road_label_puck">Pod strzałką</string>
     <string name="settings_road_label_inbar">W dolnym pasku</string>
-    <string name="settings_road_label_hint">Gdzie podczas jazdy pokazywana jest nazwa drogi, którą jedziesz. Nad paskiem trzyma ją wyśrodkowaną i czytelną przy długich nazwach; pod strzałką podąża za strzałką.</string>
+    <string name="settings_road_label_hint">Miejsce w którym podczas jazdy wyświetlana jest nazwa drogi na której się znajdujesz. Umieszczenie jej nad paskiem pozwala zachować wyśrodkowanie i czytelność nawet w przypadku długich nazw; umieszczenie pod strzałką sprawia że nazwa podąża za ruchem strzałki.</string>
     <string name="settings_prefer_buttons">Przyciski zamiast gestów</string>
-    <string name="settings_prefer_buttons_hint">Zachowuje przycisk tam, gdzie jest też gest: przyciski przybliżania i oddalania na mapie oraz przycisk listy etapów na pasku nawigacji. Zawsze włączone na telefonach bez ekranu dotykowego.</string>
+    <string name="settings_prefer_buttons_hint">Zachowuje przycisk tam gdzie jest też gest: przyciski przybliżania i oddalania na mapie oraz przycisk listy etapów na pasku nawigacji. Zawsze włączone na telefonach bez ekranu dotykowego.</string>
     <string name="settings_faster_auto">Automatycznie wybieraj szybsze trasy</string>
     <string name="settings_faster_auto_hint">Gdy w trakcie jazdy pojawi się szybsza trasa, zostanie wybrana, jeśli nie odpowiesz w ciągu kilku sekund. Po wyłączeniu propozycja bez odpowiedzi zostanie odrzucona. Tak czy inaczej propozycja nigdy nie czeka na mapie.</string>
     <string name="settings_pause_in_bar">Przycisk pauzy na pasku nawigacji</string>
@@ -1316,10 +1316,10 @@
     <string name="draw_list_name">Moje rysunki</string>
     <string name="draw_delete">Usuń ten rysunek</string>
     <string name="settings_pip_turn_card">Karta skrętu na minimapie</string>
-    <string name="settings_pip_turn_card_hint">Podczas nawigacji w trybie obraz w obrazie pokazuje następny skręt jako kartę u góry, a pozostały czas u dołu. Wył.: jeden pasek u dołu z drogą, odległością do skrętu i godziną przyjazdu, jak na minimapie Google.</string>
+    <string name="settings_pip_turn_card_hint">Podczas nawigacji w trybie obraz w obrazie pokazuje następny skręt jako kartę u góry a pozostały czas u dołu. Wył.: jeden pasek u dołu z drogą, odległością do skrętu i godziną przyjazdu jak na minimapie Google.</string>
     <string name="cat_menu">Kategorie</string>
     <string name="settings_category_chips">Skróty kategorii</string>
-    <string name="settings_category_chips_hint">Skróty Restauracje, Kawa, Stacje paliw… pod paskiem wyszukiwania. Jeden przycisk zwija je w menu.</string>
+    <string name="settings_category_chips_hint">Skróty takie jak „Restauracje”, „Kawa”, „Stacje paliw…” znajdują się pod paskiem wyszukiwania. Za pomocą jednego przycisku można je zwinąć do menu. To które z nich są widoczne i w jakiej kolejności można określić w sekcji „Wyszukiwanie”.</string>
     <string name="settings_category_chips_row">Rząd</string>
     <string name="settings_category_chips_button">Jeden przycisk</string>
     <string name="settings_category_chips_hidden">Ukryte</string>
@@ -1359,7 +1359,7 @@
     <string name="settings_start_view_here">Gdzie jestem</string>
     <string name="settings_start_view_place">Miejsce które wybieram</string>
     <string name="settings_start_view_use_current">Użyj bieżącego widoku mapy</string>
-    <string name="settings_start_view_hint">Tu znajduje się mapa w momencie uruchomienia aplikacji Vela. Link z innej aplikacji nadal otwiera się w swoim własnym widoku.</string>
+    <string name="settings_start_view_hint">W momencie uruchomienia aplikacji Vela wyświetlana jest mapa. W trybie jazdy (przeznaczonym dla telefonu lub tabletu zamontowanego w uchwycie) widoczna jest wyłącznie mapa. Linki otwierane z poziomu innych aplikacji otwierają się w swoich własnych oknach.</string>
     <string name="nav_bar_to_stop">Do %1$s</string>
     <string name="nav_bar_your_stop">twój przystanek</string>
     <string name="nav_bar_stop_cd">%1$s i %2$s do %3$s, przyjazd o %4$s. Cała podróż %5$s i %6$s, przyjazd o %7$s.</string>
@@ -1385,7 +1385,7 @@
     <string name="settings_voice_mode_on">Włączone</string>
     <string name="settings_voice_mode_alerts">Tylko powiadomienia</string>
     <string name="settings_voice_mode_off">Wyłączone</string>
-    <string name="settings_voice_mode_hint">Alerty emitują jedynie krótkie sygnały dźwiękowe informujące o przekroczeniu prędkości i fotoradarach i nic więcej. Przycisk głośnika podczas jazdy otwiera te same trzy.</string>
+    <string name="settings_voice_mode_hint">Alerty emitują jedynie krótkie sygnały dźwiękowe informujące o przekroczeniu prędkości, fotoradarach i nic więcej. Przycisk głośnika podczas jazdy otwiera te same trzy.</string>
     <string name="settings_google_uses">Do czego wykorzystywane jest Google</string>
     <string name="settings_google_uses_hint">Wyłącz jeden z nich a Vela przestanie wysyłać do Google zapytania na jego temat. Każdy przełącznik znajduje się również na osobnej stronie.</string>
     <string name="settings_google_uses_traffic">Ruch drogowy i trasy</string>
@@ -1484,8 +1484,8 @@
     <string name="settings_map_look">Widok mapy</string>
     <string name="settings_map_look_liberty">Vela</string>
     <string name="settings_map_look_bright">Jasny</string>
-    <string name="settings_map_look_hint">Vela używa stylu Liberty z serwisu OpenFreeMap, wzbogaconego o własną kolorystykę, ikony oraz szerokości dróg. Pozostałe style to standardowe warianty OpenFreeMap: Jasny, Positron, Fiord i Ciemny; style Fiord i Ciemny pozostają ciemne niezależnie od wybranego motywu.</string>
-    <string name="settings_map_look_dark">Ciemny</string>
+    <string name="settings_map_look_hint">Vela to styl z OpenFreeMap bazujący na stylu Liberty lecz wzbogacony o własną kolorystykę, ikony oraz szerokości dróg. Pozostałe style – Jasny, Pozyton, Fiord oraz Czarny (wariant ciemny) – pochodzą bezpośrednio z OpenFreeMap; style Fiord i Czarny pozostają ciemne niezależnie od wybranego motywu.</string>
+    <string name="settings_map_look_dark">Czarny</string>
     <string name="nav_bridge_opening_ahead">Most przed nami: otwarcie planowane na %1$s</string>
     <string name="nav_bridge_open_ahead">Most przed nami jest otwarty</string>
     <string name="settings_bridge_openings_hint">W Holandii system informuje czy most zwodzony na trasie jest otwarty lub czy zostanie otwarty w momencie gdy do niego dotrzesz. Dane o planowanych i bieżących otwarciach pochodzą z zasobów NDW dotyczących infrastruktury drogowej; zapytanie jest wysyłane tylko wtedy gdy trasa prowadzi przez terytorium Holandii.</string>
@@ -1505,4 +1505,51 @@
     <string name="list_sound_label">Dźwięk gdy przejeżdżasz obok jednego</string>
     <string name="list_sound_off">Wyłącz</string>
     <string name="list_sound_ping">Ping</string>
+    <string name="settings_region_updated_on">zaktualizowano %1$s</string>
+    <string name="settings_start_view_drive">Tryb jazdy</string>
+    <string name="driving_mode">Tryb jazdy</string>
+    <string name="driving_mode_leave">Wyjdź z trybu jazdy</string>
+    <string name="settings_car_speed">Twoja prędkość na ekranie samochodu</string>
+    <string name="settings_car_speed_hint">Wyłączone, na ekranie w samochodzie wyświetla się tylko obowiązujące ograniczenie prędkości; pojazd posiada własny prędkościomierz.</string>
+    <string name="settings_update_all_regions">Zaktualizuj wszystko (%1$d)</string>
+    <string name="list_export">Eksportuj tę listę</string>
+    <string name="mapvm_export_list_subject">Lista Vela: %1$s</string>
+    <string name="mapvm_export_list_chooser">format</string>
+    <string name="settings_map_buttons">Przyciski mapy</string>
+    <string name="settings_map_buttons_hint">Przyciski lokalizowania i parkowania na mapie: okrągłe lub z kwadratowymi narożnikami – podobnie jak otaczające je aplikacje w stylistyce Material You.</string>
+    <string name="settings_map_colors_contrast">Kontrast</string>
+    <string name="map_layers_type">Typ mapy</string>
+    <string name="map_layers_details">Szczegóły mapy</string>
+    <string name="map_layers_satellite">Satelita</string>
+    <string name="map_layers_places_title">Umieść ikony</string>
+    <string name="map_layers_traffic">Ruch drogowy</string>
+    <string name="map_layers_transit">Linie transportowe</string>
+    <string name="map_layers_terrain">Teren</string>
+    <string name="settings_quick_chips">Przyciski szybkiego wyszukiwania</string>
+    <string name="settings_quick_chips_sub">Które z nich się wyświetlają i w jakiej kolejności</string>
+    <string name="settings_quick_chips_hint">Przyciski „Restauracje”, „Kawa”, „Stacje paliw…” znajdują się pod paskiem wyszukiwania – zarówno podczas planowania trasy jak i w trakcie jazdy. Możesz wyłączyć wybrany przycisk aby usunąć go z paska lub przeciągnąć go za pomocą uchwytu aby zmienić kolejność. Nawet jeśli przycisk jest wyłączony nadal możesz skorzystać z danej kategorii wpisując ją w wyszukiwarkę.</string>
+    <string name="settings_quick_chips_reset">Przywróć ustawienia domyślne</string>
+    <string name="cat_more">Więcej</string>
+    <string name="settings_turn_arrows">Włącz strzałki na trasie</string>
+    <string name="settings_turn_arrows_hint">Krótkie strzałki na trasie wskazują nadchodzące zakręty podczas jazdy.</string>
+    <string name="settings_zoom_to_turn">Przybliż widok na kolejny zakręt</string>
+    <string name="settings_zoom_to_turn_hint">Mapa oddala się aż kolejny manewr znajdzie się tuż pod kartą wskazówek następnie kieruje się w stronę zjazdu a gdy jesteś już blisko – ponownie przybliża widok. Funkcja ta sprawdza się na długich odcinkach między manewrami; przy takim oddaleniu nazwy ulic oraz sygnalizacja świetlna nie są widoczne. Działa to również na ekranie w samochodzie.</string>
+    <string name="settings_zoom_to_turn_floor">Oddal widok tak bardzo jak to możliwe</string>
+    <string name="settings_zoom_to_turn_floor_town">Miasto</string>
+    <string name="settings_zoom_to_turn_floor_region">Region</string>
+    <string name="settings_zoom_to_turn_floor_far">Daleko</string>
+    <string name="settings_zoom_to_turn_floor_hint">Mapa może oddalać się w takim stopniu aby kolejny manewr pozostał widoczny na ekranie. Każdy kolejny poziom przybliżenia obejmuje obszar mniej więcej cztery razy większy; przy większym oddaleniu nazwy ulic ustępują miejsca podglądowi dalszego odcinka trasy.</string>
+    <string name="route_save_default_from">%1$s do %2$s</string>
+    <string name="settings_places_source_more_credit">Mapy Overture</string>
+    <string name="place_source_overture">Overture</string>
+    <string name="settings_map_buttons_round">Okrągły</string>
+    <string name="settings_map_buttons_square">Kwadratowy</string>
+    <string name="settings_bridge_openings">Otwieranie mostów</string>
+    <string name="welcome_cameras_title">Kamery tablic rejestracyjnych</string>
+    <string name="welcome_cameras_intro">Oznacza na mapie urządzenie Flock lub inny czytnik tablic rejestracyjnych. Vela umożliwia również:</string>
+    <string name="camera_badge_plate">Znacznik kamery rejestrującej tablice rejestracyjne</string>
+    <string name="camera_badge_speed">Znacznik fotoradaru</string>
+    <string name="list_sound_low">Niski ton</string>
+    <string name="link_trip_pick_start">Miejsce początkowe</string>
+    <string name="link_trip_start_title">Miejsce początkowe nie zostało odnalezione</string>
 </resources>

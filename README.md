@@ -28,7 +28,7 @@ An open-source Google Maps alternative for Android: *what NewPipe is to
 YouTube, for Google Maps.* The map is open data. The basemap is open vector tiles (OpenStreetMap), and
 the places on it are **Vela data**: Overture Maps and AllThePlaces, positioned
 with OpenStreetMap, baked into tiles in this repo and streamed from its
-releases. Browsing around never asks Google anything. Search, tap a place or
+releases. Just panning around the map never asks Google anything. Search, tap a place or
 ask for a route, and the phone itself asks Google's public web endpoints, with
 no account, no key and no server in between, for what only Google does well:
 search, hours, reviews, photos, and routes that know about traffic and closed
