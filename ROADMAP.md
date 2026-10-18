@@ -470,6 +470,9 @@ off the list when it has been.
   seen on a 4a, a web map Street View link handed to Vela opening the viewer on that block. Not
   seen: the `map_action=pano` and `layer=c` links on a phone, a link with a pano id, or the
   kav app itself.
+- A pair of close turns said in a line that ends before the second turn's own (user,
+  2026-10-17): `NavEngineChainTest`. Not seen or heard: a real drive, or a trip export of the
+  reported one, so whether the cut was this or the second turn's queued approach line is open.
 
 ### Open from the October 2026 audit
 

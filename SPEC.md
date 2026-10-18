@@ -1568,6 +1568,13 @@ At 12 m a car gets 42 m and 84 m. `OFF_ROUTE_M` (40 m) and `FAR_OFF_M` (90 m) ar
   `thenNext` exists in 13 languages; Dutch, Swedish and Japanese have none yet and say the two
   turns apart, as before. The chained line is not among `upcomingPrompts`, so the voice renders
   it when it is spoken.
+- The chained line at the first turn has to end before the second turn's own line, which
+  interrupts (`turnNowLine`): the time to the second turn's turn-now point at the current pace
+  against `SPEECH_CPS` (13 letters a second) plus `SPEECH_LEAD_S` (0.6 s). When the whole line
+  will not fit, the first turn drops its street ("Turn right, then turn left onto Oak Avenue"),
+  then the second does ("Turn right, then turn left"); that last form is said even when it will
+  not quite fit. A first turn with no form without its street, or a lot line, is said alone. At
+  14 m/s a pair 60 m apart loses the first street, at 16 m/s both (`NavEngineChainTest`).
 - CONTINUE and STRAIGHT are silent unless their lanes show a real fork
   (`continueHasGenuineFork`). The DEPART maneuver is spoken once by `NavSession.start` and
   skipped by the engine.
