@@ -217,8 +217,9 @@ The route preview passes the avoid settings to the directions call and waits up 
 first fix. The template refuses a list without a Go action, so an empty result shows a plain
 message. Go names a provisional route first, the way the phone does.
 
-The drive's button row holds four actions, the template's cap: mute, pause or resume, search along
-the route, and end. A faster-route offer that saves a minute or more takes the mute slot. The
+The drive's button row holds two actions, the voice and end. The voice button steps on, alerts
+only and off, as the phone's speaker button does, and its glyph is the mode: a speaker, a bell, a
+crossed-out speaker. A faster-route offer that saves a minute or more takes the voice slot. The
 buttons are icons, because the host draws a titled action as a text pill across the map. End is
 red and carries the primary flag. The host throws on a background color on any other action.
 

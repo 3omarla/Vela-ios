@@ -2425,9 +2425,11 @@ since a cluster's centroid sits in the junction's middle. The corridor fetch is 
   `VoiceGuide.muted` and `alertsOnly`, the holder `VoiceAlertsOnly` for the hold control). In
   Alerts only the speeding, speed camera, plate camera and bridge alerts play `VoiceGuide.alertChime`,
   two short notes at 1046.5 Hz, instead of their spoken line (`NavController.alert`); every
-  other chime and every prompt stays silent. Off is silent throughout. The car's own toggle sets
-  On or Off and leaves Alerts only (`CarVoice`), writing the same two prefs; the phone's state
-  follows the prefs through a listener, so the two never disagree.
+  other chime and every prompt stays silent. Off is silent throughout. The car's speaker button
+  steps the same three in the same order (`CarVoice.step`, issue #842) and shows the mode as
+  its glyph (`ic_car_unmute`, `ic_car_alerts`, `ic_car_mute`); the car settings switch sets On
+  or Off and leaves Alerts only (`CarVoice.set`). Both write the same two prefs; the phone's
+  state follows the prefs through a listener, so the two never disagree.
 - Bridge openings (`BridgeAlert`, on by default): a drive whose line enters the Netherlands
   (`NdwBridgeOpenings.inNetherlands`) fetches NDW's `planningsfeed_brugopeningen.xml.gz`
   (about 115 KB, DATEX II v3), keeps the bridges within 30 m of the line and asks again every

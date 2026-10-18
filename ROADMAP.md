@@ -455,6 +455,10 @@ off the list when it has been.
 - Street words abbreviated everywhere on screen (#837): the pill for every name, the turn card
   and its "then" line, the car's step and Continue on; the voice keeps the full words. Unit-tested (`RoadNameShortTest`). Seen on a 4a in a simulated drive: "Turn left onto G St" on the
   then line and "G St" on the pill.
+- The car's speaker button stepping on, alerts only and off (#842): seen on the desktop head
+  unit at 1280 by 720 in a simulated drive, the glyph going speaker, bell, crossed speaker and
+  back to speaker. Not seen: the phone's own button following a change made in the car, or a
+  real head unit.
 
 ### Open from the October 2026 audit
 
