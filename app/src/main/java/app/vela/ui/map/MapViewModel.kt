@@ -7636,6 +7636,19 @@ class MapViewModel @Inject constructor(
         var missed = 0
         var needGoogle = 0
         var lookups = 0
+        // Saved as it goes, so an import Android stops part way keeps what it found, and the
+        // same file imported again skips the rows it already matched (issue #761).
+        val (existing, listId) = app.vela.core.data.importTarget(listStore.lists(), name, "takeout:$name")
+        val previous = existing?.places.orEmpty()
+        val known = app.vela.core.data.TakeoutCsv.keyed(previous)
+        // Read again at every save, so a rename or a new icon made while it runs is kept.
+        fun save(all: List<app.vela.core.model.ListPlace>) {
+            val current = listStore.lists().firstOrNull { it.id == listId }
+            val list = current?.copy(places = all) ?: app.vela.core.model.PlaceList(id = listId, name = name, icon = "bookmark", places = all)
+            val lists = if (current != null) listStore.update(list) else listStore.create(list)
+            _state.update { it.copy(lists = lists) }
+        }
+        var nextSave = TAKEOUT_SAVE_EVERY
         rows.forEachIndexed { i, row ->
             if (i % 5 == 0) withContext(Dispatchers.Main) { flashStatus(appContext.getString(R.string.settings_takeout_progress, i + 1, rows.size), 60_000L) }
             val link = app.vela.core.data.TakeoutCsv.readLink(row.url)
@@ -7643,12 +7656,14 @@ class MapViewModel @Inject constructor(
             val note = listOfNotNull(row.note, row.comment).joinToString("\n").ifBlank { null }
             val la = link?.lat
             val ln = link?.lng
+            val reuse = link?.featureKey?.let { known[it] }
             when {
                 link != null && la != null && ln != null -> places += app.vela.core.model.ListPlace(
                     id = "imp:%.5f,%.5f".format(java.util.Locale.US, la, ln),
                     name = title.ifBlank { "%.4f, %.4f".format(java.util.Locale.US, la, ln) }.take(120),
                     lat = la, lng = ln, note = note, featureId = link.featureId,
                 )
+                reuse != null -> places += reuse.copy(note = note)
                 title.isBlank() -> missed++
                 googleOff -> needGoogle++
                 else -> {
@@ -7669,14 +7684,12 @@ class MapViewModel @Inject constructor(
                     if (hit != null) places += app.vela.core.model.ListPlace.of(hit).copy(note = note) else missed++
                 }
             }
+            if (lookups >= nextSave && places.isNotEmpty()) {
+                save(app.vela.core.data.TakeoutCsv.partial(places, previous))
+                nextSave = lookups + TAKEOUT_SAVE_EVERY
+            }
         }
-        if (places.isNotEmpty()) {
-            val (existing, listId) = app.vela.core.data.importTarget(listStore.lists(), name, "takeout:$name")
-            val list = existing?.copy(places = places)
-                ?: app.vela.core.model.PlaceList(id = listId, name = name, icon = "bookmark", places = places)
-            val lists = if (existing != null) listStore.update(list) else listStore.create(list)
-            _state.update { it.copy(lists = lists) }
-        }
+        if (places.isNotEmpty()) save(places)
         val result = app.vela.core.data.ImportResult.ListAdded(name, places.size, missed, needGoogle)
         withContext(Dispatchers.Main) { flashStatus(takeoutOutcome(result), 6_000L) }
         return result
@@ -10590,6 +10603,8 @@ class MapViewModel @Inject constructor(
         /** Gap between two Google lookups of a Takeout import: a list of hundreds searched back to
          *  back reads as a bot. */
         const val TAKEOUT_LOOKUP_GAP_MS = 400L
+        /** A running Takeout import saves its list after this many lookups (issue #761). */
+        const val TAKEOUT_SAVE_EVERY = 25
         /** A tapped offline globe probes Vela's own config host (no Google contact). */
         // The connectivity probe heads the signed settings file (VelaLinks.calibration()).
 

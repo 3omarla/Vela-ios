@@ -499,6 +499,10 @@ off the list when it has been.
 - A 700 ms lead-in on Bluetooth outputs (#802, 300 ms still clipped some lines for one
   reporter): not seen or heard; there is no Bluetooth output on the test rig. Which output the
   reporter uses is unconfirmed.
+- A Google Takeout list import saved as it goes (#761: a 600-row list was lost when Android
+  stopped the app part way): seen on a 4a, a 63-row test list killed at row 36 kept the 12
+  places found before its first save. Not seen: a real Takeout file imported again, which should
+  take the rows it already matched with no lookup.
 
 ### Open from the October 2026 audit
 

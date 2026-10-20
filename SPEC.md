@@ -3414,6 +3414,12 @@ the shared 12 s timeout cuts it off.
   outcome (`MapViewModel.takeoutOutcome`) goes to the status card as well as to the caller's
   toast. Listing rows are looked up `TAKEOUT_LOOKUP_GAP_MS` (400 ms) apart; a pin row waits for
   nothing. The status card shows `settings_takeout_progress` every five rows.
+  The list is saved every `TAKEOUT_SAVE_EVERY` (25) lookups as well as at the end, so an import
+  Android stops part way keeps what it found; a running save is `TakeoutCsv.partial` (the places
+  found so far, then the list's earlier places not found again yet), so it never shrinks the list
+  of an earlier import. A listing row whose feature key is already in the list
+  (`TakeoutCsv.keyed`) takes that place with no lookup, so the same file imported again goes
+  straight through the rows it already matched (issue #761).
   `ImportResult.ListAdded` carries the name, the count, the misses and the `needGoogle` count.
   Rows are capped at `MAX_ROWS` (2,000). The Takeout zip itself is not read; pick the CSV inside it.
 - Trip shortcuts: the route card's menu pins the trip as a launcher shortcut. Its intent
