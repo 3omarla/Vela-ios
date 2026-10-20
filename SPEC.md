@@ -4918,10 +4918,13 @@ download self-heals. The selection is `voice_model`, the speaker per voice `voic
 - When the next phrase is not ready the player writes `STARVE_MS` (60) of silence: an underrun
   makes AudioFlinger drop the track, which aborts the process. Audio is written in about 200 ms
   pieces with a generation check between them, which bounds an interrupt.
-- Every line starts with `LEAD_IN_MS` (300) of silence. The track is paused between prompts so
-  the output can stand by, and a sink waking from standby (a Bluetooth head unit above all)
-  dropped the first syllables when the words were written the instant the stream started
-  (issue #802).
+- Every line starts with `SpeechLeadIn.ms` of silence, in the neural player and on the
+  phone's engine alike: `MS` (300), or `BLUETOOTH_MS` (700) when navigation speech is
+  routed to a Bluetooth output (Android 13 and up: `getAudioDevicesForAttributes`; before
+  that, any Bluetooth output connected). The track is paused between prompts so the output can
+  stand by, and a sink waking from standby (a Bluetooth head unit above all) dropped the first
+  syllables when the words were written the instant the stream started (issue #802); 300 ms
+  still cut "Starting navigation" to "tarting navigation" on one reporter's output.
 - Pauses are spliced silence, 0.16 s at a comma and 0.32 s at a period, tuned at the default
   0.8x and multiplied by 0.8 / speed (`gapFrames`). The runtime's own silence scale is a no-op.
 - Every fragment gets terminal punctuation before synthesis, or the last consonant is swallowed.

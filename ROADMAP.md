@@ -496,6 +496,9 @@ off the list when it has been.
 - The scale bar riding over the free-drive speed box instead of hiding (#848): seen on a 4a at
   rest, the bar through a restart and three pans. Not seen: a phone moving without a route,
   with Show speed on (the bar and credit raised) or off (both in place).
+- A 700 ms lead-in on Bluetooth outputs (#802, 300 ms still clipped some lines for one
+  reporter): not seen or heard; there is no Bluetooth output on the test rig. Which output the
+  reporter uses is unconfirmed.
 
 ### Open from the October 2026 audit
 
