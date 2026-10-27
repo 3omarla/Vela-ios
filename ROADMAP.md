@@ -557,8 +557,11 @@ Found reading everything since 0.4.1912 and not fixed yet.
   door to the start of the route; a place photo from the business's own website when Google
   is off; Material 3 Expressive; a search bar at the bottom of the screen (#747: the hard part
   is a layout for the buttons and the bar that still works in landscape and with the sheets).
-- iOS. Not started. `:core` is plain Kotlin and would move to Kotlin Multiplatform. MapLibre
-  and sherpa-onnx have iOS builds. The interface would be rewritten.
+- iOS. A native Swift port is in `ios/` (`ios/README.md`). It rewrites the parts of `:core` the
+  phone needs, because `:core` depends on Android APIs, OkHttp, Rhino and the OsmAnd JVM jars.
+  Built and run in the simulator and on one phone, not yet checked on a drive. Not ported:
+  offline maps and routing, transit, Street View, the review feed, popular times, imports, the
+  Piper voice, CarPlay, remote calibration, settings and translations.
 - A download of just the route's corridor (#732): map tiles, places and routing data within a
   few kilometers of a planned route instead of a whole region. Not started. The region packs
   are baked per region, so a corridor would be cut from them on the phone or baked on request.

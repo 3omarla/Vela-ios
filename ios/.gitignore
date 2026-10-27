@@ -1,0 +1,5 @@
+build/
+Vela.xcodeproj/
+*.xcarchive
+xcuserdata/
+.DS_Store

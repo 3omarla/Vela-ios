@@ -291,8 +291,8 @@ Still open (details in [ROADMAP.md](ROADMAP.md)):
 - [ ] A Google Play listing, so Android Auto works on factory head units: a separate
       build with the Google half compiled out, while the full app stays on GitHub,
       Obtainium and F-Droid. A big job. On the radar, not started.
-- [ ] An iOS build. The engine module is plain Kotlin and would move to Kotlin
-      Multiplatform; the interface would be rewritten. On the radar, not started.
+- [ ] An iOS build. A native Swift port is in [ios/](ios/README.md): map, search, places,
+      saved lists, traffic-aware directions and turn-by-turn. Early, sideload only.
 
 **Not going to happen:** anything that needs you to sign in to Google or hand data to
 a backend. That covers contributing reviews, photos or edits, live location sharing,
