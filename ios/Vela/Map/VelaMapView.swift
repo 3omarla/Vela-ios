@@ -5,6 +5,8 @@ import MapLibre
 struct VelaMapView: UIViewRepresentable {
     @ObservedObject var model: AppModel
     var dark: Bool
+    /// Points of the map's left edge under the landscape side panel; 0 in portrait.
+    var sidePanel: CGFloat = 0
 
     func makeCoordinator() -> Coordinator { Coordinator(model: model) }
 
@@ -30,6 +32,10 @@ struct VelaMapView: UIViewRepresentable {
     func updateUIView(_ map: MLNMapView, context: Context) {
         let c = context.coordinator
         if c.dark != dark { c.loadStyle(dark: dark) }
+        if c.side != sidePanel {
+            c.side = sidePanel
+            c.reframe()
+        }
         c.sync()
     }
 
@@ -38,7 +44,9 @@ struct VelaMapView: UIViewRepresentable {
         let model: AppModel
         weak var map: MLNMapView?
         var dark: Bool?
+        var side: CGFloat = 0
         private var lastCamera: UUID?
+        private var lastRequest: CameraRequest?
         private var styleReady = false
         private var lastSignature = ""
         private var following = false
@@ -137,6 +145,7 @@ struct VelaMapView: UIViewRepresentable {
             guard let map else { return }
             if let req = model.camera, req.id != lastCamera {
                 lastCamera = req.id
+                lastRequest = req
                 apply(req, map)
             }
             let navigating = model.nav != nil
@@ -190,12 +199,25 @@ struct VelaMapView: UIViewRepresentable {
             (style.source(withIdentifier: "vela-selected") as? MLNShapeSource)?.shape = MLNShapeCollectionFeature(shapes: pin)
         }
 
+        /// The last camera request again, after a rotation moved the panels.
+        func reframe() {
+            guard let map, let req = lastRequest else { return }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) { [weak self] in
+                guard let self, self.lastRequest?.id == req.id else { return }
+                self.apply(req, map)
+            }
+        }
+
         private func apply(_ req: CameraRequest, _ map: MLNMapView) {
+            let h = map.bounds.height
+            let landscape = side > 0
             switch req.kind {
             case .center(let p, let zoom):
                 map.setUserTrackingMode(.none, animated: false, completionHandler: nil)
-                // The sheet covers the bottom ~40%: aim at the middle of what is left.
-                map.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: map.bounds.height * 0.35, right: 0)
+                // Aim at the middle of the map the sheet (portrait, bottom ~40%) or the side
+                // panel (landscape) leaves open.
+                map.contentInset = landscape ? UIEdgeInsets(top: 0, left: side, bottom: 0, right: 0)
+                    : UIEdgeInsets(top: 0, left: 0, bottom: h * 0.35, right: 0)
                 map.setCenter(p.coordinate, zoomLevel: zoom ?? max(map.zoomLevel, 15), direction: 0, animated: true)
             case .fit(let pts):
                 guard !pts.isEmpty else { return }
@@ -203,10 +225,13 @@ struct VelaMapView: UIViewRepresentable {
                 map.contentInset = .zero
                 if pts.count == 1 { map.setCenter(pts[0].coordinate, zoomLevel: 15, animated: true); return }
                 var coords = pts.map(\.coordinate)
-                let pad = UIEdgeInsets(top: 140, left: 50, bottom: map.bounds.height * 0.45, right: 50)
+                let pad = landscape ? UIEdgeInsets(top: 40, left: side + 40, bottom: 40, right: 70)
+                    : UIEdgeInsets(top: 140, left: 50, bottom: h * 0.45, right: 50)
                 map.setVisibleCoordinates(&coords, count: UInt(coords.count), edgePadding: pad, animated: true)
             case .follow:
-                map.contentInset = UIEdgeInsets(top: map.bounds.height * 0.35, left: 0, bottom: 0, right: 0)
+                // The arrow sits low in the open map so more of the road ahead shows.
+                map.contentInset = landscape ? UIEdgeInsets(top: h * 0.3, left: side, bottom: 0, right: 0)
+                    : UIEdgeInsets(top: h * 0.35, left: 0, bottom: 0, right: 0)
                 map.setUserTrackingMode(.followWithCourse, animated: true, completionHandler: nil)
             }
         }

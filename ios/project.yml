@@ -31,7 +31,7 @@ targets:
         INFOPLIST_KEY_CFBundleDisplayName: Vela
         INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.navigation
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
-        INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationPortrait
+        INFOPLIST_KEY_UISupportedInterfaceOrientations: "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
         INFOPLIST_KEY_NSLocationWhenInUseUsageDescription: Vela shows where you are on the map and guides you turn by turn.
         INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription: Vela keeps guiding you while the screen is off or another app is open during navigation.
         INFOPLIST_KEY_ITSAppUsesNonExemptEncryption: NO

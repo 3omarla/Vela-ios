@@ -22,6 +22,10 @@ no API key and no account, and no Vela server. GPLv3, like the Android app.
 |:-:|:-:|
 | <img src="screenshots/09-navigation.png" width="180"> | <img src="screenshots/10-navigation-dark.png" width="180"> |
 
+| Landscape results | Landscape navigation |
+|:-:|:-:|
+| <img src="screenshots/11-landscape-results.png" width="380"> | <img src="screenshots/12-landscape-navigation.png" width="380"> |
+
 *Screenshots are taken in the simulator on the Davis, California fixture.*
 
 ## What works
@@ -42,6 +46,8 @@ no API key and no account, and no Vela server. GPLv3, like the Android app.
   instructions are OpenStreetMap's own on Google's course. When the two disagree on length by
   more than 7%, Google's own steps are used. Walking and cycling use OSRM. Avoid tolls, highways
   and ferries. Pick any start or end; location is not required.
+- Landscape: Turn the phone on its side and search, the open panel and the drive banner move to
+  a column on the left, with the map framed in the space beside it, as Google Maps does.
 - Navigation: The progress window, anchor penalty, speed-scaled off-route corridor and
   three-hit reroute rule from SPEC 4.6, spoken prompts at speed-scaled distances with the turn
   after chained in, lane hints, a speed readout, arrival detection, background guidance and a

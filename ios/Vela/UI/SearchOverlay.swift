@@ -3,6 +3,8 @@ import SwiftUI
 struct SearchOverlay: View {
     @EnvironmentObject var model: AppModel
     @FocusState private var focused: Bool
+    /// In the landscape side column: no full-screen backdrop and no map buttons of its own.
+    var landscape = false
 
     var body: some View {
         VStack(spacing: 0) {
@@ -45,10 +47,12 @@ struct SearchOverlay: View {
             } else if model.sheet == .none {
                 QuickChips()
             }
-            Spacer(minLength: 0)
-            if !model.searchFocused { MapButtons() }
+            if !landscape {
+                Spacer(minLength: 0)
+                if !model.searchFocused { MapButtons() }
+            }
         }
-        .background(model.searchFocused ? GM.surface.ignoresSafeArea() : nil)
+        .background(model.searchFocused && !landscape ? GM.surface.ignoresSafeArea() : nil)
         .onChange(of: focused) { _, f in model.searchFocused = f }
     }
 }

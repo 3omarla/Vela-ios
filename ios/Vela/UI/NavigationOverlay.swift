@@ -3,23 +3,48 @@ import SwiftUI
 struct NavigationOverlay: View {
     @EnvironmentObject var model: AppModel
     @ObservedObject var session: NavSession
+    var landscape = false
 
     var body: some View {
-        VStack(spacing: 0) {
-            maneuverBanner
-            Spacer()
-            HStack {
-                SpeedBadge(mps: session.speedMps)
-                Spacer()
-                Button { model.camera = CameraRequest(kind: .follow) } label: {
-                    Label("Re-center", systemImage: "location.north.line.fill")
-                        .padding(.horizontal, 14).padding(.vertical, 10)
-                        .background(.regularMaterial, in: Capsule())
+        if landscape {
+            // Banner and trip bar in the left column; the arrow drives through the open map.
+            HStack(alignment: .top, spacing: 0) {
+                VStack(spacing: 10) {
+                    maneuverBanner
+                    Spacer(minLength: 0)
+                    bottomBar.clipShape(RoundedRectangle(cornerRadius: 20)).padding(.horizontal, 10)
                 }
+                .frame(width: RootView.panelWidth)
+                .padding(.vertical, 8)
+                Spacer(minLength: 0)
+                VStack(alignment: .trailing, spacing: 10) {
+                    Spacer()
+                    recenter
+                    SpeedBadge(mps: session.speedMps)
+                }
+                .padding(.trailing, 16).padding(.bottom, 12)
             }
-            .padding(.horizontal, 16)
-            .padding(.bottom, 10)
-            bottomBar
+        } else {
+            VStack(spacing: 0) {
+                maneuverBanner
+                Spacer()
+                HStack {
+                    SpeedBadge(mps: session.speedMps)
+                    Spacer()
+                    recenter
+                }
+                .padding(.horizontal, 16)
+                .padding(.bottom, 10)
+                bottomBar
+            }
+        }
+    }
+
+    private var recenter: some View {
+        Button { model.camera = CameraRequest(kind: .follow) } label: {
+            Label("Re-center", systemImage: "location.north.line.fill")
+                .padding(.horizontal, 14).padding(.vertical, 10)
+                .background(.regularMaterial, in: Capsule())
         }
     }
 
